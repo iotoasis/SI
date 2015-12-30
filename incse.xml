@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incse>
+        <database>
+                <host>10.101.101.195</host>
+                <port>27017</port>
+                <dbname>IITP-IOT</dbname>
+                <user></user>
+                <password></password>
+        </database>
+        <cse>
+                <host>10.101.101.195</host>
+                <baseName>herit-cse</baseName>
+                <resourceId>herit-in</resourceId>
+                <poa>http://10.101.101.195:8090</poa>
+                <httpPort>8080</httpPort>
+                <restPort>8081</restPort>
+        </cse>
+        <cmdh>
+                <commandTimeout>10</commandTimeout>
+                <commandExpireTimerInterval>1</commandExpireTimerInterval>
+        </cmdh>
+
+		<remoteCSEs>
+			<remoteCSE>
+				<cseId>herit-mn1</cseId>
+				<cseName>herit-cse</cseName>
+				<cseHost>mn1.onem2m.herit.net</cseHost>
+				<maxTPS>1</maxTPS>
+			</remoteCSE>
+			<remoteCSE>
+				<cseId>herit-mn2</cseId>
+				<cseName>herit-cse</cseName>
+				<cseHost>mn1.onem2m.herit.net</cseHost>
+				<maxTPS>1</maxTPS>
+			</remoteCSE>
+			<remoteCSE>
+				<cseId>herit-mn3</cseId>
+				<cseName>herit-cse</cseName>
+				<cseHost>mn1.onem2m.herit.net</cseHost>
+				<maxTPS>1</maxTPS>
+			</remoteCSE>
+		</remoteCSEs>
+		<dms>
+			<hitdm>
+				<address>http://10.101.101.107:8888</address>
+			</hitdm>
+		</dms>
+		<qos>
+			<maxPollingSessionNo>-1</maxPollingSessionNo>
+			<maxAENo>10000</maxAENo>
+			<maxCSENo>10000</maxCSENo>
+		</qos>
+		
+		<resourcePolicy>
+			<maxCIPerContainer>50</maxCIPerContainer>		
+		</resourcePolicy>
+        <mqtt>
+                <broker>
+                        <address>tcp://iot.eclipse.org:1883</address>
+                </broker>
+        </mqtt>
+
+</incse>
+
