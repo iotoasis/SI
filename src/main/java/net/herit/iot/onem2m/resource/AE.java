@@ -92,12 +92,8 @@ public class AE
 	
 	@XmlElement(name = "apn")
     protected String appName;
-    //@XmlElement(name = "App-ID", required = true)
-	//@XmlElement(name = "api", required = true)
 	@XmlElement(name = "api")
     protected String appID;
-    //@XmlElement(name = "AE-ID", required = true)
-    //@XmlElement(name = "aei", required = true)
 	@XmlElement(name = "aei")
     protected String aeid;
     @XmlList
@@ -110,7 +106,6 @@ public class AE
     @XmlElement(name = "nl")
     protected String nodeLink;
     @XmlElement(name = "rr")
-    //protected boolean requestReachability;
     protected Boolean requestReachability;
     @XmlElement(name = "ch")
     protected List<ChildResourceRef> childResource;
