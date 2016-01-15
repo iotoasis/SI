@@ -252,7 +252,8 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 	}
 	
 	public RESPONSE_STATUS getResponseStatusCodeEnum() {
-		return RESPONSE_STATUS.get(responseStatusCode);
+		if (responseStatusCode == null)	return RESPONSE_STATUS.UNDEFINED;
+		else return RESPONSE_STATUS.get(responseStatusCode);
 	}
 
 	public void setResponseStatusCode(RESPONSE_STATUS resStatusCode) {

@@ -15,6 +15,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.resource.Naming;
 import net.herit.iot.onem2m.resource.PrimitiveContent;
 import net.herit.iot.onem2m.resource.RequestPrimitive;
+import net.herit.iot.onem2m.resource.ResponseTypeInfo;
 
 @XmlRootElement(name = Naming.REQUESTPRIMITIVE_SN)
 public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
@@ -597,6 +598,7 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 	
 	public void setResponseType(RESPONSE_TYPE responseType) {
 //		this.responseType = responseType;
+		if(this.responseType == null) this.responseType = new ResponseTypeInfo();
 		this.responseType.setResponseTypeValue(responseType.Value());
 	}
 

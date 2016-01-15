@@ -120,8 +120,10 @@ public class MetaInformation {
 	    ResponseTypeInfo resTypeInfo = new ResponseTypeInfo();
 	    resTypeInfo.setResponseTypeValue(reqMessage.getResponseTypeEnum().Value());
 //	    resTypeInfo.getNotificationURI().addAll(resTypeInfo.getNotificationURI());
-	    for(String notiUri : reqMessage.getNotificationUri()) {
-	    	resTypeInfo.addNotificationURI(notiUri);
+	    if (reqMessage.getNotificationUri() != null) {
+		    for(String notiUri : reqMessage.getNotificationUri()) {
+		    	resTypeInfo.addNotificationURI(notiUri);
+		    }
 	    }
 	    this.setResponseType(resTypeInfo);
 	    
