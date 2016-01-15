@@ -1,6 +1,5 @@
 package net.herit.iot.onem2m.incse.controller;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -29,14 +28,13 @@ import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESPONSE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
+import net.herit.iot.onem2m.ae.emul.AppEmulator;
+import net.herit.iot.onem2m.ae.emul.Constants;
 import net.herit.iot.onem2m.bind.codec.AbsSerializer;
-import net.herit.iot.onem2m.bind.http.client.AsyncResponseListener;
 import net.herit.iot.onem2m.bind.http.client.HttpClient;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
 import net.herit.iot.onem2m.core.convertor.JSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
-import net.herit.iot.onem2m.core.util.Utils;
-import net.herit.iot.onem2m.incse.OperationProcessor;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.CfgManager;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -45,8 +43,6 @@ import net.herit.iot.onem2m.resource.ContentInstance;
 import net.herit.iot.onem2m.resource.RestCommand;
 import net.herit.iot.onem2m.resource.RestCommandCI;
 import net.herit.iot.onem2m.resource.RestCommandResult;
-import net.herit.iot.onem2m.resource.RestResponse;
-import net.herit.iot.onem2m.resource.RestSubscription;
 
 
 public class RestCommandController {
@@ -88,10 +84,14 @@ public class RestCommandController {
 			ContentInstance ci = new ContentInstance();
 			ci.setContentInfo("application/json:1");
 			
-			String json = "{ \"exec_id\": \""+commandId+"\", \"data\": \""+command.getContent()+"\"}";
+			Document doc = new Document();
+			doc.append("exec_id", commandId);
+			doc.append("data", command.getContent());
+			String json = doc.toJson();
+			//String json = "{ \"exec_id\": \""+commandId+"\", \"data\": \""+command.getContent()+"\"}";
 
 			ci.setContent(Base64.encode(json.getBytes()));
-					
+			
 			AbsSerializer serializer = AbsSerializer.getSerializer(CONTENT_TYPE.JSON);			
 			byte[] content = serializer.serialize(ci).getBytes();
 			
@@ -109,9 +109,12 @@ public class RestCommandController {
 				putCommandToMap(commandId, command);
 				
 				OneM2mResponse response = new ResourceManager(this.context).processEx(reqMessage, false);
+				log.debug("RestCommand processsed:"+response.toString());
 				
 				return response;
 			} catch (OneM2MException ex) {
+				log.debug("Exception during process internal request triggered by RestCommand:"+reqMessage.toString());
+				log.debug("Exception:"+ex.toString());
 				OneM2mResponse response = new OneM2mResponse();
 				response.setResponseStatusCode(ex.getResponseStatusCode());
 				response.setRequest(reqMessage);
@@ -147,8 +150,12 @@ public class RestCommandController {
 				RestCommandCI resultCi = cvtr.unmarshal(json);
 				
 				RestCommand cmd = getCommandFromMap(resultCi.getExecId(), true);
-				if (cmd != null) {					
-					
+				if (cmd != null && !ci.getUri().startsWith(cmd.getUri()+"/action/Result")) {
+					putCommandToMap(cmd.getCommandId(), cmd);
+					cmd = null;
+				}
+				if (cmd != null) {		
+										
 					String notiUri = cmd.getNotificationUri();
 					String code = resultCi.getExecResult();
 					String commandId = resultCi.getExecId();
@@ -300,6 +307,23 @@ public class RestCommandController {
 
 			expireTimer.schedule(new ExpiredCmdTimer(), CfgManager.getInstance().getCommandExpireTimerInterval()*1000);
 		}	
+	}
+
+	// test code
+	public static void main(String[] args) throws Exception {
+		Document doc = new Document();
+		doc.append("exec_id", "cmd_0506");
+		doc.append("data", "{\"actionType\":\"ringAlarm\",\"user_id\":\"S000001\",\"alarm_id\":\"1\"}");
+		String json1 = doc.toJson();
+		String json2 = "{ \"exec_id\": \"commandid\", \"data\": \"{\"actionType\":\"testAlarm\",\"user_id\":\"u00002\",\"alarm_id\":\"1\"}\"}";
+		String json3 = "{ \"exec_id\": \"commandid\", \"data\": \"{\\\"actionType\\\":\\\"testAlarm\\\",\\\"user_id\\\":\\\"u00002\\\",\\\"alarm_id\\\":\\\"1\\\"}\"}";
+		System.out.println(json1);
+		System.out.println(Base64.encode(json1.getBytes()));
+		System.out.println(json2);
+		System.out.println(Base64.encode(json2.getBytes()));
+		System.out.println(json3);
+		System.out.println(Base64.encode(json3.getBytes()));
+		
 	}
 
 }

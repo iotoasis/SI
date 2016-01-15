@@ -119,7 +119,6 @@ public class RequestCodec extends AbsCodec {
 		if (null != value) {
 			if (!(value instanceof String)) throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, HTTP_QUERY_RESULT_CONTENT1+ " cannot be list.");
 			RESPONSE_TYPE resType = RESPONSE_TYPE.get(Integer.parseInt((String)value));
-			// TODO: resType��NONE��寃쎌슦 �대뼸寃�泥섎━?
 			reqMessage.setResponseType(resType);
 		}
 		

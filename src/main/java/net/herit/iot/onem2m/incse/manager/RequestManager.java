@@ -118,7 +118,7 @@ public class RequestManager extends AbsManager {
 		res.validate(OPERATION.CREATE);
 				
 		res.setResourceName(resName);
-		res.setUri("/"+CfgManager.getInstance().getCSEBaseName()+"/"+ resName);
+		res.setUri(CfgManager.getInstance().getCSEBaseUri()+"/"+ resName);
 		res.setResourceType(RESOURCE_TYPE.REQUEST.Value());
 		res.setResourceID(resourceID);
 		res.setParentID(CfgManager.getInstance().getCSEBaseName());
