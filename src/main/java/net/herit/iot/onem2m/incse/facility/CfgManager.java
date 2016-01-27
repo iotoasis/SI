@@ -92,9 +92,7 @@ public class CfgManager {
 
 		} catch (Exception e) {
 
-			log.error("Exception during Configuration loading!!!");
-			log.error(e.toString());
-			e.printStackTrace();
+			log.error("Exception during Configuration loading!!!", e);
 			
 		}
 		// remoteCSE 목록 추가

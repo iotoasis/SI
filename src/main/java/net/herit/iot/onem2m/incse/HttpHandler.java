@@ -49,8 +49,7 @@ public class HttpHandler implements HttpServerListener  {
 		try {
 				
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 		}
 		
 	}
@@ -119,8 +118,8 @@ public class HttpHandler implements HttpServerListener  {
 			new OperationProcessor(context).processRequest(reqMessage);
 			
 		} catch (Throwable th) {
-			th.printStackTrace();
-			log.error("RequestMessage decode failed.", th);
+			log.debug("RequestMessage decode failed", th);
+
 			if(reqMessage != null) {
 				removeSession(reqMessage.getRequestIdentifier());
 			}
@@ -146,8 +145,7 @@ public class HttpHandler implements HttpServerListener  {
 									addListener(ChannelFutureListener.CLOSE).
 									addListener(new FilnalEventListener(ctx, true));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 
 			sendError(ctx);
 		}

@@ -139,7 +139,7 @@ public class MqttClientHandler implements MqttCallback {
 			}
 		}
 		catch (Exception e) {
-			e.printStackTrace(System.out);
+			log.debug("Handled exception", e);
 		}
 	}
 

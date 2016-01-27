@@ -131,8 +131,7 @@ public final class HttpClientBasic {
 			channel.closeFuture().sync();
 	
 		} catch (Exception e) {
-			System.out.println("exception: " + e);
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 		} finally {
 			// Shut down executor threads to exit.
 			group.shutdownGracefully();

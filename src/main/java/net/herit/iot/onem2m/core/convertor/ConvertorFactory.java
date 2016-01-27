@@ -1,6 +1,8 @@
 package net.herit.iot.onem2m.core.convertor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.util.OneM2MException;
@@ -11,6 +13,18 @@ public class ConvertorFactory {
 
 	private static HashMap<Class<?>, JSONConvertor<?>> jsonMap = new HashMap<Class<?>, JSONConvertor<?>>(); 
 	private static HashMap<Class<?>, XMLConvertor<?>> xmlMap = new HashMap<Class<?>, XMLConvertor<?>>(); 
+
+	private static int maxCiCount = 10;
+	private static AtomicInteger curCiIndex;
+	private static ArrayList<XMLConvertor<ContentInstance>> xmlCiCvtArr = new ArrayList<XMLConvertor<ContentInstance>>();
+	
+	public static void initialize(int maxCnt) throws OneM2MException {
+		curCiIndex.set(0);
+		maxCiCount = maxCnt;
+		for (int i = 0; i< maxCiCount; i++) {
+			xmlCiCvtArr.add((XMLConvertor<ContentInstance>)createXMLConvertor(ContentInstance.class, ContentInstance.SCHEMA_LOCATION));
+		}
+	}
 	
 	public static JSONConvertor<?> getJSONConvertor(Class<?> t, String schema) throws OneM2MException {
 		
@@ -29,6 +43,12 @@ public class ConvertorFactory {
 			cvt = createXMLConvertor(t, schema);
 			xmlMap.put(t,  cvt);
 		}
+		
+		return cvt;
+	}
+	public static XMLConvertor<?> getXMLConvertorCI() throws OneM2MException {
+		
+		XMLConvertor<ContentInstance> cvt = xmlCiCvtArr.get(curCiIndex.addAndGet(1) % maxCiCount);
 		
 		return cvt;
 	}

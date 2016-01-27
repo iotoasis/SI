@@ -52,8 +52,7 @@ public class AccessControlPolicyDAO extends ResourceDAO implements DAOInterface 
 			return jc.marshal((AccessControlPolicy)res);
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();			
+			log.debug("Handled exception", e);			
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Json generation error:"+res.toString());
 		}
 	}
@@ -79,7 +78,7 @@ public class AccessControlPolicyDAO extends ResourceDAO implements DAOInterface 
 //			collection.insertOne(doc);
 //			
 //		} catch (Exception e) {
-//			e.printStackTrace();
+//			log.debug("Handled exception", e);
 //			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Fail to create AccessControlPolicy");
 //		}
 		
@@ -173,7 +172,7 @@ public class AccessControlPolicyDAO extends ResourceDAO implements DAOInterface 
 //			
 //			return res;
 //		} catch (Exception e) {
-//			e.printStackTrace();
+//			log.debug("Handled exception", e);
 //			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Fail to retrieve AccessControlPolicy");
 //		}
 //	}

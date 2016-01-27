@@ -98,9 +98,8 @@ public final class HttpServer {
 			bossGroup.shutdownGracefully();
 			workerGroup.shutdownGracefully();	
 			bindChannel.closeFuture().sync();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (InterruptedException e) {			
+			log.debug("Handled exception",e);
 		} finally {		
 			
 		}

@@ -1,5 +1,8 @@
 package net.herit.iot.onem2m.bind.mqtt;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mResponse;
 import net.herit.iot.onem2m.bind.mqtt.api.MqttClientListener;
@@ -9,6 +12,8 @@ public class MqttCseClient implements MqttClientListener {
 //	String brokerURL = "tcp://10.211.55.8:1883";
 	String brokerURL = "tcp://iot.eclipse.org:1883";
 	String CES_ID = "herit-in";
+	
+	private Logger log = LoggerFactory.getLogger(MqttCseClient.class);
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -21,7 +26,7 @@ public class MqttCseClient implements MqttClientListener {
 			MqttClientHandler.getInstance(CES_ID).connect(brokerURL);
 			MqttClientHandler.getInstance().setListener(this);
 		} catch(Exception e) {
-			e.printStackTrace(System.out);
+			log.debug("Handled exception", e);
 		}
 	}
 
@@ -39,7 +44,7 @@ public class MqttCseClient implements MqttClientListener {
 		try {
 			MqttClientHandler.getInstance().sendResMessage(from, res);
 		} catch(Exception e)	{
-			e.printStackTrace(System.out);
+			log.debug("Handled exception", e);
 		}
 	}
 	

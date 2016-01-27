@@ -104,7 +104,6 @@ public class RestHandler implements HttpServerListener  {
 			new RestProcessor(context).processRequest(reqMessage);
 			
 		} catch (Throwable th) {
-			th.printStackTrace();
 			log.error("RequestMessage decode failed.", th);
 			if(reqMessage != null) {
 				removeSession(reqMessage.getRequestIdentifier());
@@ -129,8 +128,7 @@ public class RestHandler implements HttpServerListener  {
 									addListener(ChannelFutureListener.CLOSE).
 									addListener(new FilnalEventListener(ctx, true));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 
 			sendError(ctx);
 		}
@@ -195,8 +193,7 @@ public class RestHandler implements HttpServerListener  {
 									addListener(ChannelFutureListener.CLOSE).
 									addListener(new FilnalEventListener(ctx, true));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 
 			sendError(ctx);
 		}

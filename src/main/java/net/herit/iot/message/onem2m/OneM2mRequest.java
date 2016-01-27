@@ -257,7 +257,8 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 		MGMT_CMDH_LIMIT(1016, "eventLog"),
 		MGMT_CMDH_NETWORK_ACCESS_RULES(1017, "eventLog"),
 		MGMT_CMDH_NW_ACCESS_RULE(1018, "eventLog"),
-		MGMT_CMDH_BUFFER(1019, "eventLog");	// 90001 ~ : user defined
+		MGMT_CMDH_BUFFER(1019, "eventLog"),	// 90001 ~ : user defined
+		AGGREGATED_RESPONSE(90010, "aggregatedResponse");
 	
 		final int value;
 		final String name;
@@ -873,13 +874,6 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 		this.remoteHost = host;
 	}
 
-//	public void setOriginator(String from, OneM2mContext context) {	
-//		try {
-//			this.originator = new Originator(from, context);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 	public void setOriginator(Originator value) {	
 	
 		this.originator = value;
@@ -931,11 +925,11 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 //				}
 //			} catch (OneM2MException e) {
 //				
-//				e.printStackTrace();
+//				log.error("Exception", e);
 //			
 //			} catch (Exception e) {
 //				
-//				e.printStackTrace();
+//				log.error("Exception", e);
 //				
 //			}
 //			

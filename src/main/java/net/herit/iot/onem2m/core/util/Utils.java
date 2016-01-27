@@ -13,6 +13,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
@@ -30,6 +32,8 @@ import net.herit.iot.message.onem2m.format.Enums.CONTENT_TYPE;
 
 public class Utils {
 
+	private static Logger log = LoggerFactory.getLogger(Utils.class);
+	
 	public static String createRequestId() {
 		return "REQ_"+UUID.randomUUID().toString();
 	}
@@ -165,7 +169,7 @@ public class Utils {
 			
 		} catch (Exception e) {
 			
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			return RESOURCE_TYPE.NONE;
 			
 		}

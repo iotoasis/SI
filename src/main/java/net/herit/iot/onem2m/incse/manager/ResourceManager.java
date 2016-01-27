@@ -119,8 +119,7 @@ public class ResourceManager {
 			}
 		} catch (OneM2MException e) {
 
-			e.printStackTrace();
-			LogManager.getInstacne().error(e.getMessage());
+			log.debug("Handled exception", e);
 			
 			reqMessage.setContent(e.getMessage().getBytes());
 			
@@ -131,8 +130,7 @@ public class ResourceManager {
 			context.getNseManager().sendResponseMessage(resMessage);
 		} catch (Exception e) {
 
-			e.printStackTrace();
-			LogManager.getInstacne().error(e.getMessage());
+			log.debug("Handled exception", e);
 
 			resMessage = new OneM2mResponse(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, reqMessage);
 			if(e.getMessage() != null)
@@ -287,8 +285,7 @@ public class ResourceManager {
 			//System.out.println("resourceName: " + res.getResourceName());
 			return res;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			
 			throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
 		}

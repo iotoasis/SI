@@ -100,14 +100,13 @@ public class InCse implements HttpServerListener, MqttClientListener  {
 				CSEBaseManager manager = (CSEBaseManager)ManagerFactory.create(RESOURCE_TYPE.CSE_BASE, createContext(BINDING_TYPE.BIND_NONE));
 				manager.createIfNotExist();
 			} catch (OneM2MException e) {
-				e.printStackTrace();
+				log.debug("Handled exception", e);
 				
 			}
 			
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 		}
 		
 	}
@@ -191,13 +190,12 @@ public class InCse implements HttpServerListener, MqttClientListener  {
 			new OperationProcessor(context).processRequest(reqMessage);
 
 		} catch (OneM2MException e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			OneM2mResponse resMessage = new OneM2mResponse(e.getResponseStatusCode(), reqMessage);
 			resMessage.setContent(new String(e.getMessage()).getBytes());
 			sendHttpResponseMessage(resMessage, ctx);
 			
 		} catch (Throwable th) {
-			th.printStackTrace();
 			log.error("RequestMessage decode failed.", th);
 			if(reqMessage != null) {
 				removeSession(reqMessage.getRequestIdentifier());
@@ -231,8 +229,7 @@ public class InCse implements HttpServerListener, MqttClientListener  {
 									addListener(ChannelFutureListener.CLOSE).
 									addListener(new FilnalEventListener(ctx, true));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 
 			sendError(ctx);
 		}
@@ -286,13 +283,12 @@ public class InCse implements HttpServerListener, MqttClientListener  {
 			OneM2mContext context = createContext(BINDING_TYPE.BIND_MQTT);
 			new OperationProcessor(context).processRequest(reqMessage);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			OneM2mResponse resMessage = new OneM2mResponse(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, reqMessage);
 			resMessage.setContent("Internal server".getBytes());
 			sendMqttMessage(resMessage);
 			
 		} catch (Throwable th) {
-			th.printStackTrace();
 			log.error("RequestMessage decode failed.", th);
 		}
 		
@@ -349,6 +345,7 @@ public class InCse implements HttpServerListener, MqttClientListener  {
 		log.debug("MQTT BINDING] completed Mqtt delivery. messageID={}", messageID);
 	}
 	
+	
 	/*****************************************************************************
 	 *   END MQTT BINDING
 	 *****************************************************************************/
@@ -356,12 +353,6 @@ public class InCse implements HttpServerListener, MqttClientListener  {
 	
 	public static void main(String[] args) throws Exception {
 		new InCse().start();
-//		String host = "//127.0.0.1:8080";
-//		URI uri = new URI(host);
-//		System.out.println(uri.toString());
-//		System.out.println(uri.getHost());
-		
-		
 	}
 
 

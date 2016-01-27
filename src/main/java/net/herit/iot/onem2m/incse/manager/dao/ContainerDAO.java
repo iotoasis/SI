@@ -45,8 +45,7 @@ public class ContainerDAO extends ResourceDAO implements DAOInterface {
 			return jc.marshal((Container)res);
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();			
+			log.debug("Handled exception", e);
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Json generation error:"+res.toString());
 		}
 	}
@@ -122,7 +121,7 @@ public class ContainerDAO extends ResourceDAO implements DAOInterface {
 //			return res;
 //			
 //		} catch (Exception e) {
-//			e.printStackTrace();
+//			log.debug("Handled exception", e);
 //			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Fail to retrieve Container");
 //		}
 //	}

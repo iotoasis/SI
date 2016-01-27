@@ -143,14 +143,14 @@ public class OperationProcessor {
 				return;
 			}
 		} catch (OneM2MException e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			OneM2mResponse resMessage = new OneM2mResponse(e.getResponseStatusCode(), reqMessage);
 			resMessage.setContent(new String(e.getMessage()).getBytes());
 			context.getNseManager().sendResponseMessage(resMessage);
 			
 			return;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			OneM2mResponse resMessage = new OneM2mResponse(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, reqMessage);
 			resMessage.setContent(new String(e.getMessage()).getBytes());
 			context.getNseManager().sendResponseMessage(resMessage);
