@@ -39,8 +39,7 @@ public class PollingChannelDAO extends ResourceDAO implements DAOInterface {
 			return jc.marshal((PollingChannel)res);
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();			
+			log.debug("Handled exception", e);
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Json generation error:"+res.toString());
 		}
 	}
@@ -61,8 +60,7 @@ public class PollingChannelDAO extends ResourceDAO implements DAOInterface {
 //		try {
 //			strJson = jc.marshal(res);
 //		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
+//			log.debug("Handled exception", e);
 //			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Exception in marshal:"+res.toString());
 //		}
 //		context.getLogManager().debug("PollingChannel json: " + strJson);
@@ -91,8 +89,7 @@ public class PollingChannelDAO extends ResourceDAO implements DAOInterface {
 //					map.put(f.getName(), val);
 //				}
 //			} catch (IllegalArgumentException | IllegalAccessException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
+//				log.debug("Handled exception", e);
 //				throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Exception during extract resource field");
 //			}
 //		}

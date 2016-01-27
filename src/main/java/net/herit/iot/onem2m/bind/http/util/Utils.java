@@ -13,7 +13,7 @@ public class Utils {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
-		int indx = url.indexOf("?");
+		int indx = url.indexOf('?');
 		if (indx == -1) {
 			if (url.startsWith("http:")) url = url.substring(5);
 			if (url.startsWith("https:")) url = url.substring(6);

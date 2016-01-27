@@ -3,6 +3,9 @@ package net.herit.iot.onem2m.incse.controller;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.sun.corba.se.impl.util.Utility;
 
 import net.herit.iot.message.onem2m.OneM2mRequest;
@@ -35,6 +38,8 @@ public class MgmtCmdController implements Runnable {
 	private ExecInstance execInst;
 	private MgmtCmd mgmtCmd;
 	private Node node;
+	
+	private Logger log = LoggerFactory.getLogger(MgmtCmdController.class);
 	
 	public MgmtCmdController(OneM2mContext context, MgmtCmd mgmtCmd, ExecInstance execInst, Node node) {
 		
@@ -81,9 +86,8 @@ public class MgmtCmdController implements Runnable {
 		
 						
 		} catch (OneM2MException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
+			log.debug("Handled exception", e);
+			
 			execInst.setExecResult(EXEC_RESULT.INTERNAL_ERROR.Value());
 			execInst.setExecStatus(EXEC_STATUS.FINISHED.Value());
 			
@@ -93,7 +97,7 @@ public class MgmtCmdController implements Runnable {
 				dao.update(execInst);
 			} catch (OneM2MException e) {
 
-				e.printStackTrace();
+				log.debug("Handled exception", e);
 			}
 		}
 	}

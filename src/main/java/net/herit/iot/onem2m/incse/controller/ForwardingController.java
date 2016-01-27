@@ -2,6 +2,9 @@ package net.herit.iot.onem2m.incse.controller;
 
 import java.net.MalformedURLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mResponse;
 import net.herit.iot.onem2m.bind.http.client.AsyncResponseListener;
@@ -11,6 +14,8 @@ import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
 
 
 public class ForwardingController extends AbsController implements AsyncResponseListener {
+
+	private Logger log = LoggerFactory.getLogger(ForwardingController.class);
 	
 	public ForwardingController(OneM2mContext context) {
 		super(context);
@@ -29,7 +34,7 @@ public class ForwardingController extends AbsController implements AsyncResponse
 			reqMessage.setTo(resPath);
 			return getContext().getNseManager().sendRequestMessage(baseUrl, reqMessage);
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			return null;
 		}
 	}

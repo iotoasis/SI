@@ -88,9 +88,7 @@ public class QosManager {
 			
 		} catch (Exception e) {
 
-			log.error("Exception during QoS initialization!!!");
-			log.error(e.toString());
-			e.printStackTrace();
+			log.error("Exception during QoS initialization!!!", e);
 			
 		} finally {
 

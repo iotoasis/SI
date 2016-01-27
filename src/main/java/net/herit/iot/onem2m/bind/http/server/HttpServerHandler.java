@@ -315,7 +315,6 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 			}
 		} catch (Exception exception) {
 			log.error("sendHTTPMessage_error=", exception);
-			exception.printStackTrace();
 			
 			response.setStatus(HttpResponseStatus.INTERNAL_SERVER_ERROR);
 			channel.writeAndFlush(response);

@@ -118,13 +118,12 @@ public class RestCommandController {
 				OneM2mResponse response = new OneM2mResponse();
 				response.setResponseStatusCode(ex.getResponseStatusCode());
 				response.setRequest(reqMessage);
-				ex.printStackTrace();
+				log.debug("Handled exception", ex);
 				return response;
 			}
 			
 		} catch (Exception e) {
-			
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			return null;
 			
 		}
@@ -182,10 +181,10 @@ public class RestCommandController {
 			}
 			
 		} catch (Base64DecodingException e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			return;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			return;
 		}
 		
@@ -229,7 +228,7 @@ public class RestCommandController {
 			
 		} catch (URISyntaxException e) {
 			
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 		}
 		return to;
 		
@@ -300,7 +299,7 @@ public class RestCommandController {
 					
 				} catch (Exception e) {
 					
-					e.printStackTrace();
+					log.debug("Handled exception", e);
 					
 				}
 			}

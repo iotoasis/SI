@@ -54,8 +54,7 @@ public class RequestCodec {
 //				reqMessage = (OneM2mRequest)decodeJsonConvertor.unmarshal(strContents);
 //			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//log.debug("Handled exception", e);
 			
 			throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
 		}
@@ -104,8 +103,7 @@ public class RequestCodec {
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//log.debug("Handled exception", e);
 			
 			throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
 		}

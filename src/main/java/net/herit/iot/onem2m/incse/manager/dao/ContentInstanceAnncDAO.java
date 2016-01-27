@@ -49,7 +49,7 @@ public class ContentInstanceAnncDAO extends ResourceDAO implements DAOInterface 
 			return jc.marshal((ContentInstanceAnnc)res);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Json generation error:"+res.toString());
 		}
 	}
@@ -198,7 +198,7 @@ public class ContentInstanceAnncDAO extends ResourceDAO implements DAOInterface 
 			
 			return res;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Exception during initialization of resource using document.(retrieveOldest)");
 		}
@@ -235,7 +235,7 @@ public class ContentInstanceAnncDAO extends ResourceDAO implements DAOInterface 
 			
 			return res;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Exception during initialization of resource using document.(retrieveOldest)");
 		}

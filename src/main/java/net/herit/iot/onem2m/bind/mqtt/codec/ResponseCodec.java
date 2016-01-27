@@ -1,5 +1,8 @@
 package net.herit.iot.onem2m.bind.mqtt.codec;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.herit.iot.message.onem2m.OneM2mResponse;
 import net.herit.iot.message.onem2m.format.Enums.CONTENT_TYPE;
 import net.herit.iot.onem2m.bind.mqtt.util.Utils;
@@ -17,6 +20,8 @@ public class ResponseCodec {
 			new JSONConvertor<OneM2mResponse>(OneM2mResponse.class);
 	private static final JSONConvertor<ResponsePrimitive> encodeJsonConvertor =
 			new JSONConvertor<ResponsePrimitive>(ResponsePrimitive.class);
+	
+	private static Logger log = LoggerFactory.getLogger(ResponseCodec.class);
 
 	public static OneM2mResponse decode(byte[] contents) throws OneM2MException {
 
@@ -53,8 +58,7 @@ public class ResponseCodec {
 //				throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
 //			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			
 			throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
 		}
@@ -106,8 +110,7 @@ public class ResponseCodec {
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			
 			throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
 		}

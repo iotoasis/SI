@@ -154,7 +154,7 @@ public final class HttpClient {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception",e);
 		}
 		
 		return res;
@@ -180,8 +180,8 @@ public final class HttpClient {
 				//log.debug(channelFuture.cause().toString());
 			}
 		} catch (Exception e) {
-			log.error("execption=", e);
-			e.printStackTrace();
+			log.error("execption=", e);			
+			log.debug("Handled exception",e);
 			resMessage = null;
 		}
 		
@@ -223,7 +223,7 @@ public final class HttpClient {
 			try {
 				resMessage = ResponseCodec.decode(response, ((InetSocketAddress)ctx.channel().remoteAddress()).getHostString());
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.debug("Handled exception", e);
 				resMessage = null;
 			}
 		}

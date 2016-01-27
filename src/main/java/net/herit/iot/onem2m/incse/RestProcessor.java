@@ -122,9 +122,7 @@ public class RestProcessor {
 			return;
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			//OneM2mResponse resMessage = new OneM2mResponse(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, reqMessage);
-			//resMessage.setContent(new String(e.getMessage()).getBytes());
+			log.debug("Handled exception", e);
 
 			Document doc = new Document();
 			doc.put("code", RESPONSE_STATUS.INTERNAL_SERVER_ERROR.name());

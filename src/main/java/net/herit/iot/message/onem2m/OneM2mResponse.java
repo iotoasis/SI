@@ -371,7 +371,7 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 			try {
 				bld.append(" Content: ").append(new String(content, "UTF-8")).append("\n");
 			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
+				log.error("UnsupportedEncodingException", e);
 			}
 		}
 		

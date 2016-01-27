@@ -54,7 +54,7 @@ public class InterworkingController implements Runnable {
 			Thread.sleep(delayStart);
 			this.registerRemoteCSE(CfgManager.getInstance().getRemoteCSEList());
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			log.debug("Exception in InterworkingController.run:"+e.getMessage());
 		}	
 		

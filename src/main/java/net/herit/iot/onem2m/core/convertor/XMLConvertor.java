@@ -15,6 +15,8 @@ import net.herit.iot.onem2m.resource.*;
 
 import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 
 import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
@@ -26,6 +28,8 @@ public class XMLConvertor<T> {
 	private JAXBContext context;
 	private Unmarshaller um;
 	private Marshaller m;
+	
+	private static Logger log = LoggerFactory.getLogger(XMLConvertor.class);
 	
 //	private final static String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 	public XMLConvertor(Class<T> type, String schema, Class<T>[] types) {
@@ -44,8 +48,7 @@ public class XMLConvertor<T> {
 			initialize(schema);
 			
 		} catch (Exception e) {
-			// TBD
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 		}
 		
 	}
@@ -62,8 +65,7 @@ public class XMLConvertor<T> {
 			initialize(schema);
 			
 		} catch (Exception e) {
-			// TBD
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 		}
 		
 	}
@@ -1421,7 +1423,7 @@ public class XMLConvertor<T> {
 			System.out.println(Double.valueOf((Double)3.1415923332233335));
 						
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 		}
 	}
 	
