@@ -4,11 +4,12 @@ Oasis SI oneM2M Server(이하 oneM2M Server)를 처음 접하는 분들이 소�
 
 oneM2M Server 시험은 아래의 순서로 진행할 수 있습니다.
 
-> 1. MongoDB 다운로드 및 설치
+> 1. MongoDB, JDK 다운로드 및 설치
 > 2. Oasis SI oneM2M Server 소스 다운로드
-> 3. oneM2M Server 빌드
-> 4. oneM2M Server 설정 및 실행
-> 5. HTTP 애뮬레이터(PostMan)를 이용한 시험
+> 3. mongoDB 기본 셋팅
+> 4. oneM2M Server 빌드
+> 5. oneM2M Server 설정 및 실행
+> 6. HTTP 애뮬레이터(PostMan)를 이용한 시험
 
 ## Requirements
 * JDK 7+ 
