@@ -14,6 +14,8 @@ SI oneM2M Server는  IoT 국제표준인 oneM2M 기반의 디바이스 및 애�
 
 ## Documents
  - [Quick Start](./si-doc/quick-start.md)
+ - [서버 설정방법](./si-doc/incse_configuration.md)
+ - [서버 Build 방법](./si-doc/build_eclipse.md)
 
 ## Downloads
  - [Latest Release](https://github.com/iotoasis/SI/releases/)
