@@ -34,7 +34,7 @@ oneM2M Server 시험은 아래의 순서로 진행할 수 있습니다.
 
 #### (5) oneM2M Server 설정 및 실행
  - incse.xml파일을 오픈하여 oneM2M Server 설정을 수정한다.
- - oneM2M Server 설정방법은 [oneM2M서버 설정방법]((./configuration.md))페이지를 참고한다.
+ - oneM2M Server 설정방법은 [oneM2M서버 설정방법](./incse_configuration.md)페이지를 참고한다.
 
 #### (6) HTTP 애뮬레이터(PostMan)을 이용한 시험
  - PostMan 프로그램을 설치한다. [PostMan 다운로드](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop)
