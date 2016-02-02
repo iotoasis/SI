@@ -1,0 +1,12 @@
+use IITP-IOT
+
+db.createCollection("configuration");
+db.createCollection("platform");
+db.createCollection("resource");
+db.createCollection("restSubscription");
+
+db.resource.ensureIndex({"pi" : 1});
+db.resource.ensureIndex({"_uri" : 1});
+db.resource.ensureIndex({"ri" : 1});
+db.resource.ensureIndex({"pi" : 1, "ct": 1});
+db.resource.ensureIndex({"et" : -1});
