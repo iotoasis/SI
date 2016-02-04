@@ -1,22 +1,43 @@
-![Logo](https://github.com/iotoasis/SO/blob/master/logo_oasis_m.png)
+![iotoasis](https://github.com/iotoasis/SO/blob/master/logo_oasis_m.png)
 
-# Oasis Project
 
-본 Oasis (Open-source Architecture Semantic Iot Service-platform) 프로젝트는 국제 표준을 준용하는 오픈 소스 기반 지능형 사물 인터넷 서비스 플랫폼을 개발하는 것을 목표로 하고 있습니다.
+## Oasis SI oneM2M Server
 
-본 Oasis 프로젝트는 2015년도 정보통신․방송 기술개발사업 신규지원 대상과제 "(ICBMS-3세부) 사물 가상화, 분산 자율지능 및 데이터 연계/분석을 지원하는 IoT 기반 플랫폼 기술 개발" 과제의 결과물로써 오픈소스로 제공됩니다.
+SI oneM2M Server는  IoT 국제표준인 oneM2M 기반의 디바이스 및 애플리케이션 연동을 지원하는 서버 프레임워크(IN-CSE)입니다. SI oneM2M Server 소스를 활용하여 oneM2M 기반의 디바이스 및 애플리케이션 연동 서버를 구축할 수 있습니다. 또한 oneM2M 코어 소스를 활용하여 AE, MN-CSE 등 다양한 oneM2M 컴포넌트를 개발할 수 있습니다.
 
-본 Oasis 프로젝트는 오픈 소스 커뮤니티를 기반으로 오픈소스로써 계속적으로 성장해 나갈 계획입니다.
+ - Feature
+   - oneM2M IN-CSE 서비스 Capabilities 기능 지원
+   - HTTP, CoAP, MQTT 바인딩 기능 지원
+   - oneM2M Mca, Mcc, Mcc' 레퍼런스 포인트 지원
+   - SO, SDA 연동 기능 지원
+   - MongoDB 기반의 리소스 데이터 관리
 
-# SI (Service Integration)
- SI 시스템은 IoT 국제표준인 oneM2M 기반의 디바이스 및 애플리케이션 연동을 지원하는 서버 프레임워크(IN-CSE)입니다. SI 시스템 소스를 활용하여 oneM2M 기반의 디바이스 및 애플리케이션 연동 서버를 구축할 수 있습니다. 또한 oneM2M 코어 소스를 활용하여 AE, MN-CSE 등 다양한 oneM2M 컴포넌트를 개발할 수 있습니다.
- 
- 
-## 주요기능
+## Documents
+ - [Quick Start](./si-doc/quick-start.md)
+ - [서버 설정방법](./si-doc/incse_configuration.md)
+ - [서버 Build 방법](./si-doc/build_eclipse.md)
 
-* oneM2M IN-CSE 서비스 Capabilities 기능 지원
-* HTTP, CoAP, MQTT 바인딩 기능 지원
-* oneM2M Mca, Mcc, Mcc' 레퍼런스 포인트 지원
-* SO, SDA 연동 기능 지원
-* MongoDB 기반의 리소스 데이터 관리
+## Downloads
+ - [Latest Release](https://github.com/iotoasis/SI/releases/)
+
+## Modules
+SI oneM2M Server는 하나의 서버 모듈로 구성됩니다. 
+SI oneM2M Server를 시험하기 위한 디바이스 및 애플리케이션 애뮬레이터를 이용하여 테스트 할 수 있습니다.
+
+- **oneM2M Server** : oneM2M IN-CSE 모듈
+
+
+- **Test Module** : oneM2M IN-CSE 시험을 위한 테스트 모듈
+  - **Device Emulator** : 디바이스 역할을 수행하는 애뮬레이터 모듈
+  - **Application Emulator** : 애플리케이션 역할을 수행하는 애뮬레이터 모듈
+<br>
+
+## Q&A
+ - [IoT Oasis Q&A -- Commong soon]
+
+
+## License
+Licensed under the BSD License, Version 2.0
+<br>
+
 
