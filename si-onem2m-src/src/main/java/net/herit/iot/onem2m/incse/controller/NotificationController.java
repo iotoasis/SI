@@ -1,6 +1,7 @@
 package net.herit.iot.onem2m.incse.controller;
 
 import java.net.URI;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.onem2m.bind.http.client.AsyncResponseListener;
 import net.herit.iot.onem2m.core.util.OneM2MException;
-import net.herit.iot.onem2m.incse.AccessPointManager;
+import net.herit.iot.onem2m.incse.LongPollingManager;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.CfgManager;
 import net.herit.iot.onem2m.incse.facility.DatabaseManager;
@@ -49,7 +50,13 @@ public class NotificationController extends AbsController implements AsyncRespon
 	private static final long TIME_NOT_SET = -1L;
 	private static final int NOT_SET = -1;
 //	private static final String DATE_FORMAT = "yyyyMMdd'T'HHmmss";
-	private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(Naming.DATE_FORMAT);
+//	private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(Naming.DATE_FORMAT);
+	private static ThreadLocal<DateFormat> SIMPLE_DATE_FORMAT = new ThreadLocal<DateFormat>() {
+		@Override 
+		protected DateFormat initialValue() { 
+			return new SimpleDateFormat(Naming.DATE_FORMAT); 
+		} 
+	};
 	
 	private static NotificationController INSTANCE = new NotificationController();
 	
@@ -194,39 +201,45 @@ public class NotificationController extends AbsController implements AsyncRespon
 //			if( reqRes.getCreationTime() != null) {
 			if (reqRes.getString(Naming.CREATIONTIME_SN) != null) {
 //				createTime = SIMPLE_DATE_FORMAT.parse(reqRes.getCreationTime()).getTime();
-				createTime = SIMPLE_DATE_FORMAT.parse(reqRes.getString(Naming.CREATIONTIME_SN)).getTime();
+//				createTime = SIMPLE_DATE_FORMAT.parse(reqRes.getString(Naming.CREATIONTIME_SN)).getTime();
+				createTime = SIMPLE_DATE_FORMAT.get().parse(reqRes.getString(Naming.CREATIONTIME_SN)).getTime();
 			}
 //			if (reqRes.getLastModifiedTime() != null) {
 			if (reqRes.getString(Naming.LASTMODIFIEDTIME_SN) != null) {
 //				lastModifiedTime = SIMPLE_DATE_FORMAT.parse(reqRes.getLastModifiedTime()).getTime();
-				lastModifiedTime = SIMPLE_DATE_FORMAT.parse(reqRes.getString(Naming.LASTMODIFIEDTIME_SN)).getTime();
+//				lastModifiedTime = SIMPLE_DATE_FORMAT.parse(reqRes.getString(Naming.LASTMODIFIEDTIME_SN)).getTime();
+				lastModifiedTime = SIMPLE_DATE_FORMAT.get().parse(reqRes.getString(Naming.LASTMODIFIEDTIME_SN)).getTime();
 			}
 			
 			if(evt.getCreatedBefore() != null) {
 				if(createTime == TIME_NOT_SET) return false;
 
-				long beforeTime = SIMPLE_DATE_FORMAT.parse(evt.getCreatedBefore()).getTime();
+//				long beforeTime = SIMPLE_DATE_FORMAT.parse(evt.getCreatedBefore()).getTime();
+				long beforeTime = SIMPLE_DATE_FORMAT.get().parse(evt.getCreatedBefore()).getTime();
 				if( createTime >= beforeTime) return false;
 			}
 			
 			if(evt.getCreatedAfter() != null) {
 				if(createTime == TIME_NOT_SET) return false;
 				
-				long afterTime = SIMPLE_DATE_FORMAT.parse(evt.getCreatedAfter()).getTime();
+//				long afterTime = SIMPLE_DATE_FORMAT.parse(evt.getCreatedAfter()).getTime();
+				long afterTime = SIMPLE_DATE_FORMAT.get().parse(evt.getCreatedAfter()).getTime();
 				if( createTime <= afterTime ) return false;
 			}
 			
 			if(evt.getModifiedSince() != null) {
 				if (lastModifiedTime == TIME_NOT_SET) return false;
 				
-				long modifiedSince = SIMPLE_DATE_FORMAT.parse(evt.getModifiedSince()).getTime();
+//				long modifiedSince = SIMPLE_DATE_FORMAT.parse(evt.getModifiedSince()).getTime();
+				long modifiedSince = SIMPLE_DATE_FORMAT.get().parse(evt.getModifiedSince()).getTime();
 				if ( lastModifiedTime >= modifiedSince ) return false;  //...?
 			}
 			
 			if(evt.getUnmodifiedSince() != null) {
 				if (lastModifiedTime == TIME_NOT_SET) return false;
 				
-				long unmodifiedSince = SIMPLE_DATE_FORMAT.parse(evt.getUnmodifiedSince()).getTime();
+//				long unmodifiedSince = SIMPLE_DATE_FORMAT.parse(evt.getUnmodifiedSince()).getTime();
+				long unmodifiedSince = SIMPLE_DATE_FORMAT.get().parse(evt.getUnmodifiedSince()).getTime();
 				if (lastModifiedTime <= unmodifiedSince) return false; // ....?
 			}
 			
@@ -307,20 +320,23 @@ public class NotificationController extends AbsController implements AsyncRespon
 //		}
 		
 		if (reqRes.getString(Naming.EXPIRATIONTIME_SN) != null) {
-			expireTime = SIMPLE_DATE_FORMAT.parse(reqRes.getString(Naming.EXPIRATIONTIME_SN)).getTime();
+//			expireTime = SIMPLE_DATE_FORMAT.parse(reqRes.getString(Naming.EXPIRATIONTIME_SN)).getTime();
+			expireTime = SIMPLE_DATE_FORMAT.get().parse(reqRes.getString(Naming.EXPIRATIONTIME_SN)).getTime();
 		}
 		
 			
 		if(evt.getExpireBefore() != null) {
 			if (expireTime == TIME_NOT_SET) return false;
 			
-			long expireBefore = SIMPLE_DATE_FORMAT.parse(evt.getExpireBefore()).getTime();
+//			long expireBefore = SIMPLE_DATE_FORMAT.parse(evt.getExpireBefore()).getTime();
+			long expireBefore = SIMPLE_DATE_FORMAT.get().parse(evt.getExpireBefore()).getTime();
 			if ( expireTime >= expireBefore) return false;
 		}
 		if(evt.getExpireAfter() != null) {
 			if (expireTime == TIME_NOT_SET) return false;
 			
-			long expireAfter = SIMPLE_DATE_FORMAT.parse(evt.getExpireAfter()).getTime();
+//			long expireAfter = SIMPLE_DATE_FORMAT.parse(evt.getExpireAfter()).getTime();
+			long expireAfter = SIMPLE_DATE_FORMAT.get().parse(evt.getExpireAfter()).getTime();
 			if (expireTime <= expireAfter) return false;
 		}
 		
@@ -353,7 +369,7 @@ public class NotificationController extends AbsController implements AsyncRespon
 
 //		for(String pcu : pollingChannels) {
 			try {
-				AccessPointManager.getInstance().sendRequest(pcu, request);
+				LongPollingManager.getInstance().sendRequest(pcu, request);
 			} catch (OneM2MException e) {
 				log.debug("AccessPointManager.sendRequest failed. {}", e);
 			}

@@ -1,5 +1,7 @@
 package net.herit.iot.onem2m.bind.http.server;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +20,9 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.SelfSignedCertificate;
 //import io.netty.handler.ssl.SslContext;
 //import io.netty.handler.ssl.SslContextBuilder;
 //import io.netty.handler.ssl.util.SelfSignedCertificate;
@@ -27,14 +32,11 @@ import io.netty.handler.logging.LoggingHandler;
  */
 public final class HttpServer {
 
-	//static final boolean SSL = System.getProperty("ssl") != null;
-	boolean SSL = System.getProperty("ssl") != null;
-	//static final int PORT = Integer.parseInt(System.getProperty("port", SSL? "8443" : "8080"));
-	//static int PORT = 8080;
-	int PORT = 8080;
-
 	private Logger log = LoggerFactory.getLogger(HttpServer.class);
 	
+	private boolean ssl = false;
+	private int port = 8080;
+	private SslContext sslCtx = null; 
 	private HttpServerListener listener = null;
 	
 	// member for runAsync
@@ -42,9 +44,22 @@ public final class HttpServer {
 	EventLoopGroup bossGroup = null;
 	EventLoopGroup workerGroup = null;
 	
-	public HttpServer(HttpServerListener listener, int port) {
+	public HttpServer(HttpServerListener listener, int port) throws Exception {
 		this.listener = listener;
-		this.PORT = port;
+		this.port = port;
+	}
+	
+	public HttpServer(HttpServerListener listener, int port, boolean ssl) throws Exception {
+		this(listener, port);
+		
+		this.ssl = ssl;
+		if(this.ssl) {
+			SelfSignedCertificate ssc = new SelfSignedCertificate();
+			this.sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
+//			this.sslCtx = SslContextBuilder.forServer(
+//					new File("/home/hubiss/project/2015/IITP-IoT/target/root.crt"), 
+//					new File("/home/hubiss/project/2015/IITP-IoT/target/root.key")).build();
+		}
 	}
 
 
@@ -52,16 +67,19 @@ public final class HttpServer {
 		EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
-			ServerBootstrap b = new ServerBootstrap();
-			b.group(bossGroup, workerGroup)
+			ServerBootstrap bootstrap = new ServerBootstrap();
+			bootstrap.group(bossGroup, workerGroup)
 			.channel(NioServerSocketChannel.class)
 			.handler(new LoggingHandler(LogLevel.INFO))
-			.childHandler(new HttpServerInitializer(this.listener));
+			.childHandler(new HttpServerInitializer(this.listener, this.sslCtx));
 
-			b.option(ChannelOption.SO_REUSEADDR, true);
-			Channel ch = b.bind(PORT).sync().channel();
+			bootstrap.option(ChannelOption.SO_REUSEADDR, true);
+			
+			Channel ch = bootstrap.bind(this.port).sync().channel();
+			
 
-			log.debug("Open your web browser and navigate to {}://127.0.0.1:{}/", (SSL? "https" : "http"), PORT);
+			log.debug("Open your web browser and navigate to {}://127.0.0.1:{}/", 
+					(this.ssl? "https" : "http"), this.port);
 
 			ch.closeFuture().sync();
 		} finally {
@@ -78,12 +96,13 @@ public final class HttpServer {
 			b.group(bossGroup, workerGroup)
 			.channel(NioServerSocketChannel.class)
 			.handler(new LoggingHandler(LogLevel.INFO))
-			.childHandler(new HttpServerInitializer(this.listener));
+			.childHandler(new HttpServerInitializer(this.listener, this.sslCtx));
 
 			b.option(ChannelOption.SO_REUSEADDR, true);
-			bindChannel = b.bind(PORT).sync().channel();
+			bindChannel = b.bind(this.port).sync().channel();
 
-			log.debug("Open your web browser and navigate to {}://127.0.0.1:{}/", (SSL? "https" : "http"), PORT);
+			log.debug("Open your web browser and navigate to {}://127.0.0.1:{}/", 
+					(this.ssl? "https" : "http"), this.port);
 
 			//ch.closeFuture().sync();
 		} finally {
@@ -98,9 +117,8 @@ public final class HttpServer {
 			bossGroup.shutdownGracefully();
 			workerGroup.shutdownGracefully();	
 			bindChannel.closeFuture().sync();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (InterruptedException e) {			
+			log.debug("Handled exception",e);
 		} finally {		
 			
 		}

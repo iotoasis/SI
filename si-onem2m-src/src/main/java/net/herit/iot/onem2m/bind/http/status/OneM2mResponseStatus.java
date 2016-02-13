@@ -11,18 +11,18 @@ public class OneM2mResponseStatus extends HttpResponseStatus {
 	/**  OneM2M Code (Status) **/
 	/** 1000 (ACCEPTED) **/
 	public static final HttpResponseStatus ACCEPTED					= new HttpResponseStatus(202, "Accecpted");
+	/** 2000 (OK) **/
+	public static final HttpResponseStatus OK					= new HttpResponseStatus(200, "OK");
 	/** 2001 (CREATED) **/
 	public static final HttpResponseStatus CREATED					= new HttpResponseStatus(201, "Created");
 	/** 2002 (DELETED) **/
 	public static final HttpResponseStatus DELETED					= new HttpResponseStatus(200, "Deleted");
 	/** 2004 (CHANGED) **/
 	public static final HttpResponseStatus CHANGED					= new HttpResponseStatus(200, "Changed");
-	/** 2000 (OK) **/
-	public static final HttpResponseStatus OK					= new HttpResponseStatus(200, "OK");
-	/** 2101 (?) (CONFLICT) **/
-	public static final HttpResponseStatus CONFLICT					= new HttpResponseStatus(409, "Conflict");
+//	/** 2101 (?) (CONFLICT) **/
+//	public static final HttpResponseStatus CONFLICT					= new HttpResponseStatus(409, "Conflict");
 	/** 4000 (BAD_REQUEST) **/
-	public static final HttpResponseStatus BAS_REQUEST				= new HttpResponseStatus(400, "Bad Request");
+	public static final HttpResponseStatus BAD_REQUEST				= new HttpResponseStatus(400, "Bad Request");
 	/** 4004 (NOT_FOUND) **/
 	public static final HttpResponseStatus NOT_FOUND				= new HttpResponseStatus(404, "Not Found"	);
 	/** 4005 (OPERATION_NOT_ALLOWED) **/
@@ -37,6 +37,8 @@ public class OneM2mResponseStatus extends HttpResponseStatus {
 	public static final HttpResponseStatus ACCESS_DENIED			= new HttpResponseStatus(403, "Forbidden");
 	/** 4104 (GROUP_REQUEST_IDENTIFIER_EXISTS) **/
 	public static final HttpResponseStatus GROUP_REQ_ID_EXISTS		= new HttpResponseStatus(409, "Conflict");
+	/** 4105 (CONFLICT) 4015..?(in http binding spec.)**/
+	public static final HttpResponseStatus CONFLICT					= new HttpResponseStatus(409, "Conflict");
 	/** 5000 (INTERNAL_SERVER_ERROR) **/
 	public static final HttpResponseStatus INTERNAL_SERVER_ERROR	= new HttpResponseStatus(500, "Internal Server Error");
 	/** 5001 (NOT_IMPLEMENTED) **/

@@ -44,7 +44,6 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 		CREATED(2001, "CREATED"),			// 201 (Created)
 		DELETED(2002, "DELETED"),			// 200 (Deleted)
 		CHANGED(2004, "CHANGED"),			// 200 (Changed)
-		CONFLICT(4105, "CONFLICT"),			// 409 (Conflict)
 		BAD_REQUEST(4000, "BAD_REQUEST"),	// 400 (Bad Request)
 		UNAUTHORIZED(4001, "UNAUTHORIZED"),	// 401 (Unauthroized)		----- LGU+ Defined status code
 		NOT_FOUND(4004, "NOT_FOUND"),		// 404 (Not Found)
@@ -54,6 +53,7 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 		CONTENTS_UNACCEPTABLE(4102, "CONTENTS_UNACCEPTABLE"), 			// 400 (Bad Request)
 		ACCESS_DENIED(4103, "ACCESS_DENIED"),								// 403 (Forbidden)
 		GROUP_REQ_ID_EXISTS(4104, "GROUP_REQUEST_IDENTIFIER_EXISTS"),	// 409 (Conflict)
+		CONFLICT(4105, "CONFLICT"),											// 409 (Conflict)
 		INTERNAL_SERVER_ERROR(5000, "INTERNAL_SERVER_ERROR"),			// 500 (Internal Server Error)
 		NOT_IMPLEMENTED(5001, "NOT_IMPLEMENTED"), 						// 501 (Not Implemented)
 		TARGET_NOT_REACHABLE(5103, "TARGET_NOT_REACHABLE"),				// 404 (Not Found)
@@ -256,7 +256,7 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 		else return RESPONSE_STATUS.get(responseStatusCode);
 	}
 
-	public void setResponseStatusCode(RESPONSE_STATUS resStatusCode) {
+	public void setResponseStatusCodeEnum(RESPONSE_STATUS resStatusCode) {
 		this.responseStatusCode = resStatusCode.Value();
 	}
 	
@@ -325,7 +325,7 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 		CONTENT_TYPE cntType = null;
 		if (request != null) {
 			List<CONTENT_TYPE> format = request.getAcceptTypes();
-			System.out.println("format is " + format);
+//			System.out.println("format is " + format);
 			if (format != null && format.size() > 0) {
 				cntType = format.get(0);
 			}
@@ -371,7 +371,7 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 			try {
 				bld.append(" Content: ").append(new String(content, "UTF-8")).append("\n");
 			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
+				log.error("UnsupportedEncodingException", e);
 			}
 		}
 		

@@ -16,7 +16,7 @@ import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.onem2m.bind.http.client.AsyncResponseListener;
 import net.herit.iot.onem2m.core.util.OneM2MException;
-import net.herit.iot.onem2m.incse.AccessPointManager;
+import net.herit.iot.onem2m.incse.LongPollingManager;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.CfgManager;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -259,7 +259,7 @@ public class AnnounceController extends AbsController implements AsyncResponseLi
 
 //		for(String pcu : pollingChannels) {
 			try {
-				AccessPointManager.getInstance().sendRequest(pcu, request);
+				LongPollingManager.getInstance().sendRequest(pcu, request);
 			} catch (OneM2MException e) {
 				log.debug("AccessPointManager.sendRequest failed. {}", e);
 			}

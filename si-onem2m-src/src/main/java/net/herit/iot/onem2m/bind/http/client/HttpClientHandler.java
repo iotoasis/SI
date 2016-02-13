@@ -24,9 +24,11 @@ public class HttpClientHandler extends ChannelInboundHandlerAdapter {
 	
 	HttpClientListener		responseListener	= null;
 	DefaultFullHttpRequest	request			= null;
+	
 	private Logger log = LoggerFactory.getLogger(HttpClientHandler.class);
 	
-	public HttpClientHandler(HttpClientListener listener) {
+	public HttpClientHandler(DefaultFullHttpRequest request, HttpClientListener listener) {
+		this.request = request;
 		this.responseListener = listener;
 	}
 	
@@ -39,8 +41,8 @@ public class HttpClientHandler extends ChannelInboundHandlerAdapter {
 /*		if (responseListener != null) {
 			responseListener.channelConnected(ctx);
 		}
-
-		sendHttpMessage(ctx, request, responseListener);*/
+*/
+		sendHttpMessage(ctx, request, responseListener);
 
 	}
 
@@ -137,7 +139,7 @@ public class HttpClientHandler extends ChannelInboundHandlerAdapter {
 	 * @param listener
 	 * @return
 	 */
-	/*public ChannelFuture sendHttpMessage(ChannelHandlerContext ctx, DefaultFullHttpRequest request, HttpClientListener listener) {
+	public ChannelFuture sendHttpMessage(ChannelHandlerContext ctx, DefaultFullHttpRequest request, HttpClientListener listener) {
 		ChannelFuture future = null;
 		String contentString = null;
 		try {
@@ -155,7 +157,7 @@ public class HttpClientHandler extends ChannelInboundHandlerAdapter {
 			}
 
 
-			 SENDING 
+//			 SENDING 
 			future = ctx.channel().writeAndFlush(request);
 			future.addListener(new EventListener(ctx, request, listener, contentString));
 
@@ -198,9 +200,9 @@ public class HttpClientHandler extends ChannelInboundHandlerAdapter {
 			this.request = request;
 		}
 
-		*//**
+		/**
 		 * SENT
-		 *//*
+		 */
 		@Override
 		public void operationComplete(ChannelFuture future) throws Exception {
 			try {
@@ -213,7 +215,7 @@ public class HttpClientHandler extends ChannelInboundHandlerAdapter {
 
 					//log.debug(strBld.toString());
 					
-					 COMPLETE API 
+//					 COMPLETE API 
 					if(listener != null) {
 						listener.channelRequested(ctx);
 					}
@@ -226,9 +228,9 @@ public class HttpClientHandler extends ChannelInboundHandlerAdapter {
 				throw e;
 			}
 			finally {
-				 ByteBuf 해제 
-				//ReferenceCountUtil.release(request);
+//				 ByteBuf 해제 
+//				ReferenceCountUtil.release(request);
 			}
 		}
-	}*/
+	}
 }

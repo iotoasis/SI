@@ -221,8 +221,7 @@ public class RemoteCSEManager extends AbsManager {
 			strUrl = remotePoAs.get(0);
 			url = new URL(strUrl);
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			log.debug("Ignore registerToRemoteCSE("+remoteCseId+") because cannot parse URL!!! " + e.getMessage());
+			log.debug("Ignore registerToRemoteCSE("+remoteCseId+") because cannot parse URL!!! ", e);
 			return;
 		}
 		
@@ -271,8 +270,7 @@ public class RemoteCSEManager extends AbsManager {
 				}
 				dao.create(remoteCse);
 			} catch (OneM2MException e) {
-				e.printStackTrace();
-				log.debug("Fail to createremoteCSE to Database: " + remoteCse.toString() +"\r\n"+ e.getMessage());
+				log.debug("Fail to createremoteCSE to Database: " + remoteCse.toString(), e);
 				return;
 			}			
 		} else {			

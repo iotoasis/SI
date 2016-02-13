@@ -89,8 +89,14 @@ public class RestProcessor {
 				
 				log.debug(cmd.toString());
 				
-				OneM2mResponse response = RestCommandController.getInstance().processCommand(cmd);
+				// for demo
+				this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "200", 
+								"{\"code\":\"2000\",\"_commandId\":\""+cmd.getCommandId()+"\"}");	
 				
+				OneM2mResponse response = RestCommandController.getInstance().processCommand(cmd);
+
+				// for demo
+				/*
 				if (response == null) {
 					this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "500", "fail to send command to "+ cmd.getUri());
 					return;
@@ -104,8 +110,8 @@ public class RestProcessor {
 					HttpResponseStatus httpStatus = OneM2mResponseStatus.valueOf(statuscode);
 					this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), Integer.toString(httpStatus.code()), 
 							"{\"code\":\""+response.getResponseStatusCodeEnum().Value()+"\",\"message\":\""+httpStatus.toString()+"\"}");
-				}					
-				
+				}
+				*/
 			} 
 
 		} catch (UnmarshalException e) {
@@ -122,9 +128,7 @@ public class RestProcessor {
 			return;
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			//OneM2mResponse resMessage = new OneM2mResponse(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, reqMessage);
-			//resMessage.setContent(new String(e.getMessage()).getBytes());
+			log.debug("Handled exception", e);
 
 			Document doc = new Document();
 			doc.put("code", RESPONSE_STATUS.INTERNAL_SERVER_ERROR.name());

@@ -20,11 +20,11 @@ import net.herit.iot.onem2m.resource.Resource;
 import net.herit.iot.onem2m.resource.UriContent;
 import net.herit.iot.onem2m.resource.UriListContent;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class Manager {
 
@@ -33,7 +33,7 @@ public class Manager {
 	protected String ALLOWED_PARENT = "";
 	protected RESOURCE_TYPE RES_TYPE = RESOURCE_TYPE.NONE;
 	
-	private Logger log = LoggerFactory.getLogger(Manager.class);
+	private static Logger log = LoggerFactory.getLogger(Manager.class);
 	
 	
 	public void initialize(OneM2mContext context) {
@@ -80,17 +80,17 @@ public class Manager {
 						System.out.println("resourceName: " + res.getResourceName());
 						return res;
 					} catch(Exception e) {
-						e.printStackTrace();
+						log.debug("Handled exception", e);
 						return null;
 					}
 				case JSON:	// cannot sure if content is resource or not, so just return null in case exception
 					try {
 						jsonCvt = manager.getJSONConveter();
 						res = (Resource)jsonCvt.unmarshal(str);
-						System.out.println("resourceName: " + res.getResourceName());
+						log.debug("resourceName: " + res.getResourceName());
 						return res;
 					} catch(Exception e) {
-						e.printStackTrace();
+						log.debug("Handled exception", e);
 						return null;
 					}
 					
@@ -100,8 +100,7 @@ public class Manager {
 		} catch (OneM2MException e) {
 			throw e;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			
 			throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
 		}
@@ -117,8 +116,7 @@ public class Manager {
 			//System.out.println("resourceName: " + res.getResourceName());
 			return res;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			
 			throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
 		}
@@ -178,8 +176,7 @@ public class Manager {
 				System.out.println("resourceName: " + res.getResourceName());
 				return res;
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.debug("Handled exception", e);
 				
 				throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
 			}
@@ -195,8 +192,7 @@ public class Manager {
 				System.out.println("resourceName: " + res.getResourceName());
 				return res;
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.debug("Handled exception", e);
 				
 				throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
 			}
@@ -210,8 +206,7 @@ public class Manager {
 				System.out.println("resourceName: " + res.getResourceName());
 				return res;
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.debug("Handled exception", e);
 				
 				throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
 			}

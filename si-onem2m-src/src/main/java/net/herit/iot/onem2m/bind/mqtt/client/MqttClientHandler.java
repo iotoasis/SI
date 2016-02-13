@@ -1,12 +1,18 @@
 package net.herit.iot.onem2m.bind.mqtt.client;
 
+import java.security.KeyStore;
+import java.security.SecureRandom;
 import java.util.Arrays;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 
 import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mResponse;
-import net.herit.iot.onem2m.bind.mqtt.api.MqttClientListener;
-import net.herit.iot.onem2m.bind.mqtt.codec.RequestCodec;
-import net.herit.iot.onem2m.bind.mqtt.codec.ResponseCodec;
+import net.herit.iot.onem2m.bind.api.ResponseListener;
+import net.herit.iot.onem2m.bind.mqtt.api.MqttServerListener;
+import net.herit.iot.onem2m.bind.mqtt.codec.MqttRequestCodec;
+import net.herit.iot.onem2m.bind.mqtt.codec.MqttResponseCodec;
 import net.herit.iot.onem2m.bind.mqtt.util.Utils;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -36,7 +42,8 @@ public class MqttClientHandler implements MqttCallback {
 
 	private MqttClient mqttClient;
 	private MqttConnectOptions connOpt;
-	private MqttClientListener listener;
+	private MqttServerListener serverListener;
+	private ResponseListener responseListener;
 
 	private int keepAliveInterval = 30;
 	private int subQoS = 1;
@@ -58,15 +65,19 @@ public class MqttClientHandler implements MqttCallback {
 		this.clientID = Utils.getTopicID(clientId);
 	}
 	
-	public void setListener(MqttClientListener listener) {
-		this.listener = listener;
+	public void setListener(MqttServerListener listener) {
+		this.serverListener = listener;
+	}
+	
+	public void setListener(ResponseListener listener) {
+		this.responseListener = listener;
 	}
 
-	public void connect(String brokerURL) throws Exception {
-		connect(brokerURL, clientID, null);
+	public void connect(String brokerURL, boolean ssl) throws Exception {
+		connect(brokerURL, clientID, null, ssl);
 	}
 
-	public void connect(String brokerURL, String userName, String password) throws Exception {
+	public void connect(String brokerURL, String userName, String password, boolean ssl) throws Exception {
 		MqttConnectOptions connOpt = new MqttConnectOptions();
 
 		connOpt.setCleanSession(false);
@@ -79,6 +90,16 @@ public class MqttClientHandler implements MqttCallback {
 			connOpt.setPassword(password.toCharArray());
 		}
 
+//		if(ssl) {
+//			SSLContext sslContext = SSLContext.getInstance("SSL");
+//			TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+//			KeyStore keyStore = readKeyStore();
+//			trustManagerFactory.init(keyStore);
+//			sslContext.init(null, trustManagerFactory.getTrustManagers(), new SecureRandom());
+//			 
+//			connOpt.setSocketFactory(sslContext.getSocketFactory());
+//		}
+		
 		mqttClient = new MqttClient(brokerURL, clientID);
 		mqttClient.setCallback(this);
 		mqttClient.connect(connOpt);
@@ -107,9 +128,9 @@ public class MqttClientHandler implements MqttCallback {
 		// TODO Auto-generated method stub
 		log.debug("[MqttClientHandler.deliveryComplete] deliveryComplete, topic : " +  Arrays.toString(token.getTopics()));
 
-		if (listener != null)
+		if (serverListener != null)
 		{
-			listener.completedMqttDelivery(token.getMessageId());
+			serverListener.completedMqttDelivery(token.getMessageId());
 		}
 	}
 
@@ -123,23 +144,27 @@ public class MqttClientHandler implements MqttCallback {
 			byte[] payloadMessage = message.getPayload();
 			log.debug("RCVD: " + new String(payloadMessage, "UTF-8"));
 			
-			if (listener != null) {
-				if(topic.startsWith(REQUEST_TOPIC_BASE)) {
-					String[] IDs = Utils.getOneM2mIDsFromTopic(topic, REQUEST_TOPIC_BASE);
+			if(topic.startsWith(REQUEST_TOPIC_BASE)) {
+				String[] IDs = Utils.getOneM2mIDsFromTopic(topic, REQUEST_TOPIC_BASE);
 
-					OneM2mRequest reqMessage = RequestCodec.decode(payloadMessage);
-					reqMessage.setCredentialID(IDs[0]);
-					listener.receiveMqttMessage(reqMessage);
-				} else if(topic.startsWith(RESPONSE_TOPIC_BASE))  {
-					OneM2mResponse resMessage = ResponseCodec.decode(payloadMessage);
-					listener.receiveMqttMessage(resMessage);
-				} else {
-					log.warn("Not subscribed topic.(" + topic + ")");
+				OneM2mRequest reqMessage = MqttRequestCodec.decode(payloadMessage);
+				reqMessage.setCredentialID(IDs[0]);
+				if (serverListener != null) {
+					serverListener.receiveMqttMessage(reqMessage);
+				}
+			} else if(topic.startsWith(RESPONSE_TOPIC_BASE))  {
+				OneM2mResponse resMessage = MqttResponseCodec.decode(payloadMessage);
+				if (responseListener != null) {
+					responseListener.receiveResponse(resMessage);
 				}
 			}
+//			else {
+//					log.warn("Not subscribed topic.(" + topic + ")");
+//				}
+//			}
 		}
 		catch (Exception e) {
-			e.printStackTrace(System.out);
+			log.debug("Handled exception", e);
 		}
 	}
 
@@ -174,7 +199,7 @@ public class MqttClientHandler implements MqttCallback {
 
 		String strTopic = REQUEST_TOPIC_BASE + "/" + clientID + "/" + targetID;
 	
-		byte[] byteContents = RequestCodec.encode(reqMessage);
+		byte[] byteContents = MqttRequestCodec.encode(reqMessage);
 		
 		return publish(strTopic, byteContents);
 		
@@ -186,7 +211,7 @@ public class MqttClientHandler implements MqttCallback {
 		
 		String strTopic = RESPONSE_TOPIC_BASE + "/" + targetID + "/" + clientID;
 		
-		byte[] byteContents = ResponseCodec.encode(resMessage);
+		byte[] byteContents = MqttResponseCodec.encode(resMessage);
 		
 		return publish(strTopic, byteContents);
 	}

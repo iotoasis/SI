@@ -83,8 +83,7 @@ public class AEDAO extends ResourceDAO implements DAOInterface {
 			return jc.marshal((AE)res);
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();			
+			log.debug("Handled exception", e);			
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Json generation error:"+res.toString());
 		}
 	}
@@ -109,7 +108,7 @@ public class AEDAO extends ResourceDAO implements DAOInterface {
 //			context.getLogManager().debug("AE json: " + strJson);
 //						
 //		} catch (Exception e) {
-//			e.printStackTrace();
+//			log.debug("Handled exception", e);
 //			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Exception in converting:"+res.toString());
 //		}
 //		
@@ -149,7 +148,7 @@ public class AEDAO extends ResourceDAO implements DAOInterface {
 //		
 //			dbObj = (BasicDBObject) JSON.parse(strJson);
 //		} catch (Exception e) {
-//			e.printStackTrace();
+//			log.debug("Handled exception", e);
 //			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Exception in converting:"+res.toString());
 //		}
 //		
@@ -175,8 +174,7 @@ public class AEDAO extends ResourceDAO implements DAOInterface {
 //					map.put(f.getName(), val);
 //				}
 //			} catch (IllegalArgumentException | IllegalAccessException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
+//				log.debug("Handled exception", e);
 //				throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Exception during extract resource field");
 //			}
 //		}

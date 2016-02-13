@@ -18,6 +18,8 @@ import net.herit.iot.onem2m.resource.*;
 
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JSONConvertor<T> {
 	
@@ -25,6 +27,7 @@ public class JSONConvertor<T> {
 	private JAXBContext context;
 	private Unmarshaller um;
 	private Marshaller m;
+	private Logger log = LoggerFactory.getLogger(JSONConvertor.class);
 
 	public JSONConvertor(Class<T> type, Class<T>[] types) {
 		this.t = type;
@@ -62,7 +65,7 @@ public class JSONConvertor<T> {
 			initialize();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 		}
 	}
 	

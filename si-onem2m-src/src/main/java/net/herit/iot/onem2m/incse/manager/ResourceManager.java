@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mResponse;
+import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.XMLConvertor;
@@ -117,22 +118,20 @@ public class ResourceManager {
 				
 				context.getNseManager().sendResponseMessage(resMessage);
 			}
-		} catch (OneM2MException e) {
-
-			e.printStackTrace();
-			LogManager.getInstacne().error(e.getMessage());
 			
+		} catch (OneM2MException e) {
+			log.debug("Handled exception", e);
+
 			reqMessage.setContent(e.getMessage().getBytes());
 			
 			resMessage = new OneM2mResponse(e.getResponseStatusCode(), reqMessage);
-			if(e.getMessage() != null)
+			if(e.getMessage() != null) {
 				resMessage.setContent(e.getMessage().getBytes());
-
+			}
 			context.getNseManager().sendResponseMessage(resMessage);
 		} catch (Exception e) {
 
-			e.printStackTrace();
-			LogManager.getInstacne().error(e.getMessage());
+			log.debug("Handled exception", e);
 
 			resMessage = new OneM2mResponse(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, reqMessage);
 			if(e.getMessage() != null)
@@ -287,8 +286,7 @@ public class ResourceManager {
 			//System.out.println("resourceName: " + res.getResourceName());
 			return res;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			
 			throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
 		}

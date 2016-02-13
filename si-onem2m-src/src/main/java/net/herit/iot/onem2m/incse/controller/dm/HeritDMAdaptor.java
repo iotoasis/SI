@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mResponse;
@@ -19,6 +21,8 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 public class HeritDMAdaptor {
 	
 	private String dmAddr;
+	
+	private Logger log = LoggerFactory.getLogger(HeritDMAdaptor.class);
 
 
 	static class MOUri {
@@ -103,7 +107,8 @@ public class HeritDMAdaptor {
 		reqMessage.setOperation(OPERATION.CREATE);
 		reqMessage.setContentType(CONTENT_TYPE.JSON);
 		
-		OneM2mResponse resMessage = new HttpClient().process(dmAddr+to, reqMessage);
+//		OneM2mResponse resMessage = new HttpClient().process(dmAddr+to, reqMessage);
+		OneM2mResponse resMessage = HttpClient.getInstance().sendRequest(dmAddr+to, reqMessage);
 		
 		if (resMessage == null) {
 			throw new HitDMException(5002, "Dm server does not respond:"+dmAddr+to);
@@ -143,7 +148,7 @@ public class HeritDMAdaptor {
 			
 		} catch (Exception e) {
 
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			
 			throw new HitDMException(5001, "Invalid response:"+resMessage.toString());
 			//throw new OneM2MException(RESPONSE_STATUS.DMSERVER_ERROR, "Invalid response:"+resMessage.toString());			
