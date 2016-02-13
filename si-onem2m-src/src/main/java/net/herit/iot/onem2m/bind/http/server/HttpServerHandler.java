@@ -66,6 +66,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 		if (requestListener != null) {
 			requestListener.channelDisconnected(ctx);
 		}
+		channel.disconnect();
 	}
 
 	@Override
@@ -108,6 +109,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 					strBld.append("---------------------------------------------------------------------\n");
 				}
 				log.debug(strBld.toString());
+				log.info(">> RECV REQ");
 
 				/* WARNNING - URL 기본규칙을 사용하지 않음 */
 				/*
@@ -291,6 +293,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 								strBld.append("---------------------------------------------------------------------\n");
 								strBld.append("\n");
 								log.debug(strBld.toString());
+								log.info("<< SEND RES");
 							} else {
 								log.error("operationComplete_failure channel=" + future.channel() + "\n" + response + ", " + future.cause());
 							}
@@ -315,7 +318,6 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 			}
 		} catch (Exception exception) {
 			log.error("sendHTTPMessage_error=", exception);
-			exception.printStackTrace();
 			
 			response.setStatus(HttpResponseStatus.INTERNAL_SERVER_ERROR);
 			channel.writeAndFlush(response);

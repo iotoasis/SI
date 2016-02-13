@@ -7,6 +7,9 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
 import net.herit.iot.message.onem2m.OneM2mRequest.Originator;
@@ -26,6 +29,9 @@ import net.herit.iot.onem2m.resource.SetOfAcrs;
 
 
 public class OneM2mUtil {
+	
+	private static Logger log = LoggerFactory.getLogger(OneM2mUtil.class);
+	
 	public static String createRequestId() {
 		return "REQ_"+UUID.randomUUID().toString();
 	}
@@ -109,7 +115,7 @@ public class OneM2mUtil {
 				
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 		}
 		
 		return false;
@@ -385,7 +391,7 @@ public class OneM2mUtil {
 			
 		} catch (Exception e) {
 			
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			return RESOURCE_TYPE.NONE;
 			
 		}
@@ -457,11 +463,11 @@ public class OneM2mUtil {
 			return ori;
 		} catch (OneM2MException e) {
 			
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 		
 		} catch (Exception e) {
 			
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			
 		}
 		return null;

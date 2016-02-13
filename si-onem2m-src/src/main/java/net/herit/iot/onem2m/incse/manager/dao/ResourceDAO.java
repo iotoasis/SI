@@ -125,7 +125,7 @@ public class ResourceDAO {
 			return jc.marshal((Resource) res);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR,
 					"Json generation error:" + res.toString());
 		}
@@ -218,8 +218,7 @@ public class ResourceDAO {
 //					}
 //
 //				} catch (Exception e) {
-//					e.printStackTrace();
-//					// No getChildResource method resource. no problem!!!
+//					log.debug("Handled exception", e);
 //				}
 //			} else
 			if (rc == RESULT_CONT.ATTR_N_CHILD_RES_REF || rc == RESULT_CONT.CHILD_RES_REF || rc == RESULT_CONT.ATTR_N_CHILD_RES) {
@@ -239,8 +238,7 @@ public class ResourceDAO {
 					}
 
 				} catch (Exception e) {
-					e.printStackTrace();
-					// No getChildResource method resource. no problem!!!
+					log.debug("Handled exception", e);
 				}
 			}
 			
@@ -248,7 +246,7 @@ public class ResourceDAO {
 
 		} catch (Exception e) {
 
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR,
 					"Exception in converting:" + doc.toString());
 
@@ -360,7 +358,7 @@ public class ResourceDAO {
 			res.setUri(doc.getString(URI_KEY));
 			return res;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR,
 					"Exception in making res from doc:" + e.getMessage());
 		}
@@ -396,7 +394,7 @@ public class ResourceDAO {
 	// res.initializeWithDoc(doc);
 	// } catch (Exception e) {
 	// // TODO Auto-generated catch block
-	// e.printStackTrace();
+	// log.debug("Handled exception", e);
 	//
 	// throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR,
 	// "Exception during initialization of resource using document.");
@@ -534,7 +532,7 @@ public class ResourceDAO {
 			res.setUri(doc.getString(URI_KEY));
 			// res.setId(doc.getString(OID_KEY));
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR,
 					"unmarshal file in ResouceDAO.getResourceWithUri:"
 							+ doc.toJson());
@@ -557,7 +555,7 @@ public class ResourceDAO {
 			res.setUri(doc.getString(URI_KEY));
 			// res.setId(doc.getString(OID_KEY));
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR,
 					"unmarshal file in ResouceDAO.getResourceWithUri:"
 							+ doc.toJson());
@@ -581,7 +579,7 @@ public class ResourceDAO {
 			res.setUri(doc.getString(URI_KEY));
 			// res.setId(doc.getString(OID_KEY));
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR,
 					"unmarshal file in ResouceDAO.getResourceWithID:"
 							+ doc.toJson());

@@ -10,7 +10,7 @@ import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
 import net.herit.iot.onem2m.core.convertor.JSONConvertor;
 import net.herit.iot.onem2m.core.convertor.XMLConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
-import net.herit.iot.onem2m.incse.AccessPointManager;
+import net.herit.iot.onem2m.incse.LongPollingManager;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.manager.dao.DAOInterface;
 import net.herit.iot.onem2m.incse.manager.dao.PollingChannelDAO;
@@ -99,7 +99,7 @@ public class PollingChannelManager extends AbsManager {
 
 		OneM2mResponse resMessage = delete(reqMessage, this);
 		
-		AccessPointManager
+		LongPollingManager
 				.getInstance()
 				.removePollingChannelExpireTask(reqMessage.getTo());
 		
@@ -131,7 +131,7 @@ public class PollingChannelManager extends AbsManager {
 		pollingChann.setPollingChannelURI(pollingChann.getUri() + "/" + Naming.POLLINGCHANNELURI_SN);
 		
 		if(pollingChann.getExpirationTime() != null) {
-			AccessPointManager
+			LongPollingManager
 					.getInstance()
 					.addPollingChannelExpireTask(pollingChann.getUri(), pollingChann.getExpirationTime());
 		}

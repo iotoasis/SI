@@ -67,7 +67,7 @@ public class SubscriptionDAO extends ResourceDAO implements DAOInterface {
 			return jc.marshal((Subscription)res);
 			
 		} catch (Exception e) {
-			e.printStackTrace();			
+			log.debug("Handled exception", e);
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Json generation error:"+res.toString());
 		}
 	}
@@ -115,8 +115,7 @@ public class SubscriptionDAO extends ResourceDAO implements DAOInterface {
 //					map.put(f.getName(), val);
 //				}
 //			} catch (IllegalArgumentException | IllegalAccessException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
+//				log.debug("Handled exception", e);
 //				throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Exception during extract resource field");
 //			}
 //		}
@@ -153,7 +152,7 @@ public class SubscriptionDAO extends ResourceDAO implements DAOInterface {
 //			return ae;
 //			
 //		} catch (Exception e) {
-//			e.printStackTrace();
+//			log.debug("Handled exception", e);
 //			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Fail to retrieve AE");
 //		}
 //		

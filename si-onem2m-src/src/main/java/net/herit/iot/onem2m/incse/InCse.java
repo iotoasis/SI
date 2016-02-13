@@ -3,6 +3,9 @@ package net.herit.iot.onem2m.incse;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 
+import org.eclipse.californium.core.coap.CoAP.ResponseCode;
+import org.eclipse.californium.core.coap.Response;
+import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,14 +19,20 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import net.herit.iot.db.mongo.MongoPool;
 import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mResponse;
+import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
+import net.herit.iot.onem2m.bind.coap.api.CoapServerListener;
+import net.herit.iot.onem2m.bind.coap.codec.CoapRequestCodec;
+import net.herit.iot.onem2m.bind.coap.codec.CoapResponseCodec;
+import net.herit.iot.onem2m.bind.coap.server.HCoapServer;
 import net.herit.iot.onem2m.bind.http.api.HttpServerListener;
-import net.herit.iot.onem2m.bind.http.codec.RequestCodec;
-import net.herit.iot.onem2m.bind.http.codec.ResponseCodec;
+import net.herit.iot.onem2m.bind.http.codec.HttpRequestCodec;
+import net.herit.iot.onem2m.bind.http.codec.HttpResponseCodec;
 import net.herit.iot.onem2m.bind.http.server.HttpServer;
 import net.herit.iot.onem2m.bind.http.server.HttpServerHandler;
 import net.herit.iot.onem2m.bind.mqtt.api.MqttClientListener;
+import net.herit.iot.onem2m.bind.mqtt.api.MqttServerListener;
 import net.herit.iot.onem2m.bind.mqtt.client.MqttClientHandler;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
@@ -40,16 +49,19 @@ import net.herit.iot.onem2m.incse.facility.SeqNumManager;
 import net.herit.iot.onem2m.incse.manager.CSEBaseManager;
 import net.herit.iot.onem2m.incse.manager.ManagerFactory;
 
-public class InCse implements HttpServerListener, MqttClientListener  {
+public class InCse implements HttpServerListener, MqttServerListener, CoapServerListener  {
 	
 	private HttpServer 		httpServer;
+	private HttpServer		httpsServer;
 	private HttpServer 		restServer;
 	private RestHandler		restHandler;
 	
 	private MqttClientHandler	mqttClient;
 	
+	private HCoapServer		coapServer;
+	
 	private DatabaseManager	dbManager = DatabaseManager.getInstance();
-	private AccessPointManager accessPointManager = AccessPointManager.getInstance();
+	private LongPollingManager accessPointManager = LongPollingManager.getInstance();
 	private NotificationController notificationController = NotificationController.getInstance();
 	private RestNotificationController restNotificationController = RestNotificationController.getInstance();
 	private RestCommandController restCommandController = RestCommandController.getInstance();
@@ -77,11 +89,13 @@ public class InCse implements HttpServerListener, MqttClientListener  {
 			restHandler = new RestHandler();
 			
 			httpServer = new HttpServer(this, cfgManager.getHttpServerPort());	
+			httpsServer = new HttpServer(this, 8443, true);
 			restServer = new HttpServer(restHandler, cfgManager.getRestServerPort()); 
 			
 			mqttClient = MqttClientHandler.getInstance(cfgManager.getCSEBaseCid());
-			mqttClient.connect(cfgManager.getMqttBrokerAddress());
 			mqttClient.setListener(this);
+			
+			coapServer = new HCoapServer(cfgManager.getCSEBaseRid(), cfgManager.getCSEBaseName(), this);
 			
 			//logManager.initialize(LoggerFactory.getLogger("IITP-IOT"), null);
 			dbManager.initialize(MongoPool.getInstance());
@@ -100,28 +114,37 @@ public class InCse implements HttpServerListener, MqttClientListener  {
 				CSEBaseManager manager = (CSEBaseManager)ManagerFactory.create(RESOURCE_TYPE.CSE_BASE, createContext(BINDING_TYPE.BIND_NONE));
 				manager.createIfNotExist();
 			} catch (OneM2MException e) {
-				e.printStackTrace();
+				log.debug("Handled exception", e);
 				
 			}
 			
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 		}
 		
 	}
 	
 	public void start() throws Exception {
-				
+		
+		if(cfgManager.isSupportMqtt()) {
+			mqttClient.connect(cfgManager.getMqttBrokerAddress(), false);
+		}
+		
+		if (cfgManager.isSupportCoap()) {
+			coapServer.start();
+		}
+		
 		iwController.run();
 		
 		restServer.runAsync();
 		
-		
+//		httpsServer.runAsync();
+		// default binding..
 		httpServer.run();
 		
 		// register remoteCSE for interworking with other SP IN-CSE
+		
 		
 	}
 	
@@ -136,7 +159,7 @@ public class InCse implements HttpServerListener, MqttClientListener  {
 	
 		String requestId = channelMap.get(ctx.channel().hashCode());
 		
-		AccessPointManager.getInstance().disconnectedAccessPoint(requestId);
+		LongPollingManager.getInstance().disconnectedAccessPoint(requestId);
 		
 		removeSession(requestId);
 	}
@@ -181,23 +204,38 @@ public class InCse implements HttpServerListener, MqttClientListener  {
 		log.debug("handleHttpRequest from " + ctx.channel().remoteAddress().toString());
 		OneM2mRequest reqMessage = null;
 		try {
-			reqMessage = RequestCodec.decode(request, ((InetSocketAddress)ctx.channel().remoteAddress()).getHostString());
+
+			reqMessage = HttpRequestCodec.decode(request, ((InetSocketAddress)ctx.channel().remoteAddress()).getHostString());
+
+			//================== INFO log write. ===================
+			StringBuilder strbld = new StringBuilder();
+			strbld.append(">> RECV REQ ");
+			strbld.append("remote:").append(ctx.channel().remoteAddress().toString()).append(" ");
+			strbld.append("OP:" ).append(reqMessage.getOperationEnum().Name()).append(" ");
+			if(reqMessage.getOperationEnum().equals(OPERATION.CREATE)) {
+				strbld.append("TY:").append(reqMessage.getResourceTypeEnum().Name()).append(" ");
+			}
+			strbld.append("TO:").append(reqMessage.getTo()).append(" ");
+			strbld.append("RI:").append(reqMessage.getRequestIdentifier());
+	
+			log.info(strbld.toString());
+			//===============================================================
 			
 			addSession(reqMessage.getRequestIdentifier(), ctx);
 			log.debug(reqMessage.toString());
 			
 			OneM2mContext context = createContext(BINDING_TYPE.BIND_HTTP);
-			
+
 			new OperationProcessor(context).processRequest(reqMessage);
 
 		} catch (OneM2MException e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
+
 			OneM2mResponse resMessage = new OneM2mResponse(e.getResponseStatusCode(), reqMessage);
 			resMessage.setContent(new String(e.getMessage()).getBytes());
 			sendHttpResponseMessage(resMessage, ctx);
 			
 		} catch (Throwable th) {
-			th.printStackTrace();
 			log.error("RequestMessage decode failed.", th);
 			if(reqMessage != null) {
 				removeSession(reqMessage.getRequestIdentifier());
@@ -219,20 +257,36 @@ public class InCse implements HttpServerListener, MqttClientListener  {
 			return false;
 		}	
 		
+		//================== INFO log write. ===================
+		StringBuilder strbld = new StringBuilder();
+		strbld.append("<< SEND RES ");
+
+		strbld.append("remote:").append(ctx.channel().remoteAddress().toString()).append(" ");
+		strbld.append("STATUS:").append(resMessage.getResponseStatusCodeEnum().Value()).append(" ");
+//		strbld.append("OP:" ).append(reqMessage.getOperationEnum().Name()).append(" ");
+//		if(reqMessage.getOperationEnum().equals(OPERATION.CREATE)) {
+//			strbld.append("TY:").append(reqMessage.getResourceTypeEnum().Name()).append(" ");
+//		}
+//		strbld.append("TO:").append(resMessage.getTo()).append(" ");
+		strbld.append("RI:").append(resMessage.getRequestIdentifier());
+
+		log.info(strbld.toString());
+		//===============================================================
+		
+		
 		DefaultFullHttpResponse response = null;
 		
 		removeSession(resMessage.getRequestIdentifier());
 		
 		try {
-			response = ResponseCodec.encode(resMessage, CfgManager.getInstance().getHttpVersion());
+			response = HttpResponseCodec.encode(resMessage, CfgManager.getInstance().getHttpVersion());
 			response.headers().set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE);
 			
 			HttpServerHandler.sendHttpMessage(response, ctx.channel()).
 									addListener(ChannelFutureListener.CLOSE).
 									addListener(new FilnalEventListener(ctx, true));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 
 			sendError(ctx);
 		}
@@ -286,32 +340,23 @@ public class InCse implements HttpServerListener, MqttClientListener  {
 			OneM2mContext context = createContext(BINDING_TYPE.BIND_MQTT);
 			new OperationProcessor(context).processRequest(reqMessage);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			OneM2mResponse resMessage = new OneM2mResponse(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, reqMessage);
 			resMessage.setContent("Internal server".getBytes());
 			sendMqttMessage(resMessage);
 			
 		} catch (Throwable th) {
-			th.printStackTrace();
 			log.error("RequestMessage decode failed.", th);
 		}
 		
 		
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.herit.iot.onem2m.bind.mqtt.api.MqttClientListener#messageArrived(net.herit.iot.message.onem2m.OneM2mResponse)
-	 */
-	public void receiveMqttMessage(OneM2mResponse response) {
-		
-	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see net.herit.iot.onem2m.bind.mqtt.api.MqttClientListener#sendMqttMessage(net.herit.iot.message.onem2m.OneM2mRequest)
 	 */
-	@Override
 	public boolean sendMqttMessage(OneM2mRequest reqMessage) {
 		try {
 			log.debug("MQTT BINDING] sendMqttMessage. {}", reqMessage.toString());
@@ -349,21 +394,103 @@ public class InCse implements HttpServerListener, MqttClientListener  {
 		log.debug("MQTT BINDING] completed Mqtt delivery. messageID={}", messageID);
 	}
 	
+	
 	/*****************************************************************************
 	 *   END MQTT BINDING
 	 *****************************************************************************/
 	
 	
-	public static void main(String[] args) throws Exception {
-		new InCse().start();
-//		String host = "//127.0.0.1:8080";
-//		URI uri = new URI(host);
-//		System.out.println(uri.toString());
-//		System.out.println(uri.getHost());
+	/*****************************************************************************
+	 *   COAP BINDING
+	 *****************************************************************************/
+	private HashMap<String, CoapExchange> coapMap = new HashMap<String, CoapExchange>();
+	
+	@Override
+	public void receiveCoapRequest(CoapExchange exchange) {
+		
+		System.out.println("Options format=" + exchange.getRequestOptions().getContentFormat());
+		
+		System.out.println("RequestCode=" + exchange.getRequestCode());
+		System.out.println("RequestPayload=" +exchange.getRequestPayload());
+		System.out.println("Options=" + exchange.getRequestOptions());
+		System.out.println("UriPath=" + exchange.getRequestOptions().getUriPathString());
+		if (exchange.getRequestPayload() != null) {
+			System.out.println(exchange.getRequestText());
+		}
+		
+		OneM2mRequest reqMessage = null;
+		try {
+			reqMessage = CoapRequestCodec.decode(exchange);
+			
+			coapMap.put(reqMessage.getRequestIdentifier(), exchange);
+			log.debug(reqMessage.toString());
+			
+			OneM2mContext context = createContext(BINDING_TYPE.BIND_COAP);
+			
+			new OperationProcessor(context).processRequest(reqMessage);
+
+		} catch (OneM2MException e) {
+			
+			OneM2mResponse resMessage = new OneM2mResponse(e.getResponseStatusCode(), reqMessage);
+			resMessage.setContent(new String(e.getMessage()).getBytes());
+			sendCoapResponse(resMessage, exchange);
+			
+		} catch (Throwable th) {
+			th.printStackTrace();
+			log.error("COAP] RequestMessage decode failed.", th);
+			if(reqMessage != null) {
+				coapMap.remove(reqMessage.getRequestIdentifier());
+			}
+			
+//			sendError(ctx);
+		}
 		
 		
 	}
 
-
+	@Override
+	public boolean sendCoapResponse(OneM2mResponse resMessage) {
+		if (resMessage != null) 
+			return sendCoapResponse(resMessage, coapMap.get(resMessage.getRequestIdentifier()));
+		else return false;
+	}
+	
+	private boolean sendCoapResponse(OneM2mResponse resMessage, CoapExchange exchange) {
+		
+		if (exchange == null) {
+			return false;
+		}
+		
+		coapMap.remove(resMessage.getRequestIdentifier());
+		
+		try {
+			Response response = CoapResponseCodec.encode(resMessage, exchange);
+			exchange.respond(response);
+			
+			return true;
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+			exchange.respond(ResponseCode.INTERNAL_SERVER_ERROR, "Respose encoding failed");
+		}
+		
+		return false;
+	}
+	
+	/*****************************************************************************
+	 *   END COAP BINDING
+	 *****************************************************************************/
+	
+	
+	public static void main(String[] args) throws Exception {
+		try {
+			new InCse().start();
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+			throw e;
+		}
+	}
 
 }

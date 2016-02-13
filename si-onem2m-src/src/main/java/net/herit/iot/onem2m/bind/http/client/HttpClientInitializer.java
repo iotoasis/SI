@@ -39,6 +39,6 @@ public class HttpClientInitializer extends ChannelInitializer<SocketChannel> {
 		pipeline.addLast(new HttpObjectAggregator(65536));
 
 		
-		pipeline.addLast(new HttpClientHandler(mHttpClientListener));
+		pipeline.addLast(new HttpClientHandler(null, mHttpClientListener));
 	}
 }

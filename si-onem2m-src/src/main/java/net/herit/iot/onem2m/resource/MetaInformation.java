@@ -134,7 +134,7 @@ public class MetaInformation {
 //				du = DatatypeFactory.newInstance().newDuration(reqMessage.getResultPersistenceString());
 //				this.setResultPersistence(du);
 //			} catch (DatatypeConfigurationException e) {				
-//				e.printStackTrace();
+//				log.debug("Handled exception", e);
 //				throw new OneM2MException(RESPONSE_STATUS.BAD_REQUEST, "Fail to decode result persistence:" + reqMessage.toString());
 //			}
 //	    }

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mResponse;
+import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.core.util.Utils;
@@ -103,6 +104,7 @@ public class VFanOutPointManager implements VirtualManagerInterface {
 					}
 					
 				} catch (OneM2MException e) {
+								
 					resMessage = new OneM2mResponse(e.getResponseStatusCode(), reqMessage);
 //					ResponsePrimitive resPrim = new ResponsePrimitive(resMessage);
 					ResponsePrimitive resPrim = (ResponsePrimitive)(resMessage);

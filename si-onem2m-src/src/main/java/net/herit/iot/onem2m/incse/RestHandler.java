@@ -18,8 +18,8 @@ import io.netty.handler.codec.http.HttpVersion;
 import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mResponse;
 import net.herit.iot.onem2m.bind.http.api.HttpServerListener;
-import net.herit.iot.onem2m.bind.http.codec.RequestCodec;
-import net.herit.iot.onem2m.bind.http.codec.ResponseCodec;
+import net.herit.iot.onem2m.bind.http.codec.HttpRequestCodec;
+import net.herit.iot.onem2m.bind.http.codec.HttpResponseCodec;
 import net.herit.iot.onem2m.bind.http.server.HttpServerHandler;
 import net.herit.iot.onem2m.core.util.Utils;
 import net.herit.iot.onem2m.incse.context.RestContext;
@@ -47,7 +47,7 @@ public class RestHandler implements HttpServerListener  {
 	
 		String requestId = channelMap.get(ctx.channel().hashCode());
 		
-		AccessPointManager.getInstance().disconnectedAccessPoint(requestId);
+		LongPollingManager.getInstance().disconnectedAccessPoint(requestId);
 		
 		removeSession(requestId);
 	}
@@ -91,7 +91,7 @@ public class RestHandler implements HttpServerListener  {
 		log.debug("handleHttpRequest from " + ctx.channel().remoteAddress().toString());
 		OneM2mRequest reqMessage = null;
 		try {
-			reqMessage = RequestCodec.decode(request, ((InetSocketAddress)ctx.channel().remoteAddress()).getHostString());
+			reqMessage = HttpRequestCodec.decode(request, ((InetSocketAddress)ctx.channel().remoteAddress()).getHostString());
 			
 			String reqId = Utils.createRequestId();
 			reqMessage.setRequestIdentifier(reqId);
@@ -104,7 +104,6 @@ public class RestHandler implements HttpServerListener  {
 			new RestProcessor(context).processRequest(reqMessage);
 			
 		} catch (Throwable th) {
-			th.printStackTrace();
 			log.error("RequestMessage decode failed.", th);
 			if(reqMessage != null) {
 				removeSession(reqMessage.getRequestIdentifier());
@@ -129,8 +128,7 @@ public class RestHandler implements HttpServerListener  {
 									addListener(ChannelFutureListener.CLOSE).
 									addListener(new FilnalEventListener(ctx, true));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 
 			sendError(ctx);
 		}
@@ -188,15 +186,14 @@ public class RestHandler implements HttpServerListener  {
 		removeSession(resMessage.getRequestIdentifier());
 		
 		try {
-			response = ResponseCodec.encode(resMessage, httpVersion);
+			response = HttpResponseCodec.encode(resMessage, httpVersion);
 			response.headers().set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE);
 			
 			HttpServerHandler.sendHttpMessage(response, ctx.channel()).
 									addListener(ChannelFutureListener.CLOSE).
 									addListener(new FilnalEventListener(ctx, true));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 
 			sendError(ctx);
 		}

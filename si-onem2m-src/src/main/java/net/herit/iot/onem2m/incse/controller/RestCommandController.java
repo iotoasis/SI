@@ -116,15 +116,14 @@ public class RestCommandController {
 				log.debug("Exception during process internal request triggered by RestCommand:"+reqMessage.toString());
 				log.debug("Exception:"+ex.toString());
 				OneM2mResponse response = new OneM2mResponse();
-				response.setResponseStatusCode(ex.getResponseStatusCode());
+				response.setResponseStatusCodeEnum(ex.getResponseStatusCode());
 				response.setRequest(reqMessage);
-				ex.printStackTrace();
+				log.debug("Handled exception", ex);
 				return response;
 			}
 			
 		} catch (Exception e) {
-			
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			return null;
 			
 		}
@@ -177,15 +176,16 @@ public class RestCommandController {
 					reqMessage.setContentType(CONTENT_TYPE.JSON);
 					//reqMessage.setFrom("SI");
 					
-					new HttpClient().process(notiUri, reqMessage);
+//					new HttpClient().process(notiUri, reqMessage);
+					HttpClient.getInstance().sendRequest(notiUri, reqMessage);
 				}
 			}
 			
 		} catch (Base64DecodingException e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			return;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 			return;
 		}
 		
@@ -229,7 +229,7 @@ public class RestCommandController {
 			
 		} catch (URISyntaxException e) {
 			
-			e.printStackTrace();
+			log.debug("Handled exception", e);
 		}
 		return to;
 		
@@ -296,11 +296,12 @@ public class RestCommandController {
 					reqMessage.setContentType(CONTENT_TYPE.JSON);
 					reqMessage.setContent(doc.toJson().getBytes());
 					
-					new HttpClient().process(notiUri, reqMessage);
+//					new HttpClient().process(notiUri, reqMessage);
+					HttpClient.getInstance().sendRequest(notiUri, reqMessage);
 					
 				} catch (Exception e) {
 					
-					e.printStackTrace();
+					log.debug("Handled exception", e);
 					
 				}
 			}

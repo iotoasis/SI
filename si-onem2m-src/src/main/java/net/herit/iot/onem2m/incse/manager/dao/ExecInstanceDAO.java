@@ -32,7 +32,7 @@ public class ExecInstanceDAO extends ResourceDAO implements DAOInterface {
 			return jc.marshal((ExecInstance)res);
 			
 		} catch (Exception e) {
-			e.printStackTrace();			
+			log.debug("Handled exception", e);			
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Json generation error:"+res.toString());
 		}
 	}

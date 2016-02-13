@@ -107,7 +107,7 @@ public class PrimitiveContent {
 ////    			}
 ////				
 ////			} catch (Exception e) {
-////				e.printStackTrace();
+////				log.debug("Handled exception", e);
 ////				throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Exception in initialization of PrimitiveContent");
 ////			}
 //    	} else {
@@ -134,8 +134,7 @@ public class PrimitiveContent {
 //	    				this.getAny().add(new String(message.getContent(), "UTF-8"));
 //	    			}
 //				} catch (Exception e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
+//					log.debug("Handled exception", e);
 //				}
 //	    	}
 //    	}

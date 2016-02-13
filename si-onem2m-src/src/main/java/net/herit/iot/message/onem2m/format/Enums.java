@@ -14,8 +14,8 @@ public class Enums {
 
 	public enum CONTENT_TYPE {
 		NONE(0, "none"),
-		JSON(1, "application/json"),
-		XML(2, "application/xml"),
+		XML(1, "application/xml"),
+		JSON(2, "application/json"),
 		RES_XML(3, "application/vnd.onem2m-res+xml"),
 		RES_JSON(4, "application/vnd.onem2m-res+json"),
 		NTFY_XML(5, "application/vnd.onem2m-ntfy+xml"),

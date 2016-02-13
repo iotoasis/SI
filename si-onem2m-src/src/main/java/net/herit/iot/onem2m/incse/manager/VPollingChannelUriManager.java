@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mResponse;
 import net.herit.iot.onem2m.core.util.OneM2MException;
-import net.herit.iot.onem2m.incse.AccessPointManager;
+import net.herit.iot.onem2m.incse.LongPollingManager;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.manager.VirtualManager.PROCESS_RESULT;
 import net.herit.iot.onem2m.resource.Naming;
@@ -39,7 +39,7 @@ public class VPollingChannelUriManager implements VirtualManagerInterface {
 	public OneM2mResponse process(OneM2mRequest reqMessage, OneM2mContext context) throws OneM2MException {
 		processResult = PROCESS_RESULT.PROCESSING;
 
-		AccessPointManager.getInstance().newAccessPoint(reqMessage);
+		LongPollingManager.getInstance().newAccessPoint(reqMessage);
 		processResult = PROCESS_RESULT.COMPLETED;
 		return null;
 		//return PROCESS_RESULT.COMPLETED;

@@ -92,9 +92,7 @@ public class CfgManager {
 
 		} catch (Exception e) {
 
-			log.error("Exception during Configuration loading!!!");
-			log.error(e.toString());
-			e.printStackTrace();
+			log.error("Exception during Configuration loading!!!", e);
 			
 		}
 		// remoteCSE 목록 추가
@@ -274,6 +272,30 @@ public class CfgManager {
 			return xmlConfig.getInt("resourcePolicy.maxCIPerContainer");
 		} catch (Exception e) {
 			return 100;	// default max CI Per Container
+		}
+	}
+	
+	public boolean isSupportHttp() {
+		try {
+			return xmlConfig.getBoolean("binding.http");
+		} catch (Exception e) {
+			return true;
+		}
+	}
+	
+	public boolean isSupportMqtt() {
+		try {
+			return xmlConfig.getBoolean("binding.mqtt");
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean isSupportCoap() {
+		try {
+			return xmlConfig.getBoolean("binding.coap");
+		} catch (Exception e) {
+			return false;
 		}
 	}
 }

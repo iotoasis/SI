@@ -143,53 +143,53 @@ public class SubscriptionManager extends AbsManager {
 			if (uriList == null || uriList.size() == 0) {
 				throw new OneM2MException(RESPONSE_STATUS.BAD_REQUEST, "notification uri omitted!");
 			}
-			Iterator<String> it = uriList.iterator();
-			while (it.hasNext()) {
-				String notiUri = it.next();
-				try {
-					// TODO: nu : resource_id possible...
-					if (!Utils.checkIfSameHost(notiUri, req.getRemoteHost()) && 
-									Utils.checkIfSameHost(notiUri, CfgManager.getInstance().getHostname())) {
-					
-						log.debug("Notification validation request send: {}", notiUri);
-		
-						Notification noti = new Notification();
-						noti.setVerificationRequest(true);
-						noti.setSubscriptionDeletion(false);
-						noti.setCreator(req.getFrom());
-						
-						OneM2mRequest notiReq = new OneM2mRequest();
-						notiReq.setContentObject(noti);
-						notiReq.setFrom("/"+CfgManager.getInstance().getCSEBaseName());
-						notiReq.setOperation(OPERATION.NOTIFY);
-						notiReq.setRequestIdentifier(OneM2mUtil.createRequestId());
-						notiReq.setContentType(OneM2mUtil.isXMLContentType(req.getContentType()) ? CONTENT_TYPE.XML : CONTENT_TYPE.JSON);
-						
-						OneM2mResponse notiRes;
-						notiReq.setTo(Utils.extractResourceFromUrl(notiUri));	
-						notiRes = context.getNseManager().sendRequestMessage(Utils.extractBaseurlFromUrl(notiUri), notiReq);
-							
-						if (notiRes == null) {
-							throw new OneM2MException(RESPONSE_STATUS.BAD_REQUEST, "Notification uri("+notiUri+") unreachable!");
-						};
-						
-						switch (notiRes.getResponseStatusCodeEnum()) {
-						case OK:
-						case ACCEPTED:
-							continue;
-						case SUBSCRIP_CREATOR_NO_PRIVILEGE:
-						case SUBSCRIP_HOST_NO_PRIVILEGE:
-							throw new OneM2MException(notiRes.getResponseStatusCodeEnum(), "Error response from notification uri("+notiUri+")");
-						default:
-							throw new OneM2MException(RESPONSE_STATUS.BAD_REQUEST, "Not verified notification uri("+notiUri+")");
-							
-						} 
-					}
-						
-				} catch (MalformedURLException e) {
-					throw new OneM2MException(RESPONSE_STATUS.BAD_REQUEST, "Malformed Notification uri("+notiUri+")!");					
-				}
-			}			
+//			Iterator<String> it = uriList.iterator();
+//			while (it.hasNext()) {
+//				String notiUri = it.next();
+//				try {
+//					// TODO: nu : resource_id possible...
+//					if (!Utils.checkIfSameHost(notiUri, req.getRemoteHost()) && 
+//									Utils.checkIfSameHost(notiUri, CfgManager.getInstance().getHostname())) {
+//					
+//						log.debug("Notification validation request send: {}", notiUri);
+//		
+//						Notification noti = new Notification();
+//						noti.setVerificationRequest(true);
+//						noti.setSubscriptionDeletion(false);
+//						noti.setCreator(req.getFrom());
+//						
+//						OneM2mRequest notiReq = new OneM2mRequest();
+//						notiReq.setContentObject(noti);
+//						notiReq.setFrom("/"+CfgManager.getInstance().getCSEBaseName());
+//						notiReq.setOperation(OPERATION.NOTIFY);
+//						notiReq.setRequestIdentifier(OneM2mUtil.createRequestId());
+//						notiReq.setContentType(OneM2mUtil.isXMLContentType(req.getContentType()) ? CONTENT_TYPE.XML : CONTENT_TYPE.JSON);
+//						
+//						OneM2mResponse notiRes;
+//						notiReq.setTo(Utils.extractResourceFromUrl(notiUri));	
+//						notiRes = context.getNseManager().sendRequestMessage(Utils.extractBaseurlFromUrl(notiUri), notiReq);
+//							
+//						if (notiRes == null) {
+//							throw new OneM2MException(RESPONSE_STATUS.BAD_REQUEST, "Notification uri("+notiUri+") unreachable!");
+//						};
+//						
+//						switch (notiRes.getResponseStatusCodeEnum()) {
+//						case OK:
+//						case ACCEPTED:
+//							continue;
+//						case SUBSCRIP_CREATOR_NO_PRIVILEGE:
+//						case SUBSCRIP_HOST_NO_PRIVILEGE:
+//							throw new OneM2MException(notiRes.getResponseStatusCodeEnum(), "Error response from notification uri("+notiUri+")");
+//						default:
+//							throw new OneM2MException(RESPONSE_STATUS.BAD_REQUEST, "Not verified notification uri("+notiUri+")");
+//							
+//						} 
+//					}
+//						
+//				} catch (MalformedURLException e) {
+//					throw new OneM2MException(RESPONSE_STATUS.BAD_REQUEST, "Malformed Notification uri("+notiUri+")!");					
+//				}
+//			}			
 			
 			break;
 		case RETRIEVE:

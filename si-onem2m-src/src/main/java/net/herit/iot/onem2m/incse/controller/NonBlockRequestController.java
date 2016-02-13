@@ -3,17 +3,18 @@ package net.herit.iot.onem2m.incse.controller;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mResponse;
 import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
-import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESPONSE_TYPE;
 import net.herit.iot.message.onem2m.format.Enums.*;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.CfgManager;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
-import net.herit.iot.onem2m.incse.manager.ManagerFactory;
 import net.herit.iot.onem2m.incse.manager.ManagerInterface;
 import net.herit.iot.onem2m.incse.manager.RequestManager;
 import net.herit.iot.onem2m.resource.OperationResult;
@@ -22,13 +23,15 @@ import net.herit.iot.onem2m.resource.Resource;
 import net.herit.iot.onem2m.resource.ResponsePrimitive;
 
 public class NonBlockRequestController implements Runnable {
-	
+
 	private OneM2mContext context;
 	private RequestManager reqManager;
 	private Request reqResource;
 	private ManagerInterface resManager;
 	private Resource tgtResource;
 	private OneM2mRequest request;
+
+	private Logger log = LoggerFactory.getLogger(NonBlockRequestController.class);
 	
 	public NonBlockRequestController(OneM2mContext context, RequestManager reqManager, Request reqResource,
 								ManagerInterface resManager, OneM2mRequest reqMessage) {
@@ -110,10 +113,7 @@ public class NonBlockRequestController implements Runnable {
 			
 			
 		} catch (OneM2MException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-
+			log.debug("Handled exception", e);
 			
 			try {
 				OneM2mResponse response = new OneM2mResponse(e.getResponseStatusCode(), request);
@@ -127,8 +127,7 @@ public class NonBlockRequestController implements Runnable {
 				reqManager.getDAO().update(reqResource);
 
 			} catch (OneM2MException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				log.debug("Handled exception", e);
 			}
 			
 			if (request.getResponseTypeEnum() == RESPONSE_TYPE.NBLOCK_REQ_ASYNC) {

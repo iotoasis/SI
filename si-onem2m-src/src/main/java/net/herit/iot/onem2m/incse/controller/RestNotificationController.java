@@ -21,7 +21,7 @@ import net.herit.iot.onem2m.bind.http.client.HttpClient;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
 import net.herit.iot.onem2m.core.convertor.JSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
-import net.herit.iot.onem2m.incse.AccessPointManager;
+import net.herit.iot.onem2m.incse.LongPollingManager;
 import net.herit.iot.onem2m.incse.RestHandler;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.context.RestContext;
@@ -91,7 +91,8 @@ public class RestNotificationController extends AbsController implements AsyncRe
 				reqMessage.setContentType(CONTENT_TYPE.JSON);
 				//reqMessage.setFrom("SI");
 				
-				new HttpClient().process(notiUri, reqMessage);
+//				new HttpClient().process(notiUri, reqMessage);
+				HttpClient.getInstance().sendRequest(notiUri, reqMessage);
 			}
 			
 		} catch (Exception e) {

@@ -257,7 +257,8 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 		MGMT_CMDH_LIMIT(1016, "eventLog"),
 		MGMT_CMDH_NETWORK_ACCESS_RULES(1017, "eventLog"),
 		MGMT_CMDH_NW_ACCESS_RULE(1018, "eventLog"),
-		MGMT_CMDH_BUFFER(1019, "eventLog");	// 90001 ~ : user defined
+		MGMT_CMDH_BUFFER(1019, "eventLog"),	// 90001 ~ : user defined
+		AGGREGATED_RESPONSE(90010, "aggregatedResponse");
 	
 		final int value;
 		final String name;
@@ -665,7 +666,7 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 //	}
 	
 	public List<CONTENT_TYPE> getAcceptTypes() {
-		System.out.println("Content-Type=" + this.contentType);
+//		System.out.println("Content-Type=" + this.contentType);
 		if(this.acceptTypes == null || this.acceptTypes.size() == 0) {
 			if(this.contentType != null && this.contentType != CONTENT_TYPE.NONE) {	 // 2015.09.14 added.
 //				this.acceptTypes.add(contentType);
@@ -688,6 +689,10 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 		if(cont_type != null) {
 			this.acceptTypes.add(cont_type);
 		}
+	}
+	
+	public void addAcceptType(CONTENT_TYPE type) {
+		this.acceptTypes.add(type);
 	}
 		
 	public CONTENT_TYPE getContentType() {
@@ -835,10 +840,11 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 	
 	public byte[] getContent() throws Exception {
 		
-//		AbsSerializer serializer = AbsSerializer.getSerializer(CONTENT_TYPE.XML);
-		AbsSerializer serializer = AbsSerializer.getSerializer(getContentType());
-		
-		if (content == null && contentObject != null) {
+//		if (content == null && contentObject != null) {
+		if (content == null && getContentObject() != null) {
+	//		AbsSerializer serializer = AbsSerializer.getSerializer(CONTENT_TYPE.XML);
+			AbsSerializer serializer = AbsSerializer.getSerializer(getContentType());
+
 			content = serializer.serialize(contentObject).getBytes();
 		}
 		
@@ -873,13 +879,6 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 		this.remoteHost = host;
 	}
 
-//	public void setOriginator(String from, OneM2mContext context) {	
-//		try {
-//			this.originator = new Originator(from, context);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 	public void setOriginator(Originator value) {	
 	
 		this.originator = value;
@@ -931,11 +930,11 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 //				}
 //			} catch (OneM2MException e) {
 //				
-//				e.printStackTrace();
+//				log.error("Exception", e);
 //			
 //			} catch (Exception e) {
 //				
-//				e.printStackTrace();
+//				log.error("Exception", e);
 //				
 //			}
 //			
