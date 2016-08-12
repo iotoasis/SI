@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
+ * XSD-1.6.0
  * <p>Java class for actionStatus complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -42,10 +43,10 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class ActionStatus {
 
-    @XmlElement(name = "acn")
+    @XmlElement(name = Naming.ACTION_SN) // "acn")
     @XmlSchemaType(name = "anyURI")
     protected String action;
-    @XmlElement(name = "sus")
+    @XmlElement(name = Naming.STATUS_SN) //"sus")
     protected Integer status;
 
     public String toString() {

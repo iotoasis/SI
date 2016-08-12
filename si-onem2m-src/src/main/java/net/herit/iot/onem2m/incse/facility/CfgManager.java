@@ -2,6 +2,7 @@ package net.herit.iot.onem2m.incse.facility;
 
 import io.netty.handler.codec.http.HttpVersion;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,13 +15,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.herit.iot.message.onem2m.format.Enums.CONTENT_TYPE;
-import net.herit.iot.onem2m.incse.context.OneM2mContext;
+//import net.herit.iot.onem2m.incse.context.OneM2mContext;
+import net.herit.iot.onem2m.resource.Naming;
 
 public class CfgManager {
 	
-	private static CfgManager INSTANCE = new CfgManager();
+	private final static CfgManager INSTANCE = new CfgManager();
 	
-	private OneM2mContext context = null;
+//	private OneM2mContext context = null;
+	
+	private static final int DEFAULT_HTTP_PORT = 8080;
+	private static final int DEFAULT_REST_HTTP_PORT = 8081;
 	
 	private static final String RESOURCE_DBNAME = "resource";
 	private static final String CONFIGURATION_DBNAME = "configuration";
@@ -85,6 +90,12 @@ public class CfgManager {
 							cse.getInt("maxTPS"));					
 					cseQoSMap.put(cse.getString("cseId"), cfg);
 					log.info("CSE Config:"+cfg.toString());
+					
+					
+//					this.addRemoteCSEList(new RemoteCSEInfo("/" + cse.getString("cseId"),
+//							"/" + cse.getString("cseName"), cse.getString("poa")));
+					this.addRemoteCSEList(new RemoteCSEInfo("/" + cse.getString("cseName"),
+							"/" + cse.getString("cseName"), cse.getString("poa")));
 				}
 			}
 
@@ -96,6 +107,7 @@ public class CfgManager {
 			
 		}
 		// remoteCSE 목록 추가
+//		this.addRemoteCSEList(new RemoteCSEInfo("herit-cse", "http://166.104.112.34:8080"));
 		//this.addRemoteCSEList(new RemoteCSEInfo("//in-cse", "http://217.167.116.81:8080"));
 
 //		String databasehaot = xmlConfig.getString("database.host");	//DATABASE_HOST;
@@ -167,7 +179,9 @@ public class CfgManager {
 	}
 	
 	public String getPointOfAccess() {
-		return "http://"+xmlConfig.getString("cse.host")+":8080";
+//		return "http://"+xmlConfig.getString("cse.host")+":8080";
+//		return "http://"+xmlConfig.getString("cse.host")+":"+getHttpServerPort();
+		return xmlConfig.getString("cse.poa");
 	}
 	
 	public String getResourceDatabaseName() {
@@ -194,10 +208,16 @@ public class CfgManager {
 	
 	public class RemoteCSEInfo {
 		private String cseid;
+		private String cseName;
 		private List<String> pointOfAccess;
-		public RemoteCSEInfo(String cseid, String poa) {	setCseId(cseid);	addPointOfAccess(poa); }
+		public RemoteCSEInfo(String cseid, String cseName , String poa) {	
+			setCseId(cseid);
+			setCseName(cseName);
+			addPointOfAccess(poa); }
 		public String getCseId() { return cseid; }
 		public void setCseId(String cseid) { this.cseid = cseid; }
+		public String getCseName() { return cseName; }
+		public void setCseName(String cseName) { this.cseName = cseName; }
 		public List<String> getPointOfAccess() { return pointOfAccess != null ? pointOfAccess : new ArrayList<String>(); }
 		public void setPointOfAccess(List<String> poa) { this.pointOfAccess = poa; } 
 		public void addPointOfAccess(String poa) { if (pointOfAccess == null) pointOfAccess = new ArrayList<String>(); pointOfAccess.add(poa); } 
@@ -220,24 +240,92 @@ public class CfgManager {
 		return xmlConfig.getString("dms.hitdm.address");	// "http://10.101.101.107:8888";
 	}
 
+	public boolean isSupportHttp() {
+		try {
+			return xmlConfig.getString("binding.http.supported").equalsIgnoreCase("yes");
+		} catch (Exception e) {
+			return true;
+		}
+	}
+	
+	public boolean isSupportMqtt() {
+		try {
+			return xmlConfig.getString("binding.mqtt.supported").equalsIgnoreCase("yes");
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public int getKeepaliveInterval() {
+		return xmlConfig.getInt("binding.mqtt.keepalive");
+	}
+	
+	public boolean isSupportCoap() {
+		try {
+			return xmlConfig.getString("binding.coap.supported").equalsIgnoreCase("yes");
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
 	public int getHttpServerPort() {
 		try {
-			return xmlConfig.getInt("cse.httpPort");	// 8080;
+			return xmlConfig.getInt("binding.http.port");	// 8080;
 		} catch (Exception e) {
-			return 8080;	// default port number
+			return DEFAULT_HTTP_PORT;	// default port number
 		}
 	}
 
+	public int getHttpsServerPort() {
+		try {
+			return xmlConfig.getInt("binding.http.sec-port");
+		} catch (Exception e) {
+			return -1;
+		}
+	}
+	
 	public int getRestServerPort() {
 		try {
-			return xmlConfig.getInt("cse.restPort");	//8081;
+			return xmlConfig.getInt("binding.http.rest-port");
 		} catch (Exception e) {
-			return 8081;	// default port number
+			return DEFAULT_REST_HTTP_PORT;	// default port number
+		}
+	}
+	
+	public int getNettyBossThreadPoolSize() {
+		try {
+			return xmlConfig.getInt("binding.http.netty.boss-threadPool-size");
+		} catch(Exception e) {
+			return 0;
+		}
+	}
+	
+	public int getNettyWorkerThreadPoolSize() {
+		try {
+			return xmlConfig.getInt("binding.http.netty.worker-threadPool-size");
+		} catch(Exception e) {
+			return 0;
+		}
+	}
+	
+	public int getCoapServerPort() {
+		try {
+			return xmlConfig.getInt("binding.coap.port");
+		} catch (Exception e) {
+			return 5683;
+		}
+	}
+	
+	public int getCoapsServerPort() {
+		try {
+			return xmlConfig.getInt("binding.coap.sec-port");
+		} catch (Exception e) {
+			return -1;
 		}
 	}
 	
 	public String getMqttBrokerAddress() {
-		return xmlConfig.getString("mqtt.broker.address");
+		return xmlConfig.getString("binding.mqtt.broker");
 	}
 
 	public int getQOSMaxPollingSessionNo() {
@@ -275,27 +363,34 @@ public class CfgManager {
 		}
 	}
 	
-	public boolean isSupportHttp() {
+	
+	private final static int DEFALUT_EXPIRATION_TIME = 3; // days.
+	public String getDefaultExpirationTime() {
+		int default_time = DEFALUT_EXPIRATION_TIME;
 		try {
-			return xmlConfig.getBoolean("binding.http");
+			default_time = xmlConfig.getInt("cse.default-resource-expiration-time");
 		} catch (Exception e) {
-			return true;
+//			default_time = DEFALUT_EXPIRATION_TIME;
+		}
+		long currentTime = System.currentTimeMillis() + (default_time * 24 * 60 * 60 * 1000);
+		
+		return new SimpleDateFormat(Naming.DATE_FORMAT).format(new java.util.Date(currentTime));
+	}
+	
+	private final static int DEFAULT_SUBGROUP_DEPTH = 3;
+	public int getAllowedSubGroupDepth() {
+		try {
+			return xmlConfig.getInt("cse.allowed-subgroup-depth");
+		} catch (Exception e) {
+			return DEFAULT_SUBGROUP_DEPTH;
 		}
 	}
 	
-	public boolean isSupportMqtt() {
-		try {
-			return xmlConfig.getBoolean("binding.mqtt");
-		} catch (Exception e) {
-			return false;
-		}
+	
+	public static void main(String[] args) {
+		long currT = System.currentTimeMillis() + (3 * 24 * 60 * 60 * 1000);
+		String strTime = new SimpleDateFormat(Naming.DATE_FORMAT).format(new java.util.Date(currT));
+		System.out.println(strTime);
 	}
 	
-	public boolean isSupportCoap() {
-		try {
-			return xmlConfig.getBoolean("binding.coap");
-		} catch (Exception e) {
-			return false;
-		}
-	}
 }

@@ -66,39 +66,40 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "subscription"
 })
 //@XmlRootElement(name = "areaNwkDeviceInfo")
-@XmlRootElement(name = "andi")
+@XmlRootElement(name = Naming.AREANWKDEVICEINFO_SN) // "andi")
 public class AreaNwkDeviceInfo
     extends MgmtResource
 {
 	
-	public final static String SCHEMA_LOCATION = "CDT-areaNwkDeviceInfo-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-areaNwkDeviceInfo-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-areaNwkDeviceInfo-v1_6_0.xsd";
 	
     //@XmlElement(required = true)
-    @XmlElement(name = "dvd", required = true)
+    @XmlElement(name = Naming.DEVID_SN, required = true)  //"dvd"
     protected String devID;
     //@XmlElement(required = true)
-    @XmlElement(name = "dvt", required = true)
+    @XmlElement(name = Naming.DEVTYPE_SN, required = true) //"dvt"
     protected String devType;
     //@XmlElement(required = true)
-    @XmlElement(name = "awi", required = true)
+    @XmlElement(name = Naming.AREANWKID_SN, required = true)  // "awi"
     @XmlSchemaType(name = "anyURI")
     protected String areaNwkId;
-    @XmlElement(name = "sli")
+    @XmlElement(name = Naming.SLEEPINTERVAL_SN) //"sli")
     @XmlSchemaType(name = "nonNegativeInteger")
     protected Integer sleepInterval;
-    @XmlElement(name = "sld")
+    @XmlElement(name = Naming.SLEEPDURATION_SN) //"sld")
     @XmlSchemaType(name = "nonNegativeInteger")
     protected Integer sleepDuration;
-    @XmlElement(name = "ss")
+    @XmlElement(name = Naming.DEVSTATUS_SN) //"ss")
     protected String devStatus;
     @XmlList
     //@XmlElement(required = true)
-    @XmlElement(name = "lnh", required = true)
+    @XmlElement(name = Naming.LISTOFNEIGHBORS_SN, required = true) //"lnh"
     protected List<String> listOfNeighbors;
-    @XmlElement(name = "ch")
+    @XmlElement(name = Naming.CHILDRESOURCE_SN) //"ch")
     protected List<ChildResourceRef> childResource;
     //@XmlElement(namespace = "http://www.onem2m.org/xml/protocols")
-    @XmlElement(name = "sub", namespace = "http://www.onem2m.org/xml/protocols")
+    @XmlElement(name = Naming.SUBSCRIPTION_SN, namespace = "http://www.onem2m.org/xml/protocols") //"sub"
     protected List<Subscription> subscription;
 
     /**

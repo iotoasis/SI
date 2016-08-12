@@ -34,7 +34,9 @@ public class ForwardingController extends AbsController implements ResponseListe
 		try {
 			String baseUrl = Utils.extractBaseurlFromUrl(reqMessage.getTo());
 			String resPath = Utils.extractResourceFromUrl(reqMessage.getTo());
+			log.debug("baseUrl: {}, resPath: {}", baseUrl, resPath);
 			reqMessage.setTo(resPath);
+			
 			return getContext().getNseManager().sendRequestMessage(baseUrl, reqMessage);
 		} catch (MalformedURLException e) {
 			log.debug("Handled exception", e);

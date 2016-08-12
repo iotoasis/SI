@@ -62,7 +62,8 @@ public class CmdhNwAccessRule
     extends MgmtResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-cmdhNwAccessRule-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-cmdhNwAccessRule-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-cmdhNwAccessRule-v1_6_0.xsd";
 	
     @XmlList
     //@XmlElement(required = true)

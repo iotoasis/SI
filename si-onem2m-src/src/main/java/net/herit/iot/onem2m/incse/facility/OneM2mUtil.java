@@ -123,7 +123,7 @@ public class OneM2mUtil {
 	}
 
 	public static boolean checkAcessControlRule(List<AccessControlRule> acrList, OPERATION op, Originator ori, String from) {
-
+		
 		Iterator<AccessControlRule> acrIt = acrList.iterator();
 		while (acrIt.hasNext()) {
 
@@ -150,7 +150,10 @@ public class OneM2mUtil {
 		}
 		List<AccessControlRule> acrList = acrs.getAccessControlRule();
 
-		if (checkAcessControlRule(acrs.getAccessControlRule(), op, ori, from)) {
+		if(acrList == null) return true; //2016.05.10 added..
+		
+//		if (checkAcessControlRule(acrs.getAccessControlRule(), op, ori, from)) { // 2016.05.10 modified..
+		if (checkAcessControlRule(acrList, op, ori, from)) {
 			return true;
 		}
 		
@@ -316,6 +319,8 @@ public class OneM2mUtil {
 			int eod = from.indexOf("/", 2);
 			if (eod > 0) {
 				return from.substring(0, eod);
+			} else {
+				return from;
 			}
 		}
 		return null;
@@ -415,8 +420,12 @@ public class OneM2mUtil {
 //			System.out.println(pc);
 //		}
 		
-		String id = "/herit-in/herit-cse/test";
-		System.out.println(toUriOrResourceId(id));
+//		String id = "/herit-in/herit-cse/test";
+//		System.out.println(toUriOrResourceId(id));
+	
+		String from = "//herit-cse";
+		
+		System.out.println("eod=" + OneM2mUtil.extractServiceProviderId(from));
 	}
 
 	public static String extractCseIdFromSPResId(String spResId) {

@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
+ * XSD-1.6.0
  * <p>Java class for responseTypeInfo complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -29,7 +30,16 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="responseTypeValue" type="{http://www.onem2m.org/xml/protocols}responseType"/>
- *         &lt;element name="notificationURI" type="{http://www.w3.org/2001/XMLSchema}anyURI" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="notificationURI">
+ *           &lt;simpleType>
+ *             &lt;restriction>
+ *               &lt;simpleType>
+ *                 &lt;list itemType="{http://www.w3.org/2001/XMLSchema}anyURI" />
+ *               &lt;/simpleType>
+ *               &lt;minLength value="0"/>
+ *             &lt;/restriction>
+ *           &lt;/simpleType>
+ *         &lt;/element>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>

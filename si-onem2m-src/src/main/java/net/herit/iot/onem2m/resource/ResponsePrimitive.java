@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         &lt;element name="to" type="{http://www.onem2m.org/xml/protocols}ID" minOccurs="0"/>
  *         &lt;element name="from" type="{http://www.onem2m.org/xml/protocols}ID" minOccurs="0"/>
  *         &lt;element name="originatingTimestamp" type="{http://www.onem2m.org/xml/protocols}timestamp" minOccurs="0"/>
- *         &lt;element name="resultExpirationTimestamp" type="{http://www.onem2m.org/xml/protocols}timestamp" minOccurs="0"/>
+ *         &lt;element name="resultExpirationTimestamp" type="{http://www.onem2m.org/xml/protocols}absTimestamp" minOccurs="0"/>
  *         &lt;element name="eventCategory" type="{http://www.onem2m.org/xml/protocols}eventCat" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -59,7 +59,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlRootElement(name = Naming.RESPONSEPRIMITIVE_SN) //"rsp")
 public class ResponsePrimitive {
 
-	public final static String SCHEMA_LOCATION = "CDT-responsePrimitive-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-responsePrimitive-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-responsePrimitive-v1_6_0.xsd";
 
     //@XmlElement(required = true)
     @XmlElement(name = "rsc", required = true)

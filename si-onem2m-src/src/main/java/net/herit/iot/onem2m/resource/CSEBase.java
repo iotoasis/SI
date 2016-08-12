@@ -86,12 +86,14 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "remoteCSEOrNodeOrAE"
 })
 //@XmlRootElement(name = "CSEBase")
-@XmlRootElement(name = "csb")
+//@XmlRootElement(name = "csb")
+@XmlRootElement(name = "cb")  // XSD-1.6.0
 public class CSEBase
     extends Resource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-CSEBase-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-CSEBase-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-CSEBase-v1_6_0.xsd";
 	
     @XmlList
     @XmlElement(name = "acpi")
@@ -115,22 +117,22 @@ public class CSEBase
     @XmlElement(name = "ch")
     protected List<ChildResourceRef> childResource;
     @XmlElements({
-        @XmlElement(name = "locationPolicy", namespace = "http://www.onem2m.org/xml/protocols", type = LocationPolicy.class),
-        @XmlElement(name = "mgmtCmd", namespace = "http://www.onem2m.org/xml/protocols", type = MgmtCmd.class),
         @XmlElement(name = "remoteCSE", namespace = "http://www.onem2m.org/xml/protocols", type = RemoteCSE.class),
-        @XmlElement(name = "accessControlPolicy", namespace = "http://www.onem2m.org/xml/protocols", type = AccessControlPolicy.class),
-        @XmlElement(name = "m2mServiceSubscriptionProfile", namespace = "http://www.onem2m.org/xml/protocols", type = M2MServiceSubscriptionProfile.class),
+        @XmlElement(name = "node", namespace = "http://www.onem2m.org/xml/protocols", type = Node.class),
+        @XmlElement(name = "AE", namespace = "http://www.onem2m.org/xml/protocols", type = AE.class),
         @XmlElement(name = "container", namespace = "http://www.onem2m.org/xml/protocols", type = Container.class),
         @XmlElement(name = "group", namespace = "http://www.onem2m.org/xml/protocols", type = Group.class),
-        @XmlElement(name = "statsCollect", namespace = "http://www.onem2m.org/xml/protocols", type = StatsCollect.class),
+        @XmlElement(name = "accessControlPolicy", namespace = "http://www.onem2m.org/xml/protocols", type = AccessControlPolicy.class),
         @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class),
+        @XmlElement(name = "mgmtCmd", namespace = "http://www.onem2m.org/xml/protocols", type = MgmtCmd.class),
+        @XmlElement(name = "locationPolicy", namespace = "http://www.onem2m.org/xml/protocols", type = LocationPolicy.class),
+        @XmlElement(name = "statsConfig", namespace = "http://www.onem2m.org/xml/protocols", type = StatsConfig.class),
+        @XmlElement(name = "statsCollect", namespace = "http://www.onem2m.org/xml/protocols", type = StatsCollect.class),
         @XmlElement(name = "request", namespace = "http://www.onem2m.org/xml/protocols", type = Request.class),
-        @XmlElement(name = "node", namespace = "http://www.onem2m.org/xml/protocols", type = Node.class),
-        @XmlElement(name = "serviceSubscribedAppRule", namespace = "http://www.onem2m.org/xml/protocols", type = ServiceSubscribedAppRule.class),
-        @XmlElement(name = "AE", namespace = "http://www.onem2m.org/xml/protocols", type = AE.class),
-        @XmlElement(name = "schedule", namespace = "http://www.onem2m.org/xml/protocols", type = Schedule.class),
         @XmlElement(name = "delivery", namespace = "http://www.onem2m.org/xml/protocols", type = Delivery.class),
-        @XmlElement(name = "statsConfig", namespace = "http://www.onem2m.org/xml/protocols", type = StatsConfig.class)
+        @XmlElement(name = "schedule", namespace = "http://www.onem2m.org/xml/protocols", type = Schedule.class),
+        @XmlElement(name = "m2mServiceSubscriptionProfile", namespace = "http://www.onem2m.org/xml/protocols", type = M2MServiceSubscriptionProfile.class),
+        @XmlElement(name = "serviceSubscribedAppRule", namespace = "http://www.onem2m.org/xml/protocols", type = ServiceSubscribedAppRule.class)
     })
     protected List<Resource> remoteCSEOrNodeOrAE;
 
@@ -367,22 +369,22 @@ public class CSEBase
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link LocationPolicy }
-     * {@link MgmtCmd }
      * {@link RemoteCSE }
-     * {@link AccessControlPolicy }
-     * {@link M2MServiceSubscriptionProfile }
+     * {@link Node }
+     * {@link AE }
      * {@link Container }
      * {@link Group }
-     * {@link StatsCollect }
+     * {@link AccessControlPolicy }
      * {@link Subscription }
-     * {@link Request }
-     * {@link Node }
-     * {@link ServiceSubscribedAppRule }
-     * {@link AE }
-     * {@link Schedule }
-     * {@link Delivery }
+     * {@link MgmtCmd }
+     * {@link LocationPolicy }
      * {@link StatsConfig }
+     * {@link StatsCollect }
+     * {@link Request }
+     * {@link Delivery }
+     * {@link Schedule }
+     * {@link M2MServiceSubscriptionProfile }
+     * {@link ServiceSubscribedAppRule }
      * 
      * 
      */

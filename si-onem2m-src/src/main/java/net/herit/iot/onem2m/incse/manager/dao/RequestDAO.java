@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -29,7 +29,7 @@ public class RequestDAO extends ResourceDAO implements DAOInterface {
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<Request> jc = (JSONConvertor<Request>)ConvertorFactory.getJSONConvertor(Request.class, Request.SCHEMA_LOCATION);
+			DaoJSONConvertor<Request> jc = (DaoJSONConvertor<Request>)ConvertorFactory.getDaoJSONConvertor(Request.class, Request.SCHEMA_LOCATION);
 			return jc.marshal((Request)res);
 			
 		} catch (Exception e) {
@@ -41,12 +41,16 @@ public class RequestDAO extends ResourceDAO implements DAOInterface {
 	@Override
 	public void create(Resource resource) throws OneM2MException {
 		
+		((Request) resource).setStateTag(0);
+		
 		super.create(resource);
 		
 	}
 
 	@Override
 	public void update(Resource resource) throws OneM2MException {
+		
+		((Request) resource).setStateTag(((Request) resource).getStateTag() + 1);
 		
 		super.update(resource);
 		
@@ -69,14 +73,14 @@ public class RequestDAO extends ResourceDAO implements DAOInterface {
 //	@Override
 //	public Resource retrieveByUri(String uri, RESULT_CONT rc) throws OneM2MException {
 //		
-//		return retrieve(URI_KEY, uri, new JSONConvertor<Request>(Request.class), rc);
+//		return retrieve(URI_KEY, uri, new DaoJSONConvertor<Request>(Request.class), rc);
 //			
 //	}
 //
 //	@Override
 //	public Resource retrieveByResId(String resId, RESULT_CONT rc) throws OneM2MException {
 //		
-//		return retrieve(RESID_KEY, resId, new JSONConvertor<Request>(Request.class), rc);
+//		return retrieve(RESID_KEY, resId, new DaoJSONConvertor<Request>(Request.class), rc);
 //		
 //	}
 	
@@ -94,7 +98,7 @@ public class RequestDAO extends ResourceDAO implements DAOInterface {
 	@Override
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 		
-		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, ConvertorFactory.getJSONConvertor(Request.class, Request.SCHEMA_LOCATION), rc);
+		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, ConvertorFactory.getDaoJSONConvertor(Request.class, Request.SCHEMA_LOCATION), rc);
 		
 	}
 }

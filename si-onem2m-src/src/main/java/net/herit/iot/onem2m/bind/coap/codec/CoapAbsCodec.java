@@ -66,7 +66,7 @@ public class CoapAbsCodec {
 	
 	public static final int ONEM2M_FR		= 256; // "OneM2M-From"
 	public static final int ONEM2M_RQI		= 257; // "OneM2M-RequestIdentifier"
-	public static final int ONEM2M_NM		= 258;	// "OneM2M-Name"
+//	public static final int ONEM2M_NM		= 258;	// "OneM2M-Name"
 	public	static final int ONEM2M_OT		= 259; // "OneM2M-OriginatingTimestamp"
 	public static final int ONEM2M_RQET	= 260; // "OneM2M-RequestExpirationTimestamp"
 	public static final int ONEM2M_RSET	= 261;	// "OneM2M-ResultExpirationTimestamp"

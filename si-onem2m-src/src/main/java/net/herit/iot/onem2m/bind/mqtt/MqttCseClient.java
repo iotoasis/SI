@@ -23,7 +23,7 @@ public class MqttCseClient implements MqttServerListener {
 	
 	public void init() {
 		try {
-			MqttClientHandler.getInstance(CES_ID).connect(brokerURL, false);
+			MqttClientHandler.getInstance(CES_ID, 30).connect(brokerURL, false);
 			MqttClientHandler.getInstance().setListener(this);
 		} catch(Exception e) {
 			log.debug("Handled exception", e);
@@ -60,5 +60,11 @@ public class MqttCseClient implements MqttServerListener {
 	public boolean sendMqttMessage(OneM2mResponse resMessage) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void receiveMqttMessage(OneM2mResponse resMessage) {
+		// TODO Auto-generated method stub
+		
 	}	
 }

@@ -9,17 +9,13 @@
 package net.herit.iot.onem2m.resource;
 
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
 
 
 /**
@@ -50,6 +46,7 @@ import javax.xml.bind.annotation.XmlValue;
  *                       &lt;/complexContent>
  *                     &lt;/complexType>
  *                   &lt;/element>
+ *                   &lt;element name="notificationEventType" type="{http://www.onem2m.org/xml/protocols}notificationEventType" minOccurs="0"/>
  *                 &lt;/sequence>
  *               &lt;/restriction>
  *             &lt;/complexContent>
@@ -80,7 +77,8 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlRootElement(name = Naming.NOTIFICATION_SN)
 public class Notification {
 
-	public final static String SCHEMA_LOCATION = "CDT-notification-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-notification-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-notification-v1_6_0.xsd";
 
 	@XmlElement(name = "nev")
     protected Notification.NotificationEvent notificationEvent;
@@ -266,6 +264,7 @@ public class Notification {
      *             &lt;/complexContent>
      *           &lt;/complexType>
      *         &lt;/element>
+     *         &lt;element name="notificationEventType" type="{http://www.onem2m.org/xml/protocols}notificationEventType" minOccurs="0"/>
      *       &lt;/sequence>
      *     &lt;/restriction>
      *   &lt;/complexContent>
@@ -276,8 +275,9 @@ public class Notification {
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "representation",
-        "operationMonitor"
+            "representation",
+            "operationMonitor",
+            "notificationEventType"
     })
     public static class NotificationEvent {
 
@@ -326,7 +326,8 @@ public class Notification {
         protected Notification.NotificationEvent.Representation representation;
         @XmlElement(name = "om")
         protected Notification.NotificationEvent.OperationMonitor operationMonitor;
-
+        @XmlElement(name = "net") //???? 2016.04.25
+        protected Integer notificationEventType;
         /**
          * Gets the value of the representation property.
          * 
@@ -375,6 +376,29 @@ public class Notification {
             this.operationMonitor = value;
         }
 
+        /**
+         * Gets the value of the notificationEventType property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link BigInteger }
+         *     
+         */
+        public Integer getNotificationEventType() {
+            return notificationEventType;
+        }
+
+        /**
+         * Sets the value of the notificationEventType property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link BigInteger }
+         *     
+         */
+        public void setNotificationEventType(Integer value) {
+            this.notificationEventType = value;
+        }
 
         /**
          * <p>Java class for anonymous complex type.

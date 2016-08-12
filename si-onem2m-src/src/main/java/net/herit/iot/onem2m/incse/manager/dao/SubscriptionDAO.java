@@ -18,7 +18,7 @@ import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.DatabaseManager;
@@ -63,7 +63,7 @@ public class SubscriptionDAO extends ResourceDAO implements DAOInterface {
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<Subscription> jc = (JSONConvertor<Subscription>)ConvertorFactory.getJSONConvertor(Subscription.class, Subscription.SCHEMA_LOCATION);
+			DaoJSONConvertor<Subscription> jc = (DaoJSONConvertor<Subscription>)ConvertorFactory.getDaoJSONConvertor(Subscription.class, Subscription.SCHEMA_LOCATION);
 			return jc.marshal((Subscription)res);
 			
 		} catch (Exception e) {
@@ -175,14 +175,14 @@ public class SubscriptionDAO extends ResourceDAO implements DAOInterface {
 //	@Override
 //	public Resource retrieveByUri(String uri, RESULT_CONT rc) throws OneM2MException {
 //
-//		return retrieve(URI_KEY, uri, new JSONConvertor<Subscription>(Subscription.class), rc);
+//		return retrieve(URI_KEY, uri, new DaoJSONConvertor<Subscription>(Subscription.class), rc);
 //		
 //	}
 //
 //	@Override
 //	public Resource retrieveByResId(String resId, RESULT_CONT rc) throws OneM2MException {
 //
-//		return retrieve(RESID_KEY, resId, new JSONConvertor<Subscription>(Subscription.class), rc);
+//		return retrieve(RESID_KEY, resId, new DaoJSONConvertor<Subscription>(Subscription.class), rc);
 //		
 //	}
 
@@ -200,7 +200,7 @@ public class SubscriptionDAO extends ResourceDAO implements DAOInterface {
 	@Override
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 		
-		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, ConvertorFactory.getJSONConvertor(Subscription.class, Subscription.SCHEMA_LOCATION), rc);
+		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, ConvertorFactory.getDaoJSONConvertor(Subscription.class, Subscription.SCHEMA_LOCATION), rc);
 		
 	}
 }

@@ -55,7 +55,8 @@ import javax.xml.bind.annotation.XmlType;
 public class MemoryAnnc
     extends AnnouncedMgmtResource
 {
-	public final static String SCHEMA_LOCATION = "CDT-memory-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-memory-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-memory-v1_6_0.xsd";
 
     @XmlElement(name = "mma")
     @XmlSchemaType(name = "unsignedLong")

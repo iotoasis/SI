@@ -76,7 +76,8 @@ public class LocationPolicy
     extends AnnounceableResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-locationPolicy-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-locationPolicy-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-locationPolicy-v1_6_0.xsd";
 	
     //@XmlElement(required = true)
     @XmlElement(name = "los")

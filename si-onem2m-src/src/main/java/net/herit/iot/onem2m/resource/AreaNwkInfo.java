@@ -60,19 +60,20 @@ public class AreaNwkInfo
     extends MgmtResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-areaNwkInfo-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-areaNwkInfo-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-areaNwkInfo-v1_6_0.xsd";
 	
     //@XmlElement(required = true)
-    @XmlElement(name = "ant", required = true)
+    @XmlElement(name = Naming.AREANWKTYPE_SN, required = true) //"ant"
     protected String areaNwkType;
     @XmlList
     //@XmlElement(required = true)
-    @XmlElement(name = "ldv", required = true)
+    @XmlElement(name = Naming.LISTOFDEVICES_SN, required = true)  //"ldv"
     protected List<String> listOfDevices;
-    @XmlElement(name = "ch")
+    @XmlElement(name = Naming.CHILDRESOURCE_SN) //"ch")
     protected List<ChildResourceRef> childResource;
     //@XmlElement(namespace = "http://www.onem2m.org/xml/protocols")
-    @XmlElement(name = "sub", namespace = "http://www.onem2m.org/xml/protocols")
+    @XmlElement(name = Naming.SUBSCRIPTION_SN, namespace = "http://www.onem2m.org/xml/protocols")  //"sub"
     protected List<Subscription> subscription;
 
     /**

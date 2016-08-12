@@ -50,7 +50,8 @@ public class ScheduleAnnc
     extends AnnouncedSubordinateResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-schedule-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-schedule-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-schedule-v1_6_0.xsd";
 	
 	public static final List<String> MA = new ArrayList<String>(
 			Arrays.asList(Naming.RESOURCEID_SN,

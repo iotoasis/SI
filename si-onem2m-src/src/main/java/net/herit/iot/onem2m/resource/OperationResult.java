@@ -24,6 +24,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 
 
 /**
+ * XSD-1.6.0
  * <p>Java class for operationResult complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -39,7 +40,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
  *         &lt;element name="to" type="{http://www.w3.org/2001/XMLSchema}anyURI" minOccurs="0"/>
  *         &lt;element name="from" type="{http://www.onem2m.org/xml/protocols}ID" minOccurs="0"/>
  *         &lt;element name="originatingTimestamp" type="{http://www.onem2m.org/xml/protocols}timestamp" minOccurs="0"/>
- *         &lt;element name="resultExpirationTimestamp" type="{http://www.onem2m.org/xml/protocols}timestamp" minOccurs="0"/>
+ *         &lt;element name="resultExpirationTimestamp" type="{http://www.onem2m.org/xml/protocols}absRelTimestamp" minOccurs="0"/>
  *         &lt;element name="eventCategory" type="{http://www.onem2m.org/xml/protocols}eventCat" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -89,9 +90,11 @@ public class OperationResult {
     
     public OperationResult(OneM2mResponse response) throws OneM2MException {
     	
-    	EVENT_CATEGORY evtCat = EVENT_CATEGORY.get(response.getEventCategory());
-    	if (evtCat != null) {
-    		this.setEventCategory(evtCat.name());
+    	if(response.getEventCategory() != null) {
+	    	EVENT_CATEGORY evtCat = EVENT_CATEGORY.get(response.getEventCategory());
+	    	if (evtCat != null) {
+	    		this.setEventCategory(evtCat.name());
+	    	}
     	}
     	this.setFrom(response.getFrom());
     	this.setOriginatingTimestamp(response.getOriginatingTimestamp());

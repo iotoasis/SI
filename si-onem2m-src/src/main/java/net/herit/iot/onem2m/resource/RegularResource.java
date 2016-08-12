@@ -28,6 +28,7 @@ import net.herit.iot.onem2m.core.util.Utils;
 
 
 /**
+ * XSD-1.6.0
  * <p>Java class for regularResource complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -53,6 +54,7 @@ import net.herit.iot.onem2m.core.util.Utils;
     "expirationTime"
 })
 @XmlSeeAlso({
+    PollingChannel.class,
     Subscription.class,
     AnnounceableResource.class
 })

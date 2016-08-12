@@ -12,6 +12,7 @@ import net.herit.iot.onem2m.core.convertor.XMLConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.LongPollingManager;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
+import net.herit.iot.onem2m.incse.facility.CfgManager;
 import net.herit.iot.onem2m.incse.manager.dao.DAOInterface;
 import net.herit.iot.onem2m.incse.manager.dao.PollingChannelDAO;
 import net.herit.iot.onem2m.resource.Naming;
@@ -129,7 +130,13 @@ public class PollingChannelManager extends AbsManager {
 		PollingChannel pollingChann = (PollingChannel)resource;
 		
 		pollingChann.setPollingChannelURI(pollingChann.getUri() + "/" + Naming.POLLINGCHANNELURI_SN);
-		
+
+		//// TS-0001-XXX-V1_13_1 - 10.1.1.1	Non-registration related CREATE procedure (ExpirationTime..)
+		if(pollingChann.getExpirationTime() == null) {
+			pollingChann.setExpirationTime(CfgManager.getInstance().getDefaultExpirationTime());
+		}
+		// END - Non-registration related CREATE procedure		
+
 		if(pollingChann.getExpirationTime() != null) {
 			LongPollingManager
 					.getInstance()

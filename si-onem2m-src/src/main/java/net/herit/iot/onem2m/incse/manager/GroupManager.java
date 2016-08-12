@@ -22,6 +22,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.controller.AnnounceController;
 import net.herit.iot.onem2m.incse.controller.NotificationController;
+import net.herit.iot.onem2m.incse.facility.CfgManager;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
 import net.herit.iot.onem2m.incse.manager.dao.AccessControlPolicyDAO;
 import net.herit.iot.onem2m.incse.manager.dao.DAOInterface;
@@ -282,6 +283,7 @@ public class GroupManager extends AbsManager {
 	private void validateMemberType(List<RegularResource> resList, Group grp) throws OneM2MException {
 		
 		List<RegularResource> abandoned = new ArrayList<RegularResource>();
+		if(grp.getMemberType() == null) return;  // 2016.05.10
 		int memberType = grp.getMemberType();
 		if (memberType != MEMBER_TYPE.MIXED.Value()) {
 
@@ -326,5 +328,10 @@ public class GroupManager extends AbsManager {
 		Group group = (Group)resource;
 		group.setCreator(reqMessage.getFrom());
 		
+		//// TS-0001-XXX-V1_13_1 - 10.1.1.1	Non-registration related CREATE procedure (ExpirationTime..)
+		if(group.getExpirationTime() == null) {
+			group.setExpirationTime(CfgManager.getInstance().getDefaultExpirationTime());
+		}
+		// END - Non-registration related CREATE procedure
 	}
 }

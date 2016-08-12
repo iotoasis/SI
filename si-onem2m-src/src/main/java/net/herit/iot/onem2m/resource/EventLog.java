@@ -65,7 +65,8 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 public class EventLog
     extends MgmtResource
 {
-	public static final String SCHEMA_LOCATION = "CDT-eventLog-v1_2_0.xsd";
+//	public static final String SCHEMA_LOCATION = "CDT-eventLog-v1_2_0.xsd";
+	public static final String SCHEMA_LOCATION = "CDT-eventLog-v1_6_0.xsd";
 
     //@XmlElement(required = true)
     @XmlElement(name = "lgt")

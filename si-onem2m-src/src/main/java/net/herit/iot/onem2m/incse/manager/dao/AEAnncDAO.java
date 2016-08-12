@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -30,7 +30,7 @@ public class AEAnncDAO extends ResourceDAO implements DAOInterface {
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<AEAnnc> jc = (JSONConvertor<AEAnnc>)ConvertorFactory.getJSONConvertor(AEAnnc.class, AEAnnc.SCHEMA_LOCATION);
+			DaoJSONConvertor<AEAnnc> jc = (DaoJSONConvertor<AEAnnc>)ConvertorFactory.getDaoJSONConvertor(AEAnnc.class, AEAnnc.SCHEMA_LOCATION);
 			return jc.marshal((AEAnnc)res);
 			
 		} catch (Exception e) {
@@ -91,7 +91,7 @@ public class AEAnncDAO extends ResourceDAO implements DAOInterface {
 	@Override
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 		
-		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, ConvertorFactory.getJSONConvertor(AEAnnc.class, AEAnnc.SCHEMA_LOCATION), rc);
+		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, ConvertorFactory.getDaoJSONConvertor(AEAnnc.class, AEAnnc.SCHEMA_LOCATION), rc);
 		
 	}
 }

@@ -74,14 +74,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Request
     extends RegularResource
 {
-	public final static String SCHEMA_LOCATION = "CDT-request-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-request-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-request-v1_6_0.xsd";
 
     //@XmlElement(required = true)
     @XmlElement(name = "st", required = true)
     @XmlSchemaType(name = "nonNegativeInteger")
     protected Integer stateTag;
     //@XmlElement(required = true)
-    @XmlElement(name = "opn", required = true)
+    @XmlElement(name = "op", required = true)  //opn->op XSD-1.6.0
     protected Integer operation;
     //@XmlElement(required = true)
     @XmlElement(name = "tg", required = true)

@@ -36,7 +36,7 @@ import net.herit.iot.onem2m.bind.http.api.HttpClientListener;
  */
 public final class HttpClientBasic {
 
-	private Logger log = LoggerFactory.getLogger(HttpClient.class);
+	private Logger log = LoggerFactory.getLogger(HttpClientBasic.class);
 	ChannelFuture channelFuture = null;
 	FullHttpResponse resMessage = null;
 	

@@ -67,7 +67,8 @@ public class LocationPolicyAnnc
     extends AnnouncedResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-locationPolicy-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-locationPolicy-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-locationPolicy-v1_6_0.xsd";
 	
 	public static final List<String> MA = new ArrayList<String>(
 		Arrays.asList(Naming.RESOURCEID_SN,

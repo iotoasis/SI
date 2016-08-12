@@ -55,11 +55,12 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "subscription"
 })
 //@XmlRootElement(name = "battery")
-@XmlRootElement(name = "bat")
+@XmlRootElement(name = Naming.BATTERY_SN) //"bat")
 public class Battery
     extends MgmtResource
 {
-	public final static String SCHEMA_LOCATION = "CDT-battery-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-battery-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-battery-v1_6_0.xsd";
 
     @XmlElement(name = "btl")
     @XmlSchemaType(name = "unsignedInt")

@@ -66,9 +66,9 @@ public class CoapRequestCodec extends CoapAbsCodec {
 			case ONEM2M_RQI:
 				reqMessage.setRequestIdentifier(value);
 				break;
-			case ONEM2M_NM:
-				reqMessage.setName(value);
-				break;
+//			case ONEM2M_NM:
+//				reqMessage.setName(value);  removed. XSD-1.6.0
+//				break;
 			case ONEM2M_OT:
 				reqMessage.setOriginatingTimestamp(value);
 				break;
@@ -128,9 +128,10 @@ public class CoapRequestCodec extends CoapAbsCodec {
 				if (reqMessage.getContentType() == CONTENT_TYPE.NTFY_JSON ||
 						 reqMessage.getContentType() == CONTENT_TYPE.NTFY_XML) {
 					operation = OPERATION.NOTIFY;
-				} else {
-					operation = OPERATION.UPDATE;
 				}
+//				else {   // 2016.05.13 removed.
+//					operation = OPERATION.UPDATE;
+//				}
 			}
 			break;
 			
@@ -249,6 +250,8 @@ public class CoapRequestCodec extends CoapAbsCodec {
 		}
 
 		if(reqMessage.getAcceptTypes() != null && reqMessage.getAcceptTypes().size() > 0) {
+//			System.out.println("AcceptType: " + reqMessage.getAcceptTypes().get(0));
+//			System.out.println(COAP_CONTENT_TYPE.getCoapContentType(reqMessage.getAcceptTypes().get(0)).Value());
 			reqCoap.getOptions().setAccept(COAP_CONTENT_TYPE.getCoapContentType(
 					reqMessage.getAcceptTypes().get(0)).Value());
 		}
@@ -269,9 +272,10 @@ public class CoapRequestCodec extends CoapAbsCodec {
 		if (reqMessage.getEventCategory() != null) {
 			reqCoap.getOptions().addOption(new Option(ONEM2M_EC, reqMessage.getEventCategory()));
 		}
-		if (reqMessage.getName() != null) {
-			reqCoap.getOptions().addOption(new Option(ONEM2M_NM, reqMessage.getName()));
-		}
+//		if (reqMessage.getName() != null) {
+//			reqCoap.getOptions().addOption(new Option(ONEM2M_NM, reqMessage.getName()));
+//		}  removed. XSD-1.6.0
+		
 		if (reqMessage.getRequestExpirationTimestamp() != null) {
 			reqCoap.getOptions().addOption(new Option(ONEM2M_RQET, reqMessage.getRequestExpirationTimestamp()));
 		}

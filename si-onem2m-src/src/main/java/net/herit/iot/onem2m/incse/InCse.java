@@ -1,7 +1,9 @@
 package net.herit.iot.onem2m.incse;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.californium.core.coap.CoAP.ResponseCode;
 import org.eclipse.californium.core.coap.Response;
@@ -41,6 +43,7 @@ import net.herit.iot.onem2m.incse.controller.NotificationController;
 import net.herit.iot.onem2m.incse.controller.RestCommandController;
 import net.herit.iot.onem2m.incse.controller.RestNotificationController;
 import net.herit.iot.onem2m.incse.facility.CfgManager;
+import net.herit.iot.onem2m.incse.facility.CfgManager.RemoteCSEInfo;
 import net.herit.iot.onem2m.incse.facility.DatabaseManager;
 import net.herit.iot.onem2m.incse.facility.NseManager;
 import net.herit.iot.onem2m.incse.facility.NseManager.BINDING_TYPE;
@@ -51,9 +54,10 @@ import net.herit.iot.onem2m.incse.manager.ManagerFactory;
 
 public class InCse implements HttpServerListener, MqttServerListener, CoapServerListener  {
 	
-	private HttpServer 		httpServer;
-	private HttpServer		httpsServer;
-	private HttpServer 		restServer;
+	private HttpServer		httpServers;
+//	private HttpServer 		httpServer;
+//	private HttpServer		httpsServer;
+//	private HttpServer 		restServer;
 	private RestHandler		restHandler;
 	
 	private MqttClientHandler	mqttClient;
@@ -88,14 +92,41 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 			
 			restHandler = new RestHandler();
 			
-			httpServer = new HttpServer(this, cfgManager.getHttpServerPort());	
-			httpsServer = new HttpServer(this, 8443, true);
-			restServer = new HttpServer(restHandler, cfgManager.getRestServerPort()); 
+//			httpServer = new HttpServer(this, cfgManager.getHttpServerPort());	
+//			httpsServer = new HttpServer(this, 8443, true);
+//			restServer = new HttpServer(restHandler, cfgManager.getRestServerPort()); 
+			httpServers = new HttpServer(cfgManager.getNettyBossThreadPoolSize(), cfgManager.getNettyWorkerThreadPoolSize());
+			httpServers.addServer(this, cfgManager.getHttpServerPort(), false);
+			if(cfgManager.getHttpsServerPort() > 0) {
+				httpServers.addServer(this, cfgManager.getHttpsServerPort(), true);
+			}
+			httpServers.addServer(restHandler, cfgManager.getRestServerPort(), false);
 			
-			mqttClient = MqttClientHandler.getInstance(cfgManager.getCSEBaseCid());
+//			mqttClient = MqttClientHandler.getInstance(cfgManager.getCSEBaseCid());
+//			mqttClient = MqttClientHandler.getInstance(cfgManager.getCSEBaseUri(), cfgManager.getKeepaliveInterval());
+			mqttClient = MqttClientHandler.getInstance(cfgManager.getCSEBaseCid(), cfgManager.getKeepaliveInterval());
+			
 			mqttClient.setListener(this);
 			
-			coapServer = new HCoapServer(cfgManager.getCSEBaseRid(), cfgManager.getCSEBaseName(), this);
+			
+			///////// CoAP 
+			coapServer = new HCoapServer(cfgManager.getCSEBaseRid(), cfgManager.getCSEBaseName(),
+					this, cfgManager.getCoapServerPort(), cfgManager.getCoapsServerPort());
+
+					
+//			List<String> resList = new ArrayList<String>();
+//			resList.add(cfgManager.getCSEBaseRid()+ "^" + cfgManager.getCSEBaseName());
+//			
+//			List<RemoteCSEInfo> remoteCse = CfgManager.getInstance().getRemoteCSEList();
+//			if(remoteCse != null) { 
+//				for(RemoteCSEInfo info : remoteCse) {
+//					resList.add(info.getCseId().substring(1) + "^" + info.getCseName().substring(1));
+//				}
+//			}
+//			coapServer = new HCoapServer(resList,
+//					this, cfgManager.getCoapServerPort(), cfgManager.getCoapsServerPort());
+			////////// End CoAP
+			
 			
 			//logManager.initialize(LoggerFactory.getLogger("IITP-IOT"), null);
 			dbManager.initialize(MongoPool.getInstance());
@@ -137,11 +168,12 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 		
 		iwController.run();
 		
-		restServer.runAsync();
-		
+//		restServer.runAsync();
 //		httpsServer.runAsync();
-		// default binding..
-		httpServer.run();
+//		// default binding..
+//		httpServer.run();
+		
+		httpServers.runAll();
 		
 		// register remoteCSE for interworking with other SP IN-CSE
 		
@@ -348,10 +380,16 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 		} catch (Throwable th) {
 			log.error("RequestMessage decode failed.", th);
 		}
+	}
+
+	@Override
+	public void receiveMqttMessage(OneM2mResponse resMessage) {
+		
+		log.debug(resMessage.toString());
 		
 		
 	}
-
+	
 
 	/*
 	 * (non-Javadoc)
@@ -408,14 +446,15 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 	@Override
 	public void receiveCoapRequest(CoapExchange exchange) {
 		
-		System.out.println("Options format=" + exchange.getRequestOptions().getContentFormat());
+		log.debug(">> RECVD CoAP MESSAGE:");
+		log.debug("Options format=" + exchange.getRequestOptions().getContentFormat());
 		
-		System.out.println("RequestCode=" + exchange.getRequestCode());
-		System.out.println("RequestPayload=" +exchange.getRequestPayload());
-		System.out.println("Options=" + exchange.getRequestOptions());
-		System.out.println("UriPath=" + exchange.getRequestOptions().getUriPathString());
+		log.debug("RequestCode=" + exchange.getRequestCode());
+		log.debug("RequestPayload=" +exchange.getRequestPayload());
+		log.debug("Options=" + exchange.getRequestOptions());
+		log.debug("UriPath=" + exchange.getRequestOptions().getUriPathString());
 		if (exchange.getRequestPayload() != null) {
-			System.out.println(exchange.getRequestText());
+			log.debug(exchange.getRequestText());
 		}
 		
 		OneM2mRequest reqMessage = null;
@@ -465,6 +504,10 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 		
 		try {
 			Response response = CoapResponseCodec.encode(resMessage, exchange);
+			
+			log.debug("<< SEND CoAP MESSAGE:");
+			log.debug(response.toString());
+			log.debug(response.getPayloadString());
 			exchange.respond(response);
 			
 			return true;

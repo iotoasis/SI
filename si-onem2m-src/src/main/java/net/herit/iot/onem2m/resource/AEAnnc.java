@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="ontologyRef" type="{http://www.w3.org/2001/XMLSchema}anyURI" minOccurs="0"/>
  *         &lt;element name="nodeLink" type="{http://www.w3.org/2001/XMLSchema}anyURI" minOccurs="0"/>
  *         &lt;element name="requestReachability" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="contentSerialization" type="{http://www.onem2m.org/xml/protocols}serializations" minOccurs="0"/>
  *         &lt;choice minOccurs="0">
  *           &lt;element name="childResource" type="{http://www.onem2m.org/xml/protocols}childResourceRef" maxOccurs="unbounded"/>
  *           &lt;choice maxOccurs="unbounded">
@@ -71,6 +72,7 @@ import javax.xml.bind.annotation.XmlType;
     "ontologyRef",
     "nodeLink",
     "requestReachability",
+    "contentSerialization",
     "childResource",
     "containerOrContainerAnncOrGroup"
 })
@@ -80,7 +82,8 @@ public class AEAnnc
     extends AnnouncedResource
 {
 	
-	public static final String SCHEMA_LOCATION = "CDT-AE-v1_2_0.xsd";
+//	public static final String SCHEMA_LOCATION = "CDT-AE-v1_2_0.xsd";
+	public static final String SCHEMA_LOCATION = "CDT-AE-v1_6_0.xsd";
 	
 	public static final List<String> MA = new ArrayList<String>(
 		Arrays.asList(Naming.RESOURCEID_SN,
@@ -120,6 +123,11 @@ public class AEAnnc
 	protected String nodeLink;
 	@XmlElement(name = Naming.REQUESTREACHABILITY_SN)
 	protected Boolean requestReachability;
+	
+	@XmlList
+	@XmlElement(name = Naming.CONTENTSERIALIZATION_SN) //"csz")
+	protected List<PermittedMediaTypes> contentSerialization;  // added in XSD-1.6.0
+	
 	@XmlElement(name = Naming.CHILDRESOURCE_SN)
 	protected List<ChildResourceRef> childResource;
 	@XmlElements({
@@ -332,6 +340,44 @@ public class AEAnnc
         this.requestReachability = value;
     }
 
+    
+    /**
+     * XSD-1.6.0
+     * Gets the value of the contentSerialization property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the contentSerialization property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getContentSerialization().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link PermittedMediaTypes }
+     * 
+     * 
+     */
+    public List<PermittedMediaTypes> getContentSerialization() {
+//        if (contentSerialization == null) {
+//            contentSerialization = new ArrayList<PermittedMediaTypes>();
+//        }
+        return this.contentSerialization;
+    }
+    
+    public void addContentSerialization(PermittedMediaTypes pmt) {
+    	 if (contentSerialization == null) {
+             contentSerialization = new ArrayList<PermittedMediaTypes>();
+         }
+    	 contentSerialization.add(pmt);
+    }
+    
     /**
      * Gets the value of the childResource property.
      * 

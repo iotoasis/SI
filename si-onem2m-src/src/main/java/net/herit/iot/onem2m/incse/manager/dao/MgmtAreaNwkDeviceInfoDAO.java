@@ -3,7 +3,7 @@ package net.herit.iot.onem2m.incse.manager.dao;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -28,7 +28,7 @@ public class MgmtAreaNwkDeviceInfoDAO extends ResourceDAO implements DAOInterfac
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<AreaNwkDeviceInfo> jc = (JSONConvertor<AreaNwkDeviceInfo>)ConvertorFactory.getJSONConvertor(AreaNwkDeviceInfo.class, AreaNwkDeviceInfo.SCHEMA_LOCATION);
+			DaoJSONConvertor<AreaNwkDeviceInfo> jc = (DaoJSONConvertor<AreaNwkDeviceInfo>)ConvertorFactory.getDaoJSONConvertor(AreaNwkDeviceInfo.class, AreaNwkDeviceInfo.SCHEMA_LOCATION);
 			return jc.marshal((AreaNwkDeviceInfo)res);
 			
 		} catch (Exception e) {
@@ -66,7 +66,7 @@ public class MgmtAreaNwkDeviceInfoDAO extends ResourceDAO implements DAOInterfac
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 		
 		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, 
-				(JSONConvertor<AreaNwkDeviceInfo>)ConvertorFactory.getJSONConvertor(AreaNwkDeviceInfo.class, AreaNwkDeviceInfo.SCHEMA_LOCATION), rc);
+				(DaoJSONConvertor<AreaNwkDeviceInfo>)ConvertorFactory.getDaoJSONConvertor(AreaNwkDeviceInfo.class, AreaNwkDeviceInfo.SCHEMA_LOCATION), rc);
 		
 	}
 	

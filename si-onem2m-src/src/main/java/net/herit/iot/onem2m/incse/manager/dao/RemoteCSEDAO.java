@@ -15,7 +15,7 @@ import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.message.onem2m.format.Enums.CSE_TYPE;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -39,7 +39,7 @@ public class RemoteCSEDAO extends ResourceDAO implements DAOInterface {
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<RemoteCSE> jc = (JSONConvertor<RemoteCSE>)ConvertorFactory.getJSONConvertor(RemoteCSE.class, RemoteCSE.SCHEMA_LOCATION);
+			DaoJSONConvertor<RemoteCSE> jc = (DaoJSONConvertor<RemoteCSE>)ConvertorFactory.getDaoJSONConvertor(RemoteCSE.class, RemoteCSE.SCHEMA_LOCATION);
 			return jc.marshal((RemoteCSE)res);
 			
 		} catch (Exception e) {
@@ -65,14 +65,14 @@ public class RemoteCSEDAO extends ResourceDAO implements DAOInterface {
 //	@Override
 //	public Resource retrieveByUri(String uri, RESULT_CONT rc) throws OneM2MException {
 //		
-//		return this.retrieve(URI_KEY, uri, new JSONConvertor<RemoteCSE>(RemoteCSE.class), rc);
+//		return this.retrieve(URI_KEY, uri, new DaoJSONConvertor<RemoteCSE>(RemoteCSE.class), rc);
 //		
 //	}
 //
 //	@Override
 //	public Resource retrieveByResId(String id, RESULT_CONT rc) throws OneM2MException {
 //		
-//		return this.retrieve("resourceID", id, new JSONConvertor<RemoteCSE>(RemoteCSE.class), rc);
+//		return this.retrieve("resourceID", id, new DaoJSONConvertor<RemoteCSE>(RemoteCSE.class), rc);
 //		
 //	}
 //	
@@ -105,7 +105,7 @@ public class RemoteCSEDAO extends ResourceDAO implements DAOInterface {
 	@Override
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 		
-		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, ConvertorFactory.getJSONConvertor(RemoteCSE.class, RemoteCSE.SCHEMA_LOCATION), rc);
+		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, ConvertorFactory.getDaoJSONConvertor(RemoteCSE.class, RemoteCSE.SCHEMA_LOCATION), rc);
 		
 	}
 	
@@ -124,7 +124,7 @@ public class RemoteCSEDAO extends ResourceDAO implements DAOInterface {
 
 	public RemoteCSE retrieveByCseId(String cseId) throws OneM2MException {
 
-		return (RemoteCSE) retrieve(CSEID_KEY, cseId, ConvertorFactory.getJSONConvertor(RemoteCSE.class, RemoteCSE.SCHEMA_LOCATION), RESULT_CONT.ATTRIBUTE);
+		return (RemoteCSE) retrieve(CSEID_KEY, cseId, ConvertorFactory.getDaoJSONConvertor(RemoteCSE.class, RemoteCSE.SCHEMA_LOCATION), RESULT_CONT.ATTRIBUTE);
 
 		
 	}

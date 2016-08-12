@@ -63,8 +63,8 @@ public class CmdhBuffer
     extends MgmtResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-cmdhBuffer-v1_2_0.xsd";
-	
+//	public final static String SCHEMA_LOCATION = "CDT-cmdhBuffer-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-cmdhBuffer-v1_6_0.xsd";
 	
     @XmlList
     //@XmlElement(required = true)

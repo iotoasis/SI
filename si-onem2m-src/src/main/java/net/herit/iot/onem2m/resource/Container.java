@@ -84,7 +84,8 @@ public class Container
     extends AnnounceableResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-container-v1_2_0.xsd ";
+//	public final static String SCHEMA_LOCATION = "CDT-container-v1_2_0.xsd ";
+	public final static String SCHEMA_LOCATION = "CDT-container-v1_6_0.xsd ";
 	
     //@XmlElement(name = "st", required = true)
 	@XmlElement(name = "st")
@@ -127,9 +128,9 @@ public class Container
     @XmlElement(name = "ch")
     protected List<ChildResourceRef> childResource;
     @XmlElements({
-        @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class),
         @XmlElement(name = "contentInstance", namespace = "http://www.onem2m.org/xml/protocols", type = ContentInstance.class),
-        @XmlElement(name = "container", namespace = "http://www.onem2m.org/xml/protocols", type = Container.class)
+        @XmlElement(name = "container", namespace = "http://www.onem2m.org/xml/protocols", type = Container.class),
+        @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class)
     })
     protected List<Resource> contentInstanceOrContainerOrSubscription;
 

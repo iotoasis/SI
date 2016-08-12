@@ -44,11 +44,13 @@ public class RestProcessor {
 	 * @return
 	 */
 	private OneM2mResponse createResponse(OneM2mRequest reqMessage, RESPONSE_STATUS status) {
-		OneM2mResponse resMessage = new OneM2mResponse(status);
-		resMessage.setRequestIdentifier(reqMessage.getRequestIdentifier());
-		resMessage.setFrom(reqMessage.getFrom());
-		resMessage.setEventCategory(reqMessage.getEventCategory());
+//		OneM2mResponse resMessage = new OneM2mResponse(status);
+//		resMessage.setRequestIdentifier(reqMessage.getRequestIdentifier());
+//		resMessage.setFrom(reqMessage.getFrom());
+//		resMessage.setEventCategory(reqMessage.getEventCategory());
 		//..?
+		
+		OneM2mResponse resMessage = new OneM2mResponse(status, reqMessage);
 		
 		return resMessage;
 	}

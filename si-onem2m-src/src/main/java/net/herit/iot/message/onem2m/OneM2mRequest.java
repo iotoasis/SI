@@ -17,6 +17,7 @@ import net.herit.iot.onem2m.resource.PrimitiveContent;
 import net.herit.iot.onem2m.resource.RequestPrimitive;
 import net.herit.iot.onem2m.resource.ResponseTypeInfo;
 
+
 @XmlRootElement(name = Naming.REQUESTPRIMITIVE_SN)
 public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 
@@ -294,189 +295,6 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 		}
 	}
 	
-//	public static class FilterCriteria {
-//		private String		createdBefore = null;
-//		private String		createdAfter = null;
-//		private String		modifiedSince = null;
-//		private String		unmodifiedSince = null;
-//		private int			stateTagSmaller = NOT_SET;
-//		private int			stateTagBigger = NOT_SET;
-//		private String		expireBefore = null;
-//		private String		expireAfter = null;
-//		private List<String>	labels = new ArrayList<String>();
-//		private RESOURCE_TYPE resourceType = RESOURCE_TYPE.NONE;
-//		private int			sizeAbove = NOT_SET;
-//		private int			sizeBelow = NOT_SET;
-//		private CONTENT_TYPE	 contentType = CONTENT_TYPE.NONE;
-//		private Map<String, Object>	 attribute = new HashMap<String, Object>();
-//		private int			filterUsage = NOT_SET;
-//		private int			limit = NOT_SET;
-//		
-//		
-//		public String getCreatedBefore() {
-//			return createdBefore;
-//		}
-//		public void setCreatedBefore(String createdBefore) {
-//			this.createdBefore = createdBefore;
-//		}
-//		public String getCreatedAfter() {
-//			return createdAfter;
-//		}
-//		public void setCreatedAfter(String createdAfter) {
-//			this.createdAfter = createdAfter;
-//		}
-//		public String getModifiedSince() {
-//			return modifiedSince;
-//		}
-//		public void setModifiedSince(String odifiedSince) {
-//			this.modifiedSince = odifiedSince;
-//		}
-//		public String getUnmodifiedSince() {
-//			return unmodifiedSince;
-//		}
-//		public void setUnmodifiedSince(String unmodifiedSince) {
-//			this.unmodifiedSince = unmodifiedSince;
-//		}
-//		public int getStateTagSmaller() {
-//			return stateTagSmaller;
-//		}
-//		public void setStateTagSmaller(int stateTagSmaller) {
-//			this.stateTagSmaller = stateTagSmaller;
-//		}
-//		public int getStateTagBigger() {
-//			return stateTagBigger;
-//		}
-//		public void setStateTagBigger(int stateTagBigger) {
-//			this.stateTagBigger = stateTagBigger;
-//		}
-//		public String getExpireBefore() {
-//			return expireBefore;
-//		}
-//		public void setExpireBefore(String expireBefore) {
-//			this.expireBefore = expireBefore;
-//		}
-//		public String getExpireAfter() {
-//			return expireAfter;
-//		}
-//		public void setExpireAfter(String expireAfter) {
-//			this.expireAfter = expireAfter;
-//		}
-//		public List<String> getLabels() {
-//			return labels;
-//		}
-//		public void addLabels(String label) {
-//			this.labels.add(label);
-//		}
-//		public RESOURCE_TYPE getResourceType() {
-//			return resourceType;
-//		}
-//		public void setResourceType(RESOURCE_TYPE resType) {
-//			this.resourceType = resType;
-//		}
-//		public int getSizeAbove() {
-//			return sizeAbove;
-//		}
-//		public void setSizeAbove(int sizeAbove) {
-//			this.sizeAbove = sizeAbove;
-//		}
-//		public int getSizeBelow() {
-//			return sizeBelow;
-//		}
-//		public void setSizeBelow(int sizeBelow) {
-//			this.sizeBelow = sizeBelow;
-//		}
-//		public CONTENT_TYPE getContentType() {
-//			return contentType;
-//		}
-//		public void setContentType(CONTENT_TYPE contentType) {
-//			this.contentType = contentType;
-//		}
-//		public Map<String, Object> getAttribute() {
-//			return attribute;
-//		}
-//		public void putAttribute(String key, Object value) {
-//			this.attribute.put(key, value);
-//		}
-//		public int getFilterUsage() {
-//			return filterUsage;
-//		}
-//		public void setFilterUsage(int filterUsage) {
-//			this.filterUsage = filterUsage;
-//		}
-//		public int getLimit() {
-//			return limit;
-//		}
-//		public void setLimit(int limit) {
-//			this.limit = limit;
-//		}
-//
-//		public String toString() {
-//			StringBuilder bld = new StringBuilder();
-//			
-//			bld.append(" FilterCriteria ").append("\n");
-//			if(createdBefore != null)
-//				bld.append("  .CreatedBefore:").append(createdBefore).append("\n");
-//			if(createdAfter != null)	
-//				bld.append("  .CreatedAfter:").append(createdAfter).append("\n");
-//			if(modifiedSince != null)
-//				bld.append("  .ModifiedSince:").append(modifiedSince).append("\n");
-//			if(unmodifiedSince != null)
-//				bld.append("  .UnmodifiedSince:").append(unmodifiedSince).append("\n");
-//			if(stateTagSmaller != NOT_SET)
-//				bld.append("  .StateTagSmaller:").append(stateTagSmaller).append("\n");
-//			if(stateTagBigger != NOT_SET)
-//				bld.append("  .StateTagBigger:").append(stateTagBigger).append("\n");
-//			if(expireBefore != null)	
-//				bld.append("  .ExpireBefore:").append(expireBefore).append("\n");
-//			if(expireAfter != null)
-//				bld.append("  .ExpireAfter:").append(expireAfter).append("\n");
-//			if(labels.size() > 0) {
-//				bld.append("  .Labels:");
-//				for(String label : labels) {
-//					bld.append(label + "\t");
-//				}
-//				bld.append("\n");
-//			}
-//			bld.append("resourceType:").append(resourceType.Name()).append("\n");
-//			if(sizeAbove != NOT_SET)
-//				bld.append("  .SizeAbove:").append(sizeAbove).append("\n");
-//			if(sizeBelow != NOT_SET)
-//				bld.append("  .SizeBelow:").append(sizeBelow).append("\n");
-//			if(contentType != null)
-//				bld.append("  .ContentType:").append(contentType).append("\n");
-//			if(attribute.size() > 0) {
-//				bld.append("  .Attribute:");
-//				Set<Entry<String, Object>> entries = attribute.entrySet();
-//				for(Entry<String, Object> entry : entries) {
-//					bld.append(entry.getKey()).append(":").append(entry.getValue().toString()).append("\t");
-//				}
-//				bld.append("\n");
-//			}
-//			if(filterUsage != NOT_SET)
-//				bld.append("  .FilterUsage:").append(filterUsage).append("\n");
-//			if(limit != NOT_SET)
-//				bld.append("  .Limit:").append(limit).append("\n");
-//			
-//			return bld.toString();
-//		}
-//		
-//	}
-	
-
-//	private OPERATION 		operation = OPERATION.NONE;
-//	private RESOURCE_TYPE	resourceType = RESOURCE_TYPE.NONE;		// 1 ~ 10018
-//	private String			name = null;
-//	private String			reqExpireTime = null;  					// request Expiration Time stamp
-//	private String			operationExecTime = null;  				// operation Execution Time
-//	private RESPONSE_TYPE	responseType = RESPONSE_TYPE.NONE;		// 1: nonBlockingRequestSync, 2: nonBlockingRequestAsync, 3: blockingRequest
-//	private List<String>		notificationUri = new ArrayList<String>();
-//	private String			resultPersistence = null;
-//	private RESULT_CONT		resultContent = RESULT_CONT.NONE;
-//	private boolean			deliveryAggregation = false;
-//	private String			groupRequestId = null;
-//	private DISCOV_RESTYPE	discovResType = DISCOV_RESTYPE.NONE;	// Discovery Result Type
-//	private FilterCriteria 	filterCriteria = null;	
-	
 	protected transient String unvalidReason;
 	protected transient CONTENT_TYPE		contentType;
 	private transient List<CONTENT_TYPE>	acceptTypes = new ArrayList<CONTENT_TYPE>();	// for response's content type: application/json, application/xml, application/vnd.onem2m-res+xml, application/vnd.onem2m-res+json, application/vnd.onem2m-ntfy+xml, application/vnd.onem2m-ntfy+json, application/vnd.onem2m-attrs+xml, application/vnd.onem2m-attrs+json
@@ -603,6 +421,16 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 		this.responseType.setResponseTypeValue(responseType.Value());
 	}
 
+	public String getNotificationUriList() {
+		if(responseType == null || responseType.getNotificationURI() == null) return "";
+		
+		StringBuilder bld = new StringBuilder();
+		for(String uri:responseType.getNotificationURI()) {
+			bld.append(uri).append(" ");
+		}
+		return bld.toString();
+	}
+	
 	public List<String> getNotificationUri() {
 //		return notificationUri;
 		return responseType.getNotificationURI();
@@ -671,11 +499,12 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 			if(this.contentType != null && this.contentType != CONTENT_TYPE.NONE) {	 // 2015.09.14 added.
 //				this.acceptTypes.add(contentType);
 				addAcceptType(contentType.Name());
-			} else 
-			{
-				//this.acceptTypes.add(CONTENT_TYPE.XML);
-				addAcceptType(CONTENT_TYPE.XML.Name());
 			}
+//			else 
+//			{
+//				//this.acceptTypes.add(CONTENT_TYPE.XML);
+//				addAcceptType(CONTENT_TYPE.XML.Name());
+//			}
 		}
 		
 		return this.acceptTypes;
@@ -723,12 +552,12 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 		bld.append(" RemoteHost:").append(remoteHost).append("\n");
 		bld.append(" RequestIdentifier:").append(requestIdentifier).append("\n");
 		bld.append(" ResourceType:").append(getResourceTypeEnum().Name()).append("\n");
-		bld.append(" Name:").append(name).append("\n");
+//		bld.append(" Name:").append(name).append("\n"); deleted. XSD-1.6.0
 		bld.append(" OriginatingTimestamp:").append(originatingTimestamp).append("\n");
 		bld.append(" RequestExpirationTimestamp:").append(requestExpirationTimestamp).append("\n");
 		bld.append(" ResultExpirationTimestamp:").append(resultExpirationTimestamp).append("\n");
 		bld.append(" OperationExecutionTime:").append(operationExecutionTime).append("\n");
-		bld.append(" ResponseType:").append(getResponseTypeEnum().Name()).append("\n");
+		bld.append(" ResponseType:").append(getResponseTypeEnum().Name()).append(": ").append(getNotificationUriList()).append("\n");
 		bld.append(" ResultPersistence:").append(resultPersistence).append("\n");
 		bld.append(" ResultContent:").append(getResultContentEnum().Name()).append("\n");
 		bld.append(" EventCategory:").append(eventCategory).append("\n");

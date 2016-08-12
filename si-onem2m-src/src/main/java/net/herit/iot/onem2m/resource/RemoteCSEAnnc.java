@@ -81,7 +81,8 @@ import javax.xml.bind.annotation.XmlType;
 public class RemoteCSEAnnc
     extends AnnouncedResource
 {
-	public final static String SCHEMA_LOCATION = "CDT-remoteCSE-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-remoteCSE-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-remoteCSE-v1_6_0.xsd";
 	
 	public static final List<String> MA = new ArrayList<String>(
 			Arrays.asList(Naming.RESOURCEID_SN,
@@ -122,17 +123,17 @@ public class RemoteCSEAnnc
     @XmlElement(name = Naming.CHILDRESOURCE_SN)
     protected List<ChildResourceRef> childResource;
     @XmlElements({
-        @XmlElement(name = "locationPolicyAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = LocationPolicyAnnc.class),
-        @XmlElement(name = "containerAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = ContainerAnnc.class),
-        @XmlElement(name = "groupAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = GroupAnnc.class),
-        @XmlElement(name = "scheduleAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = ScheduleAnnc.class),
-        @XmlElement(name = "container", namespace = "http://www.onem2m.org/xml/protocols", type = Container.class),
-        @XmlElement(name = "pollingChannel", namespace = "http://www.onem2m.org/xml/protocols", type = PollingChannel.class),
-        @XmlElement(name = "accessControlPolicyAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = AccessControlPolicyAnnc.class),
         @XmlElement(name = "nodeAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = NodeAnnc.class),
+        @XmlElement(name = "container", namespace = "http://www.onem2m.org/xml/protocols", type = Container.class),
+        @XmlElement(name = "containerAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = ContainerAnnc.class),
         @XmlElement(name = "group", namespace = "http://www.onem2m.org/xml/protocols", type = Group.class),
+        @XmlElement(name = "groupAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = GroupAnnc.class),
         @XmlElement(name = "accessControlPolicy", namespace = "http://www.onem2m.org/xml/protocols", type = AccessControlPolicy.class),
-        @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class)
+        @XmlElement(name = "accessControlPolicyAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = AccessControlPolicyAnnc.class),
+        @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class),
+        @XmlElement(name = "pollingChannel", namespace = "http://www.onem2m.org/xml/protocols", type = PollingChannel.class),
+        @XmlElement(name = "scheduleAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = ScheduleAnnc.class),
+        @XmlElement(name = "locationPolicyAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = LocationPolicyAnnc.class)
     })
     protected List<Resource> nodeAnncOrContainerOrContainerAnnc;
 

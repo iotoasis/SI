@@ -12,7 +12,7 @@ import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -36,7 +36,7 @@ public class GroupDAO extends ResourceDAO implements DAOInterface {
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<Group> jc = (JSONConvertor<Group>)ConvertorFactory.getJSONConvertor(Group.class, Group.SCHEMA_LOCATION);
+			DaoJSONConvertor<Group> jc = (DaoJSONConvertor<Group>)ConvertorFactory.getDaoJSONConvertor(Group.class, Group.SCHEMA_LOCATION);
 			return jc.marshal((Group)res);
 			
 		} catch (Exception e) {
@@ -62,14 +62,14 @@ public class GroupDAO extends ResourceDAO implements DAOInterface {
 //	@Override
 //	public Resource retrieveByUri(String uri, RESULT_CONT rc) throws OneM2MException {
 //		
-//		return this.retrieve(URI_KEY, uri, new JSONConvertor<Group>(Group.class), rc);
+//		return this.retrieve(URI_KEY, uri, new DaoJSONConvertor<Group>(Group.class), rc);
 //		
 //	}
 //
 //	@Override
 //	public Resource retrieveByResId(String id, RESULT_CONT rc) throws OneM2MException {
 //		
-//		return this.retrieve("resourceID", id, new JSONConvertor<Group>(Group.class), rc);
+//		return this.retrieve("resourceID", id, new DaoJSONConvertor<Group>(Group.class), rc);
 //		
 //	}
 //	
@@ -104,7 +104,7 @@ public class GroupDAO extends ResourceDAO implements DAOInterface {
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 		
 		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, 
-				ConvertorFactory.getJSONConvertor(Group.class, Group.SCHEMA_LOCATION), rc);
+				ConvertorFactory.getDaoJSONConvertor(Group.class, Group.SCHEMA_LOCATION), rc);
 		
 	}
 	
@@ -142,9 +142,16 @@ public class GroupDAO extends ResourceDAO implements DAOInterface {
 		if ((int)doc.get(RESTYPE_KEY) == RESOURCE_TYPE.GROUP.Value()) {
 			Group grpRes = new Group();
 			
-			List<String> ids = grpRes.getMembersAccessControlPolicyIDs();
-			List<String> docIds = (List<String>)doc.get(ACPIDS_KEY);
-			ids.addAll(docIds);
+//			List<String> ids = grpRes.getMembersAccessControlPolicyIDs();
+//			List<String> docIds = (List<String>)doc.get(ACPIDS_KEY);
+//			ids.addAll(docIds);    // 2016.05.10 removed
+			
+			List<String> docIds = (List<String>)doc.get(ACPIDS_KEY);  // 2016.05.10 added.
+			if(docIds != null) {
+				for(String docId : docIds) {
+					grpRes.addMembersAccessControlPolicyIDs(docId);
+				}
+			}
 			
 			regRes = grpRes;
 		} else {

@@ -65,29 +65,30 @@ import javax.xml.bind.annotation.XmlType;
 public class AreaNwkDeviceInfoAnnc
     extends AnnouncedMgmtResource
 {
-	public final static String SCHEMA_LOCATION = "CDT-areaNwkDeviceInfo-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-areaNwkDeviceInfo-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-areaNwkDeviceInfo-v1_6_0.xsd";
 
-    @XmlElement(name = "dvd")
+    @XmlElement(name = Naming.DEVID_SN) //"dvd")
     protected String devID;
-    @XmlElement(name = "dvt")
+    @XmlElement(name = Naming.DEVTYPE_SN) //"dvt")
     protected String devType;
-    @XmlElement(name = "awi")
+    @XmlElement(name = Naming.AREANWKID_SN) //"awi")
     @XmlSchemaType(name = "anyURI")
     protected String areaNwkId;
-    @XmlElement(name = "sli")
+    @XmlElement(name = Naming.SLEEPINTERVAL_SN) //"sli")
     @XmlSchemaType(name = "nonNegativeInteger")
     protected Integer sleepInterval;
-    @XmlElement(name = "sld")
+    @XmlElement(name = Naming.SLEEPDURATION_SN) //"sld")
     @XmlSchemaType(name = "nonNegativeInteger")
     protected Integer sleepDuration;
-    @XmlElement(name = "ss")
+    @XmlElement(name = Naming.DEVSTATUS_SN) //"ss")
     protected String devStatus;
     @XmlList
-    @XmlElement(name = "lnh")
+    @XmlElement(name = Naming.LISTOFNEIGHBORS_SN) //"lnh")
     protected List<String> listOfNeighbors;
-    @XmlElement(name = "ch")
+    @XmlElement(name = Naming.CHILDRESOURCE_SN) //"ch")
     protected List<ChildResourceRef> childResource;
-    @XmlElement(name = "sub", namespace = "http://www.onem2m.org/xml/protocols")
+    @XmlElement(name = Naming.SUBSCRIPTION_SN, namespace = "http://www.onem2m.org/xml/protocols")  //"sub"
     protected List<Subscription> subscription;
 
     /**

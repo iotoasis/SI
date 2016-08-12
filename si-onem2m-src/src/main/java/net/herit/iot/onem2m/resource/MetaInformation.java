@@ -16,16 +16,14 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
 
 import net.herit.iot.message.onem2m.OneM2mRequest;
-import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 
 
 /**
+ * XSD-1.6.0
  * <p>Java class for metaInformation complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -38,11 +36,11 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
  *         &lt;element name="resourceType" type="{http://www.onem2m.org/xml/protocols}resourceType" minOccurs="0"/>
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}NCName" minOccurs="0"/>
  *         &lt;element name="originatingTimestamp" type="{http://www.onem2m.org/xml/protocols}timestamp" minOccurs="0"/>
- *         &lt;element name="requestExpirationTimestamp" type="{http://www.onem2m.org/xml/protocols}timestamp" minOccurs="0"/>
- *         &lt;element name="resultExpirationTimestamp" type="{http://www.onem2m.org/xml/protocols}timestamp" minOccurs="0"/>
- *         &lt;element name="operationExecutionTime" type="{http://www.onem2m.org/xml/protocols}timestamp" minOccurs="0"/>
+ *         &lt;element name="requestExpirationTimestamp" type="{http://www.onem2m.org/xml/protocols}absRelTimestamp" minOccurs="0"/>
+ *         &lt;element name="resultExpirationTimestamp" type="{http://www.onem2m.org/xml/protocols}absRelTimestamp" minOccurs="0"/>
+ *         &lt;element name="operationExecutionTime" type="{http://www.onem2m.org/xml/protocols}absRelTimestamp" minOccurs="0"/>
  *         &lt;element name="responseType" type="{http://www.onem2m.org/xml/protocols}responseTypeInfo" minOccurs="0"/>
- *         &lt;element name="resultPersistence" type="{http://www.w3.org/2001/XMLSchema}duration" minOccurs="0"/>
+ *         &lt;element name="resultPersistence" type="{http://www.onem2m.org/xml/protocols}absRelTimestamp" minOccurs="0"/>
  *         &lt;element name="resultContent" type="{http://www.onem2m.org/xml/protocols}resultContent" minOccurs="0"/>
  *         &lt;element name="eventCategory" type="{http://www.onem2m.org/xml/protocols}eventCat" minOccurs="0"/>
  *         &lt;element name="deliveryAggregation" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
@@ -111,7 +109,7 @@ public class MetaInformation {
     public MetaInformation(OneM2mRequest reqMessage) throws OneM2MException {
 
 	    this.setResourceType(reqMessage.getResourceTypeEnum().Value());
-	    this.setName(reqMessage.getName());
+//	    this.setName(reqMessage.getName()); // name removed. XSD-1.6.0
 	    this.setOriginatingTimestamp(reqMessage.getOriginatingTimestamp());
 	    this.setRequestExpirationTimestamp(reqMessage.getRequestExpirationTimestamp());
 	    this.setResultExpirationTimestamp(reqMessage.getRequestExpirationTimestamp());

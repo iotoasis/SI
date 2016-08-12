@@ -45,7 +45,8 @@ import net.herit.iot.message.onem2m.OneM2mResponse;
 })
 @XmlRootElement(name = Naming.AGGREGATEDRESPONSE_SN)
 public class AggregatedResponse {
-	public final static String SCHEMA_LOCATION = "CDT-responsePrimitive-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-responsePrimitive-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-responsePrimitive-v1_6_0.xsd";
 
     //@XmlElement(namespace = "http://www.onem2m.org/xml/protocols", required = true)
     @XmlElement(name = Naming.RESPONSEPRIMITIVE_SN, namespace = "http://www.onem2m.org/xml/protocols", required = true)

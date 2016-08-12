@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
+ * XSD-1.6.0
  * <p>Java class for childResourceRef complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -45,7 +46,7 @@ public class ChildResourceRef {
     @XmlValue
     @XmlSchemaType(name = "anyURI")
     protected String value;
-    @XmlAttribute(name = "nm", required = true)
+    @XmlAttribute(name = Naming.NAME_SN, required = true)  //"nm"
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlSchemaType(name = "NCName")
     protected String name;

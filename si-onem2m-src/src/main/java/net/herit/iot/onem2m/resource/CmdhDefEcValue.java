@@ -63,7 +63,8 @@ public class CmdhDefEcValue
     extends MgmtResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-cmdhDefEcValue-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-cmdhDefEcValue-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-cmdhDefEcValue-v1_6_0.xsd";
 	
     //@XmlElement(required = true)
     @XmlElement(name = "od", required = true)

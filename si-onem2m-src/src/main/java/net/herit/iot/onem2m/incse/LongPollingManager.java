@@ -28,7 +28,7 @@ public class LongPollingManager {
 //	private static final String DATE_FORMAT = "yyyyMMdd'T'HHmmss";
 	private static final long REQUEST_EXPIRATION_DURATION_TIME = 90000;	// 90 seconds
 	
-	private static LongPollingManager INSTANCE = new LongPollingManager();
+	private static final LongPollingManager INSTANCE = new LongPollingManager();
 	
 	private Logger log = LoggerFactory.getLogger(LongPollingManager.class);
 	

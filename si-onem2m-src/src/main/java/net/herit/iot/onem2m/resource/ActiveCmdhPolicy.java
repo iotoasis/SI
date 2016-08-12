@@ -43,14 +43,15 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "activeCmdhPolicyLink"
 })
 //@XmlRootElement(name = "activeCmdhPolicy")
-@XmlRootElement(name = "acmp")
+@XmlRootElement(name = Naming.ACTIVECMDHPOLICY_SN) //"acmp")
 public class ActiveCmdhPolicy
     extends MgmtResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-activeCmdhPolicy-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-activeCmdhPolicy-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-activeCmdhPolicy-v1_6_0.xsd";
 	
-    @XmlElement(required = true)
+    @XmlElement(name = Naming.ACTIVECMDHPOLICYLINK_SN, required = true)
     protected String activeCmdhPolicyLink;
 
     /**

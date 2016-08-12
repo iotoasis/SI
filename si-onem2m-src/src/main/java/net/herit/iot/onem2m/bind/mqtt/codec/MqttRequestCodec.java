@@ -27,7 +27,7 @@ public class MqttRequestCodec {
 		
 		try {
 			String strContents = new String(contents, "UTF-8").trim();
-			
+
 			contentType = Utils.getContentType(strContents);
 
 			switch (contentType) {

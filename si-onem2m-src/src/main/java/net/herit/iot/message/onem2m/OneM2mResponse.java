@@ -12,17 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
-import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
-import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.message.onem2m.format.Enums.*;
 import net.herit.iot.onem2m.bind.codec.AbsSerializer;
-import net.herit.iot.onem2m.core.convertor.XMLConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.core.util.Utils;
-import net.herit.iot.onem2m.resource.AE;
-import net.herit.iot.onem2m.resource.Container;
-import net.herit.iot.onem2m.resource.ContentInstance;
+import net.herit.iot.onem2m.incse.facility.CfgManager;
 import net.herit.iot.onem2m.resource.Naming;
 import net.herit.iot.onem2m.resource.PrimitiveContent;
 import net.herit.iot.onem2m.resource.Resource;
@@ -135,7 +130,7 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 //	protected int		eventCategory = NOT_SET;		// 100 ~ 999: User defined.
 //	protected byte[]	content = null;
 	
-	private final static String NOT_RES_STATCODE		= "NOT Response Status Code";
+//	private final static String NOT_RES_STATCODE		= "NOT Response Status Code";
 	private final static String NOT_REQUESTID			= "NOT Request Identifier";
 	
 	protected transient String contentLocation;	// delivered by Content-Location header
@@ -157,47 +152,58 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 		this.request = reqMessage;
 		if (request != null) {
 			this.setRequestIdentifier(request.getRequestIdentifier());
-			this.setFrom(request.getFrom());
+//			this.setFrom(request.getFrom());
+			this.setFrom(CfgManager.getInstance().getAbsoluteCSEBaseId());
 			this.setEventCategory(request.getEventCategory());
 			this.setRequest(request);
-		
-			RESULT_CONT rc = request.getResultContentEnum();
+
 			
-			boolean supportXml = false;
-			CONTENT_TYPE reqCt = request.getContentType();
 			List<CONTENT_TYPE> format = request.getAcceptTypes();
-			if (reqCt == null && (format == null || format.size() == 0)) {
-				supportXml = true;
-			} else {		
-				supportXml = Utils.isXMLContentType(reqCt);
-				Iterator<CONTENT_TYPE> it = format.iterator();
-				while (!supportXml && it.hasNext()) {
-					if (Utils.isXMLContentType(it.next())) {
-						supportXml = true;
-						break;
+			CONTENT_TYPE reqCt = request.getContentType();
+			if(format != null && format.size() > 0) {
+				this.setContentType(format.get(0));
+			} else if(reqCt != null && reqCt != CONTENT_TYPE.NONE) {
+				this.setContentType(reqCt);
+			} else {
+				
+				
+				RESULT_CONT rc = request.getResultContentEnum();
+				
+				boolean supportXml = false;
+				if (reqCt == null && (format == null || format.size() == 0)) {
+					supportXml = true;
+				} else {		
+					supportXml = Utils.isXMLContentType(reqCt);
+					Iterator<CONTENT_TYPE> it = format.iterator();
+					while (!supportXml && it.hasNext()) {
+						if (Utils.isXMLContentType(it.next())) {
+							supportXml = true;
+							break;
+						}
 					}
 				}
-			}
-			
-			if (request.getOperationEnum() == OPERATION.DISCOVERY) {
-				this.setContentType(supportXml ? CONTENT_TYPE.XML : CONTENT_TYPE.JSON);
-			} else {
-				switch (rc) {
-				case ATTRIBUTE:
-				case HIERARCHY_ADDR_N_ATTR:
-				case ATTR_N_CHILD_RES:
-				case ATTR_N_CHILD_RES_REF:
-				case CHILD_RES_REF:
-				case ORIGINAL_RES:
-					this.setContentType(supportXml ? CONTENT_TYPE.RES_XML : CONTENT_TYPE.RES_JSON);
-					break;
-				case HIERARCHY_ADDR:
+				
+				if (request.getOperationEnum() == OPERATION.DISCOVERY) {
 					this.setContentType(supportXml ? CONTENT_TYPE.XML : CONTENT_TYPE.JSON);
-					break;
-				default:
-					this.setContentType(supportXml ? CONTENT_TYPE.XML : CONTENT_TYPE.JSON);
-				}			
+				} else {
+					switch (rc) {
+					case ATTRIBUTE:
+					case HIERARCHY_ADDR_N_ATTR:
+					case ATTR_N_CHILD_RES:
+					case ATTR_N_CHILD_RES_REF:
+					case CHILD_RES_REF:
+					case ORIGINAL_RES:
+						this.setContentType(supportXml ? CONTENT_TYPE.RES_XML : CONTENT_TYPE.RES_JSON);
+						break;
+					case HIERARCHY_ADDR:
+						this.setContentType(supportXml ? CONTENT_TYPE.XML : CONTENT_TYPE.JSON);
+						break;
+					default:
+						this.setContentType(supportXml ? CONTENT_TYPE.XML : CONTENT_TYPE.JSON);
+					}			
+				}
 			}
+						
 		}
 		log.debug("OneM2mResponse initialized with request!");
 	}
@@ -322,15 +328,17 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 	
 	public byte[] getContent() throws Exception {
 
-		CONTENT_TYPE cntType = null;
-		if (request != null) {
-			List<CONTENT_TYPE> format = request.getAcceptTypes();
-//			System.out.println("format is " + format);
-			if (format != null && format.size() > 0) {
-				cntType = format.get(0);
-			}
-		}
-				
+		CONTENT_TYPE cntType = this.getContentType();
+//		if (request != null) {
+//			List<CONTENT_TYPE> format = request.getAcceptTypes();
+////			System.out.println("format is " + format);
+//			if (format != null && format.size() > 0) {
+//				cntType = format.get(0);
+//			}
+//		}
+		
+		if(cntType == CONTENT_TYPE.TEXT_PLAIN) return content; // non standard.
+		
 		AbsSerializer serializer = AbsSerializer.getSerializer(cntType == null ? CONTENT_TYPE.XML : cntType);
 		
 		if (content == null && contentObject != null) {

@@ -22,7 +22,7 @@ import com.mongodb.client.MongoDatabase;
 
 public class QosManager {
 	
-	private static QosManager INSTANCE = new QosManager();
+	private final static QosManager INSTANCE = new QosManager();
 	
 	private AEDAO aeDao;
 	private RemoteCSEDAO cseDao;

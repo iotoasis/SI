@@ -1,26 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <incse>
         <database>
-                <host>10.101.101.195</host>
+                <host>127.0.0.1</host>
                 <port>27017</port>
                 <dbname>IITP-IOT</dbname>
                 <user></user>
                 <password></password>
-        </database>
-        <cse>
-                <host>10.101.101.195</host>
-                <baseName>herit-cse</baseName>
-                <resourceId>herit-in</resourceId>
-                <poa>http://10.101.101.195:8090</poa>
-                <httpPort>8080</httpPort>
-                <restPort>8081</restPort>
+       </database>
+                  
+		<binding>
+			<!-- default binding: http -->
+			<http>
+				<!-- <supported>yes</supported>  -->
+				<port>8080</port>
+				<sec-port>8443</sec-port> <!-- https port -->
+				<rest-port>8081</rest-port>
+				<netty>
+					<boss-threadPool-size>0</boss-threadPool-size>
+					<worker-threadPool-size>1024</worker-threadPool-size>
+				</netty>
+			</http>
+
+			<mqtt>
+				<supported>no</supported>  <!-- yes or no -->
+				<keepalive>1200</keepalive>  <!-- seconds -->
+				<!-- 
+				<broker>tcp://iot.eclipse.org:1883</broker>
+				
+				<broker>ssl://iot.eclipse.org:8883</broker>
+				-->
+				
+				<broker>tcp://127.0.0.1:1883</broker>
+			</mqtt>
+
+			<coap>
+				<supported>yes</supported>  <!-- yes or no -->
+				<port>5683</port>
+				<sec-port>4433</sec-port>   <!-- dtls port -->
+			</coap>
+		</binding>
+
+		<cse>
+			<host>127.0.0.1</host>
+			<baseName>herit-cse</baseName>
+			<resourceId>herit-in</resourceId>
+			<poa>http://127.0.0.1:8080</poa>
+
+			<default-resource-expiration-time>3</default-resource-expiration-time>	<!-- days -->
+ 			<allowed-subgroup-depth>3</allowed-subgroup-depth>
+			<!-- 
+			<host>221.163.165.156</host>
+			<baseName>herit-cse</baseName>
+			<resourceId>herit-in</resourceId>
+			<poa>http://221.163.165.156:8080</poa>
+			-->
         </cse>
         <cmdh>
                 <commandTimeout>10</commandTimeout>
                 <commandExpireTimerInterval>1</commandExpireTimerInterval>
         </cmdh>
 
+
 		<remoteCSEs>
+		   <!-- 
+		    <remoteCSE>
+				<cseId>CSEBase_02</cseId>
+				<cseName>CSEBase_02</cseName>
+				<cseHost>192.168.100.68</cseHost>
+				<maxTPS>1</maxTPS>
+				<poa>coap://192.168.100.68:7078</poa>
+			</remoteCSE>
+					
+			
 			<remoteCSE>
 				<cseId>herit-mn1</cseId>
 				<cseName>herit-cse</cseName>
@@ -39,6 +90,7 @@
 				<cseHost>mn1.onem2m.herit.net</cseHost>
 				<maxTPS>1</maxTPS>
 			</remoteCSE>
+			 -->
 		</remoteCSEs>
 		<dms>
 			<hitdm>
@@ -47,18 +99,14 @@
 		</dms>
 		<qos>
 			<maxPollingSessionNo>-1</maxPollingSessionNo>
-			<maxAENo>10000</maxAENo>
-			<maxCSENo>10000</maxCSENo>
+			<maxAENo>64</maxAENo>
+			<maxCSENo>3</maxCSENo>
 		</qos>
 		
 		<resourcePolicy>
 			<maxCIPerContainer>50</maxCIPerContainer>		
 		</resourcePolicy>
-        <mqtt>
-                <broker>
-                        <address>tcp://iot.eclipse.org:1883</address>
-                </broker>
-        </mqtt>
+
 
 </incse>
 

@@ -17,7 +17,7 @@ import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -48,7 +48,7 @@ public class AccessControlPolicyDAO extends ResourceDAO implements DAOInterface 
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<AccessControlPolicy> jc = (JSONConvertor<AccessControlPolicy>)ConvertorFactory.getJSONConvertor(AccessControlPolicy.class, null);
+			DaoJSONConvertor<AccessControlPolicy> jc = (DaoJSONConvertor<AccessControlPolicy>)ConvertorFactory.getDaoJSONConvertor(AccessControlPolicy.class, null);
 			return jc.marshal((AccessControlPolicy)res);
 			
 		} catch (Exception e) {
@@ -120,7 +120,7 @@ public class AccessControlPolicyDAO extends ResourceDAO implements DAOInterface 
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 
 		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, 
-				ConvertorFactory.getJSONConvertor(AccessControlPolicy.class, AccessControlPolicy.SCHEMA_LOCATION), rc);
+				ConvertorFactory.getDaoJSONConvertor(AccessControlPolicy.class, AccessControlPolicy.SCHEMA_LOCATION), rc);
 		
 	}
 
@@ -243,8 +243,11 @@ public class AccessControlPolicyDAO extends ResourceDAO implements DAOInterface 
 			List<String> acoList = (List<String>)acrDoc.get(ACCCTRL_ORIGS_KEY);	// "accessControlOriginators" "acor"
 //			List<String> oriList = acr.getAccessControlOriginators();					
 //			oriList.addAll(acoList);	
-			for(String aco : acoList) {		// 2015.09.14 modified...
-				acr.addAccessControlOriginators(aco);
+			
+			if(acoList != null) {
+				for(String aco : acoList) {		// 2015.09.14 modified...
+					acr.addAccessControlOriginators(aco);
+				}
 			}
 			
 			int acop = (int)acrDoc.get(ACCCTRL_OPERS_KEY);	// "accessControlOperations"

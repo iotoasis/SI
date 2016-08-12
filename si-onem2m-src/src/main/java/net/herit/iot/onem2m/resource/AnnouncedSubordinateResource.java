@@ -25,6 +25,7 @@ import org.joda.time.format.DateTimeFormat;
 
 
 /**
+ * XSD-1.6.0
  * <p>Java class for announcedSubordinateResource complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -50,7 +51,9 @@ import org.joda.time.format.DateTimeFormat;
     "link"
 })
 @XmlSeeAlso({
-    ScheduleAnnc.class
+    ScheduleAnnc.class,
+    AccessControlPolicyAnnc.class,  //added. XSD-1.6.0
+    ContentInstanceAnnc.class		//added. XSD-1.6.0
 })
 public class AnnouncedSubordinateResource
     extends Resource

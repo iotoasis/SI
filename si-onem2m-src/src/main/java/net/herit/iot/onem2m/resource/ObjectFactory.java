@@ -36,292 +36,22 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link DownloadArgsType }
-     * 
+    /** 
+     * XSD-1.6.0
+     * Create an instance of {@link AccessControlRule }
+     *
      */
-    public DownloadArgsType createDownloadArgsType() {
-        return new DownloadArgsType();
+    public AccessControlRule createAccessControlRule() {
+        return new AccessControlRule();
     }
 
     /**
-     * Create an instance of {@link Software }
-     * 
+     * XSD-1.6.0
+     * Create an instance of {@link AccessControlRule.AccessControlContexts }
+     *
      */
-    public Software createSoftware() {
-        return new Software();
-    }
-
-    /**
-     * Create an instance of {@link AggregatedRequest.Request }
-     * 
-     */
-    public AggregatedRequest.Request createAggregatedRequestRequest() {
-        return new AggregatedRequest.Request();
-    }
-
-    /**
-     * Create an instance of {@link AnnouncedMgmtResource }
-     * 
-     */
-    public AnnouncedMgmtResource createAnnouncedMgmtResource() {
-        return new AnnouncedMgmtResource();
-    }
-
-    /**
-     * Create an instance of {@link Schedule }
-     * 
-     */
-    public Schedule createSchedule() {
-        return new Schedule();
-    }
-
-    /**
-     * Create an instance of {@link DeviceCapability }
-     * 
-     */
-    public DeviceCapability createDeviceCapability() {
-        return new DeviceCapability();
-    }
-
-    /**
-     * Create an instance of {@link RegularResource }
-     * 
-     */
-    public RegularResource createRegularResource() {
-        return new RegularResource();
-    }
-
-    /**
-     * Create an instance of {@link ActiveCmdhPolicy }
-     * 
-     */
-    public ActiveCmdhPolicy createActiveCmdhPolicy() {
-        return new ActiveCmdhPolicy();
-    }
-
-    /**
-     * Create an instance of {@link ResourceWrapper }
-     * 
-     */
-    public ResourceWrapper createResourceWrapper() {
-        return new ResourceWrapper();
-    }
-
-    /**
-     * Create an instance of {@link ScheduleEntries }
-     * 
-     */
-    public ScheduleEntries createScheduleEntries() {
-        return new ScheduleEntries();
-    }
-
-    /**
-     * Create an instance of {@link AreaNwkDeviceInfo }
-     * 
-     */
-    public AreaNwkDeviceInfo createAreaNwkDeviceInfo() {
-        return new AreaNwkDeviceInfo();
-    }
-
-    /**
-     * Create an instance of {@link ResetArgsType }
-     * 
-     */
-    public ResetArgsType createResetArgsType() {
-        return new ResetArgsType();
-    }
-
-    /**
-     * Create an instance of {@link EventNotificationCriteria }
-     * 
-     */
-    public EventNotificationCriteria createEventNotificationCriteria() {
-        return new EventNotificationCriteria();
-    }
-
-    /**
-     * Create an instance of {@link CmdhPolicy }
-     * 
-     */
-    public CmdhPolicy createCmdhPolicy() {
-        return new CmdhPolicy();
-    }
-
-    /**
-     * Create an instance of {@link ScheduleAnnc }
-     * 
-     */
-    public ScheduleAnnc createScheduleAnnc() {
-        return new ScheduleAnnc();
-    }
-
-    /**
-     * Create an instance of {@link RebootArgsType }
-     * 
-     */
-    public RebootArgsType createRebootArgsType() {
-        return new RebootArgsType();
-    }
-
-    /**
-     * Create an instance of {@link AnnounceableResource }
-     * 
-     */
-    public AnnounceableResource createAnnounceableResource() {
-        return new AnnounceableResource();
-    }
-
-    /**
-     * Create an instance of {@link AreaNwkInfoAnnc }
-     * 
-     */
-    public AreaNwkInfoAnnc createAreaNwkInfoAnnc() {
-        return new AreaNwkInfoAnnc();
-    }
-
-    /**
-     * Create an instance of {@link UploadArgsType }
-     * 
-     */
-    public UploadArgsType createUploadArgsType() {
-        return new UploadArgsType();
-    }
-
-    /**
-     * Create an instance of {@link AnnounceableSubordinateResource }
-     * 
-     */
-    public AnnounceableSubordinateResource createAnnounceableSubordinateResource() {
-        return new AnnounceableSubordinateResource();
-    }
-
-    /**
-     * Create an instance of {@link Reboot }
-     * 
-     */
-    public Reboot createReboot() {
-        return new Reboot();
-    }
-
-    /**
-     * Create an instance of {@link ExecReqArgsListType }
-     * 
-     */
-    public ExecReqArgsListType createExecReqArgsListType() {
-        return new ExecReqArgsListType();
-    }
-
-    /**
-     * Create an instance of {@link AnyArgType }
-     * 
-     */
-    public AnyArgType createAnyArgType() {
-        return new AnyArgType();
-    }
-
-    /**
-     * Create an instance of {@link Resource }
-     * 
-     */
-    public Resource createResource() {
-        return new Resource();
-    }
-
-    /**
-     * Create an instance of {@link EventLog }
-     * 
-     */
-    public EventLog createEventLog() {
-        return new EventLog();
-    }
-
-    /**
-     * Create an instance of {@link MgmtResource }
-     * 
-     */
-    public MgmtResource createMgmtResource() {
-        return new MgmtResource();
-    }
-
-    /**
-     * Create an instance of {@link Attribute }
-     * 
-     */
-    public Attribute createAttribute() {
-        return new Attribute();
-    }
-
-    /**
-     * Create an instance of {@link SoftwareUninstallArgsType }
-     * 
-     */
-    public SoftwareUninstallArgsType createSoftwareUninstallArgsType() {
-        return new SoftwareUninstallArgsType();
-    }
-
-    /**
-     * Create an instance of {@link MemoryAnnc }
-     * 
-     */
-    public MemoryAnnc createMemoryAnnc() {
-        return new MemoryAnnc();
-    }
-
-    /**
-     * Create an instance of {@link RebootAnnc }
-     * 
-     */
-    public RebootAnnc createRebootAnnc() {
-        return new RebootAnnc();
-    }
-
-    /**
-     * Create an instance of {@link FilterCriteria }
-     * 
-     */
-    public FilterCriteria createFilterCriteria() {
-        return new FilterCriteria();
-    }
-
-    /**
-     * Create an instance of {@link SoftwareUpdateArgsType }
-     * 
-     */
-    public SoftwareUpdateArgsType createSoftwareUpdateArgsType() {
-        return new SoftwareUpdateArgsType();
-    }
-
-    /**
-     * Create an instance of {@link Node }
-     * 
-     */
-    public Node createNode() {
-        return new Node();
-    }
-
-    /**
-     * Create an instance of {@link MetaInformation }
-     * 
-     */
-    public MetaInformation createMetaInformation() {
-        return new MetaInformation();
-    }
-
-    /**
-     * Create an instance of {@link BatteryAnnc }
-     * 
-     */
-    public BatteryAnnc createBatteryAnnc() {
-        return new BatteryAnnc();
-    }
-
-    /**
-     * Create an instance of {@link RateLimit }
-     * 
-     */
-    public RateLimit createRateLimit() {
-        return new RateLimit();
+    public AccessControlRule.AccessControlContexts createAccessControlRuleAccessControlContexts() {
+        return new AccessControlRule.AccessControlContexts();
     }
 
     /**
@@ -331,133 +61,14 @@ public class ObjectFactory {
     public AggregatedRequest createAggregatedRequest() {
         return new AggregatedRequest();
     }
-
+    
     /**
-     * Create an instance of {@link SoftwareAnnc }
-     * 
+     * XSD-1.6.0
+     * Create an instance of {@link ContentInstanceAnnc }
+     *
      */
-    public SoftwareAnnc createSoftwareAnnc() {
-        return new SoftwareAnnc();
-    }
-
-    /**
-     * Create an instance of {@link DeviceCapabilityAnnc }
-     * 
-     */
-    public DeviceCapabilityAnnc createDeviceCapabilityAnnc() {
-        return new DeviceCapabilityAnnc();
-    }
-
-    /**
-     * Create an instance of {@link AreaNwkInfo }
-     * 
-     */
-    public AreaNwkInfo createAreaNwkInfo() {
-        return new AreaNwkInfo();
-    }
-
-    /**
-     * Create an instance of {@link DeviceInfo }
-     * 
-     */
-    public DeviceInfo createDeviceInfo() {
-        return new DeviceInfo();
-    }
-
-    /**
-     * Create an instance of {@link MgmtLinkRef }
-     * 
-     */
-    public MgmtLinkRef createMgmtLinkRef() {
-        return new MgmtLinkRef();
-    }
-
-    /**
-     * Create an instance of {@link DeviceInfoAnnc }
-     * 
-     */
-    public DeviceInfoAnnc createDeviceInfoAnnc() {
-        return new DeviceInfoAnnc();
-    }
-
-    /**
-     * Create an instance of {@link Battery }
-     * 
-     */
-    public Battery createBattery() {
-        return new Battery();
-    }
-
-    /**
-     * Create an instance of {@link OperationResult }
-     * 
-     */
-    public OperationResult createOperationResult() {
-        return new OperationResult();
-    }
-
-    /**
-     * Create an instance of {@link SoftwareInstallArgsType }
-     * 
-     */
-    public SoftwareInstallArgsType createSoftwareInstallArgsType() {
-        return new SoftwareInstallArgsType();
-    }
-
-    /**
-     * Create an instance of {@link ResponseTypeInfo }
-     * 
-     */
-    public ResponseTypeInfo createResponseTypeInfo() {
-        return new ResponseTypeInfo();
-    }
-
-    /**
-     * Create an instance of {@link ActionStatus }
-     * 
-     */
-    public ActionStatus createActionStatus() {
-        return new ActionStatus();
-    }
-
-    /**
-     * Create an instance of {@link Subscription }
-     * 
-     */
-    public Subscription createSubscription() {
-        return new Subscription();
-    }
-
-    /**
-     * Create an instance of {@link BatchNotify }
-     * 
-     */
-    public BatchNotify createBatchNotify() {
-        return new BatchNotify();
-    }
-
-    /**
-     * Create an instance of {@link PrimitiveContent }
-     * 
-     */
-    public PrimitiveContent createPrimitiveContent() {
-        return new PrimitiveContent();
-    }
-
-    /**
-     * Create an instance of {@link AttributeList }
-     * 
-     */
-    public AttributeList createAttributeList() {
-        return new AttributeList();
-    }
-
-    /**
-     * Create an instance of {@link AnnouncedResource }
-     * 
-     */
-    public AnnouncedResource createAnnouncedResource() {
-        return new AnnouncedResource();
+    public ContentInstanceAnnc createContentInstanceAnnc() {
+        return new ContentInstanceAnnc();
     }
 
     /**
@@ -467,45 +78,45 @@ public class ObjectFactory {
     public AnnouncedSubordinateResource createAnnouncedSubordinateResource() {
         return new AnnouncedSubordinateResource();
     }
-
+    
     /**
-     * Create an instance of {@link Firmware }
+     * Create an instance of {@link Resource }
      * 
      */
-    public Firmware createFirmware() {
-        return new Firmware();
+    public Resource createResource() {
+        return new Resource();
+    }
+    
+    /**
+     * Create an instance of {@link ScheduleAnnc }
+     * 
+     */
+    public ScheduleAnnc createScheduleAnnc() {
+        return new ScheduleAnnc();
+    }
+    
+    /**
+     * Create an instance of {@link ScheduleEntries }
+     * 
+     */
+    public ScheduleEntries createScheduleEntries() {
+        return new ScheduleEntries();
+    }
+    
+    /**
+     * Create an instance of {@link AccessControlPolicyAnnc }
+     *
+     */
+    public AccessControlPolicyAnnc createAccessControlPolicyAnnc() {
+        return new AccessControlPolicyAnnc();
     }
 
     /**
-     * Create an instance of {@link EventLogAnnc }
-     * 
+     * Create an instance of {@link SetOfAcrs }
+     *
      */
-    public EventLogAnnc createEventLogAnnc() {
-        return new EventLogAnnc();
-    }
-
-    /**
-     * Create an instance of {@link FirmwareAnnc }
-     * 
-     */
-    public FirmwareAnnc createFirmwareAnnc() {
-        return new FirmwareAnnc();
-    }
-
-    /**
-     * Create an instance of {@link Memory }
-     * 
-     */
-    public Memory createMemory() {
-        return new Memory();
-    }
-
-    /**
-     * Create an instance of {@link NodeAnnc }
-     * 
-     */
-    public NodeAnnc createNodeAnnc() {
-        return new NodeAnnc();
+    public SetOfAcrs createSetOfAcrs() {
+        return new SetOfAcrs();
     }
 
     /**
@@ -515,6 +126,198 @@ public class ObjectFactory {
     public ChildResourceRef createChildResourceRef() {
         return new ChildResourceRef();
     }
+    
+    /**
+     * Create an instance of {@link Subscription }
+     * 
+     */
+    public Subscription createSubscription() {
+        return new Subscription();
+    }
+    
+    /**
+     * Create an instance of {@link RegularResource }
+     * 
+     */
+    public RegularResource createRegularResource() {
+        return new RegularResource();
+    }
+
+    /**
+     * Create an instance of {@link EventNotificationCriteria }
+     * 
+     */
+    public EventNotificationCriteria createEventNotificationCriteria() {
+        return new EventNotificationCriteria();
+    }
+    
+    /**
+     * Create an instance of {@link BatchNotify }
+     * 
+     */
+    public BatchNotify createBatchNotify() {
+        return new BatchNotify();
+    }
+    
+    /**
+     * Create an instance of {@link RateLimit }
+     * 
+     */
+    public RateLimit createRateLimit() {
+        return new RateLimit();
+    }
+    
+    /**
+     * Create an instance of {@link Schedule }
+     * 
+     */
+    public Schedule createSchedule() {
+        return new Schedule();
+    }
+
+    /**
+     * Create an instance of {@link AnnounceableSubordinateResource }
+     * 
+     */
+    public AnnounceableSubordinateResource createAnnounceableSubordinateResource() {
+        return new AnnounceableSubordinateResource();
+    }
+    
+    /**
+     * Create an instance of {@link AEAnnc }
+     *
+     */
+    public AEAnnc createAEAnnc() {
+        return new AEAnnc();
+    }
+    
+    /**
+     * Create an instance of {@link AnnouncedResource }
+     * 
+     */
+    public AnnouncedResource createAnnouncedResource() {
+        return new AnnouncedResource();
+    }
+ 
+    /**
+     * Create an instance of {@link Container }
+     *
+     */
+    public Container createContainer() {
+        return new Container();
+    }
+
+    /**
+     * Create an instance of {@link AnnounceableResource }
+     * 
+     */
+    public AnnounceableResource createAnnounceableResource() {
+        return new AnnounceableResource();
+    }
+    
+    /**
+     * Create an instance of {@link ContentInstance }
+     *
+     */
+    public ContentInstance createContentInstance() {
+        return new ContentInstance();
+    }
+
+    /**
+     * Create an instance of {@link ContainerAnnc }
+     *
+     */
+    public ContainerAnnc createContainerAnnc() {
+        return new ContainerAnnc();
+    }
+
+    /**
+     * Create an instance of {@link Group }
+     *
+     */
+    public Group createGroup() {
+        return new Group();
+    }
+
+    /**
+     * Create an instance of {@link GroupAnnc }
+     *
+     */
+    public GroupAnnc createGroupAnnc() {
+        return new GroupAnnc();
+    }
+
+    /**
+     * Create an instance of {@link AccessControlPolicy }
+     *
+     */
+    public AccessControlPolicy createAccessControlPolicy() {
+        return new AccessControlPolicy();
+    }
+
+    /**
+     * Create an instance of {@link PollingChannel }
+     *
+     */
+    public PollingChannel createPollingChannel() {
+        return new PollingChannel();
+    }
+    
+    /**
+     * Create an instance of {@link AE }
+     *
+     */
+    public AE createAE() {
+        return new AE();
+    }
+    
+    /**
+     * Create an instance of {@link AnyArgType }
+     * 
+     */
+    public AnyArgType createAnyArgType() {
+        return new AnyArgType();
+    }
+    
+    /**
+     * Create an instance of {@link OperationResult }
+     * 
+     */
+    public OperationResult createOperationResult() {
+        return new OperationResult();
+    }
+    
+    /**
+     * Create an instance of {@link ResetArgsType }
+     * 
+     */
+    public ResetArgsType createResetArgsType() {
+        return new ResetArgsType();
+    }
+    
+    /**
+     * Create an instance of {@link ExecReqArgsListType }
+     * 
+     */
+    public ExecReqArgsListType createExecReqArgsListType() {
+        return new ExecReqArgsListType();
+    }
+    
+    /**
+     * Create an instance of {@link SoftwareInstallArgsType }
+     * 
+     */
+    public SoftwareInstallArgsType createSoftwareInstallArgsType() {
+        return new SoftwareInstallArgsType();
+    }
+    
+    /**
+     * Create an instance of {@link LocationRegion }
+     *
+     */
+    public LocationRegion createLocationRegion() {
+        return new LocationRegion();
+    }
 
     /**
      * Create an instance of {@link DeliveryMetaData }
@@ -523,13 +326,361 @@ public class ObjectFactory {
     public DeliveryMetaData createDeliveryMetaData() {
         return new DeliveryMetaData();
     }
-
+    
     /**
-     * Create an instance of {@link AreaNwkDeviceInfoAnnc }
+     * Create an instance of {@link Attribute }
      * 
      */
-    public AreaNwkDeviceInfoAnnc createAreaNwkDeviceInfoAnnc() {
-        return new AreaNwkDeviceInfoAnnc();
+    public Attribute createAttribute() {
+        return new Attribute();
     }
+    
+    /**
+     * Create an instance of {@link ActionStatus }
+     * 
+     */
+    public ActionStatus createActionStatus() {
+        return new ActionStatus();
+    }
+    
+    /**
+     * Create an instance of {@link SoftwareUninstallArgsType }
+     * 
+     */
+    public SoftwareUninstallArgsType createSoftwareUninstallArgsType() {
+        return new SoftwareUninstallArgsType();
+    }
+    
+    /**
+     * Create an instance of {@link MetaInformation }
+     * 
+     */
+    public MetaInformation createMetaInformation() {
+        return new MetaInformation();
+    }
+    
+    /**
+     * Create an instance of {@link MgmtResource }
+     * 
+     */
+    public MgmtResource createMgmtResource() {
+        return new MgmtResource();
+    }
+
+    /**
+     * Create an instance of {@link MgmtLinkRef }
+     * 
+     */
+    public MgmtLinkRef createMgmtLinkRef() {
+        return new MgmtLinkRef();
+    }
+    
+    /**
+     * Create an instance of {@link UploadArgsType }
+     * 
+     */
+    public UploadArgsType createUploadArgsType() {
+        return new UploadArgsType();
+    }
+    
+    /**
+     * Create an instance of {@link RebootArgsType }
+     * 
+     */
+    public RebootArgsType createRebootArgsType() {
+        return new RebootArgsType();
+    }
+    
+    /**
+     * Create an instance of {@link FilterCriteria }
+     * 
+     */
+    public FilterCriteria createFilterCriteria() {
+        return new FilterCriteria();
+    }
+    
+    /**
+     * Create an instance of {@link SoftwareUpdateArgsType }
+     * 
+     */
+    public SoftwareUpdateArgsType createSoftwareUpdateArgsType() {
+        return new SoftwareUpdateArgsType();
+    }
+    
+    /**
+     * Create an instance of {@link AnnouncedMgmtResource }
+     * 
+     */
+    public AnnouncedMgmtResource createAnnouncedMgmtResource() {
+        return new AnnouncedMgmtResource();
+    }
+ 
+    /**
+     * Create an instance of {@link DownloadArgsType }
+     * 
+     */
+    public DownloadArgsType createDownloadArgsType() {
+        return new DownloadArgsType();
+    }
+    
+    /**
+     * Create an instance of {@link PrimitiveContent }
+     * 
+     */
+    public PrimitiveContent createPrimitiveContent() {
+        return new PrimitiveContent();
+    }
+    
+    /**
+     * Create an instance of {@link ResponseTypeInfo }
+     * 
+     */
+    public ResponseTypeInfo createResponseTypeInfo() {
+        return new ResponseTypeInfo();
+    }
+    
+    /**
+     * XSD-1.6.0
+     * Create an instance of {@link AccessControlRule.AccessControlContexts.AccessControlIpAddresses }
+     *
+     */
+    public AccessControlRule.AccessControlContexts.AccessControlIpAddresses createAccessControlRuleAccessControlContextsAccessControlIpAddresses() {
+        return new AccessControlRule.AccessControlContexts.AccessControlIpAddresses();
+    }
+
+    /**
+     * Create an instance of {@link AggregatedRequest.Request }
+     * 
+     */
+    public AggregatedRequest.Request createAggregatedRequestRequest() {
+        return new AggregatedRequest.Request();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ 
+    
+    
+    /*** XSD 1.6.0에서 빠진 methods ***/
+
+//    /**
+//     * Create an instance of {@link Software }
+//     * 
+//     */
+//    public Software createSoftware() {
+//        return new Software();
+//    }
+//
+//    /**
+//     * Create an instance of {@link DeviceCapability }
+//     * 
+//     */
+//    public DeviceCapability createDeviceCapability() {
+//        return new DeviceCapability();
+//    }
+//
+//    /**
+//     * Create an instance of {@link ActiveCmdhPolicy }
+//     * 
+//     */
+//    public ActiveCmdhPolicy createActiveCmdhPolicy() {
+//        return new ActiveCmdhPolicy();
+//    }
+//
+//    /**
+//     * Create an instance of {@link ResourceWrapper }
+//     * 
+//     */
+//    public ResourceWrapper createResourceWrapper() {
+//        return new ResourceWrapper();
+//    }
+//
+//    /**
+//     * Create an instance of {@link AreaNwkDeviceInfo }
+//     * 
+//     */
+//    public AreaNwkDeviceInfo createAreaNwkDeviceInfo() {
+//        return new AreaNwkDeviceInfo();
+//    }
+//
+//    /**
+//     * Create an instance of {@link CmdhPolicy }
+//     * 
+//     */
+//    public CmdhPolicy createCmdhPolicy() {
+//        return new CmdhPolicy();
+//    }
+//
+//    /**
+//     * Create an instance of {@link AreaNwkInfoAnnc }
+//     * 
+//     */
+//    public AreaNwkInfoAnnc createAreaNwkInfoAnnc() {
+//        return new AreaNwkInfoAnnc();
+//    }
+//
+//    /**
+//     * Create an instance of {@link Reboot }
+//     * 
+//     */
+//    public Reboot createReboot() {
+//        return new Reboot();
+//    }
+//
+//    /**
+//     * Create an instance of {@link EventLog }
+//     * 
+//     */
+//    public EventLog createEventLog() {
+//        return new EventLog();
+//    }
+//
+//    /**
+//     * Create an instance of {@link MemoryAnnc }
+//     * 
+//     */
+//    public MemoryAnnc createMemoryAnnc() {
+//        return new MemoryAnnc();
+//    }
+//
+//    /**
+//     * Create an instance of {@link RebootAnnc }
+//     * 
+//     */
+//    public RebootAnnc createRebootAnnc() {
+//        return new RebootAnnc();
+//    }
+//
+//    /**
+//     * Create an instance of {@link Node }
+//     * 
+//     */
+//    public Node createNode() {
+//        return new Node();
+//    }
+//
+//    /**
+//     * Create an instance of {@link BatteryAnnc }
+//     * 
+//     */
+//    public BatteryAnnc createBatteryAnnc() {
+//        return new BatteryAnnc();
+//    }
+//
+//    /**
+//     * Create an instance of {@link SoftwareAnnc }
+//     * 
+//     */
+//    public SoftwareAnnc createSoftwareAnnc() {
+//        return new SoftwareAnnc();
+//    }
+//
+//    /**
+//     * Create an instance of {@link DeviceCapabilityAnnc }
+//     * 
+//     */
+//    public DeviceCapabilityAnnc createDeviceCapabilityAnnc() {
+//        return new DeviceCapabilityAnnc();
+//    }
+//
+//    /**
+//     * Create an instance of {@link AreaNwkInfo }
+//     * 
+//     */
+//    public AreaNwkInfo createAreaNwkInfo() {
+//        return new AreaNwkInfo();
+//    }
+//
+//    /**
+//     * Create an instance of {@link DeviceInfo }
+//     * 
+//     */
+//    public DeviceInfo createDeviceInfo() {
+//        return new DeviceInfo();
+//    }
+//
+//    /**
+//     * Create an instance of {@link DeviceInfoAnnc }
+//     * 
+//     */
+//    public DeviceInfoAnnc createDeviceInfoAnnc() {
+//        return new DeviceInfoAnnc();
+//    }
+//
+//    /**
+//     * Create an instance of {@link Battery }
+//     * 
+//     */
+//    public Battery createBattery() {
+//        return new Battery();
+//    }
+//
+//    /**
+//     * Create an instance of {@link AttributeList }
+//     * 
+//     */
+//    public AttributeList createAttributeList() {
+//        return new AttributeList();
+//    }
+//
+//    /**
+//     * Create an instance of {@link Firmware }
+//     * 
+//     */
+//    public Firmware createFirmware() {
+//        return new Firmware();
+//    }
+//
+//    /**
+//     * Create an instance of {@link EventLogAnnc }
+//     * 
+//     */
+//    public EventLogAnnc createEventLogAnnc() {
+//        return new EventLogAnnc();
+//    }
+//
+//    /**
+//     * Create an instance of {@link FirmwareAnnc }
+//     * 
+//     */
+//    public FirmwareAnnc createFirmwareAnnc() {
+//        return new FirmwareAnnc();
+//    }
+//
+//    /**
+//     * Create an instance of {@link Memory }
+//     * 
+//     */
+//    public Memory createMemory() {
+//        return new Memory();
+//    }
+//
+//    /**
+//     * Create an instance of {@link NodeAnnc }
+//     * 
+//     */
+//    public NodeAnnc createNodeAnnc() {
+//        return new NodeAnnc();
+//    }
+//
+//    /**
+//     * Create an instance of {@link AreaNwkDeviceInfoAnnc }
+//     * 
+//     */
+//    public AreaNwkDeviceInfoAnnc createAreaNwkDeviceInfoAnnc() {
+//        return new AreaNwkDeviceInfoAnnc();
+//    }
 
 }

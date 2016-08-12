@@ -91,7 +91,8 @@ public class Subscription
     extends RegularResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-subscription-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-subscription-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-subscription-v1_6_0.xsd";
 	
 	@XmlElement(name = "enc")
     protected EventNotificationCriteria eventNotificationCriteria;

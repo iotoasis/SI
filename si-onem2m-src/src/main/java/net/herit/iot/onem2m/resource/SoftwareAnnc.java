@@ -69,7 +69,8 @@ import javax.xml.bind.annotation.XmlType;
 public class SoftwareAnnc
     extends AnnouncedMgmtResource
 {
-	public final static String SCHEMA_LOCATION = "CDT-software-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-software-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-software-v1_6_0.xsd";
 	
     @XmlElement(name = "vr")
     protected String version;

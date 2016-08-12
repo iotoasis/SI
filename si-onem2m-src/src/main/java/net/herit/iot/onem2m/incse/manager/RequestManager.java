@@ -139,4 +139,14 @@ public class RequestManager extends AbsManager {
 		return ConvertorFactory.getJSONConvertor(Request.class, Request.SCHEMA_LOCATION);
 	}
 
+	@Override
+	public void updateResource(Resource resource, OneM2mRequest req) throws OneM2MException {
+		Request res =  (Request)resource;
+		
+		//// TS-0001-XXX-V1_13_1 - 10.1.1.1	Non-registration related CREATE procedure (ExpirationTime..)
+		if(res.getExpirationTime() == null) {
+			res.setExpirationTime(CfgManager.getInstance().getDefaultExpirationTime());
+		}
+		// END - Non-registration related CREATE procedure
+	}
 }

@@ -215,5 +215,11 @@ public class SubscriptionManager extends AbsManager {
 	public void updateResource(Resource resource, OneM2mRequest reqMessage) throws OneM2MException {
 		Subscription subRes = (Subscription)resource;
 		subRes.setCreator(reqMessage.getFrom());
+		
+		//// TS-0001-XXX-V1_13_1 - 10.1.1.1	Non-registration related CREATE procedure (ExpirationTime..)
+		if(subRes.getExpirationTime() == null) {
+			subRes.setExpirationTime(CfgManager.getInstance().getDefaultExpirationTime());
+		}
+		// END - Non-registration related CREATE procedure
 	}
 }

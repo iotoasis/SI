@@ -12,10 +12,16 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
 import net.herit.iot.onem2m.incse.facility.SeqNumManager;
+import net.herit.iot.onem2m.incse.manager.dao.ContainerDAO;
 import net.herit.iot.onem2m.incse.manager.dao.DAOInterface;
+import net.herit.iot.onem2m.incse.manager.dao.DeliveryDAO;
+import net.herit.iot.onem2m.incse.manager.dao.RequestDAO;
 import net.herit.iot.onem2m.incse.manager.dao.ResourceDAO;
-import net.herit.iot.onem2m.resource.AE;
 import net.herit.iot.onem2m.resource.ChildResourceRef;
+import net.herit.iot.onem2m.resource.Container;
+import net.herit.iot.onem2m.resource.ContentInstance;
+import net.herit.iot.onem2m.resource.Delivery;
+import net.herit.iot.onem2m.resource.Request;
 import net.herit.iot.onem2m.resource.Resource;
 import net.herit.iot.onem2m.resource.UriContent;
 import net.herit.iot.onem2m.resource.UriListContent;
@@ -44,6 +50,7 @@ public class Manager {
 		
 		ResourceDAO dao = new ResourceDAO(context);
 		
+		log.debug("resourceId: {}", id);
 		Resource res = dao.getResource(id);
 		
 		return res;
@@ -327,7 +334,10 @@ public class Manager {
 			throw new OneM2MException(RESPONSE_STATUS.ACCESS_DENIED, "Access denied");
 		}
 		
-		String resName = reqMessage.getName() != null ? reqMessage.getName() : resourceID;	// remove '/'
+//		String resName = reqMessage.getName() != null ? reqMessage.getName() : resourceID;	// remove '/'
+		// name removed. XSD-1.6.0
+		String resName = res.getResourceName() != null ? res.getResourceName() : resourceID;
+		
 //		if (reqMessage.getResourceType() == RESOURCE_TYPE.POLLING_CHANN) {			// 2015.09.14 removed.
 //			resName = RESOURCE_TYPE.POLLING_CHANN.Name();
 //		}
@@ -347,6 +357,40 @@ public class Manager {
 		res.setResourceID(resourceID);
 		res.setParentID(parent.getResourceID());
 
+		//// TS-0001-XXX-V1_13_1 - 10.1.1.1	Non-registration related CREATE procedure (ExpirationTime..)
+//		if(reqMessage.getResourceTypeEnum() != RESOURCE_TYPE.AE &&
+//		   reqMessage.getResourceTypeEnum() != RESOURCE_TYPE.REMOTE_CSE) {
+//			//RegularResource, AnnouncedSubordinateResource, AnnouncedResource, AnnounceableSubordinateResource
+//			if(res instanceof RegularResource) { 
+//				if(((RegularResource) res).getExpirationTime() == null) {
+//					((RegularResource) res).setExpirationTime(CfgManager.getInstance().getDefaultExpirationTime());
+//				}
+//			} else if(res instanceof AnnouncedSubordinateResource) { 
+//				if(((AnnouncedSubordinateResource) res).getExpirationTime() == null) {
+//					((AnnouncedSubordinateResource) res).setExpirationTime(CfgManager.getInstance().getDefaultExpirationTime());
+//				}
+//			} else if(res instanceof AnnouncedResource) { 
+//				if(((AnnouncedResource) res).getExpirationTime() == null) {
+//					((AnnouncedResource) res).setExpirationTime(CfgManager.getInstance().getDefaultExpirationTime());
+//				}
+//			} else	if(res instanceof AnnounceableSubordinateResource) { 
+//				if(((AnnounceableSubordinateResource) res).getExpirationTime() == null) {
+//					((AnnounceableSubordinateResource) res).setExpirationTime(CfgManager.getInstance().getDefaultExpirationTime());
+//				}
+//			}
+//		}
+		// END - Non-registration related CREATE procedure
+		
+		//// ------- stateTag setting.. TS-0001-V1_13_1 : <9.6.1.3.2>
+		//// Container, Delivery, Request resource는 DAO에서 처리
+		updateParentStateTagValue(parent);
+		
+		if (res instanceof ContentInstance) {
+			((ContentInstance) res).setStateTag(((Container)parent).getStateTag());
+		}
+		//------- End stateTag setting.
+		
+		
 		// 각각 ResourceManager에서 resource 의 값을 업데이트해야 할 경우 사용.
 		manager.updateResource(res, reqMessage);
 		
@@ -363,6 +407,20 @@ public class Manager {
 		
 	}
 
+	private void updateParentStateTagValue(Resource parent) throws OneM2MException {
+		//// ------- stateTag setting.. TS-0001-V1_13_1 : <9.6.1.3.2>
+		//// Container, Delivery, Request resource는 DAO에서 Update 시 StateTag값을 1 증가 시킴
+		if(parent instanceof Container) {
+			new ContainerDAO(context).update(parent);
+		} else if (parent instanceof Delivery) {
+			new DeliveryDAO(context).update(parent);
+		} else if (parent instanceof Request) {
+			new RequestDAO(context).update(parent);
+		}
+		//------- End stateTag setting.
+	}
+	
+	
 	protected OneM2mResponse createAnnc(OneM2mRequest reqMessage, ManagerInterface manager) throws OneM2MException {
 		
 		DAOInterface dao = manager.getDAO();
@@ -383,7 +441,9 @@ public class Manager {
 		String resourceID = manager.createResourceID(reqMessage.getResourceTypeEnum(), res, reqMessage);
 		
 		//String name = res.getResourceName();
-		String resName = reqMessage.getName() != null ? reqMessage.getName() : resourceID;	// remove '/'
+//		String resName = reqMessage.getName() != null ? reqMessage.getName() : resourceID;	// remove '/'
+		// name removed. XSD-1.6.0
+		String resName = resourceID;	// remove '/'
 		
 		res.validate(OPERATION.CREATE);
 		
@@ -459,13 +519,25 @@ public class Manager {
 			throw new OneM2MException(RESPONSE_STATUS.ACCESS_DENIED, "Access denied");
 		}
 		
-		//res.validate(OPERATION.UPDATE);
+		res.validate(OPERATION.UPDATE);
 		
 		// 개별 리소스별 구현
 		manager.validateResource(res, reqMessage, curRes);
 		
 		res.setUri(reqMessage.getTo());
 		res.setResourceType(manager.getResourceType().Value());
+		
+		//// ------- stateTag setting.. TS-0001-V1_13_1 : <9.6.1.3.2>
+		//// Container, Delivery, Request resource는 stateTag값을 업데이트 해야 함. 1증가는 DAO에서...
+		if(res instanceof Container) {
+			((Container) res).setStateTag(((Container) curRes).getStateTag());
+		} else if (res instanceof Delivery) {
+			((Delivery) res).setStateTag(((Delivery) curRes).getStateTag());
+		} else if (res instanceof Request) {
+			((Request) res).setStateTag(((Request) curRes).getStateTag());
+		}
+		//------- End stateTag setting.
+		
 		
 		dao.update(res);
 
@@ -500,18 +572,18 @@ public class Manager {
 			break; 
 		}
 
-		if (res instanceof AE) {
-			log.debug(((AE)res).toString());
-		}
+//		if (res instanceof AE) {
+//			log.debug(((AE)res).toString());
+//		}
 		
 		res.setParentID(curRes.getParentID());
 		manager.announceTo(reqMessage, res, curRes);
 		
 		//manager.notification(parent, res, dao.retrieve(reqMessage.getTo(), null), OPERATION.UPDATE);
 		
-		if (res instanceof AE) {
-			log.debug(((AE)res).toString());
-		}
+//		if (res instanceof AE) {
+//			log.debug(((AE)res).toString());
+//		}
 		
 		return resMessage;
 		
@@ -544,7 +616,12 @@ public class Manager {
 			throw new OneM2MException(RESPONSE_STATUS.ACCESS_DENIED, "Access denied");
 		}		
 		
-		dao.delete(to);
+		//// ------- stateTag setting.. TS-0001-V1_13_1 : <9.6.1.3.2>
+		updateParentStateTagValue(parent);
+		//------- End stateTag setting.
+		
+		
+		dao.delete(to);		
 
 		OneM2mResponse resMessage = new OneM2mResponse(RESPONSE_STATUS.DELETED);
 		resMessage.setRequestIdentifier(reqMessage.getRequestIdentifier());

@@ -55,10 +55,10 @@ public class NotificationController extends AbsController implements AsyncRespon
 		@Override 
 		protected DateFormat initialValue() { 
 			return new SimpleDateFormat(Naming.DATE_FORMAT); 
-		} 
+		}
 	};
 	
-	private static NotificationController INSTANCE = new NotificationController();
+	private final static NotificationController INSTANCE = new NotificationController();
 	
 	private NotificationController() {
 	}
@@ -385,7 +385,7 @@ public class NotificationController extends AbsController implements AsyncRespon
 		
 		List<String> targetURI = new ArrayList<String>();
 		
-		if(to.startsWith("http")) {
+		if(to.startsWith("http") || to.startsWith("coap")) {
 			log.debug("AnnouncedAttribute is Address, sendAnnonce to ===> {}", to);
 //			if(sendAnnounce(reqMessage, resAnnc, to, op)) {
 //				successAnnounceTo.add(to);
@@ -393,8 +393,7 @@ public class NotificationController extends AbsController implements AsyncRespon
 //			continue;
 			targetURI.add(to);
 		} else {
-		
-		
+
 			// TODO: requestReachability checking for POA..
 			String id = OneM2mUtil.toUriOrResourceId(to);
 			List<Object> accessPoints = 
@@ -428,6 +427,8 @@ public class NotificationController extends AbsController implements AsyncRespon
 				} else {
 					reqMessage.setTo("/");
 				}
+				
+				log.debug("Notification URI: {}", uri);
 				
 				if(_uri_.getHost().equals(CfgManager.getInstance().getHostname())) {
 					log.debug("pollingChannel={}, pcu={}", uri, _uri_.getPath());

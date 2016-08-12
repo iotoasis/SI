@@ -73,7 +73,8 @@ public class Delivery
     extends RegularResource
 {
 
-	public static final String SCHEMA_LOCATION = "CDT-delivery-v1_2_0.xsd";
+//	public static final String SCHEMA_LOCATION = "CDT-delivery-v1_2_0.xsd";
+	public static final String SCHEMA_LOCATION = "CDT-delivery-v1_6_0.xsd";
 	
     //@XmlElement(required = true)
 	@XmlElement(name = "st")
@@ -89,7 +90,7 @@ public class Delivery
     @XmlElement(name = "ls")
     protected String lifespan;
     //@XmlElement(required = true)
-    @XmlElement(name = "ec")
+    @XmlElement(name = "eca")		//XSD-1.6.0
     protected String eventCat;
     //@XmlElement(required = true)
     @XmlElement(name = "dmd")

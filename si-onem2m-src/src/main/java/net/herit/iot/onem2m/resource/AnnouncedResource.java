@@ -24,11 +24,9 @@ import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.core.util.Utils;
 
-import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
-
 
 /**
+ * XSD-1.6.0+
  * <p>Java class for announcedResource complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -56,7 +54,10 @@ import org.joda.time.format.DateTimeFormat;
     "link"
 })
 @XmlSeeAlso({
-    AnnouncedMgmtResource.class
+    AnnouncedMgmtResource.class,
+    GroupAnnc.class,			//added. XSD-1.6.0
+    ContainerAnnc.class,		//added. XSD-1.6.0
+    AEAnnc.class				//added. XSD-1.6.0
 })
 public class AnnouncedResource
     extends Resource
@@ -177,9 +178,9 @@ public class AnnouncedResource
 			}
 			
 
-			if (this.resourceName != null) {				
-				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "resourceName is NP on CREATE");				
-			}
+//			if (this.resourceName != null) {			//2016.05.13 removed.
+//				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "resourceName is NP on CREATE");				
+//			}
 			if (this.resourceType != null) {				
 				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "resourceType is NP on CREATE");				
 			}

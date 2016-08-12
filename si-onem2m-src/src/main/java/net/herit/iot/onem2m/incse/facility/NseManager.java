@@ -43,10 +43,18 @@ public class NseManager {
 //			return new HttpClient().process(url, reqMessage);
 			return HttpClient.getInstance().sendRequest(url, reqMessage);
 		} else if (url.startsWith("coap")) {
-			return new HCoapClient().process(url, reqMessage);
+			try {
+				return new HCoapClient().process(url, reqMessage);
+			} catch (Exception e) {
+				return null;
+			}
 		} else if (url.startsWith("mqtt")) {
+			inCSE.sendMqttMessage(reqMessage);
+	
+				// Mqtt binding은 Blocking mode로 동작 할 수 없음.
 			return null;
 		} else {
+			log.warn("Don't send oneM2mRequest Message. Unknown Binding protocol.");
 			return null;
 		}
 		
@@ -83,7 +91,11 @@ public class NseManager {
 //		log.info(strbld.toString());
 		//===============================================================
 		
-		
+		if(inCSE == null) {
+			log.warn("MessageHandler(inCSE) is null");
+			return false;
+		}
+				
 		switch (binding) {
 		case BIND_HTTP:
 			return inCSE.sendHttpResponse(resMessage);

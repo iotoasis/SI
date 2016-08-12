@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 
 public class LogManager {
 
-	private static LogManager INSTANCE = new LogManager();
+	private final static LogManager INSTANCE = new LogManager();
 	
 	private Logger log = null;
 	private Logger clog = null;		// Call Log

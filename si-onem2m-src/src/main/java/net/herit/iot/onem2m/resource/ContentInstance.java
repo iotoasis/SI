@@ -62,7 +62,9 @@ public class ContentInstance
     extends AnnounceableSubordinateResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-contentInstance-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-contentInstance-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-contentInstance-v1_6_0.xsd";
+	
 	public static final String LATEST_SHORTNAME = "la";
 	public static final String OLDEST_SHORTNAME = "ol";
 	

@@ -12,7 +12,7 @@ import com.mongodb.client.MongoCollection;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -35,7 +35,7 @@ public class PollingChannelDAO extends ResourceDAO implements DAOInterface {
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<PollingChannel> jc = (JSONConvertor<PollingChannel>)ConvertorFactory.getJSONConvertor(PollingChannel.class, PollingChannel.SCHEMA_LOCATION);
+			DaoJSONConvertor<PollingChannel> jc = (DaoJSONConvertor<PollingChannel>)ConvertorFactory.getDaoJSONConvertor(PollingChannel.class, PollingChannel.SCHEMA_LOCATION);
 			return jc.marshal((PollingChannel)res);
 			
 		} catch (Exception e) {
@@ -55,7 +55,7 @@ public class PollingChannelDAO extends ResourceDAO implements DAOInterface {
 //		
 //		context.getLogManager().debug("resourceName: " + res.getResourceName() + ", resourceID: " + res.getResourceID());
 //		
-//		JSONConvertor<PollingChannel> jc = new JSONConvertor<PollingChannel>(PollingChannel.class);
+//		DaoJSONConvertor<PollingChannel> jc = new DaoJSONConvertor<PollingChannel>(PollingChannel.class);
 //		String strJson;
 //		try {
 //			strJson = jc.marshal(res);
@@ -105,7 +105,7 @@ public class PollingChannelDAO extends ResourceDAO implements DAOInterface {
 //
 //	@Override
 //	public Resource retrieveByUri(String uri, RESULT_CONT rc) throws OneM2MException {
-//		return retrieve(URI_KEY, uri, new JSONConvertor<PollingChannel>(PollingChannel.class), rc);
+//		return retrieve(URI_KEY, uri, new DaoJSONConvertor<PollingChannel>(PollingChannel.class), rc);
 //	}
 //
 //	@Override
@@ -115,7 +115,7 @@ public class PollingChannelDAO extends ResourceDAO implements DAOInterface {
 //
 //	@Override
 //	public Resource retrieveByResId(String resId, RESULT_CONT rc) throws OneM2MException {
-//		return retrieve(RESID_KEY, resId, new JSONConvertor<PollingChannel>(PollingChannel.class), rc);
+//		return retrieve(RESID_KEY, resId, new DaoJSONConvertor<PollingChannel>(PollingChannel.class), rc);
 //	}
 
 	
@@ -130,7 +130,7 @@ public class PollingChannelDAO extends ResourceDAO implements DAOInterface {
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 		
 		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, 
-				ConvertorFactory.getJSONConvertor(PollingChannel.class, PollingChannel.SCHEMA_LOCATION), rc);
+				ConvertorFactory.getDaoJSONConvertor(PollingChannel.class, PollingChannel.SCHEMA_LOCATION), rc);
 		
 	}
 }

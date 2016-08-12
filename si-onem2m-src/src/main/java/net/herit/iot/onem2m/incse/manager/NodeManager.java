@@ -15,6 +15,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.controller.AnnounceController;
 import net.herit.iot.onem2m.incse.controller.NotificationController;
+import net.herit.iot.onem2m.incse.facility.CfgManager;
 import net.herit.iot.onem2m.incse.manager.dao.DAOInterface;
 import net.herit.iot.onem2m.incse.manager.dao.NodeDAO;
 import net.herit.iot.onem2m.resource.Node;
@@ -107,4 +108,15 @@ public class NodeManager extends AbsManager {
 		return ConvertorFactory.getJSONConvertor(Node.class, Node.SCHEMA_LOCATION);
 	}
 
+	
+	@Override
+	public void updateResource(Resource resource, OneM2mRequest req) throws OneM2MException {
+		Node res =  (Node)resource;
+		
+		//// TS-0001-XXX-V1_13_1 - 10.1.1.1	Non-registration related CREATE procedure (ExpirationTime..)
+		if(res.getExpirationTime() == null) {
+			res.setExpirationTime(CfgManager.getInstance().getDefaultExpirationTime());
+		}
+		// END - Non-registration related CREATE procedure
+	}
 }

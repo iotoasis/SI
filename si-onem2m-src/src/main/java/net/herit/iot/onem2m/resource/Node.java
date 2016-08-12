@@ -75,7 +75,8 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 public class Node
     extends AnnounceableResource
 {
-	public final static String SCHEMA_LOCATION = "CDT-node-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-node-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-node-v1_6_0.xsd";
 
 	//@XmlElement(required = true)
     @XmlElement(name = "ni", required = true)
@@ -86,18 +87,18 @@ public class Node
     @XmlElement(name = "ch")
     protected List<ChildResourceRef> childResource;
     @XmlElements({
-        @XmlElement(name = "software", namespace = "http://www.onem2m.org/xml/protocols", type = Software.class),
+        @XmlElement(name = "memory", namespace = "http://www.onem2m.org/xml/protocols", type = Memory.class),
+        @XmlElement(name = "battery", namespace = "http://www.onem2m.org/xml/protocols", type = Battery.class),
+        @XmlElement(name = "areaNwkInfo", namespace = "http://www.onem2m.org/xml/protocols", type = AreaNwkInfo.class),
         @XmlElement(name = "areaNwkDeviceInfo", namespace = "http://www.onem2m.org/xml/protocols", type = AreaNwkDeviceInfo.class),
         @XmlElement(name = "firmware", namespace = "http://www.onem2m.org/xml/protocols", type = Firmware.class),
-        @XmlElement(name = "deviceCapability", namespace = "http://www.onem2m.org/xml/protocols", type = DeviceCapability.class),
-        @XmlElement(name = "cmdhPolicy", namespace = "http://www.onem2m.org/xml/protocols", type = CmdhPolicy.class),
-        @XmlElement(name = "activeCmdhPolicy", namespace = "http://www.onem2m.org/xml/protocols", type = ActiveCmdhPolicy.class),
-        @XmlElement(name = "memory", namespace = "http://www.onem2m.org/xml/protocols", type = Memory.class),
-        @XmlElement(name = "areaNwkInfo", namespace = "http://www.onem2m.org/xml/protocols", type = AreaNwkInfo.class),
+        @XmlElement(name = "software", namespace = "http://www.onem2m.org/xml/protocols", type = Software.class),
         @XmlElement(name = "deviceInfo", namespace = "http://www.onem2m.org/xml/protocols", type = DeviceInfo.class),
-        @XmlElement(name = "battery", namespace = "http://www.onem2m.org/xml/protocols", type = Battery.class),
+        @XmlElement(name = "deviceCapability", namespace = "http://www.onem2m.org/xml/protocols", type = DeviceCapability.class),
         @XmlElement(name = "reboot", namespace = "http://www.onem2m.org/xml/protocols", type = Reboot.class),
         @XmlElement(name = "eventLog", namespace = "http://www.onem2m.org/xml/protocols", type = EventLog.class),
+        @XmlElement(name = "cmdhPolicy", namespace = "http://www.onem2m.org/xml/protocols", type = CmdhPolicy.class),
+        @XmlElement(name = "activeCmdhPolicy", namespace = "http://www.onem2m.org/xml/protocols", type = ActiveCmdhPolicy.class),
         @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class)
     })
     protected List<RegularResource> memoryOrBatteryOrAreaNwkInfo;
@@ -204,20 +205,19 @@ public class Node
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Software }
+     * {@link Memory }
+     * {@link Battery }
+     * {@link AreaNwkInfo }
      * {@link AreaNwkDeviceInfo }
      * {@link Firmware }
-     * {@link DeviceCapability }
-     * {@link CmdhPolicy }
-     * {@link ActiveCmdhPolicy }
-     * {@link Memory }
-     * {@link AreaNwkInfo }
+     * {@link Software }
      * {@link DeviceInfo }
-     * {@link Battery }
+     * {@link DeviceCapability }
      * {@link Reboot }
      * {@link EventLog }
+     * {@link CmdhPolicy }
+     * {@link ActiveCmdhPolicy }
      * {@link Subscription }
-     * 
      * 
      */
     public List<RegularResource> getMemoryOrBatteryOrAreaNwkInfo() {

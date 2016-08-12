@@ -19,7 +19,7 @@ import io.netty.handler.timeout.ReadTimeoutException;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 
 public class HttpServerInitializer extends ChannelInitializer<SocketChannel> {
-	private static final int READ_TIMEOUT = 300; // 180 seconds.
+	private static final int READ_TIMEOUT = 180; // 180 seconds.
 	private HttpServerListener listener = null;
 	private final SslContext sslCtx;
 
@@ -44,7 +44,7 @@ public class HttpServerInitializer extends ChannelInitializer<SocketChannel> {
 		
 		// Uncomment the following line if you don't want to handle HttpContents.
 		pipeline.addLast(new HttpObjectAggregator(65536));
-//		pipeline.addLast("readTimeoutHandler", new ReadTimeoutHandler(READ_TIMEOUT));
+		pipeline.addLast("readTimeoutHandler", new ReadTimeoutHandler(READ_TIMEOUT));
 		pipeline.addLast("myHandler", new MyHandler());
 		
 		pipeline.addLast("handler", new HttpServerHandler(listener));

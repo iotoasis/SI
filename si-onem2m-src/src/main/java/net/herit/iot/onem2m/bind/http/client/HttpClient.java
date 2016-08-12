@@ -34,6 +34,7 @@ import net.herit.iot.message.onem2m.OneM2mResponse;
 import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
 import net.herit.iot.onem2m.bind.api.ResponseListener;
 import net.herit.iot.onem2m.bind.http.api.HttpClientListener;
+//import net.herit.iot.onem2m.bind.http.client.apache.ApacheHttpClient;
 import net.herit.iot.onem2m.bind.http.codec.HttpRequestCodec;
 import net.herit.iot.onem2m.bind.http.codec.HttpResponseCodec;
 
@@ -46,7 +47,7 @@ public final class HttpClient {
 
 	private static HttpClient INSTANCE = new HttpClient();
 	
-	private int CONNECTION_TIMEOUT_MILLIS = 180 * 1000; // 180 seconds.
+	private int CONNECTION_TIMEOUT_MILLIS = 20 * 1000; // 180 seconds.
 	
 	private ResponseListener listener = null;
 
@@ -91,6 +92,7 @@ public final class HttpClient {
 	
 	
 	private DefaultFullHttpRequest makeHttpMessage(String host, OneM2mRequest reqMessage) throws Exception {
+		
 		DefaultFullHttpRequest request = HttpRequestCodec.encode(reqMessage, HttpVersion.HTTP_1_1);
 		request.headers().add(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE);
 		request.headers().add(HttpHeaders.Names.HOST, host);
@@ -100,7 +102,7 @@ public final class HttpClient {
 		
 		strBld.append("\n");
 		strBld.append("######################## Client Request log  ###########################\n");
-		strBld.append("<< SEND HTTP Request: ").append("\n");
+		strBld.append("== Make Request Message: ").append("\n");
 		strBld.append("VERSION: ").append(request.getProtocolVersion()).append("\n");
 		strBld.append("METHOD: ").append(request.getMethod()).append("\n");
 		strBld.append("URI: ").append(request.getUri()).append("\n");
@@ -117,9 +119,15 @@ public final class HttpClient {
 				copyBuf.release();
 			}
 		}
+		log.debug(strBld.toString());
 		
 		return request;
 	}
+	
+//	public OneM2mResponse sendRequest2(String url, OneM2mRequest reqMessage) {
+//		ApacheHttpClient client = new ApacheHttpClient();
+//		return client.sendRequest(url, reqMessage);
+//	}
 	
 	public OneM2mResponse sendRequest(String url, OneM2mRequest reqMessage) {
 		
@@ -127,19 +135,23 @@ public final class HttpClient {
 			URI uri = new URI(url);
 			String host = uri.getHost() == null? "127.0.0.1" : uri.getHost();
 			int port = uri.getPort();
+			if(port == -1) port = 80;
 			
-			DefaultFullHttpRequest request = makeHttpMessage(url, reqMessage);
+			DefaultFullHttpRequest request = makeHttpMessage(host, reqMessage);
 			
-			Channel channel = bootstrap.connect(host, port).sync().channel();
-			channel.writeAndFlush(request);
+			log.debug("sendRequest");
+			Channel channel = bootstrap.connect(host, port).addListener(new ConnectListner(request, mHttpClientListener, null)).channel();
+//			log.debug("connected..");
+//			channel.writeAndFlush(request);
 			
 			channel.closeFuture().sync(); //.addListener(new ConnectListner(request, mHttpClientListener));
 
+			log.debug("coseFuture");
 			OneM2mResponse resMessage = resMessageMap.get(channel);
 			return resMessage;
 
 		} catch (Exception e) {
-			
+			log.error("sendRequest", e);
 		}
 		
 		
@@ -153,15 +165,17 @@ public final class HttpClient {
 			URI uri = new URI(url);
 			String host = uri.getHost() == null? "127.0.0.1" : uri.getHost();
 			int port = uri.getPort();
-		
-			DefaultFullHttpRequest request = makeHttpMessage(url, reqMessage);
+			if(port == -1) port = 80;
+			
+			DefaultFullHttpRequest request = makeHttpMessage(host, reqMessage);
 
+			log.debug("sendAsyncRequest");
 			bootstrap.connect(host, port).addListener(new ConnectListner(request, mHttpClientListener, listener));
 			
 			return true;
 			
 		} catch (Exception e) {
-			
+			log.error("sendAsyncRequest", e);
 		}
 		
 		return false;
@@ -171,21 +185,27 @@ public final class HttpClient {
 	private class ConnectListner implements ChannelFutureListener
 	{
 		private DefaultFullHttpRequest	request		= null;
-		private HttpClientListener		listener	= null;
+		private HttpClientListener		clientListener	= null;
 		private ResponseListener svcListener = null;
 
-		public ConnectListner(DefaultFullHttpRequest request, HttpClientListener listener, ResponseListener svcListener)
+		public ConnectListner(DefaultFullHttpRequest request, HttpClientListener clientListener, ResponseListener svcListener)
 		{
 			this.request = request;
-			this.listener = listener;
+			this.clientListener = clientListener;
 			this.svcListener = svcListener;
 		}
 
 		@Override
 		public void operationComplete(ChannelFuture future) throws Exception
 		{
-			addListener(future.channel(), this.svcListener);
-			future.channel().pipeline().addLast("handler", new HttpClientHandler(request, listener));
+			log.debug("operationComplete");
+			
+			if(this.svcListener != null) {
+				addListener(future.channel(), this.svcListener);
+			}
+			
+			if(this.request == null) log.debug("++++++++++++++++++ request is NULL>..");
+			future.channel().pipeline().addLast("handler", new HttpClientHandler(request, clientListener));
 		}
 	}
 	
@@ -405,10 +425,11 @@ public final class HttpClient {
 		reqMessage.setTo("monitor.do");
 		reqMessage.setFrom("test");
 		reqMessage.setRequestIdentifier("233322323");
+//		reqMessage.setContent("TEst".getBytes());
 
-		client.sendAsyncRequest(null, "http://10.101.101.107:8088/monitor.do", reqMessage);
-//		OneM2mResponse response = client.sendRequest("http://10.101.101.107:8088/monitor.do", reqMessage);
-//		System.out.println(response.toString());
+//		client.sendAsyncRequest(null, "http://116.124.171.107:8088/monitor.do", reqMessage);
+		OneM2mResponse response = client.sendRequest("http://116.124.171.107:8088/monitor.do", reqMessage);
+		System.out.println(response.toString());
 		
 //		OneM2mResponse resMessage = client.process("http://10.101.101.107:8088/monitor.do", reqMessage);
 

@@ -53,7 +53,8 @@ public class CmdhPolicy
     extends MgmtResource
 {
 	
-	public final static String SCHEMA_LOCATION = "CDT-cmdhPolicy-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-cmdhPolicy-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-cmdhPolicy-v1_6_0.xsd";
 
     //@XmlElement(required = true)
 	@XmlElement(name = Naming.CMDHPOLICYNAME_SN, required = true)

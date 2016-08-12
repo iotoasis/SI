@@ -84,7 +84,8 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 public class RemoteCSE
     extends AnnounceableResource
 {
-	public final static String SCHEMA_LOCATION = "CDT-remoteCSE-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-remoteCSE-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-remoteCSE-v1_6_0.xsd";
 	
 	@XmlElement(name = "cst")
 	protected Integer cseType;
@@ -115,9 +116,9 @@ public class RemoteCSE
 	protected List<ChildResourceRef> childResource;
 	@XmlElements({
         @XmlElement(name = "container", namespace = "http://www.onem2m.org/xml/protocols", type = Container.class),
+        @XmlElement(name = "group", namespace = "http://www.onem2m.org/xml/protocols", type = Group.class),
         @XmlElement(name = "accessControlPolicy", namespace = "http://www.onem2m.org/xml/protocols", type = AccessControlPolicy.class),
         @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class),
-        @XmlElement(name = "group", namespace = "http://www.onem2m.org/xml/protocols", type = Group.class),
         @XmlElement(name = "pollingChannel", namespace = "http://www.onem2m.org/xml/protocols", type = PollingChannel.class),
         @XmlElement(name = "schedule", namespace = "http://www.onem2m.org/xml/protocols", type = Schedule.class)
     })
@@ -416,15 +417,15 @@ public class RemoteCSE
 			}
 		} else if (operation.equals(OPERATION.UPDATE)) {	// update 요청에 의해 생성된 리소스에 대한 유효성 체크 (DB저장전)
 
-			if (this.cseType != null) {
-				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'cseType' is NP on UPDATE operation");
-			}
-			if (this.cseBase != null) {
-				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'cseBase' is NP on UPDATE operation");
-			}
-			if (this.cseid != null) {
-				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'cseid' is NP on UPDATE operation");
-			}
+//			if (this.cseType != null) {  /2016.05.10...
+//				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'cseType' is NP on UPDATE operation");
+//			}
+//			if (this.cseBase != null) {  /2016.05.10
+//				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'cseBase' is NP on UPDATE operation");
+//			}
+//			if (this.cseid != null) {  /2016.05.10
+//				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'cseid' is NP on UPDATE operation");
+//			}
 		} else if (operation.equals(OPERATION.RETRIEVE)) {
 			
 		}

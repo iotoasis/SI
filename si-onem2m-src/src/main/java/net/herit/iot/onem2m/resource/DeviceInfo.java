@@ -68,7 +68,8 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 public class DeviceInfo
     extends MgmtResource
 {
-	public static final String SCHEMA_LOCATION = "CDT-deviceInfo-v1_2_0.xsd";
+//	public static final String SCHEMA_LOCATION = "CDT-deviceInfo-v1_2_0.xsd";
+	public static final String SCHEMA_LOCATION = "CDT-deviceInfo-v1_6_0.xsd";
 	
     //@XmlElement(required = true)
     @XmlElement(name = "dlb")

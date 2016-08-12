@@ -28,7 +28,6 @@ import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESPONSE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
-import net.herit.iot.onem2m.ae.emul.AppEmulator;
 import net.herit.iot.onem2m.ae.emul.Constants;
 import net.herit.iot.onem2m.bind.codec.AbsSerializer;
 import net.herit.iot.onem2m.bind.http.client.HttpClient;
@@ -47,7 +46,7 @@ import net.herit.iot.onem2m.resource.RestCommandResult;
 
 public class RestCommandController {
 	
-	private static RestCommandController INSTANCE = new RestCommandController();
+	private final static RestCommandController INSTANCE = new RestCommandController();
 
 	private Logger log = LoggerFactory.getLogger(RestCommandController.class);
 	

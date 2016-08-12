@@ -42,7 +42,7 @@ public class InterworkingController implements Runnable {
 		while (it.hasNext()) {
 			CfgManager.RemoteCSEInfo rcInfo = it.next();
 			if (!manager.checkIfRegistered(rcInfo.getCseId(), CSE_TYPE.IN_CSE, this.context)) {
-				manager.registerToRemoteCSE(rcInfo.getCseId(), rcInfo.getPointOfAccess(), this.context);
+				manager.registerToRemoteCSE(rcInfo.getCseId(), rcInfo.getCseName(), rcInfo.getPointOfAccess(), this.context);
 			}
 		}
 	}

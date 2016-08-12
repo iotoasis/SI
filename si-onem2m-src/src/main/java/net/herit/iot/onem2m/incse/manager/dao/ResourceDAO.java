@@ -11,7 +11,7 @@ import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.CfgManager;
@@ -119,9 +119,8 @@ public class ResourceDAO {
 	public String resourceToJson(Resource res) throws OneM2MException {
 
 		try {
-
-			JSONConvertor<Resource> jc = (JSONConvertor<Resource>) ConvertorFactory
-					.getJSONConvertor(Resource.class, null);
+			DaoJSONConvertor<Resource> jc = (DaoJSONConvertor<Resource>) ConvertorFactory
+					.getDaoJSONConvertor(Resource.class, null);
 			return jc.marshal((Resource) res);
 
 		} catch (Exception e) {
@@ -181,7 +180,7 @@ public class ResourceDAO {
 		this.deleteDocument(key, value);
 	}
 
-	public Resource retrieve(String key, String value, JSONConvertor<?> cvt,
+	public Resource retrieve(String key, String value, DaoJSONConvertor<?> cvt,
 			RESULT_CONT rc) throws OneM2MException {
 
 		Document doc = getDocument(key, value);
@@ -349,7 +348,7 @@ public class ResourceDAO {
 
 		int iType = doc.getInteger(RESTYPE_KEY);
 		RESOURCE_TYPE resType = RESOURCE_TYPE.get(iType);
-		JSONConvertor<?> jc = this.getJsonConvertor(resType);
+		DaoJSONConvertor<?> jc = this.getJsonConvertor(resType);
 
 		Resource res;
 		try {
@@ -404,111 +403,111 @@ public class ResourceDAO {
 	//
 	// }
 
-	public JSONConvertor<?> getJsonConvertor(RESOURCE_TYPE resType)
+	public DaoJSONConvertor<?> getJsonConvertor(RESOURCE_TYPE resType)
 			throws OneM2MException {
 
 		switch (resType) {
 		case ACCESS_CTRL_POLICY:
-			return ConvertorFactory.getJSONConvertor(AccessControlPolicy.class,
+			return ConvertorFactory.getDaoJSONConvertor(AccessControlPolicy.class,
 					AccessControlPolicy.SCHEMA_LOCATION);
 		case AE:
-			return ConvertorFactory.getJSONConvertor(AE.class,
+			return ConvertorFactory.getDaoJSONConvertor(AE.class,
 					AE.SCHEMA_LOCATION);
 		case CONTAINER:
-			return ConvertorFactory.getJSONConvertor(Container.class,
+			return ConvertorFactory.getDaoJSONConvertor(Container.class,
 					Container.SCHEMA_LOCATION);
 		case CONTENT_INST:
-			return ConvertorFactory.getJSONConvertor(ContentInstance.class,
+			return ConvertorFactory.getDaoJSONConvertor(ContentInstance.class,
 					ContentInstance.SCHEMA_LOCATION);
 		case CSE_BASE:
-			return ConvertorFactory.getJSONConvertor(CSEBase.class,
+			return ConvertorFactory.getDaoJSONConvertor(CSEBase.class,
 					CSEBase.SCHEMA_LOCATION);
 		case DELIVERY:
-			return ConvertorFactory.getJSONConvertor(Delivery.class,
+			return ConvertorFactory.getDaoJSONConvertor(Delivery.class,
 					Delivery.SCHEMA_LOCATION);
 		case EVENT_CONFIT:
-			return ConvertorFactory.getJSONConvertor(EventConfig.class,
+			return ConvertorFactory.getDaoJSONConvertor(EventConfig.class,
 					EventConfig.SCHEMA_LOCATION);
 		case EXEC_INST:
-			return ConvertorFactory.getJSONConvertor(ExecInstance.class,
+			return ConvertorFactory.getDaoJSONConvertor(ExecInstance.class,
 					ExecInstance.SCHEMA_LOCATION);
 		case GROUP:
-			return ConvertorFactory.getJSONConvertor(Group.class,
+			return ConvertorFactory.getDaoJSONConvertor(Group.class,
 					Group.SCHEMA_LOCATION);
 		case LOCAT_POLICY:
-			return ConvertorFactory.getJSONConvertor(LocationPolicy.class,
+			return ConvertorFactory.getDaoJSONConvertor(LocationPolicy.class,
 					LocationPolicy.SCHEMA_LOCATION);
 			// case M2M_SVC_SUBSC_PROF: return
-			// ConvertorFactory.getJSONConvertor(M2mServiceSubscriptionProfile.class,
+			// ConvertorFactory.getDaoJSONConvertor(M2mServiceSubscriptionProfile.class,
 			// M2mServiceSubscriptionProfile.SCHEMA_LOCATION);
 		case MGMT_CMD:
-			return ConvertorFactory.getJSONConvertor(MgmtCmd.class,
+			return ConvertorFactory.getDaoJSONConvertor(MgmtCmd.class,
 					MgmtCmd.SCHEMA_LOCATION);
 			// case MGMT_OBJ: return
-			// ConvertorFactory.getJSONConvertor(MgmtObj.class,
+			// ConvertorFactory.getDaoJSONConvertor(MgmtObj.class,
 			// MgmtObj.SCHEMA_LOCATION);
 		case NODE:
-			return ConvertorFactory.getJSONConvertor(Node.class,
+			return ConvertorFactory.getDaoJSONConvertor(Node.class,
 					Node.SCHEMA_LOCATION);
 		case POLLING_CHANN:
-			return ConvertorFactory.getJSONConvertor(PollingChannel.class,
+			return ConvertorFactory.getDaoJSONConvertor(PollingChannel.class,
 					PollingChannel.SCHEMA_LOCATION);
 		case REMOTE_CSE:
-			return ConvertorFactory.getJSONConvertor(RemoteCSE.class,
+			return ConvertorFactory.getDaoJSONConvertor(RemoteCSE.class,
 					RemoteCSE.SCHEMA_LOCATION);
 		case REQUEST:
-			return ConvertorFactory.getJSONConvertor(Request.class,
+			return ConvertorFactory.getDaoJSONConvertor(Request.class,
 					Request.SCHEMA_LOCATION);
 		case SCHEDULE:
-			return ConvertorFactory.getJSONConvertor(Schedule.class,
+			return ConvertorFactory.getDaoJSONConvertor(Schedule.class,
 					Schedule.SCHEMA_LOCATION);
 		case SVC_SUBSC_APP_RULE:
-			return ConvertorFactory.getJSONConvertor(
+			return ConvertorFactory.getDaoJSONConvertor(
 					ServiceSubscribedAppRule.class,
 					ServiceSubscribedAppRule.SCHEMA_LOCATION);
 		case SVC_SUBSC_NODE:
-			return ConvertorFactory.getJSONConvertor(
+			return ConvertorFactory.getDaoJSONConvertor(
 					ServiceSubscribedNode.class,
 					ServiceSubscribedNode.SCHEMA_LOCATION);
 		case STATS_COLLECT:
-			return ConvertorFactory.getJSONConvertor(StatsCollect.class,
+			return ConvertorFactory.getDaoJSONConvertor(StatsCollect.class,
 					StatsCollect.SCHEMA_LOCATION);
 		case STATS_CONFIG:
-			return ConvertorFactory.getJSONConvertor(StatsConfig.class,
+			return ConvertorFactory.getDaoJSONConvertor(StatsConfig.class,
 					StatsConfig.SCHEMA_LOCATION);
 		case SUBSCRIPTION:
-			return ConvertorFactory.getJSONConvertor(Subscription.class,
+			return ConvertorFactory.getDaoJSONConvertor(Subscription.class,
 					Subscription.SCHEMA_LOCATION);
 		case ACCESS_CTRL_POLICY_ANNC:
-			return ConvertorFactory.getJSONConvertor(
+			return ConvertorFactory.getDaoJSONConvertor(
 					AccessControlPolicyAnnc.class,
 					AccessControlPolicyAnnc.SCHEMA_LOCATION);
 		case AE_ANNC:
-			return ConvertorFactory.getJSONConvertor(AEAnnc.class,
+			return ConvertorFactory.getDaoJSONConvertor(AEAnnc.class,
 					AEAnnc.SCHEMA_LOCATION);
 		case CONTAINER_ANNC:
-			return ConvertorFactory.getJSONConvertor(ContainerAnnc.class,
+			return ConvertorFactory.getDaoJSONConvertor(ContainerAnnc.class,
 					ContainerAnnc.SCHEMA_LOCATION);
 		case CONTENT_INST_ANNC:
-			return ConvertorFactory.getJSONConvertor(ContentInstanceAnnc.class,
+			return ConvertorFactory.getDaoJSONConvertor(ContentInstanceAnnc.class,
 					ContentInstanceAnnc.SCHEMA_LOCATION);
 		case GROUP_ANNC:
-			return ConvertorFactory.getJSONConvertor(GroupAnnc.class,
+			return ConvertorFactory.getDaoJSONConvertor(GroupAnnc.class,
 					GroupAnnc.SCHEMA_LOCATION);
 		case LOCAT_POLICY_ANNC:
-			return ConvertorFactory.getJSONConvertor(LocationPolicyAnnc.class,
+			return ConvertorFactory.getDaoJSONConvertor(LocationPolicyAnnc.class,
 					LocationPolicyAnnc.SCHEMA_LOCATION);
 			// case MGMT_OBJ_ANNC: return
-			// ConvertorFactory.getJSONConvertor(MgmtObjAnnc.class,
+			// ConvertorFactory.getDaoJSONConvertor(MgmtObjAnnc.class,
 			// MgmtObjAnnc.SCHEMA_LOCATION);
 		case NODE_ANNC:
-			return ConvertorFactory.getJSONConvertor(NodeAnnc.class,
+			return ConvertorFactory.getDaoJSONConvertor(NodeAnnc.class,
 					NodeAnnc.SCHEMA_LOCATION);
 		case REMOTE_CSE_ANNC:
-			return ConvertorFactory.getJSONConvertor(RemoteCSEAnnc.class,
+			return ConvertorFactory.getDaoJSONConvertor(RemoteCSEAnnc.class,
 					RemoteCSEAnnc.SCHEMA_LOCATION);
 		case SCHEDULE_ANNC:
-			return ConvertorFactory.getJSONConvertor(ScheduleAnnc.class,
+			return ConvertorFactory.getDaoJSONConvertor(ScheduleAnnc.class,
 					ScheduleAnnc.SCHEMA_LOCATION);
 		default:
 			log.debug("ResourceDAO.getJsonConvertor not implemented for {}", resType);
@@ -525,7 +524,7 @@ public class ResourceDAO {
 		}
 
 		RESOURCE_TYPE resType = RESOURCE_TYPE.get((int) doc.get(RESTYPE_KEY));
-		JSONConvertor<?> jc = getJsonConvertor(resType);
+		DaoJSONConvertor<?> jc = getJsonConvertor(resType);
 		Resource res;
 		try {
 			res = (Resource) jc.unmarshal(doc.toJson());
@@ -547,8 +546,10 @@ public class ResourceDAO {
 			return null;
 		}
 
+		log.debug(doc.toJson());
+		
 		RESOURCE_TYPE resType = RESOURCE_TYPE.get((int) doc.get(RESTYPE_KEY));
-		JSONConvertor<?> jc = getJsonConvertor(resType);
+		DaoJSONConvertor<?> jc = getJsonConvertor(resType);
 		Resource res;
 		try {
 			res = (Resource) jc.unmarshal(doc.toJson());
@@ -572,7 +573,7 @@ public class ResourceDAO {
 		}
 
 		RESOURCE_TYPE resType = RESOURCE_TYPE.get((int) doc.get(RESTYPE_KEY));
-		JSONConvertor<?> jc = getJsonConvertor(resType);
+		DaoJSONConvertor<?> jc = getJsonConvertor(resType);
 		Resource res;
 		try {
 			res = (Resource) jc.unmarshal(doc.toJson());
@@ -596,7 +597,7 @@ public class ResourceDAO {
 
 		if (doc == null) {
 			throw new OneM2MException(RESPONSE_STATUS.NOT_FOUND,
-					"resource not found");
+					"resource not found(" + key + ")");
 		}
 		
 		int resType = (int) doc.get(Naming.RESOURCETYPE_SN);

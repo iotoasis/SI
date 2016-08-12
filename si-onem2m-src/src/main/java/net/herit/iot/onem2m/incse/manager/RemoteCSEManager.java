@@ -144,10 +144,10 @@ public class RemoteCSEManager extends AbsManager {
 		case CREATE:
 			// compare number of memberID and maxNrOfMember -> MAX_NUMBER_OF_MEMBER_EXCEEDED
 			rcse.getCSEBase();
-			String cseID = rcse.getCSEID();	// sp relative cse id
-			if (!checkIfCseIdFormatValid(cseID)) {
-				throw new OneM2MException(RESPONSE_STATUS.BAD_REQUEST, "CseID not valid:"+cseID);
-			}
+			String cseID = rcse.getCSEID();	// sp relative cse id   2016.05.12 ..????
+//			if (!checkIfCseIdFormatValid(cseID)) {
+//				throw new OneM2MException(RESPONSE_STATUS.BAD_REQUEST, "CseID not valid:"+cseID);
+//			}
 			if (checkIfCseIdDuplicated(cseID)) {
 				throw new OneM2MException(RESPONSE_STATUS.CONFLICT, "Duplicated CSE ID:"+cseID);
 			}
@@ -207,7 +207,7 @@ public class RemoteCSEManager extends AbsManager {
 		return dao.checkIfRegistered(cseId, cseType);
 	}
 
-	public void registerToRemoteCSE(String remoteCseId, List<String> remotePoAs, OneM2mContext context) {
+	public void registerToRemoteCSE(String remoteCseId, String remoteCseName, List<String> remotePoAs, OneM2mContext context) {
 		RemoteCSEDAO dao = new RemoteCSEDAO(context);
 		
 		if (remotePoAs == null || remotePoAs.size() <= 0) {
@@ -215,15 +215,33 @@ public class RemoteCSEManager extends AbsManager {
 			return;
 		}
 		
-		String strUrl; 
-		URL url;
+//		String strUrl; 
+//		URL url;
+//		try {
+//			strUrl = remotePoAs.get(0);
+//			url = new URL(strUrl);
+//		} catch (MalformedURLException e) {
+//			log.debug("Ignore registerToRemoteCSE("+remoteCseId+") because cannot parse URL!!! ", e);
+//			return;
+//		}
+		
+		String host = "";	
+		String poa;
 		try {
-			strUrl = remotePoAs.get(0);
-			url = new URL(strUrl);
-		} catch (MalformedURLException e) {
+			poa = remotePoAs.get(0);
+			String url1 = poa.substring(poa.indexOf("//")+2);
+			
+			if(url1.indexOf("/") > 0) {
+				host = url1.substring(0, url1.indexOf("/"));
+			} else {
+				host = url1;
+			}
+			log.debug("poa host: {}", host);
+		} catch (Exception e) {
 			log.debug("Ignore registerToRemoteCSE("+remoteCseId+") because cannot parse URL!!! ", e);
 			return;
 		}
+		
 		
 		String lcId = CfgManager.getInstance().getCSEBaseCid();
 		String lcBaseName = CfgManager.getInstance().getCSEBaseName();
@@ -235,7 +253,8 @@ public class RemoteCSEManager extends AbsManager {
 		req.setOperation(OPERATION.CREATE);
 		req.setRequestIdentifier(OneM2mUtil.createRequestId());
 		req.setResourceType(RESOURCE_TYPE.REMOTE_CSE);
-		req.setRemoteHost(url.getHost());
+//		req.setRemoteHost(url.getHost());
+		req.setRemoteHost(host);
 		req.setTo(remoteCseId);
 		
 		RemoteCSE rc = new RemoteCSE();
@@ -244,10 +263,13 @@ public class RemoteCSEManager extends AbsManager {
 		rc.setCseType(CSE_TYPE.IN_CSE.Value());
 		rc.setRequestReachability(true);
 		rc.addPointOfAccess(lcPoA);
+		rc.setResourceName(lcBaseName);
 		req.setContentObject(rc);
 		
-		log.debug("Send Create to remoteCSE:"+strUrl +","+ lcId);
-		OneM2mResponse res = context.getNseManager().sendRequestMessage(strUrl, req);
+//		log.debug("Send Create to remoteCSE:"+strUrl +","+ lcId);
+		log.debug("Send Create to remoteCSE:"+poa +","+ lcId);
+//		OneM2mResponse res = context.getNseManager().sendRequestMessage(strUrl, req);
+		OneM2mResponse res = context.getNseManager().sendRequestMessage(poa, req);
 		if (res != null && 
 				(Utils.isSuccessResponse(res) || res.getResponseStatusCodeEnum() == RESPONSE_STATUS.CONFLICT)) {
 			log.debug("Receive response of Create remoteCSE:"+res.toString());
@@ -256,10 +278,11 @@ public class RemoteCSEManager extends AbsManager {
 			try {
 				//String resName = this.createResourceName(RES_TYPE.REMOTE_CSE, CfgManager.getInstance().getCSEBaseName());
 				String resName = remoteCseId.substring(1);
-				remoteCse.setCSEID(remoteCseId);
-				remoteCse.setCSEBase(remoteCseId);
+				remoteCse.setCSEID(remoteCseName);
+				remoteCse.setCSEBase(remoteCseName);
 				remoteCse.setCseType(CSE_TYPE.IN_CSE.Value());
 				remoteCse.setRequestReachability(true);
+				remoteCse.setResourceType(RESOURCE_TYPE.REMOTE_CSE.Value());
 				remoteCse.setResourceID(this.createResourceID(RES_TYPE.REMOTE_CSE, remoteCse, null));
 				remoteCse.setResourceName(resName);
 				remoteCse.setResourceUri(CfgManager.getInstance().getCSEBaseUri() +"/"+ resName);

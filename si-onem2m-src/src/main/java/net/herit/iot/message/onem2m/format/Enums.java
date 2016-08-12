@@ -4,10 +4,6 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.herit.iot.message.onem2m.OneM2mRequest.DISCOV_RESTYPE;
-import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
-import net.herit.iot.message.onem2m.OneM2mRequest.RESPONSE_TYPE;
-
 
 
 public class Enums {
@@ -21,7 +17,8 @@ public class Enums {
 		NTFY_XML(5, "application/vnd.onem2m-ntfy+xml"),
 		NTFY_JSON(6, "application/vnd.onem2m-ntfy+json"),
 		ATTRS_XML(7, "application/vnd.onem2m-attrs+xml"),
-		ATTRS_JSON(8, "application/vnd.onem2m-attrs+json");
+		ATTRS_JSON(8, "application/vnd.onem2m-attrs+json"),
+		TEXT_PLAIN(100, "text/plain");	// not standard. not defined in oneM2M specific MIME media types(TS.0004-6.7)
 	
 		final int value;
 		final String name;

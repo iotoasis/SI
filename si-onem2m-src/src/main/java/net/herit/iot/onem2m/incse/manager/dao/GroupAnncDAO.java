@@ -12,7 +12,7 @@ import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -35,7 +35,7 @@ public class GroupAnncDAO extends ResourceDAO implements DAOInterface {
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<GroupAnnc> jc = (JSONConvertor<GroupAnnc>)ConvertorFactory.getJSONConvertor(GroupAnnc.class, GroupAnnc.SCHEMA_LOCATION);
+			DaoJSONConvertor<GroupAnnc> jc = (DaoJSONConvertor<GroupAnnc>)ConvertorFactory.getDaoJSONConvertor(GroupAnnc.class, GroupAnnc.SCHEMA_LOCATION);
 			return jc.marshal((GroupAnnc)res);
 			
 		} catch (Exception e) {
@@ -73,7 +73,7 @@ public class GroupAnncDAO extends ResourceDAO implements DAOInterface {
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 		
 		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, 
-				ConvertorFactory.getJSONConvertor(GroupAnnc.class, GroupAnnc.SCHEMA_LOCATION), rc);
+				ConvertorFactory.getDaoJSONConvertor(GroupAnnc.class, GroupAnnc.SCHEMA_LOCATION), rc);
 		
 	}
 	

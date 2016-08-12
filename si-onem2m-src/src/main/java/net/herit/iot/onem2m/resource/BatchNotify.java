@@ -17,6 +17,7 @@ import javax.xml.datatype.Duration;
 
 
 /**
+ * XSD-1.6.0
  * <p>Java class for batchNotify complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -26,8 +27,8 @@ import javax.xml.datatype.Duration;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="number" type="{http://www.w3.org/2001/XMLSchema}nonNegativeInteger" minOccurs="0"/>
- *         &lt;element name="duration" type="{http://www.w3.org/2001/XMLSchema}duration" minOccurs="0"/>
+ *         &lt;element name="number" type="{http://www.w3.org/2001/XMLSchema}nonNegativeInteger"/>
+ *         &lt;element name="duration" type="{http://www.w3.org/2001/XMLSchema}duration"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -44,9 +45,11 @@ import javax.xml.datatype.Duration;
 public class BatchNotify {
 
     @XmlSchemaType(name = "nonNegativeInteger")
-    @XmlElement(name = "num")
+//    @XmlElement(name = "num") // 1.2
+    @XmlElement(name = Naming.NUMBER_SN, required = true) //"num" , 1.6.0
     protected Integer number;
-    @XmlElement(name = "dur")
+//    @XmlElement(name = "dur") // 1.2
+    @XmlElement(name = Naming.DURATION_SN, required = true) //"dur", 1.6.0
     protected Duration duration;
 
     public String toString() {

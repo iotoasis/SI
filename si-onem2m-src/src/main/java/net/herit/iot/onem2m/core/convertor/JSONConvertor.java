@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 public class JSONConvertor<T> {
 	
+	private static boolean IsJsonIncludeRoot = true;
 	private final Class<T> t;
 	private JAXBContext context;
 	private Unmarshaller um;
@@ -35,7 +36,7 @@ public class JSONConvertor<T> {
 		Map<String, Object> properties = new HashMap<String, Object>(3);
 		properties.put(JAXBContextProperties.OXM_METADATA_SOURCE, "net/herit/iot/onem2m/resource/oxm.xml");
 		properties.put(JAXBContextProperties.MEDIA_TYPE, "application/json");
-		properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, false);
+//		properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, isJsonIncludeRoot);
 
 		try {
 			if (types != null) {
@@ -57,7 +58,25 @@ public class JSONConvertor<T> {
 		Map<String, Object> properties = new HashMap<String, Object>(3);
 		properties.put(JAXBContextProperties.OXM_METADATA_SOURCE, "net/herit/iot/onem2m/resource/oxm.xml");
 		properties.put(JAXBContextProperties.MEDIA_TYPE, "application/json");
-		properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, false);
+		properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, IsJsonIncludeRoot);
+
+		try {
+			context = JAXBContext.newInstance(new Class[] {t}, properties);
+
+			initialize();
+			
+		} catch (Exception e) {
+			log.debug("Handled exception", e);
+		}
+	}
+	
+	public JSONConvertor(Class<T> type, boolean isJsonIncludeRoot) {
+		this.t = type;
+
+		Map<String, Object> properties = new HashMap<String, Object>(3);
+		properties.put(JAXBContextProperties.OXM_METADATA_SOURCE, "net/herit/iot/onem2m/resource/oxm.xml");
+		properties.put(JAXBContextProperties.MEDIA_TYPE, "application/json");
+		properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, isJsonIncludeRoot);
 
 		try {
 			context = JAXBContext.newInstance(new Class[] {t}, properties);
@@ -74,7 +93,7 @@ public class JSONConvertor<T> {
 		// Set the Unmarshaller media type to JSON or XML
 		um.setProperty(UnmarshallerProperties.MEDIA_TYPE, "application/json");
 		// Set it to true if you need to include the JSON root element in the
-		um.setProperty(UnmarshallerProperties.JSON_INCLUDE_ROOT, false);
+//		um.setProperty(UnmarshallerProperties.JSON_INCLUDE_ROOT, isJsonIncludeRoot);
 		
 
 		m = context.createMarshaller();		
@@ -130,7 +149,7 @@ public class JSONConvertor<T> {
 	}
 	
 	public static void main(String[] args) {
-		String AE_json = "{\n" + 
+		String AE_json = "{ \"ae\": {\n" + 
 				"   \"rn\" : \"ae0001\",\n" + 
 				"   \"rty\" : 2,\n" + 
 				"   \"ri\" : \"3234234293\",\n" + 
@@ -170,7 +189,7 @@ public class JSONConvertor<T> {
 				"      \"typ\" : 22,\n" + 
 				"      \"val\" : \"//onem2m.herit.net/csebase/pollingChannel0001\"\n" + 
 				"   } ]\n" + 
-				"}";
+				"} }";
 	
 		
 		String Container_json = "{\n" + 
@@ -1465,73 +1484,84 @@ public class JSONConvertor<T> {
 			// Node, NodeAnnc, RemoteCSEAnnc, Request, Schedule, ScheduleAnnc, ServiceSubscribedAppRule
 			// ServiceSubscribedNode, StatsCollect, StatsConfig
 
-//			JSONConvertor<StatsConfig> JC2 = new JSONConvertor<StatsConfig>(StatsConfig.class);
-//			StatsConfig resource = (StatsConfig)JC2.unmarshal(StatsConfig_json);
-//			System.out.println("resourceName: " + resource.getResourceName());
-//			json = JC2.marshal(resource);
-//			System.out.println(json);
-			System.out.println("AE_json");
-			System.out.println(AE_json);
-			System.out.println("Container_json");
-			System.out.println(Container_json);
-			System.out.println("ContentInstance_json		");
-			System.out.println(ContentInstance_json		);
-			System.out.println("RemoteCSE_json");
-			System.out.println(RemoteCSE_json);
-			System.out.println("AccessControlPolicy_json ");
-			System.out.println(AccessControlPolicy_json );
-			System.out.println("CSEBase_json"); 
-			System.out.println(CSEBase_json); 
-			System.out.println("Group_json");
-			System.out.println(Group_json);
-			System.out.println("PollingChannel_json ");
-			System.out.println(PollingChannel_json );
-			System.out.println("Subscription_json ");
-			System.out.println(Subscription_json );
-			System.out.println("AEAnnc_json ");
-			System.out.println(AEAnnc_json );
-			System.out.println("AccessControlPolicyAnnc_json ");
-			System.out.println(AccessControlPolicyAnnc_json );
-			System.out.println("ContainerAnnc_json ");
-			System.out.println(ContainerAnnc_json );
-			System.out.println("ContentInstanceAnnc_json");
-			System.out.println(ContentInstanceAnnc_json);
-			System.out.println("Delivery_json 	");		
-			System.out.println(Delivery_json 	);		
-			System.out.println("EventConfig_json ");			
-			System.out.println(EventConfig_json );			
-			System.out.println("ExecInstance_json");
-			System.out.println(ExecInstance_json);
-			System.out.println("GroupAnnc_json ");
-			System.out.println(GroupAnnc_json );
-			System.out.println("LocationPolicy_json 		");	
-			System.out.println(LocationPolicy_json 		);	
-			System.out.println("LocationPolicyAnnc_json ");
-			System.out.println(LocationPolicyAnnc_json );
-			System.out.println("M2MServiceSubscriptionProfile_json ");
-			System.out.println(M2MServiceSubscriptionProfile_json );
-			System.out.println("MgmtCmd_json"); 
-			System.out.println(MgmtCmd_json); 
-			System.out.println("Node_json ");
-			System.out.println(Node_json );
-			System.out.println("NodeAnnc_json ");
-			System.out.println(NodeAnnc_json );
-			System.out.println("RemoteCSEAnnc_json ");
-			System.out.println(RemoteCSEAnnc_json );
-			System.out.println("Request_json ");
-			System.out.println(Request_json );
-			System.out.println("Schedule_json");
-			System.out.println(Schedule_json);
-			System.out.println("ScheduleAnnc_json");
-			System.out.println(ScheduleAnnc_json);
-			System.out.println("ServiceSubscribedAppRule_json");
-			System.out.println(ServiceSubscribedAppRule_json);
-			System.out.println("ServiceSubscribedNode_json");
-			System.out.println(ServiceSubscribedNode_json);
-			System.out.println("StatsCollect_json ");
-			System.out.println(StatsCollect_json );
-			System.out.println("StatsCollect_json ");
-			System.out.println(StatsCollect_json );
+			JSONConvertor<AE> JC2 = new JSONConvertor<AE>(AE.class);
+			AE resource = (AE)JC2.unmarshal(AE_json);
+			System.out.println("resourceName: " + resource.getResourceName());
+			json = JC2.marshal(resource);
+			System.out.println(json);
+			
+			JSONConvertor<AE> JC3 = new JSONConvertor<AE>(AE.class, false);
+			json = JC3.marshal(resource);
+			System.out.println(json);
+			
+			AE resource2 = (AE)JC3.unmarshal(json);
+			json = JC2.marshal(resource2);
+			System.out.println(json);
+			
+			
+			
+//			System.out.println("AE_json");
+//			System.out.println(AE_json);
+//			System.out.println("Container_json");
+//			System.out.println(Container_json);
+//			System.out.println("ContentInstance_json		");
+//			System.out.println(ContentInstance_json		);
+//			System.out.println("RemoteCSE_json");
+//			System.out.println(RemoteCSE_json);
+//			System.out.println("AccessControlPolicy_json ");
+//			System.out.println(AccessControlPolicy_json );
+//			System.out.println("CSEBase_json"); 
+//			System.out.println(CSEBase_json); 
+//			System.out.println("Group_json");
+//			System.out.println(Group_json);
+//			System.out.println("PollingChannel_json ");
+//			System.out.println(PollingChannel_json );
+//			System.out.println("Subscription_json ");
+//			System.out.println(Subscription_json );
+//			System.out.println("AEAnnc_json ");
+//			System.out.println(AEAnnc_json );
+//			System.out.println("AccessControlPolicyAnnc_json ");
+//			System.out.println(AccessControlPolicyAnnc_json );
+//			System.out.println("ContainerAnnc_json ");
+//			System.out.println(ContainerAnnc_json );
+//			System.out.println("ContentInstanceAnnc_json");
+//			System.out.println(ContentInstanceAnnc_json);
+//			System.out.println("Delivery_json 	");		
+//			System.out.println(Delivery_json 	);		
+//			System.out.println("EventConfig_json ");			
+//			System.out.println(EventConfig_json );			
+//			System.out.println("ExecInstance_json");
+//			System.out.println(ExecInstance_json);
+//			System.out.println("GroupAnnc_json ");
+//			System.out.println(GroupAnnc_json );
+//			System.out.println("LocationPolicy_json 		");	
+//			System.out.println(LocationPolicy_json 		);	
+//			System.out.println("LocationPolicyAnnc_json ");
+//			System.out.println(LocationPolicyAnnc_json );
+//			System.out.println("M2MServiceSubscriptionProfile_json ");
+//			System.out.println(M2MServiceSubscriptionProfile_json );
+//			System.out.println("MgmtCmd_json"); 
+//			System.out.println(MgmtCmd_json); 
+//			System.out.println("Node_json ");
+//			System.out.println(Node_json );
+//			System.out.println("NodeAnnc_json ");
+//			System.out.println(NodeAnnc_json );
+//			System.out.println("RemoteCSEAnnc_json ");
+//			System.out.println(RemoteCSEAnnc_json );
+//			System.out.println("Request_json ");
+//			System.out.println(Request_json );
+//			System.out.println("Schedule_json");
+//			System.out.println(Schedule_json);
+//			System.out.println("ScheduleAnnc_json");
+//			System.out.println(ScheduleAnnc_json);
+//			System.out.println("ServiceSubscribedAppRule_json");
+//			System.out.println(ServiceSubscribedAppRule_json);
+//			System.out.println("ServiceSubscribedNode_json");
+//			System.out.println(ServiceSubscribedNode_json);
+//			System.out.println("StatsCollect_json ");
+//			System.out.println(StatsCollect_json );
+//			System.out.println("StatsCollect_json ");
+//			System.out.println(StatsCollect_json );
 
 
 			

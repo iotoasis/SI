@@ -29,6 +29,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 
 
 /**
+ * XSD-1.6.0
  * <p>Java class for resource complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -64,7 +65,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "resourceUri"
 })
 @XmlSeeAlso({
-    ResourceWrapper.class,
+//    ResourceWrapper.class,	// removed. XSD-1.6.0
     AnnouncedResource.class,
     AnnounceableSubordinateResource.class,
     RegularResource.class,
@@ -364,9 +365,9 @@ public class Resource {
 	public void validate(OPERATION operation) throws OneM2MException {
 		
 		if (operation.equals(OPERATION.CREATE)) {	// CREATE 요청에 대한 데이터 유효성 체크
-			if (resourceName != null) {
-				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'resourceName' is NP on CREATE operation");
-			}
+//			if (resourceName != null) {  //2016.05.10..
+//				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'resourceName' is NP on CREATE operation");
+//			}
 			//if (resourceType != null) {
 			//	throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'resourceType' is NP on CREATE operation");
 			//}
@@ -383,9 +384,9 @@ public class Resource {
 				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'lastModifiedTime' is NP on CREATE operation");
 			}
 		} else if (operation.equals(OPERATION.UPDATE)) {	// UPDATE 요청에 대한 데이터 유효성 체크
-			if (resourceName != null) {
-				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'resourceName' is NP on UPDATE operation");
-			}
+//			if (resourceName != null) {  // 2016.05.10
+//				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'resourceName' is NP on UPDATE operation");
+//			}
 			//if (resourceType != null) {
 			//	throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'resourceType' is NP on UPDATE operation");
 			//}

@@ -113,7 +113,7 @@ public class NonBlockRequestController implements Runnable {
 			
 			
 		} catch (OneM2MException e) {
-			log.debug("Handled exception", e);
+			log.error("Handled exception", e);
 			
 			try {
 				OneM2mResponse response = new OneM2mResponse(e.getResponseStatusCode(), request);
@@ -127,7 +127,7 @@ public class NonBlockRequestController implements Runnable {
 				reqManager.getDAO().update(reqResource);
 
 			} catch (OneM2MException e1) {
-				log.debug("Handled exception", e);
+				log.error("Handled exception", e);
 			}
 			
 			if (request.getResponseTypeEnum() == RESPONSE_TYPE.NBLOCK_REQ_ASYNC) {

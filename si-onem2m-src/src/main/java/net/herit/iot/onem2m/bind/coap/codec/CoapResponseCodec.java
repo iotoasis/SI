@@ -133,10 +133,14 @@ public class CoapResponseCodec extends CoapAbsCodec {
 		if (resMessage.getEventCategory() != null) {
 			resCoap.getOptions().addOption(new Option(ONEM2M_EC, resMessage.getEventCategory()));
 		}
-
+		
+		if(resMessage.getContentLocation() != null) {  // added 2016.05.13
+			resCoap.getOptions().setLocationPath(resMessage.getContentLocation());
+		}
+		
 		if (resMessage.getContentType() != null && resMessage.getContentType() != CONTENT_TYPE.NONE  &&
 				resMessage.getContent() != null && resMessage.getContent().length > 0) {
-			
+//			System.out.println("RES>> Content-Type: " + resMessage.getContentType());
 			COAP_CONTENT_TYPE contentType = COAP_CONTENT_TYPE.getCoapContentType(resMessage.getContentType());
 			resCoap.getOptions().setContentFormat(contentType.Value());
 		}
@@ -148,7 +152,7 @@ public class CoapResponseCodec extends CoapAbsCodec {
 	public static OneM2mResponse decode(CoapResponse resCoap) throws Exception {
 		
 		OneM2mResponse resMessage = new OneM2mResponse();
-		
+
 		if (resCoap.advanced().getSource().getHostName() != null) {
 			resMessage.setRemoteHost(resCoap.advanced().getSource().getHostName());
 		}

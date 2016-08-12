@@ -12,7 +12,6 @@ package net.herit.iot.onem2m.resource;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
@@ -32,17 +31,18 @@ import javax.xml.datatype.Duration;
  *       &lt;sequence>
  *         &lt;element name="operation" type="{http://www.onem2m.org/xml/protocols}operation"/>
  *         &lt;element name="to" type="{http://www.w3.org/2001/XMLSchema}anyURI"/>
- *         &lt;element name="from" type="{http://www.onem2m.org/xml/protocols}ID"/>
+ *         &lt;element name="from" type="{http://www.onem2m.org/xml/protocols}ID" minOccurs="0"/>
  *         &lt;element name="requestIdentifier" type="{http://www.onem2m.org/xml/protocols}requestID"/>
  *         &lt;element name="resourceType" type="{http://www.onem2m.org/xml/protocols}resourceType" minOccurs="0"/>
- *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}NCName" minOccurs="0"/>
+ *         // XSD-1.6.0 deleted. &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}NCName" minOccurs="0"/>
  *         &lt;element name="primitiveContent" type="{http://www.onem2m.org/xml/protocols}primitiveContent" minOccurs="0"/>
+ *         // XSD-1.6.0 added. &lt;element name="role" type="{http://www.w3.org/2001/XMLSchema}anyType" minOccurs="0"/>
  *         &lt;element name="originatingTimestamp" type="{http://www.onem2m.org/xml/protocols}timestamp" minOccurs="0"/>
- *         &lt;element name="requestExpirationTimestamp" type="{http://www.onem2m.org/xml/protocols}timestamp" minOccurs="0"/>
- *         &lt;element name="resultExpirationTimestamp" type="{http://www.onem2m.org/xml/protocols}timestamp" minOccurs="0"/>
- *         &lt;element name="operationExecutionTime" type="{http://www.onem2m.org/xml/protocols}timestamp" minOccurs="0"/>
+ *         &lt;element name="requestExpirationTimestamp" type="{http://www.onem2m.org/xml/protocols}abstimestamp" minOccurs="0"/>
+ *         &lt;element name="resultExpirationTimestamp" type="{http://www.onem2m.org/xml/protocols}abstimestamp" minOccurs="0"/>
+ *         &lt;element name="operationExecutionTime" type="{http://www.onem2m.org/xml/protocols}abstimestamp" minOccurs="0"/>
  *         &lt;element name="responseType" type="{http://www.onem2m.org/xml/protocols}responseTypeInfo" minOccurs="0"/>
- *         &lt;element name="resultPersistence" type="{http://www.w3.org/2001/XMLSchema}duration" minOccurs="0"/>
+ *         &lt;element name="resultPersistence" type="{http://www.w3.org/2001/XMLSchema}abstimestamp" minOccurs="0"/>
  *         &lt;element name="resultContent" type="{http://www.onem2m.org/xml/protocols}resultContent" minOccurs="0"/>
  *         &lt;element name="eventCategory" type="{http://www.onem2m.org/xml/protocols}eventCat" minOccurs="0"/>
  *         &lt;element name="deliveryAggregation" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
@@ -64,8 +64,9 @@ import javax.xml.datatype.Duration;
     "from",
     "requestIdentifier",
     "resourceType",
-    "name",
+//    "name",
     "primitiveContent",
+    "role", // added. 1.6.0
     "originatingTimestamp",
     "requestExpirationTimestamp",
     "resultExpirationTimestamp",
@@ -80,10 +81,11 @@ import javax.xml.datatype.Duration;
     "discoveryResultType"
 })
 //@XmlRootElement(name = "requestPrimitive")
-@XmlRootElement(name = Naming.REQUESTPRIMITIVE_SN)
+//@XmlRootElement(name = Naming.REQUESTPRIMITIVE_SN)
 public class RequestPrimitive {
 
-	public final static String SCHEMA_LOCATION = "CDT-requestPrimitive-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-requestPrimitive-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-requestPrimitive-v1_6_0.xsd";
 	
     //@XmlElement(required = true)
     @XmlElement(name = "op", required = true)
@@ -101,12 +103,14 @@ public class RequestPrimitive {
     protected String requestIdentifier;
     @XmlElement(name = "ty")
     protected Integer resourceType;
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    @XmlSchemaType(name = "NCName")
-    @XmlElement(name = "nm")
-    protected String name;
+//    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+//    @XmlSchemaType(name = "NCName")
+//    @XmlElement(name = "nm")
+//    protected String name;		// removed. XSD-1.6.0
     @XmlElement(name = "pc")
     protected PrimitiveContent primitiveContent;
+    @XmlElement(name = "rol")
+    protected Object role;			// added. XSD-1.6.0
     @XmlElement(name = "ot")
     protected String originatingTimestamp;
     @XmlElement(name = "rqet")
@@ -143,7 +147,7 @@ public class RequestPrimitive {
 		bld.append(" From:").append(from).append("\n");
 		bld.append(" RequestIdentifier:").append(requestIdentifier).append("\n");
 		bld.append(" ResourceType:").append(resourceType).append("\n");
-		bld.append(" Name:").append(name).append("\n");
+//		bld.append(" Name:").append(name).append("\n");
 		bld.append(" OriginatingTimestamp:").append(originatingTimestamp).append("\n");
 		bld.append(" RequestExpirationTimestamp:").append(requestExpirationTimestamp).append("\n");
 		bld.append(" ResultExpirationTimestamp:").append(resultExpirationTimestamp).append("\n");
@@ -289,29 +293,29 @@ public class RequestPrimitive {
         this.resourceType = value;
     }
 
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+//    /**
+//     * Gets the value of the name property.
+//     * 
+//     * @return
+//     *     possible object is
+//     *     {@link String }
+//     *     
+//     */
+//    public String getName() {
+//        return name;
+//    }
+//
+//    /**
+//     * Sets the value of the name property.
+//     * 
+//     * @param value
+//     *     allowed object is
+//     *     {@link String }
+//     *     
+//     */
+//    public void setName(String value) {
+//        this.name = value;
+//    }
 
     /**
      * Gets the value of the primitiveContent property.
@@ -337,6 +341,31 @@ public class RequestPrimitive {
         this.primitiveContent = value;
     }
 
+    /**
+     * Gets the value of the role property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Object }
+     *     
+     */
+    public Object getRole() {
+        return role;
+    }
+
+    /**
+     * Sets the value of the role property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Object }
+     *     
+     */
+    public void setRole(Object value) {
+        this.role = value;
+    }
+    
+    
     /**
      * Gets the value of the originatingTimestamp property.
      * 

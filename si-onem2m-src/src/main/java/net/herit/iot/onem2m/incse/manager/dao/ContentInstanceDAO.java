@@ -19,7 +19,7 @@ import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.CfgManager;
@@ -80,7 +80,7 @@ public class ContentInstanceDAO extends ResourceDAO implements DAOInterface {
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<ContentInstance> jc = (JSONConvertor<ContentInstance>)ConvertorFactory.getJSONConvertor(ContentInstance.class, ContentInstance.SCHEMA_LOCATION);
+			DaoJSONConvertor<ContentInstance> jc = (DaoJSONConvertor<ContentInstance>)ConvertorFactory.getDaoJSONConvertor(ContentInstance.class, ContentInstance.SCHEMA_LOCATION);
 			return jc.marshal((ContentInstance)res);
 			
 		} catch (Exception e) {
@@ -210,14 +210,14 @@ public class ContentInstanceDAO extends ResourceDAO implements DAOInterface {
 //	@Override
 //	public Resource retrieveByUri(String uri, RESULT_CONT rc) throws OneM2MException {
 //
-//		return retrieve(URI_KEY, uri, new JSONConvertor<ContentInstance>(ContentInstance.class), rc);
+//		return retrieve(URI_KEY, uri, new DaoJSONConvertor<ContentInstance>(ContentInstance.class), rc);
 //		
 //	}
 //
 //	@Override
 //	public Resource retrieveByResId(String resId, RESULT_CONT rc) throws OneM2MException {
 //
-//		return retrieve(RESID_KEY, resId, new JSONConvertor<ContentInstance>(ContentInstance.class), rc);
+//		return retrieve(RESID_KEY, resId, new DaoJSONConvertor<ContentInstance>(ContentInstance.class), rc);
 //		
 //	}
 	
@@ -238,7 +238,7 @@ public class ContentInstanceDAO extends ResourceDAO implements DAOInterface {
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 		
 		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, 
-				(JSONConvertor<ContentInstance>)ConvertorFactory.getJSONConvertor(ContentInstance.class, ContentInstance.SCHEMA_LOCATION), rc);
+				(DaoJSONConvertor<ContentInstance>)ConvertorFactory.getDaoJSONConvertor(ContentInstance.class, ContentInstance.SCHEMA_LOCATION), rc);
 		
 	}
 	
@@ -324,7 +324,7 @@ public class ContentInstanceDAO extends ResourceDAO implements DAOInterface {
 		Document doc = childList.get(0);
 
 		try {
-			JSONConvertor<ContentInstance> cvt = (JSONConvertor<ContentInstance>)ConvertorFactory.getJSONConvertor(ContentInstance.class, ContentInstance.SCHEMA_LOCATION);
+			DaoJSONConvertor<ContentInstance> cvt = (DaoJSONConvertor<ContentInstance>)ConvertorFactory.getDaoJSONConvertor(ContentInstance.class, ContentInstance.SCHEMA_LOCATION);
 					
 			Resource res = (Resource) cvt.unmarshal(doc.toJson());
 			res.setUri(doc.getString(URI_KEY));
@@ -361,8 +361,8 @@ public class ContentInstanceDAO extends ResourceDAO implements DAOInterface {
 		Document doc = childList.get(0);
 
 		try {
-			JSONConvertor<ContentInstance> cvt = (JSONConvertor<ContentInstance>)ConvertorFactory.getJSONConvertor(ContentInstance.class, ContentInstance.SCHEMA_LOCATION);
-			//JSONConvertor<ContentInstance> cvt = new JSONConvertor<ContentInstance>(ContentInstance.class);
+			DaoJSONConvertor<ContentInstance> cvt = (DaoJSONConvertor<ContentInstance>)ConvertorFactory.getDaoJSONConvertor(ContentInstance.class, ContentInstance.SCHEMA_LOCATION);
+			//DaoJSONConvertor<ContentInstance> cvt = new DaoJSONConvertor<ContentInstance>(ContentInstance.class);
 			Resource res = (Resource) cvt.unmarshal(doc.toJson());
 			res.setUri(doc.getString(URI_KEY));
 			

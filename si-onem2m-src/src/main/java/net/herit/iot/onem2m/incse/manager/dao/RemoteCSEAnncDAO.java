@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -29,7 +29,7 @@ public class RemoteCSEAnncDAO extends ResourceDAO implements DAOInterface {
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<RemoteCSEAnnc> jc = (JSONConvertor<RemoteCSEAnnc>)ConvertorFactory.getJSONConvertor(RemoteCSEAnnc.class, RemoteCSEAnnc.SCHEMA_LOCATION);
+			DaoJSONConvertor<RemoteCSEAnnc> jc = (DaoJSONConvertor<RemoteCSEAnnc>)ConvertorFactory.getDaoJSONConvertor(RemoteCSEAnnc.class, RemoteCSEAnnc.SCHEMA_LOCATION);
 			return jc.marshal((RemoteCSEAnnc)res);
 			
 		} catch (Exception e) {
@@ -55,14 +55,14 @@ public class RemoteCSEAnncDAO extends ResourceDAO implements DAOInterface {
 //	@Override
 //	public Resource retrieveByUri(String uri, RESULT_CONT rc) throws OneM2MException {
 //		
-//		return this.retrieve(URI_KEY, uri, new JSONConvertor<RemoteCSEAnnc>(RemoteCSEAnnc.class), rc);
+//		return this.retrieve(URI_KEY, uri, new DaoJSONConvertor<RemoteCSEAnnc>(RemoteCSEAnnc.class), rc);
 //		
 //	}
 //
 //	@Override
 //	public Resource retrieveByResId(String id, RESULT_CONT rc) throws OneM2MException {
 //		
-//		return this.retrieve("resourceID", id, new JSONConvertor<RemoteCSEAnnc>(RemoteCSEAnnc.class), rc);
+//		return this.retrieve("resourceID", id, new DaoJSONConvertor<RemoteCSEAnnc>(RemoteCSEAnnc.class), rc);
 //		
 //	}
 //	
@@ -94,7 +94,7 @@ public class RemoteCSEAnncDAO extends ResourceDAO implements DAOInterface {
 	@Override
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 		
-		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, ConvertorFactory.getJSONConvertor(RemoteCSEAnnc.class, RemoteCSEAnnc.SCHEMA_LOCATION), rc);
+		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, ConvertorFactory.getDaoJSONConvertor(RemoteCSEAnnc.class, RemoteCSEAnnc.SCHEMA_LOCATION), rc);
 		
 	}
 	

@@ -57,7 +57,8 @@ public class ServiceSubscribedAppRule
     extends RegularResource
 {
 	
-	public final static String SCHEMA_LOCATION = "CDT-serviceSubscribedAppRule-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-serviceSubscribedAppRule-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-serviceSubscribedAppRule-v1_6_0.xsd";
 
     @XmlElement(name = Naming.APPLICABLECREDIDS_SN)
     @XmlList

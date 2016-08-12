@@ -61,7 +61,8 @@ public class StatsConfig
     extends RegularResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-statsConfig-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-statsConfig-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-statsConfig-v1_6_0.xsd";
 	
     //@XmlElement(required = true)
     @XmlElement(name = "cr", required = true)
@@ -69,8 +70,8 @@ public class StatsConfig
     @XmlElement(name = "ch")
     protected List<ChildResourceRef> childResource;
     @XmlElements({
-        @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class),
-        @XmlElement(name = "eventConfig", namespace = "http://www.onem2m.org/xml/protocols", type = EventConfig.class)
+        @XmlElement(name = "eventConfig", namespace = "http://www.onem2m.org/xml/protocols", type = EventConfig.class),
+        @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class)
     })
     protected List<RegularResource> eventConfigOrSubscription;
 

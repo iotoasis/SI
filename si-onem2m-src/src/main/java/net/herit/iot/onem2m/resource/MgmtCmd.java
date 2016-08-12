@@ -82,7 +82,8 @@ public class MgmtCmd
     extends RegularResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-mgmtCmd-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-mgmtCmd-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-mgmtCmd-v1_6_0.xsd";
 	
     @XmlElement(name = "dc")
     protected String description;
@@ -110,8 +111,8 @@ public class MgmtCmd
     @XmlElement(name = "ch")
     protected List<ChildResourceRef> childResource;
     @XmlElements({
-        @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class),
-        @XmlElement(name = "execInstance", namespace = "http://www.onem2m.org/xml/protocols", type = ExecInstance.class)
+        @XmlElement(name = "execInstance", namespace = "http://www.onem2m.org/xml/protocols", type = ExecInstance.class),
+        @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class)
     })
     protected List<RegularResource> execInstanceOrSubscription;
 
@@ -377,8 +378,8 @@ public class MgmtCmd
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Subscription }
      * {@link ExecInstance }
+     * {@link Subscription }
      * 
      * 
      */

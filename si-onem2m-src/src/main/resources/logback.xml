@@ -13,10 +13,10 @@
     
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- <file>/home/herit/project/2015/IITP/log/onem2m.log</file>  -->
-        <file>/usr/local/iitp/log/onem2m_incse.log</file>
+        <file>/home/hubiss/project/2015/IITP-IoT/log/onem2m_incse.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
        	 <!-- <fileNamePattern>/home/herit/project/2015/IITP/log/onem2m.%d{yyyy-MM-dd}.log</fileNamePattern>  -->
-       	 <fileNamePattern>/usr/local/iitp/log/onem2m_incse.%d{yyyy-MM-dd}.log</fileNamePattern>
+       	 <fileNamePattern>/home/hubiss/project/2015/IITP-IoT/log/onem2m_incse.%d{yyyy-MM-dd}.log</fileNamePattern>
        	 <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>

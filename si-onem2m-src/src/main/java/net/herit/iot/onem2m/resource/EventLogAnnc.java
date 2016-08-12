@@ -60,7 +60,8 @@ import javax.xml.bind.annotation.XmlType;
 public class EventLogAnnc
     extends AnnouncedMgmtResource
 {
-	public static final String SCHEMA_LOCATION = "CDT-eventLog-v1_2_0.xsd";
+//	public static final String SCHEMA_LOCATION = "CDT-eventLog-v1_2_0.xsd";
+	public static final String SCHEMA_LOCATION = "CDT-eventLog-v1_6_0.xsd";
 
     @XmlElement(name = "lgt")
     protected Integer logTypeId;

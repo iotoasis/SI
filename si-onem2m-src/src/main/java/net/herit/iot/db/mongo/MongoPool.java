@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MongoPool {
-	private static MongoPool INSTANCE = new MongoPool();
+	private final static MongoPool INSTANCE = new MongoPool();
 	
 	private MongoClient mongoClient = null;
 //	private String serverAddr;

@@ -37,8 +37,8 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
  *       &lt;sequence>
  *         &lt;element name="creator" type="{http://www.onem2m.org/xml/protocols}ID" minOccurs="0"/>
  *         &lt;element name="memberType" type="{http://www.onem2m.org/xml/protocols}memberType"/>
- *         &lt;element name="currentNrOfMembers" type="{http://www.w3.org/2001/XMLSchema}nonNegativeInteger"/>
- *         &lt;element name="maxNrOfMembers" type="{http://www.w3.org/2001/XMLSchema}nonNegativeInteger"/>
+ *         &lt;element name="currentNrOfMembers" type="{http://www.w3.org/2001/XMLSchema}positiveInteger"/>
+ *         &lt;element name="maxNrOfMembers" type="{http://www.w3.org/2001/XMLSchema}positiveInteger"/>
  *         &lt;element name="memberIDs" type="{http://www.onem2m.org/xml/protocols}listOfURIs"/>
  *         &lt;element name="membersAccessControlPolicyIDs" type="{http://www.onem2m.org/xml/protocols}listOfURIs" minOccurs="0"/>
  *         &lt;element name="memberTypeValidated" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
@@ -78,7 +78,9 @@ public class Group
     extends AnnounceableResource
 {
 	
-	public final static String SCHEMA_LOCATION = "CDT-group-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-group-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-group-v1_6_0.xsd";
+	
 	public static final String FANOUTPOINT_SHORTNAME = "fopt";
 
 	@XmlElement(name = "cr")
@@ -88,11 +90,11 @@ public class Group
     protected Integer memberType;
     //@XmlElement(required = true)
 	@XmlElement(name = "cnm")
-    @XmlSchemaType(name = "nonNegativeInteger")
+    @XmlSchemaType(name = "positiveInteger")
     protected Integer currentNrOfMembers;
     //@XmlElement(required = true)
 	@XmlElement(name = "mnm")
-    @XmlSchemaType(name = "nonNegativeInteger")
+    @XmlSchemaType(name = "positiveInteger")
     protected Integer maxNrOfMembers;
     @XmlList
     //@XmlElement(required = true)
@@ -459,9 +461,9 @@ public class Group
 			if (this.memberTypeValidated != null) {
 				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'memberTypeValidated' is NP on CREATE operation");
 			}
-			if (this.memberType == null) {
-				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'memberType' is M on CREATE operation");
-			}
+//			if (this.memberType == null) {  /2016.05.10
+//				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'memberType' is M on CREATE operation");
+//			}
 			if (this.maxNrOfMembers == null) {
 				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'maxNrOfMembers' is M on CREATE operation");
 			}

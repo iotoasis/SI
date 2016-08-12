@@ -60,7 +60,8 @@ import javax.xml.bind.annotation.XmlType;
 public class FirmwareAnnc
     extends AnnouncedMgmtResource
 {
-	public static final String SCHEMA_LOCATION = "CDT-firmware-v1_2_0.xsd";
+//	public static final String SCHEMA_LOCATION = "CDT-firmware-v1_2_0.xsd";
+	public static final String SCHEMA_LOCATION = "CDT-firmware-v1_6_0.xsd";
 
     @XmlElement(name = "vr")
     protected String version;

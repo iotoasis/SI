@@ -64,7 +64,8 @@ public class DeviceInfoAnnc
     extends AnnouncedMgmtResource
 {
 	
-	public static final String SCHEMA_LOCATION = "CDT-deviceInfo-v1_2_0.xsd";
+//	public static final String SCHEMA_LOCATION = "CDT-deviceInfo-v1_2_0.xsd";
+	public static final String SCHEMA_LOCATION = "CDT-deviceInfo-v1_6_0.xsd";
 
     @XmlElement(name = "dlb")
     protected String deviceLabel;

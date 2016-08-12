@@ -16,8 +16,8 @@ public class VLatestManager implements VirtualManagerInterface {
 	
 	private Logger log = LoggerFactory.getLogger(VLatestManager.class);
 
-	public static String KEY = ContentInstance.LATEST_SHORTNAME;
-	private static VLatestManager INSTANCE = new VLatestManager();
+	public final static String KEY = ContentInstance.LATEST_SHORTNAME;
+	private final static VLatestManager INSTANCE = new VLatestManager();
 
 	private PROCESS_RESULT processResult; 
 	

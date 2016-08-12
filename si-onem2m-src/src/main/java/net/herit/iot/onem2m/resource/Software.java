@@ -73,7 +73,8 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 public class Software
     extends MgmtResource
 {
-	public final static String SCHEMA_LOCATION = "CDT-software-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-software-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-software-v1_6_0.xsd";
 
     //@XmlElement(required = true)
 	@XmlElement(name = "vr", required = true)

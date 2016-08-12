@@ -42,7 +42,9 @@ public class HttpClientHandler extends ChannelInboundHandlerAdapter {
 			responseListener.channelConnected(ctx);
 		}
 */
-		sendHttpMessage(ctx, request, responseListener);
+		if(request == null) log.debug("request is NULL.........");
+			sendHttpMessage(ctx, request, responseListener);
+//		}
 
 	}
 
@@ -180,8 +182,8 @@ public class HttpClientHandler extends ChannelInboundHandlerAdapter {
 			
 			
 			return future;
-		} catch (Exception exception) {
-			log.error("sendHttpMessage_error : {}", exception.getMessage());
+		} catch (Exception e) {
+			log.error("sendHttpMessage_error: ", e);
 		}
 		return null;
 	}

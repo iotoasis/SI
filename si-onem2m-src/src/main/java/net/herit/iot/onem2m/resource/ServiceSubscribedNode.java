@@ -69,7 +69,8 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 public class ServiceSubscribedNode
     extends RegularResource
 {
-	public final static String SCHEMA_LOCATION = "CDT-serviceSubscribedNode-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-serviceSubscribedNode-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-serviceSubscribedNode-v1_6_0.xsd";
 
     //@XmlElement(required = true)
     @XmlElement(name = "ni", required = true)

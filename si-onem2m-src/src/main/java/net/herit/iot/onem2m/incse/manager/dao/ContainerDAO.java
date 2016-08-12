@@ -9,7 +9,7 @@ import com.mongodb.client.MongoCollection;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -41,7 +41,7 @@ public class ContainerDAO extends ResourceDAO implements DAOInterface {
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<Container> jc = (JSONConvertor<Container>)ConvertorFactory.getJSONConvertor(Container.class, Container.SCHEMA_LOCATION);
+			DaoJSONConvertor<Container> jc = (DaoJSONConvertor<Container>)ConvertorFactory.getDaoJSONConvertor(Container.class, Container.SCHEMA_LOCATION);
 			return jc.marshal((Container)res);
 			
 		} catch (Exception e) {
@@ -55,6 +55,7 @@ public class ContainerDAO extends ResourceDAO implements DAOInterface {
 
 		((Container)resource).setCurrentNrOfInstances(0);
 		((Container)resource).setCurrentByteSize(0);
+		((Container)resource).setStateTag(0);
 		
 		super.create(resource);
 		
@@ -80,9 +81,10 @@ public class ContainerDAO extends ResourceDAO implements DAOInterface {
 
 	@Override
 	public void update(Resource resource) throws OneM2MException {
+
+		((Container)resource).setStateTag(((Container)resource).getStateTag() + 1);
 		
-		super.update(resource);
-				
+		super.update(resource);			
 	}
 
 //	@Override
@@ -164,7 +166,7 @@ public class ContainerDAO extends ResourceDAO implements DAOInterface {
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 		
 		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, 
-				(JSONConvertor<Container>)ConvertorFactory.getJSONConvertor(Container.class, Container.SCHEMA_LOCATION), rc);
+				(DaoJSONConvertor<Container>)ConvertorFactory.getDaoJSONConvertor(Container.class, Container.SCHEMA_LOCATION), rc);
 		
 	}
 	

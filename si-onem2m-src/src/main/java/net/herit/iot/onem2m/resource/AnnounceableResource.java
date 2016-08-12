@@ -24,6 +24,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 
 
 /**
+ * XSD-1.6.0
  * <p>Java class for announceableResource complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -36,7 +37,12 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
  *         &lt;element name="announceTo" type="{http://www.onem2m.org/xml/protocols}listOfURIs" minOccurs="0"/>
  *         &lt;element name="announcedAttribute" minOccurs="0">
  *           &lt;simpleType>
- *             &lt;list itemType="{http://www.w3.org/2001/XMLSchema}NCName" />
+ *             &lt;restriction>
+ *               &lt;simpleType>
+ *                 &lt;list itemType="{http://www.w3.org/2001/XMLSchema}NCName" />
+ *               &lt;/simpleType>
+ *               &lt;minLength value="1"/>
+ *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
  *       &lt;/sequence>
@@ -53,9 +59,13 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "announcedAttribute"
 })
 @XmlSeeAlso({
-    Node.class,
-    NodeAnnc.class,
-    MgmtResource.class
+//    Node.class,
+//    NodeAnnc.class,
+//    MgmtResource.class  //XSD-1.2
+	  MgmtResource.class,  //XSD-1.6.0
+	  AE.class,
+	  Group.class,
+	  Container.class
 })
 public class AnnounceableResource
     extends RegularResource

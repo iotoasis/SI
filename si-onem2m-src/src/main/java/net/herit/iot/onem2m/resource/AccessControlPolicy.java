@@ -54,12 +54,13 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "subscription"
 })
 //@XmlRootElement(name = "accessControlPolicy")
-@XmlRootElement(name = "acp")
+@XmlRootElement(name = Naming.ACCESSCONTROLPOLICY_SN) // "acp")
 public class AccessControlPolicy
     extends AnnounceableSubordinateResource
 {
 
-	public final static String SCHEMA_LOCATION = "CDT-accessControlPolicy-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-accessControlPolicy-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-accessControlPolicy-v1_6_0.xsd";
 	
 	
     //@XmlElement(required = true)

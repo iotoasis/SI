@@ -74,10 +74,11 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 //@XmlRootElement(name = "nodeAnnc")
 @XmlRootElement(name = "nodA")
 public class NodeAnnc
-    extends AnnounceableResource
+    extends AnnouncedResource    // fixed in 1.6.0 (x)AnnounceableResource  -> AnnouncedResource
 {
 	
-	public final static String SCHEMA_LOCATION = "CDT-node-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-node-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-node-v1_6_0.xsd";
 
 	public static final List<String> MA = new ArrayList<String>(
 		Arrays.asList(Naming.RESOURCEID_SN,
@@ -102,17 +103,17 @@ public class NodeAnnc
     @XmlElement(name = Naming.CHILDRESOURCE_SN)
     protected List<ChildResourceRef> childResource;
     @XmlElements({
-        @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class),
-        @XmlElement(name = "areaNwkDeviceInfoAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = AreaNwkDeviceInfoAnnc.class),
-        @XmlElement(name = "deviceCapabilityAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = DeviceCapabilityAnnc.class),
         @XmlElement(name = "memoryAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = MemoryAnnc.class),
-        @XmlElement(name = "rebootAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = RebootAnnc.class),
-        @XmlElement(name = "deviceInfoAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = DeviceInfoAnnc.class),
         @XmlElement(name = "batteryAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = BatteryAnnc.class),
+        @XmlElement(name = "areaNwkInfoAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = AreaNwkInfoAnnc.class),
+        @XmlElement(name = "areaNwkDeviceInfoAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = AreaNwkDeviceInfoAnnc.class),
         @XmlElement(name = "firmwareAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = FirmwareAnnc.class),
         @XmlElement(name = "softwareAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = SoftwareAnnc.class),
+        @XmlElement(name = "deviceInfoAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = DeviceInfoAnnc.class),
+        @XmlElement(name = "deviceCapabilityAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = DeviceCapabilityAnnc.class),
+        @XmlElement(name = "rebootAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = RebootAnnc.class),
         @XmlElement(name = "eventLogAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = EventLogAnnc.class),
-        @XmlElement(name = "areaNwkInfoAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = AreaNwkInfoAnnc.class)
+        @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class)
     })
     protected List<Resource> memoryAnncOrBatteryAnncOrAreaNwkInfoAnnc;
 
@@ -218,17 +219,17 @@ public class NodeAnnc
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Subscription }
-     * {@link AreaNwkDeviceInfoAnnc }
-     * {@link DeviceCapabilityAnnc }
      * {@link MemoryAnnc }
-     * {@link RebootAnnc }
-     * {@link DeviceInfoAnnc }
      * {@link BatteryAnnc }
+     * {@link AreaNwkInfoAnnc }
+     * {@link AreaNwkDeviceInfoAnnc }
      * {@link FirmwareAnnc }
      * {@link SoftwareAnnc }
+     * {@link DeviceInfoAnnc }
+     * {@link DeviceCapabilityAnnc }
+     * {@link RebootAnnc }
      * {@link EventLogAnnc }
-     * {@link AreaNwkInfoAnnc }
+     * {@link Subscription }
      * 
      * 
      */

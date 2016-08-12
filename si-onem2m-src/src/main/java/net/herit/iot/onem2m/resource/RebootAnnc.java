@@ -53,7 +53,8 @@ import javax.xml.bind.annotation.XmlType;
 public class RebootAnnc
     extends AnnouncedMgmtResource
 {
-	public final static String SCHEMA_LOCATION = "CDT-reboot-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-reboot-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-reboot-v1_6_0.xsd";
 
     @XmlElement(name = "rbo")
 //    protected boolean reboot;

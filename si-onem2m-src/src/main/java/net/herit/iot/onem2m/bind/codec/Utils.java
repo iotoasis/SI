@@ -21,28 +21,57 @@ public class Utils {
 	
 	public static final String TO_NAME = "_to_";
 	
+	private static String toParamCheck(String url) {
+		
+		if(url.startsWith("/~/")) {	      // for http (structured SP-Relative)
+			url = url.substring(2);
+		} else if(url.startsWith("/~")) {  // for CoAP  2016.05.12
+			url = url.substring(2);
+			url = "/" + url;
+		}	
+		else if(url.startsWith("/_/")) {   // for http (structured Absolute)
+			url = "/" + url.substring(2);
+		} else if(url.startsWith("//_")) {  // for CoAP   2016.05.12
+			url = "/" + url.substring(3);	
+			url = "/" + url;
+		}
+		
+		return url;
+	}
+	
 	public static HashMap<String, Object> urlQueryParse(String url) {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
-
+		
 		int indx = url.indexOf("?");
+		
+		System.out.println("URL: " + url);
 		if (indx == -1) {
 			if (url.startsWith("http:")) url = url.substring(5);
-			if (url.startsWith("https:")) url = url.substring(6);
+			else if (url.startsWith("https:")) url = url.substring(6);
+			url = toParamCheck(url);
 			map.put(TO_NAME, url);
 			return map;
 		}
 
-		if (url.startsWith("http:")) {
-			map.put(TO_NAME, url.substring(5, indx));
-		} else if (url.startsWith("https:")) {
-			map.put(TO_NAME, url.substring(6, indx));
-		} else {
-			map.put(TO_NAME, url.substring(0, indx));
-		}
-		
-
 		String query = url.substring(indx+1);
+		
+		if (url.startsWith("http:")) url = url.substring(5, indx);
+//		{
+//			map.put(TO_NAME, url.substring(5, indx));
+//		} 
+		else if (url.startsWith("https:")) url = url.substring(6, indx);
+//		{
+//			map.put(TO_NAME, url.substring(6, indx));
+//		} 
+		else url = url.substring(0, indx);
+//		{
+//			map.put(TO_NAME, url.substring(0, indx));
+//		}
+		
+		url = toParamCheck(url);
+		map.put(TO_NAME, url);
+		
 		String[] params = query.split("&");
 		
 		for (String param : params) {
@@ -453,4 +482,9 @@ public class Utils {
 		}
 	}
 	
+	
+	public static void main(String[] args) {
+		String m = "~herit-in";
+		System.out.println(m.substring(1));
+	}
 }

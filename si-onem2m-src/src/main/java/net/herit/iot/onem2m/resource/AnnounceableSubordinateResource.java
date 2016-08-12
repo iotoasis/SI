@@ -23,11 +23,9 @@ import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.core.util.Utils;
 
-import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
-
 
 /**
+ * XSD-1.6.0
  * <p>Java class for announceableSubordinateResource complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -41,7 +39,12 @@ import org.joda.time.format.DateTimeFormat;
  *         &lt;element name="announceTo" type="{http://www.onem2m.org/xml/protocols}listOfURIs" minOccurs="0"/>
  *         &lt;element name="announcedAttribute" minOccurs="0">
  *           &lt;simpleType>
- *             &lt;list itemType="{http://www.w3.org/2001/XMLSchema}token" />
+ *             &lt;restriction>
+ *               &lt;simpleType>
+ *                 &lt;list itemType="{http://www.w3.org/2001/XMLSchema}NCName" />
+ *               &lt;/simpleType>
+ *               &lt;minLength value="1"/>
+ *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
  *       &lt;/sequence>
@@ -59,6 +62,8 @@ import org.joda.time.format.DateTimeFormat;
     "announcedAttribute"
 })
 @XmlSeeAlso({
+    AccessControlPolicy.class,  // added. XSD-1.6.0
+    ContentInstance.class,		// added. XSD-1.6.0
     Schedule.class
 })
 public class AnnounceableSubordinateResource

@@ -49,8 +49,9 @@ public class PollingChannel
     extends RegularResource
 {
 	
-	public static final String SCHEMA_LOCATION = "CDT-pollingChannel-v1_2_0.xsd";
-
+//	public static final String SCHEMA_LOCATION = "CDT-pollingChannel-v1_2_0.xsd";
+	public static final String SCHEMA_LOCATION = "CDT-pollingChannel-v1_6_0.xsd";
+	
     //@XmlElement(required = true)
 	@XmlElement(name = Naming.POLLINGCHANNELURI_SN)
     @XmlSchemaType(name = "anyURI")

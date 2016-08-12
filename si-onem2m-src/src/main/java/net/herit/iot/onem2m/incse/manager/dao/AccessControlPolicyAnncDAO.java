@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -38,7 +38,7 @@ public class AccessControlPolicyAnncDAO extends ResourceDAO implements DAOInterf
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<AccessControlPolicyAnnc> jc = (JSONConvertor<AccessControlPolicyAnnc>)ConvertorFactory.getJSONConvertor(AccessControlPolicyAnnc.class, null);
+			DaoJSONConvertor<AccessControlPolicyAnnc> jc = (DaoJSONConvertor<AccessControlPolicyAnnc>)ConvertorFactory.getDaoJSONConvertor(AccessControlPolicyAnnc.class, null);
 			return jc.marshal((AccessControlPolicyAnnc)res);
 			
 		} catch (Exception e) {
@@ -76,7 +76,7 @@ public class AccessControlPolicyAnncDAO extends ResourceDAO implements DAOInterf
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 
 		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, 
-				ConvertorFactory.getJSONConvertor(AccessControlPolicyAnnc.class, AccessControlPolicyAnnc.SCHEMA_LOCATION), rc);
+				ConvertorFactory.getDaoJSONConvertor(AccessControlPolicyAnnc.class, AccessControlPolicyAnnc.SCHEMA_LOCATION), rc);
 		
 	}
 

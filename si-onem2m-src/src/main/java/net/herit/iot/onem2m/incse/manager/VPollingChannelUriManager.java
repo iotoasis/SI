@@ -16,7 +16,7 @@ public class VPollingChannelUriManager implements VirtualManagerInterface {
 	private Logger log = LoggerFactory.getLogger(VPollingChannelUriManager.class);
 
 	public static String KEY = Naming.POLLINGCHANNELURI_SN;
-	private static VPollingChannelUriManager INSTANCE = new VPollingChannelUriManager();
+	private final static VPollingChannelUriManager INSTANCE = new VPollingChannelUriManager();
 	
 	private PROCESS_RESULT processResult; 
 	

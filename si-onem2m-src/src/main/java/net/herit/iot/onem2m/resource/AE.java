@@ -42,6 +42,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
  *         &lt;element name="ontologyRef" type="{http://www.w3.org/2001/XMLSchema}anyURI" minOccurs="0"/>
  *         &lt;element name="nodeLink" type="{http://www.w3.org/2001/XMLSchema}anyURI" minOccurs="0"/>
  *         &lt;element name="requestReachability" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="contentSerialization" type="{http://www.onem2m.org/xml/protocols}serializations" minOccurs="0"/>
  *         &lt;choice minOccurs="0">
  *           &lt;element name="childResource" type="{http://www.onem2m.org/xml/protocols}childResourceRef" maxOccurs="unbounded"/>
  *           &lt;choice maxOccurs="unbounded">
@@ -70,6 +71,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "ontologyRef",
     "nodeLink",
     "requestReachability",
+    "contentSerialization",
     "childResource",
     "containerOrGroupOrAccessControlPolicy"
 })
@@ -78,7 +80,8 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 public class AE
     extends AnnounceableResource
 {
-	public final static String SCHEMA_LOCATION = "CDT-AE-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-AE-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-AE-v1_6_0.xsd";
 
 //	String[] CREATE_MA = {"appID", "requestReachability"};
 //	String[] CREATE_NP = {"resourceName","resourceType","resourceID","parentID","creationTime",
@@ -90,29 +93,34 @@ public class AE
 //							"creationTime", "lastModifiedTime"};
 //	String[] RESPONSE_NP = {};
 	
-	@XmlElement(name = "apn")
+	@XmlElement(name = Naming.APPNAME_SN) //"apn")
     protected String appName;
     //@XmlElement(name = "App-ID", required = true)
 	//@XmlElement(name = "api", required = true)
-	@XmlElement(name = "api")
+	@XmlElement(name = Naming.APPID_SN) //"api")
     protected String appID;
     //@XmlElement(name = "AE-ID", required = true)
     //@XmlElement(name = "aei", required = true)
-	@XmlElement(name = "aei")
+	@XmlElement(name = Naming.AEID_SN) //"aei")
     protected String aeid;
     @XmlList
-    @XmlElement(name = "poa")
+    @XmlElement(name = Naming.POINTOFACCESS_SN) //"poa")
     protected List<String> pointOfAccess;
     @XmlSchemaType(name = "anyURI")
-    @XmlElement(name = "or")
+    @XmlElement(name = Naming.ONTOLOGYREF_SN) //"or")
     protected String ontologyRef;
     @XmlSchemaType(name = "anyURI")
-    @XmlElement(name = "nl")
+    @XmlElement(name = Naming.NODELINK_SN) //"nl")
     protected String nodeLink;
-    @XmlElement(name = "rr")
+    @XmlElement(name = Naming.REQUESTREACHABILITY_SN) //"rr")
     //protected boolean requestReachability;
     protected Boolean requestReachability;
-    @XmlElement(name = "ch")
+    
+    @XmlList
+    @XmlElement(name = Naming.CONTENTSERIALIZATION_SN) //"csz")
+    protected List<PermittedMediaTypes> contentSerialization;  // added in XSD-1.6.0
+    
+    @XmlElement(name = Naming.CHILDRESOURCE_SN) //"ch")
     protected List<ChildResourceRef> childResource;
     @XmlElements({
         @XmlElement(name = "group", namespace = "http://www.onem2m.org/xml/protocols", type = Group.class),
@@ -294,6 +302,44 @@ public class AE
     public void setRequestReachability(Boolean value) {
         this.requestReachability = value;
     }
+    
+    
+    /**
+     * XSD-1.6.0
+     * Gets the value of the contentSerialization property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the contentSerialization property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getContentSerialization().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link PermittedMediaTypes }
+     * 
+     * 
+     */
+    public List<PermittedMediaTypes> getContentSerialization() {
+//        if (contentSerialization == null) {
+//            contentSerialization = new ArrayList<PermittedMediaTypes>();
+//        }
+        return this.contentSerialization;
+    }
+    
+    public void addContentSerialization(PermittedMediaTypes pmt) {
+    	 if (contentSerialization == null) {
+             contentSerialization = new ArrayList<PermittedMediaTypes>();
+         }
+    	 contentSerialization.add(pmt);
+    }
 
     /**
      * Gets the value of the childResource property.
@@ -377,7 +423,9 @@ public class AE
 	public void validate(OPERATION operation) throws OneM2MException {
 		
 		if (operation.equals(OPERATION.CREATE)) {	// create 요청에 의해 생성된 리소스에 대한 유효성 체크 (DB저장전)
+			//appID = "testMMM";
 			if (this.appID == null || this.appID.length() == 0) {
+				//throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'appID' is M on CREATE operation");
 				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'appID' is M on CREATE operation");
 			}
 			// v1.0.1 - TBD

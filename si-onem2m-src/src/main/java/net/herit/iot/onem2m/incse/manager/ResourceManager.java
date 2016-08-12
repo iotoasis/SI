@@ -120,7 +120,7 @@ public class ResourceManager {
 			}
 			
 		} catch (OneM2MException e) {
-			log.debug("Handled exception", e);
+			log.error("Handled exception", e);
 
 			reqMessage.setContent(e.getMessage().getBytes());
 			

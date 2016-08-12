@@ -83,7 +83,8 @@ public class ContainerAnnc
     extends AnnouncedResource
 {
 	
-	public final static String SCHEMA_LOCATION = "CDT-container-v1_2_0.xsd ";
+//	public final static String SCHEMA_LOCATION = "CDT-container-v1_2_0.xsd ";
+	public final static String SCHEMA_LOCATION = "CDT-container-v1_6_0.xsd ";
 	
 	public static final List<String> MA = new ArrayList<String>(
 			Arrays.asList(Naming.RESOURCEID_SN,
@@ -134,11 +135,11 @@ public class ContainerAnnc
     @XmlElement(name = Naming.CHILDRESOURCE_SN)
     protected List<ChildResourceRef> childResource;
     @XmlElements({
-        @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class),
         @XmlElement(name = "contentInstance", namespace = "http://www.onem2m.org/xml/protocols", type = ContentInstance.class),
         @XmlElement(name = "contentInstanceAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = ContentInstanceAnnc.class),
         @XmlElement(name = "container", namespace = "http://www.onem2m.org/xml/protocols", type = Container.class),
-        @XmlElement(name = "containerAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = ContainerAnnc.class)
+        @XmlElement(name = "containerAnnc", namespace = "http://www.onem2m.org/xml/protocols", type = ContainerAnnc.class),
+        @XmlElement(name = "subscription", namespace = "http://www.onem2m.org/xml/protocols", type = Subscription.class)
     })
     protected List<Resource> contentInstanceOrContentInstanceAnncOrContainer;
 
@@ -388,11 +389,11 @@ public class ContainerAnnc
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Subscription }
      * {@link ContentInstance }
      * {@link ContentInstanceAnnc }
      * {@link Container }
      * {@link ContainerAnnc }
+     * {@link Subscription }
      * 
      * 
      */

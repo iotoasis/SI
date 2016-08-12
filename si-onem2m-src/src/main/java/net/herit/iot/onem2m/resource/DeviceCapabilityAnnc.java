@@ -61,7 +61,8 @@ import javax.xml.bind.annotation.XmlType;
 public class DeviceCapabilityAnnc
     extends AnnouncedMgmtResource
 {
-	public static final String SCHEMA_LOCATION = "CDT-deviceCapability-v1_2_0.xsd";
+//	public static final String SCHEMA_LOCATION = "CDT-deviceCapability-v1_2_0.xsd";
+	public static final String SCHEMA_LOCATION = "CDT-deviceCapability-v1_6_0.xsd";
 
     @XmlElement(name = "can")
     protected String capabilityName;

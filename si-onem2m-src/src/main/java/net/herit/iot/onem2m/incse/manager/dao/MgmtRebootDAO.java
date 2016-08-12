@@ -3,7 +3,7 @@ package net.herit.iot.onem2m.incse.manager.dao;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
@@ -28,7 +28,7 @@ public class MgmtRebootDAO extends ResourceDAO implements DAOInterface {
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<Reboot> jc = (JSONConvertor<Reboot>)ConvertorFactory.getJSONConvertor(Reboot.class, Reboot.SCHEMA_LOCATION);
+			DaoJSONConvertor<Reboot> jc = (DaoJSONConvertor<Reboot>)ConvertorFactory.getDaoJSONConvertor(Reboot.class, Reboot.SCHEMA_LOCATION);
 			return jc.marshal((Reboot)res);
 			
 		} catch (Exception e) {
@@ -66,7 +66,7 @@ public class MgmtRebootDAO extends ResourceDAO implements DAOInterface {
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 		
 		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, 
-				(JSONConvertor<Reboot>)ConvertorFactory.getJSONConvertor(Reboot.class, Reboot.SCHEMA_LOCATION), rc);
+				(DaoJSONConvertor<Reboot>)ConvertorFactory.getDaoJSONConvertor(Reboot.class, Reboot.SCHEMA_LOCATION), rc);
 		
 	}
 	

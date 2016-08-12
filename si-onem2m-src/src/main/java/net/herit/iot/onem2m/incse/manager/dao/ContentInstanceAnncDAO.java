@@ -16,7 +16,7 @@ import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESULT_CONT;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
-import net.herit.iot.onem2m.core.convertor.JSONConvertor;
+import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
 import net.herit.iot.onem2m.incse.facility.CfgManager;
@@ -45,7 +45,7 @@ public class ContentInstanceAnncDAO extends ResourceDAO implements DAOInterface 
 	public String resourceToJson(Resource res) throws OneM2MException {
 		try {
 			
-			JSONConvertor<ContentInstanceAnnc> jc = (JSONConvertor<ContentInstanceAnnc>)ConvertorFactory.getJSONConvertor(ContentInstanceAnnc.class, ContentInstanceAnnc.SCHEMA_LOCATION);
+			DaoJSONConvertor<ContentInstanceAnnc> jc = (DaoJSONConvertor<ContentInstanceAnnc>)ConvertorFactory.getDaoJSONConvertor(ContentInstanceAnnc.class, ContentInstanceAnnc.SCHEMA_LOCATION);
 			return jc.marshal((ContentInstanceAnnc)res);
 			
 		} catch (Exception e) {
@@ -60,6 +60,7 @@ public class ContentInstanceAnncDAO extends ResourceDAO implements DAOInterface 
 		
 		ContentInstanceAnnc ciRes = (ContentInstanceAnnc)resource;
 		ciRes.setContentSize(ciRes.getContent().length());
+		ciRes.setStateTag(0);  // 2016.05.11
 		
 		String parentID = ciRes.getParentID();
 		
@@ -117,7 +118,7 @@ public class ContentInstanceAnncDAO extends ResourceDAO implements DAOInterface 
 	public Resource retrieve(String id, RESULT_CONT rc) throws OneM2MException {
 		
 		return retrieve(OneM2mUtil.isUri(id) ? URI_KEY : RESID_KEY, id, 
-				(JSONConvertor<ContentInstanceAnnc>)ConvertorFactory.getJSONConvertor(ContentInstanceAnnc.class, ContentInstanceAnnc.SCHEMA_LOCATION), rc);
+				(DaoJSONConvertor<ContentInstanceAnnc>)ConvertorFactory.getDaoJSONConvertor(ContentInstanceAnnc.class, ContentInstanceAnnc.SCHEMA_LOCATION), rc);
 		
 	}
 	
@@ -191,7 +192,7 @@ public class ContentInstanceAnncDAO extends ResourceDAO implements DAOInterface 
 		Document doc = childList.get(0);
 
 		try {
-			JSONConvertor<ContentInstanceAnnc> cvt = (JSONConvertor<ContentInstanceAnnc>)ConvertorFactory.getJSONConvertor(ContentInstanceAnnc.class, ContentInstanceAnnc.SCHEMA_LOCATION);
+			DaoJSONConvertor<ContentInstanceAnnc> cvt = (DaoJSONConvertor<ContentInstanceAnnc>)ConvertorFactory.getDaoJSONConvertor(ContentInstanceAnnc.class, ContentInstanceAnnc.SCHEMA_LOCATION);
 					
 			Resource res = (Resource) cvt.unmarshal(doc.toJson());
 			res.setUri(doc.getString(URI_KEY));
@@ -228,8 +229,8 @@ public class ContentInstanceAnncDAO extends ResourceDAO implements DAOInterface 
 		Document doc = childList.get(0);
 
 		try {
-			JSONConvertor<ContentInstanceAnnc> cvt = (JSONConvertor<ContentInstanceAnnc>)ConvertorFactory.getJSONConvertor(ContentInstanceAnnc.class, ContentInstanceAnnc.SCHEMA_LOCATION);
-			//JSONConvertor<ContentInstance> cvt = new JSONConvertor<ContentInstance>(ContentInstance.class);
+			DaoJSONConvertor<ContentInstanceAnnc> cvt = (DaoJSONConvertor<ContentInstanceAnnc>)ConvertorFactory.getDaoJSONConvertor(ContentInstanceAnnc.class, ContentInstanceAnnc.SCHEMA_LOCATION);
+			//DaoJSONConvertor<ContentInstance> cvt = new DaoJSONConvertor<ContentInstance>(ContentInstance.class);
 			Resource res = (Resource) cvt.unmarshal(doc.toJson());
 			res.setUri(doc.getString(URI_KEY));
 			

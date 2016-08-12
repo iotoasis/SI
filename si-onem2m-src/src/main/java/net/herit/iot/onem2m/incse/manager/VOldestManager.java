@@ -17,7 +17,7 @@ public class VOldestManager implements VirtualManagerInterface {
 	private Logger log = LoggerFactory.getLogger(VOldestManager.class);
 
 	public static String KEY = ContentInstance.OLDEST_SHORTNAME;
-	private static VOldestManager INSTANCE = new VOldestManager();
+	private final static VOldestManager INSTANCE = new VOldestManager();
 
 	private PROCESS_RESULT processResult; 
 	

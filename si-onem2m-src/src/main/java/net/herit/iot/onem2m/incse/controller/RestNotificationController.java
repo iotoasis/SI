@@ -51,7 +51,7 @@ public class RestNotificationController extends AbsController implements AsyncRe
 	private OneM2mContext ctx = null;
 	private DatabaseManager dbManager = null;
 	
-	private static RestNotificationController INSTANCE = new RestNotificationController();
+	private final static RestNotificationController INSTANCE = new RestNotificationController();
 	
 	private RestNotificationController() {
 	}

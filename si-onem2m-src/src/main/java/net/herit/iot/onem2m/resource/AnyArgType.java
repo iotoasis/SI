@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
+ * XSD-1.6.0
  * <p>Java class for anyArgType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -45,7 +46,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class AnyArgType {
 
     //@XmlElement(required = true)
-    @XmlElement(name = "nm")
+    @XmlElement(name = Naming.NAME_SN) //"nm")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlSchemaType(name = "NCName")
     protected String name;

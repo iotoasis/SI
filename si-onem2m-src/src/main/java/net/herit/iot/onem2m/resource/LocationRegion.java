@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
+ * XSD-1.6.0
  * <p>Java class for locationRegion complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
@@ -30,7 +31,12 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;choice>
  *         &lt;element name="countryCode">
  *           &lt;simpleType>
- *             &lt;list itemType="{http://www.onem2m.org/xml/protocols}countryCode" />
+ *             &lt;restriction>
+ *               &lt;simpleType>
+ *                 &lt;list itemType="{http://www.onem2m.org/xml/protocols}countryCode" />
+ *               &lt;/simpleType>
+ *               &lt;minLength value="1"/>
+ *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
  *         &lt;element name="circRegion">
@@ -39,8 +45,7 @@ import javax.xml.bind.annotation.XmlType;
  *               &lt;simpleType>
  *                 &lt;list itemType="{http://www.w3.org/2001/XMLSchema}float" />
  *               &lt;/simpleType>
- *               &lt;minLength value="3"/>
- *               &lt;maxLength value="3"/>
+ *               &lt;length value="3"/>
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>

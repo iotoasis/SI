@@ -11,6 +11,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 
+import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.onem2m.resource.*;
 
 import org.eclipse.persistence.jaxb.MarshallerProperties;
@@ -100,10 +101,12 @@ public class XMLConvertor<T> {
 		//JAXBContext context = null;
 		synchronized (um) {
 			InputSource ins = new InputSource(new StringReader(xml));
-			
+	
 			T obj = null;
 			
 			obj = (T)um.unmarshal(ins);
+			
+//			log.debug("############## {}" + m.);
 			
 			return obj;
 		}
@@ -1376,6 +1379,23 @@ public class XMLConvertor<T> {
 				"    <ch nm=\"subscription0001\" typ=\"23\">/subscription0001</ch>\n" + 
 				"</m2m:stcg>";
 		
+		String RequestPrimitive_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+				" <m2m:rqp xsi:schemaLocation=\"http://www.onem2m.org/xml/protocols CDT-requestPrimitive-v1_6_0.xsd\" xmlns:m2m=\"http://www.onem2m.org/xml/protocols\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" + 
+				"   <op>1</op>\n" + 
+				"   <to>/herit-cse</to>\n" + 
+				"   <fr>S</fr>\n" + 
+				"   <rqi>req_222224</rqi>\n" + 
+				"   <ty>2</ty>\n" + 
+				"   <pc>\n" + 
+				"      <m2m:ae>\n" + 
+				"         <lbl>home</lbl>\n" + 
+				"         <et>20161231T235555</et>\n" + 
+				"         <apn>TEST</apn>\n" + 
+				"         <api>testApp</api>\n" + 
+				"      </m2m:ae>\n" + 
+				"   </pc>\n" + 
+				"</m2m:rqp> ";
+		
 		
 		try {
 			//-----------------------------------------------------------------------------------------
@@ -1403,24 +1423,37 @@ public class XMLConvertor<T> {
 			// LocationPolicy, LocationPolicyAnnc, M2MServiceSubscriptionProfile, MgmtCmd, MgmtObj(?????), MgmtObjAnnc(??????) 
 			// Node, NodeAnnc, RemoteCSEAnnc, Request, Schedule, ScheduleAnnc, ServiceSubscribedAppRule
 			// ServiceSubscribedNode, StatsCollect, StatsConfig
+			
+			String a = "Abced\n"
+					+ "<fefed>agag";
+			System.out.println(a.replace("<fefed>", "<AAAA>"));
+			
+			System.out.println(RequestPrimitive_xml.indexOf("<m2m:rqp"));
+			System.out.println(RequestPrimitive_xml.indexOf("</m2m:rqp>"));
+			if(RequestPrimitive_xml.indexOf("<m2m:rqp") > 0 && RequestPrimitive_xml.indexOf("</m2m:rqp>") > 0) {
+				RequestPrimitive_xml = RequestPrimitive_xml.replace("m2m:rqp", "rqp");
+				RequestPrimitive_xml = RequestPrimitive_xml.replace("/m2m:rqp", "/rqp");
+				System.out.println(RequestPrimitive_xml);
+			}
+			
 			XMLConvertor<AE> XC2 = 
 					new XMLConvertor<AE>(AE.class, AE.SCHEMA_LOCATION);
 			AE resource = (AE)XC2.unmarshal(AE_xml);
-			if(resource.getPointOfAccess() == null)
-				System.out.println("PointOfAccess is null: " + resource.getPointOfAccess());
-			else System.out.println("PointOfAccess is " + resource.getPointOfAccess());
-			
-			System.out.println("resourceName: " + resource.getResourceName());
+//			if(resource.getPointOfAccess() == null)
+//				System.out.println("PointOfAccess is null: " + resource.getPointOfAccess());
+//			else System.out.println("PointOfAccess is " + resource.getPointOfAccess());
+//			
+//			System.out.println("resourceName: " + resource.getResourceName());
 			xml2 = XC2.marshal(resource);
 			System.out.println(xml2);
 
-			//System.out.println(resource.getChildResource().get(0).getValue());
-			
-			JSONConvertor<AE> JC = new JSONConvertor<AE>(AE.class);
-			String json = JC.marshal(resource);
-			System.out.println(json);
-	
-			System.out.println(Double.valueOf((Double)3.1415923332233335));
+//			//System.out.println(resource.getChildResource().get(0).getValue());
+//			
+//			JSONConvertor<AE> JC = new JSONConvertor<AE>(AE.class);
+//			String json = JC.marshal(resource);
+//			System.out.println(json);
+//	
+//			System.out.println(Double.valueOf((Double)3.1415923332233335));
 						
 		} catch (Exception e) {
 			log.debug("Handled exception", e);

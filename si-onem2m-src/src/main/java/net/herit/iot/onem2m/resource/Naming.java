@@ -38,6 +38,8 @@ public class Naming {
 //	public static final String CHILDRESOURCE_SN = "ch";
 //	public static final String SUBSCRIPTION_SN = "sub";
 
+	//ActiveCmdhPolicy
+	public static final String ACTIVECMDHPOLICYLINK_SN = "acmlk";
 	
 	//AE
 	public static final String APPNAME_SN = "apn";
@@ -48,6 +50,7 @@ public class Naming {
 //	public static final String NODELINK_SN = "nl";
 //	public static final String REQUESTREACHABILITY_SN = "rr";
 //	public static final String CHILDRESOURCE_SN = "ch";
+	public static final String CONTENTSERIALIZATION_SN = "csz";
 	
 	//AnnounceableSubordinateResource
 //	public static final String EXPIRATIONTIME_SN = "et";
@@ -89,6 +92,21 @@ public class Naming {
 	
 	//AggregatedResponse
 	public static final String RESPONSEPRIMITIVE_SN = "rsp";
+	
+	
+	//AreaNwkDeviceInfo
+	public static final String DEVID_SN = "dvd";
+	public static final String DEVTYPE_SN = "dvt";
+	public static final String AREANWKID_SN = "awi";
+	public static final String SLEEPINTERVAL_SN = "sli";
+	public static final String SLEEPDURATION_SN = "sld";
+	public static final String DEVSTATUS_SN = "ss";
+	public static final String LISTOFNEIGHBORS_SN = "lnh";
+	
+	
+	//AreaNwkInfo
+	public static final String AREANWKTYPE_SN = "ant";
+	public static final String LISTOFDEVICES_SN = "ldv";
 	
 	//Container
 //	public static final String STATETAG_SN = "st";

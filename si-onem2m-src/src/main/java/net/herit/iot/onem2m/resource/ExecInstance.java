@@ -78,7 +78,8 @@ public class ExecInstance
     extends RegularResource
 {
 
-	public static final String SCHEMA_LOCATION = "CDT-execInstance-v1_2_0.xsd";
+//	public static final String SCHEMA_LOCATION = "CDT-execInstance-v1_2_0.xsd";
+	public static final String SCHEMA_LOCATION = "CDT-execInstance-v1_6_0.xsd";
 	
     //@XmlElement(required = true)
     @XmlElement(name = "exs")

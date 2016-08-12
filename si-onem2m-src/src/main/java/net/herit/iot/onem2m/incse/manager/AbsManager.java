@@ -117,7 +117,7 @@ public abstract class AbsManager extends Manager implements ManagerInterface {
 		log.debug("AbsManager.validate called:"+ res.getUri() +","+ req.getOperationEnum().Name());
 
 		// Access Control Policy ID속성이 유효한지 체크
-		validateAcpIDs(res);
+//		validateAcpIDs(res);    /2016.05.12
 				
 		res.validate(req.getOperationEnum());
 	}

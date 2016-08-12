@@ -61,7 +61,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 })
 @XmlRootElement(name = Naming.AGGREGATEDREQUEST_SN)
 public class AggregatedRequest {
-	public final static String SCHEMA_LOCATION = "CDT-commonTypes-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-commonTypes-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-commonTypes-v1_6_0.xsd";
 
     //@XmlElement(required = true)
     @XmlElement(name = Naming.REQUEST_SN, namespace = "http://www.onem2m.org/xml/protocols")

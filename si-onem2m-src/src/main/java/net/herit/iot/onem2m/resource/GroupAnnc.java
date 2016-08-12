@@ -35,8 +35,8 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;extension base="{http://www.onem2m.org/xml/protocols}announcedResource">
  *       &lt;sequence>
  *         &lt;element name="memberType" type="{http://www.onem2m.org/xml/protocols}memberType" minOccurs="0"/>
- *         &lt;element name="currentNrOfMembers" type="{http://www.w3.org/2001/XMLSchema}nonNegativeInteger" minOccurs="0"/>
- *         &lt;element name="maxNrOfMembers" type="{http://www.w3.org/2001/XMLSchema}nonNegativeInteger" minOccurs="0"/>
+ *         &lt;element name="currentNrOfMembers" type="{http://www.w3.org/2001/XMLSchema}positiveInteger" minOccurs="0"/>
+ *         &lt;element name="maxNrOfMembers" type="{http://www.w3.org/2001/XMLSchema}positiveInteger" minOccurs="0"/>
  *         &lt;element name="memberIDs" type="{http://www.onem2m.org/xml/protocols}listOfURIs" minOccurs="0"/>
  *         &lt;element name="membersAccessControlPolicyIDs" type="{http://www.onem2m.org/xml/protocols}listOfURIs" minOccurs="0"/>
  *         &lt;element name="memberTypeValidated" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
@@ -72,7 +72,9 @@ import javax.xml.bind.annotation.XmlType;
 public class GroupAnnc
     extends AnnouncedResource
 {
-	public final static String SCHEMA_LOCATION = "CDT-group-v1_2_0.xsd";
+//	public final static String SCHEMA_LOCATION = "CDT-group-v1_2_0.xsd";
+	public final static String SCHEMA_LOCATION = "CDT-group-v1_6_0.xsd";
+	
 
 	public static final List<String> MA = new ArrayList<String>(
 			Arrays.asList(Naming.RESOURCEID_SN,
@@ -99,10 +101,10 @@ public class GroupAnnc
     @XmlElement(name = Naming.MEMBERTYPE_SN)
     protected Integer memberType;
     @XmlElement(name = Naming.CURRENTNROFMEMBERS_SN)
-    @XmlSchemaType(name = "nonNegativeInteger")
+    @XmlSchemaType(name = "positiveInteger")
     protected Integer currentNrOfMembers;
     @XmlElement(name = Naming.MAXNROFMEMBERS_SN)
-    @XmlSchemaType(name = "nonNegativeInteger")
+    @XmlSchemaType(name = "positiveInteger")
     protected Integer maxNrOfMembers;
     @XmlList
     @XmlElement(name = Naming.MEMBERIDS_SN)

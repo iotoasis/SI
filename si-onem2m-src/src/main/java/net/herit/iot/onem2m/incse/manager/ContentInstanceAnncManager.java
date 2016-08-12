@@ -18,6 +18,7 @@ import net.herit.iot.onem2m.incse.controller.AnnounceController;
 import net.herit.iot.onem2m.incse.controller.NotificationController;
 import net.herit.iot.onem2m.incse.controller.RestCommandController;
 import net.herit.iot.onem2m.incse.controller.RestNotificationController;
+import net.herit.iot.onem2m.incse.facility.CfgManager;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
 import net.herit.iot.onem2m.incse.manager.dao.ContainerDAO;
 import net.herit.iot.onem2m.incse.manager.dao.ContentInstanceDAO;
@@ -260,5 +261,11 @@ public class ContentInstanceAnncManager extends AbsManager {
 		ContentInstance cont = (ContentInstance)resource;
 		cont.setCreator(req.getFrom());
 		
+		//// TS-0001-XXX-V1_13_1 - 10.1.1.1	Non-registration related CREATE procedure (ExpirationTime..)
+		if(cont.getExpirationTime() == null) {
+			cont.setExpirationTime(CfgManager.getInstance().getDefaultExpirationTime());
+		}
+		// END - Non-registration related CREATE procedure
 	}
+
 }

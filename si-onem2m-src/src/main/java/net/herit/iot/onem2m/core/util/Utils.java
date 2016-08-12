@@ -65,27 +65,106 @@ public class Utils {
 		}
 	}
 
-	public static String extractBaseurlFromUrl(String fullUrl) throws MalformedURLException {
-		if (!fullUrl.substring(0, 5).equalsIgnoreCase("http:"))
+	public static String extractBaseurlFromUrl2(String fullUrl) throws MalformedURLException {
+//		if (!fullUrl.substring(0, 5).equalsIgnoreCase("http:"))
+		if (!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("http") && 
+				!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("coap") &&
+				!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("mqtt")) {
 			fullUrl = "http:"+ fullUrl;
+		}
+		
 		URL url = new URL(fullUrl);
 		String file = url.getFile();
 		String baseUri = fullUrl;
 		if (file.length() > 0) {
 			baseUri = fullUrl.substring(0, fullUrl.length() - file.length());			
 		}
-		return baseUri.substring(5);
+//		return baseUri.substring(5);
+		return baseUri;
+		
+	}
+	
+	public static String extractBaseurlFromUrl(String fullUrl) throws MalformedURLException {
+		System.out.println("fullUrl: " + fullUrl);
+//		if (!fullUrl.substring(0, 5).equalsIgnoreCase("http:"))
+		if (!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("http") && 
+				!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("coap") &&
+				!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("mqtt")) {
+			fullUrl = "http:"+ fullUrl;
+		}
+		
+		try {
+			String url1 = fullUrl.substring(fullUrl.indexOf("//")+2);
+			System.out.println(url1);
+			String host;
+			if(url1.indexOf("/") > 0) {
+				host = url1.substring(0, url1.indexOf("/"));
+			} else {
+				host = url1;
+			}
+			String path = url1.substring(url1.indexOf("/"), url1.length());
+			System.out.println(host);
+			System.out.println(path);
+			
+			
+			String baseUri = fullUrl;
+			if (path.length() > 0) {
+				baseUri = fullUrl.substring(0, fullUrl.length() - path.length());			
+			}
+
+			return baseUri;
+		} catch(Exception e) {
+			throw new MalformedURLException("URL format Exception.");
+		}
 		
 	}
 
-	public static String extractResourceFromUrl(String fullUrl) throws MalformedURLException {
+	public static String extractResourceFromUrl2(String fullUrl) throws MalformedURLException {
 		
-		if (fullUrl.substring(0, 4).equalsIgnoreCase("http") == false) {
+//		if (fullUrl.substring(0, 4).equalsIgnoreCase("http") == false) {
+//			fullUrl = "http:"+ fullUrl;
+//		}
+		
+		if (!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("http") && 
+				!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("coap") &&
+				!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("mqtt")) {
 			fullUrl = "http:"+ fullUrl;
 		}
 		
 		URL url = new URL(fullUrl);
 		return url.getFile();
+		
+	}
+	
+	public static String extractResourceFromUrl(String fullUrl) throws MalformedURLException {
+		
+//		if (fullUrl.substring(0, 4).equalsIgnoreCase("http") == false) {
+//			fullUrl = "http:"+ fullUrl;
+//		}
+		
+		if (!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("http") && 
+				!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("coap") &&
+				!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("mqtt")) {
+			fullUrl = "http:"+ fullUrl;
+		}
+		
+		try {
+			String url1 = fullUrl.substring(fullUrl.indexOf("//")+2);
+			System.out.println(url1);
+			String host;
+			if(url1.indexOf("/") > 0) {
+				host = url1.substring(0, url1.indexOf("/"));
+			} else {
+				host = url1;
+			}
+			String path = url1.substring(url1.indexOf("/"), url1.length());
+			System.out.println(host);
+			System.out.println(path);
+			
+			return path;
+		} catch(Exception e) {
+			throw new MalformedURLException("URL format Exception.");
+		}
 		
 	}
 
@@ -180,22 +259,37 @@ public class Utils {
 	
 	
 	public static void main(String[] args) throws Exception {
-		String pc = "<?xml version=\"1.0\" encoding=\"utf-8\"?><m2m:cin xsi:schemaLocation=\"http://www.onem2m.org/xml/protocols CDT-contentInstance-v1_2_0.xsd\" xmlns:m2m=\"http://www.onem2m.org/xml/protocols\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" name=\"CONTENT_INST_118\"><ty>4</ty><ri>/CONTENT_INST_118</ri>";
-		//String pc = "dsddd<ty>4</ty>dddd";
+//		String pc = "<?xml version=\"1.0\" encoding=\"utf-8\"?><m2m:cin xsi:schemaLocation=\"http://www.onem2m.org/xml/protocols CDT-contentInstance-v1_2_0.xsd\" xmlns:m2m=\"http://www.onem2m.org/xml/protocols\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" name=\"CONTENT_INST_118\"><ty>4</ty><ri>/CONTENT_INST_118</ri>";
+//		//String pc = "dsddd<ty>4</ty>dddd";
+//		
+//		//String re = "\"ty\":\\s*\"?\\d+\"?\\s*,";
+//		String re = "<ty>\\d+</ty>";
+//		//String re = "<ty>4</ty>";
+//		Pattern p = Pattern.compile(re);
+//		Matcher m = p.matcher(pc);
+//		boolean b = m.find();
+//		if (b) {
+//			String matched = m.group();
+//			System.out.println("Matched:"+matched);
+//		} else {
+//			System.out.println("No matched string found:"+re);
+//			System.out.println(pc);
+//		}
 		
-		//String re = "\"ty\":\\s*\"?\\d+\"?\\s*,";
-		String re = "<ty>\\d+</ty>";
-		//String re = "<ty>4</ty>";
-		Pattern p = Pattern.compile(re);
-		Matcher m = p.matcher(pc);
-		boolean b = m.find();
-		if (b) {
-			String matched = m.group();
-			System.out.println("Matched:"+matched);
-		} else {
-			System.out.println("No matched string found:"+re);
-			System.out.println(pc);
-		}
+		String addr = "http://10.101.101.33:8080/dkdkd/asdkd/dkdk";
+		URL url = new URL(addr);
+		
+		String url1 = addr.substring(addr.indexOf("//")+2);
+		System.out.println(url1);
+		String host = url1.substring(0, url1.indexOf("/"));
+		String path = url1.substring(url1.indexOf("/"), url1.length());
+		System.out.println(host);
+		System.out.println(path);
+		
+		String file = url.getFile();
+		System.out.println(file);
+		
+		System.out.println(url.getHost());
 	}
 
 	public static String extractCseIdFromSPResId(String spResId) {
@@ -209,7 +303,9 @@ public class Utils {
 	}
 
 	public static boolean checkIfAbsoluteResId(String resId) {
-		return resId.startsWith("//") || resId.startsWith("http://") || resId.startsWith("https://");
+		return resId.startsWith("//") || resId.startsWith("http://") || resId.startsWith("https://")
+				|| resId.startsWith("coap://") || resId.startsWith("coaps://")
+				|| resId.startsWith("mqtt://") || resId.startsWith("mqtts://");
 	}
 	
 	public static String format(String xml) {

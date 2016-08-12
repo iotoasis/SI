@@ -12,9 +12,11 @@ import net.herit.iot.onem2m.core.convertor.JSONConvertor;
 import net.herit.iot.onem2m.core.convertor.XMLConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
+import net.herit.iot.onem2m.incse.facility.CfgManager;
 import net.herit.iot.onem2m.incse.manager.dao.ContainerAnncDAO;
 import net.herit.iot.onem2m.incse.manager.dao.DAOInterface;
 import net.herit.iot.onem2m.resource.ContainerAnnc;
+import net.herit.iot.onem2m.resource.Resource;
 
 
 public class ContainerAnncManager extends AbsManager {
@@ -87,4 +89,15 @@ public class ContainerAnncManager extends AbsManager {
 		return ConvertorFactory.getJSONConvertor(ContainerAnnc.class, ContainerAnnc.SCHEMA_LOCATION);
 	}
 
+	@Override
+	public void updateResource(Resource resource, OneM2mRequest req) throws OneM2MException {
+		ContainerAnnc res =  (ContainerAnnc)resource;
+		
+		//// TS-0001-XXX-V1_13_1 - 10.1.1.1	Non-registration related CREATE procedure (ExpirationTime..)
+		if(res.getExpirationTime() == null) {
+			res.setExpirationTime(CfgManager.getInstance().getDefaultExpirationTime());
+		}
+		// END - Non-registration related CREATE procedure
+	}
+	
 }

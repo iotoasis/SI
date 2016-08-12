@@ -46,11 +46,13 @@ public class OperationProcessor {
 	 * @return
 	 */
 	private OneM2mResponse createResponse(OneM2mRequest reqMessage, RESPONSE_STATUS status) {
-		OneM2mResponse resMessage = new OneM2mResponse(status);
-		resMessage.setRequestIdentifier(reqMessage.getRequestIdentifier());
-		resMessage.setFrom(reqMessage.getFrom());
-		resMessage.setEventCategory(reqMessage.getEventCategory());
+//		OneM2mResponse resMessage = new OneM2mResponse(status);
+//		resMessage.setRequestIdentifier(reqMessage.getRequestIdentifier());
+//		resMessage.setFrom(reqMessage.getFrom());
+//		resMessage.setEventCategory(reqMessage.getEventCategory());
 		//..?
+
+		OneM2mResponse resMessage = new OneM2mResponse(status, reqMessage);
 		
 		return resMessage;
 	}
@@ -103,6 +105,7 @@ public class OperationProcessor {
 				}
 				resMessage.setRequestIdentifier(reqMessage.getRequestIdentifier());
 				resMessage.setRequest(reqMessage);
+				log.debug("Response ContentType: ", resMessage.getContentType());
 				this.sendResponse(resMessage);
 
 				return;
@@ -239,6 +242,10 @@ public class OperationProcessor {
 		if (!to.startsWith("/"))	to = "/"+to;
 		if (!to.startsWith(cseId)) 	to = cseId + to;
 		
+		if(to.equals(cseId)) {  // cseid의 _uri: /cseid/csename
+			to = CfgManager.getInstance().getCSEBaseUri();
+		}
+		
 		if (!OneM2mUtil.isUri(to) && to.startsWith(cseId))	{
 			if (to.length() <= cseId.length()) {
 				throw new OneM2MException(RESPONSE_STATUS.BAD_REQUEST, "Invalid 'to' parameter: "+to);
@@ -246,6 +253,8 @@ public class OperationProcessor {
 				to = to.substring(cseId.length()+1);
 			}
 		}
+		
+		log.debug("revisePrimitiveRequest: {}", to);
 		
 		requestMessage.setTo(to);
 		
