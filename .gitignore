@@ -1,3 +1,5 @@
 /target/
-.settings/
-*.project
+/.settings/
+/*.project
+/.project
+/project
