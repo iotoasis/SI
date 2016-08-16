@@ -1,5 +1,5 @@
 /target/
 /.settings/
-/*.project
-/.project
-/project
+/*.project.txt
+/.project.txt
+/project.txt
