@@ -246,6 +246,7 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 			strbld.append("OP:" ).append(reqMessage.getOperationEnum().Name()).append(" ");
 			//* Check Request Type
 			if(reqMessage.getOperationEnum().equals(OPERATION.CREATE)) {
+				// just add a line at the log
 				strbld.append("TY:").append(reqMessage.getResourceTypeEnum().Name()).append(" ");
 			}
 			//*/
