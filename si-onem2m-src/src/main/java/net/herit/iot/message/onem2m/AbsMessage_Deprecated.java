@@ -81,19 +81,6 @@ public abstract class AbsMessage_Deprecated {
 		this.contentType = contentType;
 	}
 	
-//	public void setContentType(String contentType) {
-//		
-//		if(contentType == null) return;
-//		
-//		String[] split = contentType.split(";");
-//		for(String type : split) {
-//			CONTENT_TYPE cont_type = CONTENT_TYPE.get(type);
-//			if(cont_type != null) {PrimitiveContent
-//				this.contentType = cont_type;
-//				break;
-//			}
-//		}
-//	}
 	/**
 	 * @return the contentObject
 	 */
