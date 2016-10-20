@@ -35,7 +35,7 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 	public enum RESPONSE_STATUS {  // Response Status enum.
 		UNDEFINED(-1, "UNDEFINED"), 		// -1 (Internal usage)
 		NETWORK_FAILURE(9001, "NETWORK_FAILURE"),		// -1 (Network Failure) - Internal Usage
-		COMMAND_TIMEOUT(9002, "COMMAND_TIMEOUT"),		// -1 (Command Timeout) - Internal Usage - SO/SDA 연동
+		COMMAND_TIMEOUT(9002, "COMMAND_TIMEOUT"),		// -1 (Command Timeout) - Internal Usage - SO/SDA sync
 		DMSERVER_ERROR(9101, "DMSERVER ERROR"), 
 		BAD_RESPONSE(9102, "BAD_RESPONSE"),		// Invalid response message from remote system (IN-CSE)
 		
@@ -119,21 +119,12 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 	
 	private transient Logger log = LoggerFactory.getLogger(OneM2mResponse.class);
 	private transient int	httpStatusCode;
-	//private RESPONSE_STATUS			resStatusCode = RESPONSE_STATUS.ACCEPTED;
 
 	protected transient String unvalidReason;
 	protected transient CONTENT_TYPE		contentType;
 	private transient String remoteHost;
 	protected transient byte[]	content = null;
 	protected transient Object	contentObject = null;
-	
-//	protected String	requestId = null;
-//	protected String	to = null;
-//	protected String	from = null;
-//	protected String	originTime = null;
-//	protected String	resultExpireTime = null;
-//	protected int		eventCategory = NOT_SET;		// 100 ~ 999: User defined.
-//	protected byte[]	content = null;
 	
 	private final static String NOT_RES_STATCODE		= "NOT Response Status Code";
 	private final static String NOT_REQUESTID			= "NOT Request Identifier";
@@ -146,12 +137,10 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 	public OneM2mResponse() {}
 	
 	public OneM2mResponse(RESPONSE_STATUS status) {
-//		this.resStatusCode = status;
 		this.responseStatusCode = status.Value();
 	}
 	
 	public OneM2mResponse(RESPONSE_STATUS status, OneM2mRequest reqMessage) {
-//		this.resStatusCode = status;
 		this.responseStatusCode = status.Value();
 		
 		this.request = reqMessage;
@@ -202,13 +191,7 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 		log.debug("OneM2mResponse initialized with request!");
 	}
 	
-	public boolean isValid() {
-		
-//		if(resStatusCode == RESPONSE_STATUS.NONE) {
-//			unvalidReason = NOT_RES_STATCODE;
-//			return false;
-//		}
-		
+	public boolean isValid() {	
 		if(requestIdentifier == null) {
 			unvalidReason = NOT_REQUESTID;
 			return false;
@@ -228,7 +211,6 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 	}
 
 	public void setContentType(String contentType) throws OneM2MException {
-		
 		if(contentType == null) return;
 		
 		CONTENT_TYPE cont_type = CONTENT_TYPE.get(contentType);
@@ -325,7 +307,6 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 		CONTENT_TYPE cntType = null;
 		if (request != null) {
 			List<CONTENT_TYPE> format = request.getAcceptTypes();
-//			System.out.println("format is " + format);
 			if (format != null && format.size() > 0) {
 				cntType = format.get(0);
 			}
@@ -335,22 +316,6 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 		
 		if (content == null && contentObject != null) {
 			content = serializer.serialize(contentObject).getBytes();
-			
-			/*OneM2mRequest.RESULT_CONT resultContent = request.getResultContent();
-			if (resultContent == OneM2mRequest.RESULT_CONT.HIERARCHY_ADDR) {
-				content = serializer.serialize(contentObject).getBytes();				
-			} else if (resultContent == OneM2mRequest.RESULT_CONT.ATTRIBUTE || 
-						resultContent == OneM2mRequest.RESULT_CONT.ORIGINAL_RES) {
-				content = serializer.serialize(contentObject).getBytes();				
-			} else if (resultContent == OneM2mRequest.RESULT_CONT.ATTR_N_CHILD_RES) {
-				content = serializer.serialize(contentObject).getBytes();				
-			} else if (resultContent == OneM2mRequest.RESULT_CONT.ATTR_N_CHILD_RES_REF) {
-				content = serializer.serialize(contentObject).getBytes();			
-			} else if (resultContent == OneM2mRequest.RESULT_CONT.CHILD_RES_REF) {
-				content = serializer.serialize(contentObject).getBytes();			
-			} else if (resultContent == OneM2mRequest.RESULT_CONT.HIERARCHY_ADDR_N_ATTR) {
-				content = serializer.serialize(contentObject).getBytes();			
-			} */
 		}
 		
 		return content;
