@@ -14,11 +14,8 @@ public class MongoPool {
 	private static MongoPool INSTANCE = new MongoPool();
 	
 	private MongoClient mongoClient = null;
-//	private String serverAddr;
-//	private int serverPort;
+
 	private String databaseName;
-//	private String userName;
-//	private String userPasswd;
 	
 	private MongoPool() {}
 	
@@ -35,11 +32,7 @@ public class MongoPool {
 			return false;
 		}
 		
-//		this.serverAddr = serverAddr;
-//		this.serverPort = serverPort;
 		this.databaseName = databaseName;
-//		this.userName = userName;
-//		this.userPasswd = userPasswd;
 		
 		
 		if(userName != null || userPasswd != null) {
