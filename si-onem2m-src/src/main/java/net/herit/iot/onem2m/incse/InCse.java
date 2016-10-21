@@ -287,47 +287,43 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 	}
 	
 	private boolean sendHttpResponseMessage(OneM2mResponse resMessage, ChannelHandlerContext ctx) {
-		
-		if(ctx == null) {
-			return false;
+		boolean result = false;
+		if(ctx != null) {
+			//================== INFO log write. ===================
+			StringBuilder strbld = new StringBuilder();
+			strbld.append("<< SEND RES ");
+
+			strbld.append("remote:").append(ctx.channel().remoteAddress().toString()).append(" ");
+			strbld.append("STATUS:").append(resMessage.getResponseStatusCodeEnum().Value()).append(" ");
+			/*
+			strbld.append("OP:" ).append(reqMessage.getOperationEnum().Name()).append(" ");
+			if(reqMessage.getOperationEnum().equals(OPERATION.CREATE)) {
+				strbld.append("TY:").append(reqMessage.getResourceTypeEnum().Name()).append(" ");
+			}
+			strbld.append("TO:").append(resMessage.getTo()).append(" ");//*/
+			strbld.append("RI:").append(resMessage.getRequestIdentifier());
+
+			log.info(strbld.toString());
+			//===============================================================
+
+			DefaultFullHttpResponse response = null;
+
+			removeSession(resMessage.getRequestIdentifier());
+
+			try {
+				response = HttpResponseCodec.encode(resMessage, CfgManager.getInstance().getHttpVersion());
+				response.headers().set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE);
+
+				HttpServerHandler.sendHttpMessage(response, ctx.channel()).
+										addListener(ChannelFutureListener.CLOSE).
+										addListener(new FilnalEventListener(ctx, true));
+				result = true;
+			} catch (Exception e) {
+				log.debug("Handled exception", e);
+				sendError(ctx);
+			}
 		}	
-		
-		//================== INFO log write. ===================
-		StringBuilder strbld = new StringBuilder();
-		strbld.append("<< SEND RES ");
-
-		strbld.append("remote:").append(ctx.channel().remoteAddress().toString()).append(" ");
-		strbld.append("STATUS:").append(resMessage.getResponseStatusCodeEnum().Value()).append(" ");
-//		strbld.append("OP:" ).append(reqMessage.getOperationEnum().Name()).append(" ");
-//		if(reqMessage.getOperationEnum().equals(OPERATION.CREATE)) {
-//			strbld.append("TY:").append(reqMessage.getResourceTypeEnum().Name()).append(" ");
-//		}
-//		strbld.append("TO:").append(resMessage.getTo()).append(" ");
-		strbld.append("RI:").append(resMessage.getRequestIdentifier());
-
-		log.info(strbld.toString());
-		//===============================================================
-		
-		
-		DefaultFullHttpResponse response = null;
-		
-		removeSession(resMessage.getRequestIdentifier());
-		
-		try {
-			response = HttpResponseCodec.encode(resMessage, CfgManager.getInstance().getHttpVersion());
-			response.headers().set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE);
-			
-			HttpServerHandler.sendHttpMessage(response, ctx.channel()).
-									addListener(ChannelFutureListener.CLOSE).
-									addListener(new FilnalEventListener(ctx, true));
-		} catch (Exception e) {
-			log.debug("Handled exception", e);
-
-			sendError(ctx);
-		}
-		
-		return true;
-		
+		return result;
 	}
 	
 	private void sendError(ChannelHandlerContext ctx) {
