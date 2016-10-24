@@ -209,6 +209,7 @@ public class Utils {
 				
 	}
 
+	// get resource type by content type
 	public static RESOURCE_TYPE getResTypeWithContentString(String pc,
 			CONTENT_TYPE contentType) {
 		
