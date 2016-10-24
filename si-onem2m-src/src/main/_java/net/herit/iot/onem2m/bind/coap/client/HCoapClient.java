@@ -45,11 +45,6 @@ public class HCoapClient implements CoapHandler {
 	}
 	
 	
-//	public HCoapClient(String host, int port, String url, CoapClientListener listener) throws Exception {
-//		this(host, port, url);
-//		this.listener = listener;
-//		
-//	}
 	
 	public OneM2mResponse process(String url, OneM2mRequest reqMessage) {
 		URI uri = null;
@@ -123,7 +118,6 @@ public class HCoapClient implements CoapHandler {
 	public static void main(String args[]) {
 
 		URI uri = null; // URI parameter of the request
-//		String path = "coap://10.101.107.51:5683/herit-in/herit-cse/abc/dad";
 		String path = "coap://10.101.107.51:5683/herit-in/herit-cse";
 
 		try {
@@ -134,7 +128,6 @@ public class HCoapClient implements CoapHandler {
 			req.setFrom("ae_0001");
 			req.setTo("/herit-cse");
 			req.setContentType(CONTENT_TYPE.JSON);
-//			req.setOperation(OPERATION.RETRIEVE);
 			req.setOperation(OPERATION.CREATE);
 			req.setResourceType(RESOURCE_TYPE.AE);
 			
