@@ -331,5 +331,99 @@ public class Utils {
             return xml;
         }
     }
+	
+	/**
+	 * 
+	 * authenticate
+	 * 
+	 **/
+
+	// authenticate
+	public static void authenticate( String[] bypassList, FullHttpRequest request ) throws OneM2MException {
+
+		boolean isAskingAuthFromReq = request.headers().get("Authorization") != null && request.headers().get("Authorization").length() > 0;
+		boolean isAskingAuthFromRes = bypassList.length > 0;
+
+		if( isAskingAuthFromReq && isAskingAuthFromRes ){
+			Utils.checkAuthentication( bypassList, request );
+		} else if( isAskingAuthFromReq && !isAskingAuthFromRes ) {
+			log.debug("++The authentication request has been detected. But doesn't try to check it.");
+		} else if( !isAskingAuthFromReq && isAskingAuthFromRes ) {
+			throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS,"++There is no authentication header from the request.");
+		} else {
+			log.debug("++Not using authentication.");
+		}
+
+	}
+
+	// isOnCondiotionForBypass
+	public static boolean isOnCondiotionForBypass( String[] bypassList, FullHttpRequest request ) {
+		for( int i=0; i<bypassList.length; i++ ){
+			if( request.headers().get("X-M2M-Origin").equals(bypassList[i]) ){
+				log.debug("++Condition has passed without authentication.");
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	// check authentication
+	public static void checkAuthentication( String[] bypassList, FullHttpRequest request ) throws OneM2MException {
+		
+		// bypass 리스트에 존재 하지 않는 Origin 일 때,
+		if( !isOnCondiotionForBypass( bypassList, request ) ){
+			String authorizationEncoded = request.headers().get("Authorization");
+			if( authorizationEncoded.indexOf(" ") > -1 ){
+				authorizationEncoded = authorizationEncoded.substring(authorizationEncoded.indexOf(" ")+1);
+			}
+			String authorizationDecoded = new String(Base64.decodeBase64(authorizationEncoded));
+			
+			String[] _idpw = authorizationDecoded.split(":");
+			if( _idpw.length == 2 ){
+
+				// db 컬렉션 연결
+				MongoCollection<Document> authData = DatabaseManager.getInstance().getMongoDB().getCollection("authorization");
+				
+				// db 조회
+				Document doc = new Document();
+				doc.put(Naming.AUTHENTICATION_ID, _idpw[0]);
+				doc.put(Naming.AUTHENTICATION_PASSWORD, _idpw[1]);
+				MongoCursor<Document> cursor = authData.find(doc).iterator();
+				
+				if( !cursor.hasNext() ){
+					authData.insertOne(doc);
+					System.out.println("-------------------------------------========================---------   INSERTED");
+				} else {
+					
+					System.out.println("-------------------------------------========================---------   has passed");
+				}
+				
+				
+				//throw new OneM2MException(RESPONSE_STATUS.NO_PRIVILEGE, "Permission denied");
+			} else {
+				throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS,"Invalid authorization");
+			}		
+		}
+	}
+	
+	/*
+	public boolean isBypassInList( String origin ){
+		if( bypassList != null && bypassList.length > 0 ){
+			for( int i=0; i<bypassList.length; i++ ){
+				//if( request.headers().get("X-M2M-Origin").equals(bypassList[i]) ){
+				if( origin.equals(bypassList[i]) ){
+					isInListBypass = true;
+					break;
+				}
+			}
+			if( !isInListBypass ){
+				checkAuthentication( request );
+			}
+		} else {
+			checkAuthentication( request );
+		}
+	}
+	*/
 
 }
