@@ -400,7 +400,7 @@ public class Utils {
 				}
 				
 				
-				//throw new OneM2MException(RESPONSE_STATUS.NO_PRIVILEGE, "Permission denied");
+				//throw new OneM2MException(RESPONSE_STATUS.NO_PRIVILEGE, "You don't have permission for access.");
 			} else {
 				throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS,"Invalid authorization");
 			}		
