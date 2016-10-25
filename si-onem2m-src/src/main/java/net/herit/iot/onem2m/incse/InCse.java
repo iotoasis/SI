@@ -248,6 +248,12 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 			if(reqMessage.getOperationEnum().equals(OPERATION.CREATE)) {
 				// just add a line at the log
 				strbld.append("TY:").append(reqMessage.getResourceTypeEnum().Name()).append(" ");
+				
+				// bypass authentication
+				if( "AE".equals(reqMessage.getResourceTypeEnum().Name()) ){					
+					String[] bypassList = cfgManager.getBypass();
+					Utils.authenticate( bypassList, request );
+				}
 			}
 			//*/
 			strbld.append("TO:").append(reqMessage.getTo()).append(" ");
