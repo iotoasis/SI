@@ -68,6 +68,9 @@ public class CfgManager {
 		}
 	}
 	
+	// bypass authentication
+	private String[] bypassList = null;
+	
 	private CfgManager() {}
 		
 	public static CfgManager getInstance() {
@@ -98,6 +101,9 @@ public class CfgManager {
 							"/" + cse.getString("cseName"), cse.getString("poa")));
 				}
 			}
+			
+			// bypass authentication
+			bypassList = xmlConfig.getStringArray("authentication.bypass");
 
 			log.info("Configuration loading succeeded!!!");
 
@@ -204,6 +210,10 @@ public class CfgManager {
 	public int getCommandExpireTimerInterval() {
 		return xmlConfig.getInt("cmdh.commandExpireTimerInterval");
 		//return 1;
+	}
+	
+	public String[] getBypass() {
+		return bypassList;
 	}
 	
 	public class RemoteCSEInfo {
