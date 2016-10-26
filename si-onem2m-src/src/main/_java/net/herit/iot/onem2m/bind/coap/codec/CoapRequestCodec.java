@@ -281,9 +281,6 @@ public class CoapRequestCodec extends CoapAbsCodec {
 		if (reqMessage.getGroupRequestIdentifier() != null) {
 			reqCoap.getOptions().addOption(new Option(ONEM2M_GID, reqMessage.getGroupRequestIdentifier()));
 		}
-//		if (reqMessage.getNotificationUri() != null && reqMessage.getNotificationUri().size() > 0) {
-//			reqCoap.getOptions().addOption(new Option(ONEM2M_RTURI, reqMessage.getNotificationUri().get(0)));
-//		}
 		
 		return reqCoap;
 	}
