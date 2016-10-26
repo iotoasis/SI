@@ -28,7 +28,6 @@ public class HCoapServer extends CoapServer {
 	private void addEndpoints() {
 		for (InetAddress addr : EndpointManager.getEndpointManager().getNetworkInterfaces()) {
 			// only binds to IPv4 addresses and localhost
-			
 			if(addr.getHostAddress() != "127.0.0.1") continue;
 			
 			if (addr instanceof Inet4Address || addr.isLoopbackAddress()) {
@@ -83,21 +82,8 @@ public class HCoapServer extends CoapServer {
 			super(resourceName);
 			this.setAllChildFilter(true);
 
-			// set display name
-//			getAttributes().setTitle("Herit Coap Resource");
 		}
 
-//		@Override
-//		public void handleRequest(final Exchange exchange) {
-//			Code code = exchange.getRequest().getCode();
-//			switch (code) {
-//				case GET:	handleGET(new CoapExchange(exchange, this)); break;
-//				case POST:	handlePOST(new CoapExchange(exchange, this)); break;
-//				case PUT:	handlePUT(new CoapExchange(exchange, this)); break;
-//				case DELETE: handleDELETE(new CoapExchange(exchange, this)); break;
-//			}
-//		}
-		
 		private void receiveRequest(CoapExchange exchange) {
 			if(listener != null) {
 				listener.receiveCoapRequest(exchange);
@@ -108,35 +94,22 @@ public class HCoapServer extends CoapServer {
 		
 		@Override
 		public void handleGET(CoapExchange exchange) {
-			// respond to the request
-			//try { Thread.sleep(2000); } catch(Exception e) {} 
-			
-//			System.out.println("RequestCode=" + exchange.getRequestCode());
-//			System.out.println("RequestPayload=" +exchange.getRequestPayload());
-//			System.out.println("Options=" + exchange.getRequestOptions());
-//			System.out.println("UriPath=" + exchange.getRequestOptions().getUriPathString());
-			
-//			exchange.respond("Hello World!");
-			
 			receiveRequest(exchange);
 		}
 		
 		@Override
 		public void handlePOST(CoapExchange exchange) {
 			receiveRequest(exchange);
-//			exchange.respond(ResponseCode.METHOD_NOT_ALLOWED);
 		}
 		
 		@Override
 		public void handlePUT(CoapExchange exchange) {
 			receiveRequest(exchange);
-//			exchange.respond(ResponseCode.METHOD_NOT_ALLOWED);
 		}
 		
 		@Override
 		public void handleDELETE(CoapExchange exchange) {
 			receiveRequest(exchange);
-//			exchange.respond(ResponseCode.METHOD_NOT_ALLOWED);
 		}
 		
 	}
