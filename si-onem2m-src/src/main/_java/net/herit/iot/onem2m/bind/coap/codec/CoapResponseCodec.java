@@ -19,15 +19,6 @@ public class CoapResponseCodec extends CoapAbsCodec {
 	private static ResponseCode getCoapResponseCode(RESPONSE_STATUS oneM2mResCode) {
 
 		switch(oneM2mResCode) {
-		//UNDEFINED(-1,
-		//NETWORK_FAILURE(9001,
-		//COMMAND_TIMEOUT(9002,
-		//DMSERVER_ERROR(9101,
-		//BAD_RESPONSE(9102,
-		
-//		case ACCEPTED:						// ???
-//			return ResponseCode.CONTENT;
-
 		case OK:
 			return ResponseCode.CONTENT;
 		case CREATED:
@@ -38,7 +29,6 @@ public class CoapResponseCodec extends CoapAbsCodec {
 			return ResponseCode.CHANGED;
 		case BAD_REQUEST:
 			return ResponseCode.BAD_REQUEST;
-		//case UNAUTHORIZED(4001, "UNAUTHORIZED"),	// 401 (Unauthroized)		----- LGU+ Defined status code
 		case NOT_FOUND:
 			return ResponseCode.NOT_FOUND;
 		case OPERATION_NOT_ALLOWED:
