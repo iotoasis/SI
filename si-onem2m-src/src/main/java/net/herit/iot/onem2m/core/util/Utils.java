@@ -347,7 +347,7 @@ public class Utils {
 		if( isAskingAuthFromReq && isAskingAuthFromRes ){
 			Utils.checkAuthentication( bypassList, request );
 		} else if( isAskingAuthFromReq && !isAskingAuthFromRes ) {
-			log.debug("++The authentication request has been detected. But doesn't try to check it.");
+			log.debug("++The authentication request has been detected. But no need to check it.");
 		} else if( !isAskingAuthFromReq && isAskingAuthFromRes ) {
 			throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS,"++There is no authentication header from the request.");
 		} else {
