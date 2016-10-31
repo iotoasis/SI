@@ -425,5 +425,25 @@ public class Utils {
 		}
 	}
 	*/
+	
+	/**
+	 * 
+	 *  end authenticate functions
+	 * 
+	 **/
+	
+	public static String getValueOfResponse(String xml, String path){
+		Node node = null;
+        String make_xml = Util.combineString(xml.substring(0,xml.indexOf(">")+1),"<root>",xml.substring(xml.indexOf(">")+1),"</root>");
+        try {
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(make_xml.getBytes()));
+            doc.getDocumentElement().normalize();
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            node = (Node) xpath.evaluate("//pc/sgn/nev/rep/cin/"+path, doc, XPathConstants.NODE);
+        } catch( Exception e ) {
+            Log.e("GET VALUE >> ", e.toString());
+        }
+        return node.getTextContent();
+	}
 
 }
