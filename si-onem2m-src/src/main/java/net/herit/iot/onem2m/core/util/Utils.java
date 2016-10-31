@@ -434,16 +434,24 @@ public class Utils {
 	
 	public static String getValueOfResponse(String xml, String path){
 		Node node = null;
-        String make_xml = Util.combineString(xml.substring(0,xml.indexOf(">")+1),"<root>",xml.substring(xml.indexOf(">")+1),"</root>");
-        try {
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(make_xml.getBytes()));
-            doc.getDocumentElement().normalize();
-            XPath xpath = XPathFactory.newInstance().newXPath();
-            node = (Node) xpath.evaluate("//pc/sgn/nev/rep/cin/"+path, doc, XPathConstants.NODE);
-        } catch( Exception e ) {
-            Log.e("GET VALUE >> ", e.toString());
-        }
-        return node.getTextContent();
+		String make_xml = Util.combineString(xml.substring(0,xml.indexOf(">")+1),"<root>",xml.substring(xml.indexOf(">")+1),"</root>");
+		try {
+		    Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(make_xml.getBytes()));
+		    doc.getDocumentElement().normalize();
+		    XPath xpath = XPathFactory.newInstance().newXPath();
+		    node = (Node) xpath.evaluate("//pc/sgn/nev/rep/cin/"+path, doc, XPathConstants.NODE);
+		} catch( Exception e ) {
+		    Log.e("GET VALUE >> ", e.toString());
+		}
+		return node.getTextContent();
 	}
+	
+	public static String combineString(String... str){
+		StringBuffer sb = new StringBuffer();
+		for( int i=0; i<str.length; i++ ) {
+		    sb.append(str[i]);
+		}
+        	return sb.toString();
+    	}
 
 }
