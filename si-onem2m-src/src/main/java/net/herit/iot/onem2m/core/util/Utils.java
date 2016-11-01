@@ -351,7 +351,7 @@ public class Utils {
 		} else if( !isAskingAuthFromReq && isAskingAuthFromRes ) {
 			throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS,"++There is no authentication header from the request.");
 		} else {
-			log.debug("++Not using authentication.");
+			log.debug("++Not using way of authentication.");
 		}
 
 	}
