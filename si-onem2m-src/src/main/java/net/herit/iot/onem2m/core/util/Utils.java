@@ -360,7 +360,7 @@ public class Utils {
 	public static boolean isOnCondiotionForBypass( String[] bypassList, FullHttpRequest request ) {
 		for( int i=0; i<bypassList.length; i++ ){
 			if( request.headers().get("X-M2M-Origin").equals(bypassList[i]) ){
-				log.debug("++Condition has passed without authentication.");
+				log.debug("++Condition has passed.");
 				return true;
 			}
 		}
