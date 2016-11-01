@@ -434,7 +434,7 @@ public class Utils {
 	
 	public static String getValueOfResponse(String xml, String path){
 		Node node = null;
-		String make_xml = Util.combineString(xml.substring(0,xml.indexOf(">")+1),"<root>",xml.substring(xml.indexOf(">")+1),"</root>");
+		String make_xml = combineString(xml.substring(0,xml.indexOf(">")+1),"<root>",xml.substring(xml.indexOf(">")+1),"</root>");
 		try {
 		    Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(make_xml.getBytes()));
 		    doc.getDocumentElement().normalize();
