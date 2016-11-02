@@ -38,18 +38,6 @@ public abstract class AbsSerializer {
 			}
 			return xml;
 		}
-		
-//		if (format.indexOf("JSON") >= 0) {
-//			if (json == null) {
-//				json = new JSONSerializer();
-//			}
-//			return json;
-//		} else {
-//			if (xml == null) {
-//				xml = new XMLSerializer();
-//			}
-//			return xml;
-//		}
 	}
 	
 	public abstract String serialize(Object content) throws Exception;
