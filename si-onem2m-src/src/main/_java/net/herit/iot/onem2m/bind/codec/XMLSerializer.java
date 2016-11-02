@@ -54,8 +54,6 @@ public class XMLSerializer extends AbsSerializer {
 		if (content instanceof UriContent || content instanceof UriListContent) {
 			
 			if (content.getClass().equals(UriContent.class)) {					
-				//XMLConvertor<UriContent> ContInstXC = (XMLConvertor<UriContent>)ConvertorFactory.getXMLConvertor(UriContent.class, null);					
-				//xml = ContInstXC.marshal((UriContent)content);	//AE.SCHEMA_LOCATION
 				xml = ((UriContent)content).getUri();
 				
 			} else if (content.getClass().equals(UriListContent.class)) {
@@ -63,27 +61,6 @@ public class XMLSerializer extends AbsSerializer {
 				xml = ContInstXC.marshal((UriListContent)content);
 			}
 			
-//			if (content.getClass().equals(StringContent.class)) {
-//				StringContent sc = (StringContent)content;
-//				String name = sc.getName();
-//				String value = sc.getValue();
-//				xml = "<"+name+">"+value+"</"+name+">";
-//				
-//			} else if (content.getClass().equals(StringListContent.class)) {
-//				StringListContent slc = (StringListContent)content;
-//				String name = slc.getName();
-//				Iterator<String> i = slc.getIterator();
-//				
-//				xml = "<"+name+">";
-//				while (i.hasNext()) {
-//					xml += i.next();
-//					if (i.hasNext()) {
-//						xml += " ";
-//					}
-//				}
-//				xml += "</"+name+">";
-//			}
-					
 		} else if (content instanceof Notification) {
 			
 			Notification res = (Notification)content;
@@ -118,7 +95,6 @@ public class XMLSerializer extends AbsSerializer {
 			
 			Resource res = (Resource)content;
 			
-			//if (res.getResourceType() == RESOURCE_TYPE.AE.Value()) {
 			if (content instanceof AE) {
 				XMLConvertor<AE> ContInstXC = (XMLConvertor<AE>)ConvertorFactory.getXMLConvertor(AE.class, AE.SCHEMA_LOCATION);
 				xml = ContInstXC.marshal((AE)res);
