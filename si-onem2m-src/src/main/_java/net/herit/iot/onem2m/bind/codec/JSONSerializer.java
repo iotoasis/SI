@@ -53,10 +53,7 @@ public class JSONSerializer extends AbsSerializer {
 		if (content instanceof UriContent || content instanceof UriListContent) {
 			
 			if (content.getClass().equals(UriContent.class)) {
-				//JSONConvertor<UriContent> ContInstXC = (JSONConvertor<UriContent>)ConvertorFactory.getJSONConvertor(UriContent.class, null);					
-				//json = ContInstXC.marshal((UriContent)content);
 				json = ((UriContent)content).getUri();
-				
 			} else if (content.getClass().equals(UriListContent.class)) {
 				JSONConvertor<UriListContent> ContInstXC = (JSONConvertor<UriListContent>)ConvertorFactory.getJSONConvertor(UriListContent.class, null);					
 				json = ContInstXC.marshal((UriListContent)content);
@@ -129,7 +126,6 @@ public class JSONSerializer extends AbsSerializer {
 				json = ContInstXC.marshal((AccessControlPolicyAnnc)res);
 
 			} else if (content instanceof CSEBase) {
-				//JSONConvertor<CSEBase> ContInstXC = new JSONConvertor<CSEBase>(CSEBase.class);					
 				JSONConvertor<CSEBase> ContInstXC = (JSONConvertor<CSEBase>)ConvertorFactory.getJSONConvertor(CSEBase.class, CSEBase.SCHEMA_LOCATION);
 				json = ContInstXC.marshal((CSEBase)res);	
 
