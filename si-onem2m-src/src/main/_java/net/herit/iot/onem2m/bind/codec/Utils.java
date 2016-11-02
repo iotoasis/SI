@@ -57,7 +57,7 @@ public class Utils {
 					list.add((String)val);
 					list.add(split[1]);
 					map.put(split[0],  list);
-				} else { 	//if (val instanceof ArrayList<?>) {
+				} else {
 					List<String> list = (ArrayList<String>)val;
 					list.add(split[1]);
 				}
@@ -252,7 +252,6 @@ public class Utils {
 		if (null != value) {
 			if (!(value instanceof String)) throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, HTTP_QUERY_CONTENT_TYPE+ " cannot be list.");
 			if(filterCriteria == null) filterCriteria = new FilterCriteria();
-//			filterCriteria.setContentType(value);
 			filterCriteria.addContentType((String)value);
 		}
 
@@ -267,17 +266,13 @@ public class Utils {
 		if (null != value) {
 			if (!(value instanceof String)) throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, HTTP_QUERY_ATTRIBUTE+ " cannot be list.");
 			if(filterCriteria == null) filterCriteria = new FilterCriteria();
-			////???????? Fromat..????
 						
 			String[] attributes = ((String)value).split(" ");
 			for(String attribute : attributes) {
 				String[] split = attribute.split(":");
 				
 				if(split.length == 2)
-//					filterCriteria.putAttribute(split[0], split[1]);
 					filterCriteria.addAttribute(new Attribute(split[0], split[1]));
-				//else 
-					// TODO:..
 			}
 		}
 
@@ -408,15 +403,11 @@ public class Utils {
 				queryStrBld.append(div);
 				queryStrBld.append(HTTP_QUERY_ATTRIBUTE).append("=");
 				
-//				Set<Entry<String, Object>> entries = filterCriteria.getAttribute().entrySet();
 				boolean isExist = false;
-//				for(Entry<String, Object> entry : entries) {
 				for(Attribute entry : filterCriteria.getAttribute()) {
 					if (isExist) {
-//						queryStrBld.append(" ").append(entry.getKey()).append(":").append(entry.getValue().toString());
 						queryStrBld.append(" ").append(entry.getName()).append(":").append(entry.getValue().toString());
 					} else {
-//						queryStrBld.append(entry.getKey()).append(":").append(entry.getValue());
 						queryStrBld.append(entry.getName()).append(":").append(entry.getValue());
 						isExist = true;
 					}
