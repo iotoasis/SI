@@ -464,8 +464,12 @@ public class Utils {
 		getObject();
 		// execute other
 		if(value > 0){
+			// +
 		} else if( value == 0 ) {
-		} else {}
+			// 0
+		} else {
+			// -
+		}
 	}
 
 }
