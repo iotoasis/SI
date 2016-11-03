@@ -457,7 +457,10 @@ public class Utils {
 	// new function
 	// 161103 temp
 	public void Object getObject(){
-		//
+		// base
+	}
+	public void Object getObject(int value){
+		getObject();
 	}
 
 }
