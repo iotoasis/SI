@@ -456,7 +456,9 @@ public class Utils {
 	
 	// new function
 	// 161103 temp
-	
+	public void Object getObject(){
+		//
+	}
 
 }
 
