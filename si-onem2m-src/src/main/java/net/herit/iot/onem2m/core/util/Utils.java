@@ -458,6 +458,7 @@ public class Utils {
 	// 161103 temp
 	public void Object getObject(){
 		// base
+		System.out.println("test");
 	}
 	public void Object getObject(int value){
 		// execute base first
