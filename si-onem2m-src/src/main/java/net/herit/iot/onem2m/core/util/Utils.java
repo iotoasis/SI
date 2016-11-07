@@ -459,10 +459,12 @@ public class Utils {
 	public Object getObject(){
 		// base
 		System.out.println("test");
+		Object obj = new Object();
 	}
 	public Object getObject(int value){
 		// execute base first
 		getObject();
+		
 		// execute other
 		if(value > 0){
 			// +
