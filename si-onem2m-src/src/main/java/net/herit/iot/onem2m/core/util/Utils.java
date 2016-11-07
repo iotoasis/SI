@@ -456,11 +456,11 @@ public class Utils {
 	
 	// new function
 	// 161103 temp
-	public void Object getObject(){
+	public Object getObject(){
 		// base
 		System.out.println("test");
 	}
-	public void Object getObject(int value){
+	public Object getObject(int value){
 		// execute base first
 		getObject();
 		// execute other
