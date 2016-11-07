@@ -460,6 +460,7 @@ public class Utils {
 		// base
 		System.out.println("test");
 		Object obj = new Object();
+		return obj;
 	}
 	public Object getObject(int value){
 		// execute base first
