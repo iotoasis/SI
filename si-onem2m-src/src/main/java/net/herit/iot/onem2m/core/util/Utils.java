@@ -464,7 +464,7 @@ public class Utils {
 	}
 	public Object getObject(int value){
 		// execute base first
-		getObject();
+		Object obj = getObject();
 		
 		// execute other
 		if(value > 0){
