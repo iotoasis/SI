@@ -408,7 +408,6 @@ public class AE
 		if (operation.equals(OPERATION.CREATE)) {	// create 요청에 의해 생성된 리소스에 대한 유효성 체크 (DB저장전)
 			//appID = "testMMM";
 			if (this.appID == null || this.appID.length() == 0) {
-				//throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'appID' is M on CREATE operation");
 				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'appID' is M on CREATE operation");
 			}
 			// v1.0.1 - TBD
