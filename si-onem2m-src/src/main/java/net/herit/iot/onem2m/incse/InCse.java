@@ -100,10 +100,7 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 			}
 			httpServers.addServer(restHandler, cfgManager.getRestServerPort(), false);
 			
-//			mqttClient = MqttClientHandler.getInstance(cfgManager.getCSEBaseCid());
-//			mqttClient = MqttClientHandler.getInstance(cfgManager.getCSEBaseUri(), cfgManager.getKeepaliveInterval());
 			mqttClient = MqttClientHandler.getInstance(cfgManager.getCSEBaseCid(), cfgManager.getKeepaliveInterval());
-			
 			mqttClient.setListener(this);
 			
 			
