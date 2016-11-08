@@ -184,12 +184,6 @@ public class Utils {
 	
 	}
 
-//	public static Object extractOriginator(String from, OneM2mContext context) {
-//		
-//		return null;
-//		
-//	}
-
 
 	public static boolean laterThan(String time1, String time2) {
 		
