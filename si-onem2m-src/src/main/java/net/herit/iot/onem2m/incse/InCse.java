@@ -108,22 +108,6 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 			coapServer = new HCoapServer(cfgManager.getCSEBaseRid(), cfgManager.getCSEBaseName(),
 					this, cfgManager.getCoapServerPort(), cfgManager.getCoapsServerPort());
 
-					
-//			List<String> resList = new ArrayList<String>();
-//			resList.add(cfgManager.getCSEBaseRid()+ "^" + cfgManager.getCSEBaseName());
-//			
-//			List<RemoteCSEInfo> remoteCse = CfgManager.getInstance().getRemoteCSEList();
-//			if(remoteCse != null) { 
-//				for(RemoteCSEInfo info : remoteCse) {
-//					resList.add(info.getCseId().substring(1) + "^" + info.getCseName().substring(1));
-//				}
-//			}
-//			coapServer = new HCoapServer(resList,
-//					this, cfgManager.getCoapServerPort(), cfgManager.getCoapsServerPort());
-			////////// End CoAP
-			
-			
-			//logManager.initialize(LoggerFactory.getLogger("IITP-IOT"), null);
 			dbManager.initialize(MongoPool.getInstance());
 			
 			accessPointManager.initialize(createContext(BINDING_TYPE.BIND_HTTP));
