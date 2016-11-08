@@ -385,9 +385,6 @@ public class AE
      * 
      */
     public List<Resource> getContainerOrGroupOrAccessControlPolicy() {
-//        if (containerOrGroupOrAccessControlPolicy == null) {
-//            containerOrGroupOrAccessControlPolicy = new ArrayList<Resource>();
-//        }
         return this.containerOrGroupOrAccessControlPolicy;
     }
     
