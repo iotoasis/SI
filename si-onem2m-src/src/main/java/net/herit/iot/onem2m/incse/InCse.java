@@ -272,7 +272,7 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 
 			strbld.append("remote:").append(ctx.channel().remoteAddress().toString()).append(" ");
 			strbld.append("STATUS:").append(resMessage.getResponseStatusCodeEnum().Value()).append(" ");
-			/*
+			//*
 			strbld.append("OP:" ).append(reqMessage.getOperationEnum().Name()).append(" ");
 			if(reqMessage.getOperationEnum().equals(OPERATION.CREATE)) {
 				strbld.append("TY:").append(reqMessage.getResourceTypeEnum().Name()).append(" ");
