@@ -84,7 +84,6 @@ public class Utils {
 	
 	public static String extractBaseurlFromUrl(String fullUrl) throws MalformedURLException {
 		System.out.println("fullUrl: " + fullUrl);
-//		if (!fullUrl.substring(0, 5).equalsIgnoreCase("http:"))
 		if (!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("http") && 
 				!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("coap") &&
 				!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("mqtt")) {
