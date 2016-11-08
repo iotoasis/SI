@@ -404,10 +404,6 @@ public class AE
 			if (this.appID == null || this.appID.length() == 0) {
 				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'appID' is M on CREATE operation");
 			}
-			// v1.0.1 - TBD
-			//if (this.requestReachability == null) {
-			//	throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'requestReachability' is M onCREATE operation");
-			//}
 			if (this.aeid != null) {
 				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'aeid' is NP onCREATE operation");
 			}
