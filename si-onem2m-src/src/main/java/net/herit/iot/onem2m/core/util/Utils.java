@@ -78,7 +78,6 @@ public class Utils {
 		if (file.length() > 0) {
 			baseUri = fullUrl.substring(0, fullUrl.length() - file.length());			
 		}
-//		return baseUri.substring(5);
 		return baseUri;
 		
 	}
