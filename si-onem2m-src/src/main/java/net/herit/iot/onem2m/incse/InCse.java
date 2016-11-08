@@ -147,15 +147,7 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 		
 		iwController.run();
 		
-//		restServer.runAsync();
-//		httpsServer.runAsync();
-//		// default binding..
-//		httpServer.run();
-		
 		httpServers.runAll();
-		
-		// register remoteCSE for interworking with other SP IN-CSE
-		
 		
 	}
 	
