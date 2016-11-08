@@ -314,9 +314,6 @@ public class AE
      * 
      */
     public List<PermittedMediaTypes> getContentSerialization() {
-//        if (contentSerialization == null) {
-//            contentSerialization = new ArrayList<PermittedMediaTypes>();
-//        }
         return this.contentSerialization;
     }
     
