@@ -426,8 +426,7 @@ public class Utils {
         	return sb.toString();
     	}
 	
-	// new function
-	// 161103 temp
+	// new function for test
 	public Object getObject(){
 		// base
 		System.out.println("test");
