@@ -92,9 +92,7 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 			
 			restHandler = new RestHandler();
 			
-//			httpServer = new HttpServer(this, cfgManager.getHttpServerPort());	
-//			httpsServer = new HttpServer(this, 8443, true);
-//			restServer = new HttpServer(restHandler, cfgManager.getRestServerPort()); 
+
 			httpServers = new HttpServer(cfgManager.getNettyBossThreadPoolSize(), cfgManager.getNettyWorkerThreadPoolSize());
 			httpServers.addServer(this, cfgManager.getHttpServerPort(), false);
 			if(cfgManager.getHttpsServerPort() > 0) {
