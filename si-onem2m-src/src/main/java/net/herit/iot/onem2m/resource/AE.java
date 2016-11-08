@@ -81,16 +81,6 @@ public class AE
     extends AnnounceableResource
 {
 	public final static String SCHEMA_LOCATION = "CDT-AE-v1_6_0.xsd";
-
-//	String[] CREATE_MA = {"appID", "requestReachability"};
-//	String[] CREATE_NP = {"resourceName","resourceType","resourceID","parentID","creationTime",
-//							"lastModifiedTime","aeid","nodeLink"};
-//	String[] UPDATE_MA = {};
-//	String[] UPDATE_NP = {"resourceName","resourceType","resourceID","parentID","creationTime",
-//							"lastModifiedTime","aeid","nodeLink", "appID"};
-//	String[] RESPONSE_MA = {"resourceType", "resourceID", "resourceName", "parentID", "expireationTime", 
-//							"creationTime", "lastModifiedTime"};
-//	String[] RESPONSE_NP = {};
 	
 	@XmlElement(name = Naming.APPNAME_SN) //"apn")
     protected String appName;
