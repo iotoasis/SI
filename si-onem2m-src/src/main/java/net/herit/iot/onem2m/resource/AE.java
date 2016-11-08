@@ -80,7 +80,6 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
 public class AE
     extends AnnounceableResource
 {
-//	public final static String SCHEMA_LOCATION = "CDT-AE-v1_2_0.xsd";
 	public final static String SCHEMA_LOCATION = "CDT-AE-v1_6_0.xsd";
 
 //	String[] CREATE_MA = {"appID", "requestReachability"};
