@@ -216,9 +216,6 @@ public class AE
      * 
      */
     public List<String> getPointOfAccess() {
-//        if (pointOfAccess == null) {
-//            pointOfAccess = new ArrayList<String>();
-//        }
         return this.pointOfAccess;
     }
     
