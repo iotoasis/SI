@@ -347,9 +347,6 @@ public class AE
      * 
      */
     public List<ChildResourceRef> getChildResource() {
-//        if (childResource == null) {
-//            childResource = new ArrayList<ChildResourceRef>();
-//        }
         return this.childResource;
     }
 
