@@ -117,11 +117,7 @@ public class Utils {
 	}
 
 	public static String extractResourceFromUrl2(String fullUrl) throws MalformedURLException {
-		
-//		if (fullUrl.substring(0, 4).equalsIgnoreCase("http") == false) {
-//			fullUrl = "http:"+ fullUrl;
-//		}
-		
+
 		if (!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("http") && 
 				!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("coap") &&
 				!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("mqtt")) {
