@@ -260,22 +260,6 @@ public class Utils {
 	
 	
 	public static void main(String[] args) throws Exception {
-//		String pc = "<?xml version=\"1.0\" encoding=\"utf-8\"?><m2m:cin xsi:schemaLocation=\"http://www.onem2m.org/xml/protocols CDT-contentInstance-v1_2_0.xsd\" xmlns:m2m=\"http://www.onem2m.org/xml/protocols\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" name=\"CONTENT_INST_118\"><ty>4</ty><ri>/CONTENT_INST_118</ri>";
-//		//String pc = "dsddd<ty>4</ty>dddd";
-//		
-//		//String re = "\"ty\":\\s*\"?\\d+\"?\\s*,";
-//		String re = "<ty>\\d+</ty>";
-//		//String re = "<ty>4</ty>";
-//		Pattern p = Pattern.compile(re);
-//		Matcher m = p.matcher(pc);
-//		boolean b = m.find();
-//		if (b) {
-//			String matched = m.group();
-//			System.out.println("Matched:"+matched);
-//		} else {
-//			System.out.println("No matched string found:"+re);
-//			System.out.println(pc);
-//		}
 		
 		String addr = "http://10.101.101.33:8080/dkdkd/asdkd/dkdk";
 		URL url = new URL(addr);
