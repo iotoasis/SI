@@ -507,7 +507,6 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 			new InCse().start();
 		} catch(Exception e) {
 			e.printStackTrace();
-			
 			throw e;
 		}
 	}
