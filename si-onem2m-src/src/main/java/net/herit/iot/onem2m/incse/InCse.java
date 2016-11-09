@@ -18,6 +18,7 @@ import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpResponseStatus;
+
 import net.herit.iot.db.mongo.MongoPool;
 import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mResponse;
@@ -55,9 +56,6 @@ import net.herit.iot.onem2m.incse.manager.ManagerFactory;
 public class InCse implements HttpServerListener, MqttServerListener, CoapServerListener  {
 	
 	private HttpServer		httpServers;
-//	private HttpServer 		httpServer;
-//	private HttpServer		httpsServer;
-//	private HttpServer 		restServer;
 	private RestHandler		restHandler;
 	
 	private MqttClientHandler	mqttClient;
@@ -148,7 +146,6 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 		iwController.run();
 		
 		httpServers.runAll();
-		
 	}
 	
 
