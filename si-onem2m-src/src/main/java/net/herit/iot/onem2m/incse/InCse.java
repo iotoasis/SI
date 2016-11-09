@@ -501,7 +501,7 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 	 *   END COAP BINDING
 	 *****************************************************************************/
 	
-	
+	// start from here
 	public static void main(String[] args) throws Exception {
 		try {
 			new InCse().start();
