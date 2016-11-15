@@ -1,4 +1,4 @@
-package 
+package net.herit.iot.onem2m.core.util;
 
 import java.util.HashMap;
 import java.util.Map;
