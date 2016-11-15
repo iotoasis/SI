@@ -5,34 +5,6 @@ import java.util.Map;
 
 public class Constants {
 
-    //* at.company
-    public final static String HOST_IP = "192.168.123.131";
-    //public final static String INCSE_ADDR = "http://10.10.224.240:8080/nimbus-cse";
-    public final static String INCSE_ADDR = "http://192.168.123.131:8080/herit-in/herit-cse";
-    //*/
-
-    /* at.home
-    public final static String HOST_IP = "172.30.1.48";
-    public final static String INCSE_ADDR = "http://172.30.1.30:8080/herit-in/herit-cse";
-    //*/
-
-    public final static String[] PASS_URL = {"oic/d","oic/p","pollingChannel"};
-    public final static String[] POLLING_CHANNEL_URL = {"pch_svc","pch_ipe"};
-    public final static String[] COMMAND_CONTAINER_URL = {"led","buzzer"};
-    public final static String[] OBSERVE_CONTAINER_URL = {"light","sound","touch","temperature","button"};
-    public final static String[] BASE_CONTAINER_URL = {"execute","result"};
-
-    // FoundDeviceInfo
-    public static String old_host = "";
-    public static FoundDeviceInfo deviceInfo = null;
-
-    //
-    public static String UNNAMED = "unnamed";
-    public static String ORIGIN_BASE = "S";
-
-    public static final String BASE_CONTAINER_LBL = "cnt";
-    public static final String BASE_AE = "Arduino";
-
     // HTTP METHOD
     public enum REQUEST_METHOD_TYPE{
         POST(0, "POST", true),
