@@ -1,11 +1,8 @@
-package com.canonical.democlient;
+package 
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by 문선호 on 2016-09-22.
- */
 public class Constants {
 
     //* at.company
