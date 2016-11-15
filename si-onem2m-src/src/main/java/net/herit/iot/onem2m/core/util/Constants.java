@@ -3,6 +3,7 @@ package net.herit.iot.onem2m.core.util;
 import java.util.HashMap;
 import java.util.Map;
 
+// global variable to static
 public class Constants {
 
     // HTTP METHOD
