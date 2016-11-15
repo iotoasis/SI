@@ -22,13 +22,13 @@ public class Constants {
             this.doOutput = doOutput;
         }
 
-        public int Value() {
+        public int getValue() {
             return this.value;
         }
-        public String Name() {
+        public String getName() {
             return this.name;
         }
-        public boolean DoOutput(){
+        public boolean getDoOutput(){
             return this.doOutput;
         }
 
