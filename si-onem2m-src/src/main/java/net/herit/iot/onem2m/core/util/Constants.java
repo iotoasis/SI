@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 // global variable to static
+// not using yet
 public class Constants {
 
     // HTTP METHOD
