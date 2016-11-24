@@ -7,14 +7,12 @@ import io.netty.handler.codec.http.FullHttpRequest;
 
 public interface HttpServerListener extends HttpEventListener {
 	/**
-	 * HTTP Request가 들어오면 Invoke된다.
 	 * 
 	 * @param ctx
 	 *            the ChannelHandlerContext
 	 * @param request
 	 *            the HttpRequest
 	 */
-//	public void handleHttpRequest(ChannelHandlerContext ctx, DefaultFullHttpRequest request);
 	public void receiveHttpRequest(ChannelHandlerContext ctx, FullHttpRequest request);
 
 	public boolean sendHttpResponse(OneM2mResponse responseMessage) throws OneM2MException;
