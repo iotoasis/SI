@@ -55,8 +55,6 @@ public final class HttpClient {
 	private boolean isSync = false;
 	
 	ChannelFuture channelFuture = null;
-//	OneM2mResponse resMessage = null;
-	//Channel channel = null;
 	
 	Bootstrap bootstrap = null;
 	EventLoopGroup group = null;
@@ -133,7 +131,7 @@ public final class HttpClient {
 			Channel channel = bootstrap.connect(host, port).sync().channel();
 			channel.writeAndFlush(request);
 			
-			channel.closeFuture().sync(); //.addListener(new ConnectListner(request, mHttpClientListener));
+			channel.closeFuture().sync(); 
 
 			OneM2mResponse resMessage = resMessageMap.get(channel);
 			return resMessage;
@@ -208,21 +206,11 @@ public final class HttpClient {
 				return null;
 			}
 	
-			// Configure SSL context if necessary.
-	//		final boolean ssl = "https".equalsIgnoreCase(scheme);
-	//		final SslContext sslCtx;
-	//		if (ssl) {
-	//			sslCtx = SslContextBuilder.forClient()
-	//					.trustManager(InsecureTrustManagerFactory.INSTANCE).build();
-	//          } else {
-	//        	  sslCtx = null;
-	//          }
 	
 			// Configure the client.
 			group = new NioEventLoopGroup();
 		
 			// Prepare the HTTP request.
-//			DefaultFullHttpRequest request = HttpRequestCodec.encode(url, reqMessage, HttpVersion.HTTP_1_1);
 			DefaultFullHttpRequest request = HttpRequestCodec.encode(reqMessage, HttpVersion.HTTP_1_1);
 			request.headers().add(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.CLOSE);
 			request.headers().add(HttpHeaders.Names.HOST, host);
@@ -259,11 +247,8 @@ public final class HttpClient {
 
 			b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000);
 			// Make the connection attempt.
-			//channelFuture = b.connect(host, port).addListener(new ConnectListner(request, mHttpClientListener)); //sync().channel();
 			Channel channel = b.connect(host, port).sync().channel();
 
-			//if (channelFuture != null) log.debug("channelFuture is not null.");
-			
 			// Send the HTTP request.
 			channel.writeAndFlush(request);
 
@@ -274,8 +259,6 @@ public final class HttpClient {
 		} catch (Exception e) {
 			log.error("exception: ", e);
 		} finally {
-			// Shut down executor threads to exit.
-			// group.shutdownGracefully();
 		}
 
 		return null; //resMessage;
@@ -297,37 +280,6 @@ public final class HttpClient {
 		
 		return res;
 	}
-	
-/*	public OneM2mResponse processRequest(String url, OneM2mRequest reqMessage) {
-		isSync = true;
-		
-		try {
-			ChannelFuture channelFuture = process(url, reqMessage);
-			
-			if (channelFuture == null) System.out.println("dddchannelFuture is null..");
-			
-			synchronized(channelFuture) {
-				log.debug("START: wait for channelFuture notification!!! {}", channelFuture);
-				channelFuture.wait();
-				log.debug("END: wait for channelFuture notification!!! {}", channelFuture);
-			}
-
-			log.debug("========== Channel notified");
-			if (resMessage == null) {
-				log.debug(channelFuture.toString());
-				//log.debug(channelFuture.cause().toString());
-			}
-		} catch (Exception e) {
-			log.error("execption=", e);			
-			log.debug("Handled exception",e);
-			resMessage = null;
-		}
-		
-		if (resMessage != null) {
-			resMessage.setRequest(reqMessage);
-		}
-		return resMessage;
-	}*/
 	
 	private ConcurrentHashMap<Channel, ResponseListener> listenerMap = 
 			new ConcurrentHashMap<Channel, ResponseListener>();
@@ -364,12 +316,6 @@ public final class HttpClient {
 				synchronized(channelFuture) {
 					channelFuture.notify();
 				}
-			
-//			if (group != null) {
-//				group.shutdownGracefully();
-//			}
-//
-//			group = null;
 		}
 		
 		@Override
@@ -392,7 +338,6 @@ public final class HttpClient {
 				}
 			} catch (Exception e) {
 				log.debug("Handled exception", e);
-//				resMessage = null;
 			}
 		}
 	};
@@ -407,12 +352,5 @@ public final class HttpClient {
 		reqMessage.setRequestIdentifier("233322323");
 
 		client.sendAsyncRequest(null, "http://10.101.101.107:8088/monitor.do", reqMessage);
-//		OneM2mResponse response = client.sendRequest("http://10.101.101.107:8088/monitor.do", reqMessage);
-//		System.out.println(response.toString());
-		
-//		OneM2mResponse resMessage = client.process("http://10.101.101.107:8088/monitor.do", reqMessage);
-
-//		OneM2mResponse resMessage = client.processRequest(reqMessage);
-//		System.out.println(resMessage.toString());
 	}
 }
