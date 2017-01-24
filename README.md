@@ -33,7 +33,7 @@ SI oneM2M Server를 시험하기 위한 디바이스 및 애플리케이션 애�
 <br>
 
 ## Q&A
- - [IoT Oasis Q&A -- Commong soon]
+ - [IoT Oasis Q&A -- Coming soon]
 
 
 ## License
