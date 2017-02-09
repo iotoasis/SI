@@ -41,6 +41,7 @@
 		</binding>
 
 		<cse>
+			<!--modify host and poa before you run the program.-->
 			<host>127.0.0.1</host>
 			<baseName>herit-cse</baseName>
 			<resourceId>herit-in</resourceId>
