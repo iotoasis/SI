@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class
+        name="net.herit.iot.onem2m.incse.manager.VPollingChannelUriManager"
+        x="429" y="31">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.herit.iot.onem2m.incse.manager.VirtualManagerInterface"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.incse.manager.VirtualManager.PROCESS_RESULT"
+            endpointName="processResult" kind="Simple"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.incse.manager.VOldestManager"
+        x="710" y="271">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.herit.iot.onem2m.incse.manager.VirtualManagerInterface"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.incse.manager.VirtualManager.PROCESS_RESULT"
+            endpointName="processResult" kind="Simple"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.incse.manager.VLatestManager"
+        x="53" y="371">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.herit.iot.onem2m.incse.manager.VirtualManagerInterface"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.incse.manager.VirtualManager.PROCESS_RESULT"
+            endpointName="processResult" kind="Simple"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.incse.manager.VirtualManager"
+        x="366" y="190">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.incse.manager.VirtualManagerInterface"
+            endpointName="managerMap" kind="Simple"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.incse.manager.VirtualManager.PROCESS_RESULT"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.incse.manager.VSemanticFanOutPointManager"
+        x="447" y="358">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.herit.iot.onem2m.incse.manager.VirtualManagerInterface"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.incse.manager.VirtualManager.PROCESS_RESULT"
+            endpointName="processResult" kind="Simple"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.incse.manager.VirtualManager.PROCESS_RESULT"
+        x="65" y="191">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.incse.manager.VirtualManager.PROCESS_RESULT"
+            endpointName="map" kind="Simple"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.incse.manager.VFanOutPointManager"
+        x="26" y="28">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.herit.iot.onem2m.incse.manager.VirtualManagerInterface"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.incse.manager.VirtualManager.PROCESS_RESULT"
+            endpointName="processResult" kind="Simple"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.incse.manager.VirtualManagerInterface"
+        x="555" y="159">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+</ClassDiagram>

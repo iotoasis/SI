@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+ 
+<!-- log 설정 reference site: "http://logback.qos.ch/manual/appenders.html" -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+            	<!-- %d{yyyy/MM/dd-HH:mm:ss.SSS} %-5level [%thread] %logger{100}[%method:%line] - %msg%n -->
+            	%d{yyyy/MM/dd-HH:mm:ss.SSS} %-5level %logger{100}[%method:%line] - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- <file>/home/herit/project/2015/IITP/log/onem2m.log</file>  -->
+        <file>/home/hubiss/project/2015/IITP-IoT/log/onem2m_incse.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+       	 <!-- <fileNamePattern>/home/herit/project/2015/IITP/log/onem2m.%d{yyyy-MM-dd}.log</fileNamePattern>  -->
+       	 <fileNamePattern>/home/hubiss/project/2015/IITP-IoT/log/onem2m_incse.%d{yyyy-MM-dd}.log</fileNamePattern>
+       	 <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy/MM/dd-HH:mm:ss.SSS} %-5level %logger{10}[%method:%line] - %msg%n</pattern>
+        </encoder>
+        
+    </appender>
+    
+    
+
+    <!-- LoginInterceptor class 파일만 따로 로그 관리 -->
+    <!-- appender name="fileForLoginInterceptor" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/home/herit/testRollingFile.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/home/herit/project/2015/IITP/log/testRollingFile.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                ▷ %-5level %d{HH:mm:ss} %logger[%method:%line] - %msg%n
+            </pattern>
+        </encoder>
+    </appender-->
+    
+    <logger name="org.mongodb.driver.cluster" level="info">
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+    </logger>
+        
+    <root level="debug">
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+    </root>
+        
+</configuration>
