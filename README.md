@@ -22,7 +22,7 @@ SI oneM2M Server는  IoT 국제표준인 oneM2M 기반의 디바이스 및 애�
 SI oneM2M Server를 시험하기 위한 디바이스 및 애플리케이션 애뮬레이터를 이용하여 테스트 할 수 있습니다.
 
 - **DM Web Server** : Device를 제어하기 위한 웹 모듈
-  - **Source Path** : /si-modules/DM_Web_Server
+  - **Source Path** : /si-modules/DM_Web_Server
   - **User Guide** : /si-user-guide/DM_Web_Server
   - **DB query script** : 
   
