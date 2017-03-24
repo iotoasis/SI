@@ -18,7 +18,8 @@ SI oneM2M Server는  IoT 국제표준인 oneM2M 기반의 디바이스 및 애�
 
 
 ## Documents
- - SI Server User Guide(https://github.com/iotoasis/SI/tree/master/si-user-guide/SI_Server)
+ - SI Server User Guide
+     https://github.com/iotoasis/SI/tree/master/si-user-guide/SI_Server
 
 
 ## Modules
@@ -27,7 +28,7 @@ SI oneM2M Server를 시험하기 위한 디바이스 및 애플리케이션 애�
 - **DM Web Server** : Device를 제어하기 위한 웹 모듈
   - **Source Path** : /si-modules/DM_Web_Server
   - **User Guide** : /si-user-guide/DM_Web_Server
-  - **DB query script** : 
+  - **DB query script** : /si-onem2m-res
   
 - **LWM2M DM/IPE** : LWM2M Device 관리 및 IPE Server를 통한 SI Server와 인터워킹이 가능한 모듈
   - **Source Path1** : /si-modules/LWM2M_IPE_Server
@@ -39,7 +40,6 @@ SI oneM2M Server를 시험하기 위한 디바이스 및 애플리케이션 애�
   - **Source Path2** : /si-modules/OIC-IPE-Client
   - **User Guide** : /si-user-guide/OIC_IPE
   
-<br>
 
 ## Q&A
  - [IoT Oasis Q&A -- Coming soon]
