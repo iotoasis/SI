@@ -12,24 +12,30 @@ SI oneM2M Server는  IoT 국제표준인 oneM2M 기반의 디바이스 및 애�
    - SO, SDA 연동 기능 지원
    - MongoDB 기반의 리소스 데이터 관리
 
-## Documents
- - [Quick Start](./si-doc/quick-start.md)
- - [서버 설정방법](./si-doc/incse_configuration.md)
- - [서버 Build 방법](./si-doc/build_eclipse.md)
-
 ## Downloads
  - [Latest Release](https://github.com/iotoasis/SI/releases/)
 
+## Documents
+ - SI Server User Guide(https://github.com/iotoasis/SI/tree/master/si-user-guide/SI_Server)
+
 ## Modules
-SI oneM2M Server는 하나의 서버 모듈로 구성됩니다. 
 SI oneM2M Server를 시험하기 위한 디바이스 및 애플리케이션 애뮬레이터를 이용하여 테스트 할 수 있습니다.
 
-- **oneM2M Server** : oneM2M IN-CSE 모듈
-
-
-- **Test Module** : oneM2M IN-CSE 시험을 위한 테스트 모듈
-  - **Device Emulator** : 디바이스 역할을 수행하는 애뮬레이터 모듈
-  - **Application Emulator** : 애플리케이션 역할을 수행하는 애뮬레이터 모듈
+- **DM Web Server** : Device를 제어하기 위한 웹 모듈
+  - **Source Path** : /si-modules/DM_Web_Server
+  - **User Guide** : /si-user-guide/DM_Web_Server
+  - **DB query script** : 
+  
+- **LWM2M DM/IPE** : LWM2M Device 관리 및 IPE Server를 통한 SI Server와 인터워킹이 가능한 모듈
+  - **Source Path1** : /si-modules/LWM2M_IPE_Server
+  - **Source Path2** : /si-modules/LWM2M_IPE_Client
+  - **User Guide** : /si-user-guide/LWM2M_DM_IPE
+  
+- **OIC IPE** : OIC 기반 Device Handling 및 IPE 를 통한 SI Server와 인터워킹이 가능한 모듈
+  - **Source Path1** : /si-modules/OIC-IPE
+  - **Source Path2** : /si-modules/OIC-IPE-Client
+  - **User Guide** : /si-user-guide/OIC_IPE
+  
 <br>
 
 ## Q&A
