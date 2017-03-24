@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "setOfAcrs", propOrder = {
+@XmlType(name = "", propOrder = {
     "accessControlRule"
 })
 public class SetOfAcrs {

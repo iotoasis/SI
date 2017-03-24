@@ -63,7 +63,7 @@ import javax.xml.datatype.Duration;
     "locationStatus"
 })
 //@XmlRootElement(name = "locationPolicyAnnc")
-@XmlRootElement(name = Naming.LOCATIONPOLICYANNC_SN)
+@XmlRootElement(name = "m2m:" +  Naming.LOCATIONPOLICYANNC_SN)
 public class LocationPolicyAnnc
     extends AnnouncedResource
 {

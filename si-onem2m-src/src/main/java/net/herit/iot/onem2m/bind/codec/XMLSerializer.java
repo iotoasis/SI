@@ -12,7 +12,11 @@ import net.herit.iot.onem2m.resource.AccessControlPolicyAnnc;
 import net.herit.iot.onem2m.resource.AggregatedRequest;
 import net.herit.iot.onem2m.resource.AggregatedResponse;
 import net.herit.iot.onem2m.resource.AllJoynApp;
+import net.herit.iot.onem2m.resource.AllJoynInterface;
+import net.herit.iot.onem2m.resource.AllJoynMethod;
+import net.herit.iot.onem2m.resource.AllJoynMethodCall;
 import net.herit.iot.onem2m.resource.AllJoynProperty;
+import net.herit.iot.onem2m.resource.AllJoynSvcObject;
 import net.herit.iot.onem2m.resource.AreaNwkDeviceInfo;
 import net.herit.iot.onem2m.resource.AreaNwkInfo;
 import net.herit.iot.onem2m.resource.Battery;
@@ -47,6 +51,8 @@ import net.herit.iot.onem2m.resource.Schedule;
 import net.herit.iot.onem2m.resource.SemanticDescriptor;
 import net.herit.iot.onem2m.resource.Software;
 import net.herit.iot.onem2m.resource.Subscription;
+import net.herit.iot.onem2m.resource.SvcFwWrapper;
+import net.herit.iot.onem2m.resource.SvcObjWrapper;
 import net.herit.iot.onem2m.resource.UriContent;
 import net.herit.iot.onem2m.resource.UriListContent;
 
@@ -260,6 +266,24 @@ public class XMLSerializer extends AbsSerializer {
 			} else if (content instanceof AllJoynProperty) {
 				XMLConvertor<AllJoynProperty> ContInstXC = (XMLConvertor<AllJoynProperty>)ConvertorFactory.getXMLConvertor(AllJoynProperty.class, AllJoynProperty.SCHEMA_LOCATION);
 				xml = ContInstXC.marshal((AllJoynProperty)res);	
+			} else if (content instanceof AllJoynSvcObject) {
+				XMLConvertor<AllJoynSvcObject> ContInstXC = (XMLConvertor<AllJoynSvcObject>)ConvertorFactory.getXMLConvertor(AllJoynSvcObject.class, AllJoynSvcObject.SCHEMA_LOCATION);
+				xml = ContInstXC.marshal((AllJoynSvcObject)res);	
+			} else if (content instanceof AllJoynInterface) {
+				XMLConvertor<AllJoynInterface> ContInstXC = (XMLConvertor<AllJoynInterface>)ConvertorFactory.getXMLConvertor(AllJoynInterface.class, AllJoynInterface.SCHEMA_LOCATION);
+				xml = ContInstXC.marshal((AllJoynInterface)res);	
+			} else if (content instanceof AllJoynMethod) {
+				XMLConvertor<AllJoynMethod> ContInstXC = (XMLConvertor<AllJoynMethod>)ConvertorFactory.getXMLConvertor(AllJoynMethod.class, AllJoynMethod.SCHEMA_LOCATION);
+				xml = ContInstXC.marshal((AllJoynMethod)res);	
+			} else if (content instanceof AllJoynMethodCall) {
+				XMLConvertor<AllJoynMethodCall> ContInstXC = (XMLConvertor<AllJoynMethodCall>)ConvertorFactory.getXMLConvertor(AllJoynMethodCall.class, AllJoynMethodCall.SCHEMA_LOCATION);
+				xml = ContInstXC.marshal((AllJoynMethodCall)res);	
+			} else if (content instanceof SvcObjWrapper) {
+				XMLConvertor<SvcObjWrapper> ContInstXC = (XMLConvertor<SvcObjWrapper>)ConvertorFactory.getXMLConvertor(SvcObjWrapper.class, SvcObjWrapper.SCHEMA_LOCATION);
+				xml = ContInstXC.marshal((SvcObjWrapper)res);	
+			} else if (content instanceof SvcFwWrapper) {
+				XMLConvertor<SvcFwWrapper> ContInstXC = (XMLConvertor<SvcFwWrapper>)ConvertorFactory.getXMLConvertor(SvcFwWrapper.class, SvcFwWrapper.SCHEMA_LOCATION);
+				xml = ContInstXC.marshal((SvcFwWrapper)res);	
 			} else if (content instanceof GenericInterworkingService) {
 				XMLConvertor<GenericInterworkingService> ContInstXC = (XMLConvertor<GenericInterworkingService>)ConvertorFactory.getXMLConvertor(GenericInterworkingService.class, GenericInterworkingService.SCHEMA_LOCATION);
 				xml = ContInstXC.marshal((GenericInterworkingService)res);	

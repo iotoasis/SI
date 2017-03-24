@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:/herit/props/globals.properties</value>
+            </list>
+        </property>
+    </bean>
+	
+	<!-- <alias name="dataSource-${Globals.DBType}" alias="dataSource" /> -->
+	<alias name="dataSource-hdp-${Globals.DBType}" alias="dataSource-hdp" />
+	<alias name="dataSource-hdm-${Globals.DBType}" alias="dataSource-hdm" />
+	<alias name="dataSource-hdh-${Globals.DBType}" alias="dataSource-hdh" />
+	
+	<!-- MySQL -->
+	<!--  
+	<bean id="dataSource-mysql" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${Globals.DriverClassName}"/>
+		<property name="url" value="${Globals.URL}" />
+		<property name="username" value="${Globals.UserName}"/>
+		<property name="password" value="${Globals.Password}"/>
+	</bean>
+	-->
+	
+	<bean id="dataSource-hdp-mysql" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${Globals.DriverClassName}"/>
+		<property name="url" value="${Globals.HDP.Database.URL}" />
+		<property name="username" value="${Globals.HDP.Database.Account.UserName}"/>
+		<property name="password" value="${Globals.HDP.Database.Account.Password}"/>
+		<property name="validationQuery" value="select 1"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="3600000"/>
+	</bean>
+	
+	<bean id="dataSource-hdm-mysql" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${Globals.DriverClassName}"/>
+		<property name="url" value="${Globals.HDM.Database.URL}" />
+		<property name="username" value="${Globals.HDM.Database.Account.UserName}"/>
+		<property name="password" value="${Globals.HDM.Database.Account.Password}"/>
+		<property name="validationQuery" value="select 1"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="3600000"/>
+	</bean>
+	
+	<bean id="dataSource-hdh-mysql" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${Globals.DriverClassName}"/>
+		<property name="url" value="${Globals.HDH.Database.URL}" />
+		<property name="username" value="${Globals.HDH.Database.Account.UserName}"/>
+		<property name="password" value="${Globals.HDH.Database.Account.Password}"/>
+		<property name="validationQuery" value="select 1"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="3600000"/>
+	</bean>
+	
+	<!-- Altibase -->
+	<!-- <bean id="dataSource-altibase" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${Globals.DriverClassName}"/>
+		<property name="url" value="${Globals.URL}" />
+		<property name="username" value="${Globals.UserName}"/>
+		<property name="password" value="${Globals.Password}"/>
+	</bean> -->
+	
+
+	<!-- Altibase (Tomcat server.xml 이용) -->
+	<!-- 
+	<bean id="dataSource-altibase" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+		<property name="jndiName" value="java:comp/env/jdbc/herit-ds"/>
+		<property name="resourceRef" value="true" />	
+	</bean>
+	 -->
+	
+</beans>

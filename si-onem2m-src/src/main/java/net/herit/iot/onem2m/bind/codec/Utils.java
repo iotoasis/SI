@@ -117,7 +117,7 @@ public class Utils {
 	private final static String HTTP_QUERY_EXPIRE_BEFORE 		= "exb";
 	private final static String HTTP_QUERY_EXPIRE_AFTER 		= "exa";
 	private final static String HTTP_QUERY_LABELS 				= "lbl";
-	private final static String HTTP_QUERY_RESOURCE_TYPE 		= "rty";  // TS-0001과 TS-0009에서 서로다름.
+	private final static String HTTP_QUERY_RESOURCE_TYPE 		= "ty";  // TS-0009 rty => ty in 2017-03-09
 	private final static String HTTP_QUERY_SIZE_ABOVE 			= "sza";
 	private final static String HTTP_QUERY_SIZE_BELOW 			= "szb";
 	private final static String HTTP_QUERY_CONTENT_TYPE 		= "cty";
@@ -267,7 +267,15 @@ public class Utils {
 			if(filterCriteria == null) filterCriteria = new FilterCriteria();
 			
 			if (value instanceof String) {
-				filterCriteria.addLabels((String)value);
+				//filterCriteria.addLabels((String)value);			// blocked in 2017-03-09
+				if(((String) value).contains("+")) {
+					String[] labels = ((String) value).split("\\+");
+					for(String lbl : labels) {
+						filterCriteria.addLabels(lbl);
+					}
+				} else {
+					filterCriteria.addLabels((String)value);
+				} 
 			} else if (value instanceof ArrayList<?>) {
 				Iterator<String> it = ((ArrayList<String>)value).iterator();
 				while (it.hasNext()) {
@@ -278,10 +286,29 @@ public class Utils {
 
 		value = queries.get(HTTP_QUERY_RESOURCE_TYPE);
 		if (null != value) {
-			if (!(value instanceof String)) throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, HTTP_QUERY_RESOURCE_TYPE+ " cannot be list.");
+			
+			//if (!(value instanceof String)) throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, HTTP_QUERY_RESOURCE_TYPE+ " cannot be list.");
 			if(filterCriteria == null) filterCriteria = new FilterCriteria();
+			
+			if (value instanceof String) {
+				if(((String) value).contains("+")) {
+					String[] resTypes = ((String) value).split("\\+");
+					for(String resType : resTypes) {
+						filterCriteria.addResourceType(Integer.parseInt((String)resType));
+					}
+				} else {
+					filterCriteria.addResourceType(Integer.parseInt((String)value));
+				} 
+			} else if (value instanceof ArrayList<?>) {
+				Iterator<String> it = ((ArrayList<String>)value).iterator();
+				while (it.hasNext()) {
+					filterCriteria.addResourceType(Integer.parseInt(it.next()));
+				}
+			}
+			/*  blocked in 2017-03-09
 			RESOURCE_TYPE resourceType = RESOURCE_TYPE.get(Integer.parseInt((String)value));
 			filterCriteria.setResourceType(resourceType.Value());
+			*/
 		}
 		
 		value = queries.get(HTTP_QUERY_SIZE_ABOVE);
@@ -299,12 +326,35 @@ public class Utils {
 		}
 
 		value = queries.get(HTTP_QUERY_CONTENT_TYPE);
-		if (null != value) {
+	  	if (null != value) {
+	  	/*
+	  	 * 	blocked in 2017-03-09
 			if (!(value instanceof String)) throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, HTTP_QUERY_CONTENT_TYPE+ " cannot be list.");
 			if(filterCriteria == null) filterCriteria = new FilterCriteria();
-//			filterCriteria.setContentType(value);
 			filterCriteria.addContentType((String)value);
+		*/
+	  		if(filterCriteria == null) filterCriteria = new FilterCriteria();
+			
+			if (value instanceof String) {
+		
+				if(((String) value).contains("+")) {
+					String[] ctys = ((String) value).split("\\+");
+					for(String cty : ctys) {
+						filterCriteria.addContentType(cty);
+					}
+				} else {
+					filterCriteria.addContentType((String)value);
+				} 
+			} else if (value instanceof ArrayList<?>) {
+				Iterator<String> it = ((ArrayList<String>)value).iterator();
+				while (it.hasNext()) {
+					filterCriteria.addContentType(it.next());
+				}
+			}	
+			
 		}
+	
+		
 
 		value = queries.get(HTTP_QUERY_LIMIT);
 		if (null != value) {

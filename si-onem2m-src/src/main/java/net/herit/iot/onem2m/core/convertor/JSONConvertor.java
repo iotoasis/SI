@@ -20,6 +20,7 @@ import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
 
 public class JSONConvertor<T> {
 	
@@ -93,7 +94,7 @@ public class JSONConvertor<T> {
 		// Set the Unmarshaller media type to JSON or XML
 		um.setProperty(UnmarshallerProperties.MEDIA_TYPE, "application/json");
 		// Set it to true if you need to include the JSON root element in the
-//		um.setProperty(UnmarshallerProperties.JSON_INCLUDE_ROOT, isJsonIncludeRoot);
+		//um.setProperty(UnmarshallerProperties.JSON_INCLUDE_ROOT, IsJsonIncludeRoot);
 		
 
 		m = context.createMarshaller();		
@@ -107,7 +108,9 @@ public class JSONConvertor<T> {
 
 	public T unmarshal(String json) throws Exception {
 		synchronized (um) {
-			StreamSource streamsource = new StreamSource(new StringReader(json));
+			
+	/*	blocked in 2017-03-09 due to bypassing type-check with root element.	
+	 * StreamSource streamsource = new StreamSource(new StringReader(json));
 					
 			T obj = null;
 	
@@ -115,8 +118,19 @@ public class JSONConvertor<T> {
 				throw new Exception("JAXBContext newInstance failed");
 			}
 	
+			obj = (T)um.unmarshal(streamsource, t).getValue(); 
+	*/
+	// replace the same logic as unmarshal function in XMLConverter in 2017-03-09
+			InputSource ins = new InputSource(new StringReader(json));
 			
-			obj = (T)um.unmarshal(streamsource, t).getValue();
+			T obj = null;
+			
+			if(context == null) {
+				throw new Exception("JAXBContext newInstance failed");
+			}
+			
+			obj = (T)um.unmarshal(ins);
+	
 			
 			return obj;
 		}

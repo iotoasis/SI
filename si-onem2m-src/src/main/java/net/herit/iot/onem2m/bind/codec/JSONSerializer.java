@@ -12,7 +12,11 @@ import net.herit.iot.onem2m.resource.AccessControlPolicyAnnc;
 import net.herit.iot.onem2m.resource.AggregatedRequest;
 import net.herit.iot.onem2m.resource.AggregatedResponse;
 import net.herit.iot.onem2m.resource.AllJoynApp;
+import net.herit.iot.onem2m.resource.AllJoynInterface;
+import net.herit.iot.onem2m.resource.AllJoynMethod;
+import net.herit.iot.onem2m.resource.AllJoynMethodCall;
 import net.herit.iot.onem2m.resource.AllJoynProperty;
+import net.herit.iot.onem2m.resource.AllJoynSvcObject;
 import net.herit.iot.onem2m.resource.AreaNwkDeviceInfo;
 import net.herit.iot.onem2m.resource.AreaNwkInfo;
 import net.herit.iot.onem2m.resource.Battery;
@@ -47,6 +51,8 @@ import net.herit.iot.onem2m.resource.Schedule;
 import net.herit.iot.onem2m.resource.SemanticDescriptor;
 import net.herit.iot.onem2m.resource.Software;
 import net.herit.iot.onem2m.resource.Subscription;
+import net.herit.iot.onem2m.resource.SvcFwWrapper;
+import net.herit.iot.onem2m.resource.SvcObjWrapper;
 import net.herit.iot.onem2m.resource.UriContent;
 import net.herit.iot.onem2m.resource.UriListContent;
 
@@ -237,6 +243,24 @@ public class JSONSerializer extends AbsSerializer {
 			} else if (content instanceof AllJoynProperty) {
 				JSONConvertor<AllJoynProperty> ContInstXC = (JSONConvertor<AllJoynProperty>)ConvertorFactory.getJSONConvertor(AllJoynProperty.class, AllJoynProperty.SCHEMA_LOCATION);
 				json = ContInstXC.marshal((AllJoynProperty)res);			
+			} else if (content instanceof AllJoynSvcObject) {
+				JSONConvertor<AllJoynSvcObject> ContInstXC = (JSONConvertor<AllJoynSvcObject>)ConvertorFactory.getJSONConvertor(AllJoynSvcObject.class, AllJoynSvcObject.SCHEMA_LOCATION);
+				json = ContInstXC.marshal((AllJoynSvcObject)res);			
+			} else if (content instanceof AllJoynInterface) {
+				JSONConvertor<AllJoynInterface> ContInstXC = (JSONConvertor<AllJoynInterface>)ConvertorFactory.getJSONConvertor(AllJoynInterface.class, AllJoynInterface.SCHEMA_LOCATION);
+				json = ContInstXC.marshal((AllJoynInterface)res);			
+			} else if (content instanceof AllJoynMethod) {
+				JSONConvertor<AllJoynMethod> ContInstXC = (JSONConvertor<AllJoynMethod>)ConvertorFactory.getJSONConvertor(AllJoynMethod.class, AllJoynMethod.SCHEMA_LOCATION);
+				json = ContInstXC.marshal((AllJoynMethod)res);			
+			} else if (content instanceof AllJoynMethodCall) {
+				JSONConvertor<AllJoynMethodCall> ContInstXC = (JSONConvertor<AllJoynMethodCall>)ConvertorFactory.getJSONConvertor(AllJoynMethodCall.class, AllJoynMethodCall.SCHEMA_LOCATION);
+				json = ContInstXC.marshal((AllJoynMethodCall)res);			
+			} else if (content instanceof SvcObjWrapper) {
+				JSONConvertor<SvcObjWrapper> ContInstXC = (JSONConvertor<SvcObjWrapper>)ConvertorFactory.getJSONConvertor(SvcObjWrapper.class, SvcObjWrapper.SCHEMA_LOCATION);
+				json = ContInstXC.marshal((SvcObjWrapper)res);			
+			} else if (content instanceof SvcFwWrapper) {
+				JSONConvertor<SvcFwWrapper> ContInstXC = (JSONConvertor<SvcFwWrapper>)ConvertorFactory.getJSONConvertor(SvcFwWrapper.class, SvcFwWrapper.SCHEMA_LOCATION);
+				json = ContInstXC.marshal((SvcFwWrapper)res);			
 			} else if (content instanceof GenericInterworkingService) {
 				JSONConvertor<GenericInterworkingService> ContInstXC = (JSONConvertor<GenericInterworkingService>)ConvertorFactory.getJSONConvertor(GenericInterworkingService.class, GenericInterworkingService.SCHEMA_LOCATION);
 				json = ContInstXC.marshal((GenericInterworkingService)res);			

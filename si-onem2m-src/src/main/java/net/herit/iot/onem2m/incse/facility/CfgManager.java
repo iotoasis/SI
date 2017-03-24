@@ -396,6 +396,21 @@ public class CfgManager {
 		}
 	}
 	
+	public int getMaxCIByteSizePerContainer() {
+		try {
+			return xmlConfig.getInt("resourcePolicy.maxCIByteSizePerContainer");
+		} catch (Exception e) {
+			return 102400;	// default max CI Per Container
+		}
+	}
+	
+	public int getMaxCIAgePerContainer() {
+		try {
+			return xmlConfig.getInt("resourcePolicy.maxCIAgePerContainer");
+		} catch (Exception e) {
+			return 3600;	// default max CI Per Container
+		}
+	}
 	
 	private final static int DEFALUT_EXPIRATION_TIME = 3; // days.
 	public String getDefaultExpirationTime() {

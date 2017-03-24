@@ -1,5 +1,6 @@
 package net.herit.iot.onem2m.incse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -123,6 +124,7 @@ public class OperationProcessor {
 				// check if notificationUri exist in case async request
 				RESPONSE_TYPE resType = reqMessage.getResponseTypeEnum();
 				List<String> uriList = reqMessage.getNotificationUri(); 
+				
 				if ( resType == RESPONSE_TYPE.NBLOCK_REQ_ASYNC && (uriList == null || uriList.size() == 0)) {
 					throw new OneM2MException(RESPONSE_STATUS.BAD_REQUEST, "No notification uri in Non-block async request."); 
 				}
@@ -132,6 +134,14 @@ public class OperationProcessor {
 					reqMngr = (RequestManager)ManagerFactory.create(RESOURCE_TYPE.REQUEST, context);
 				ManagerInterface resMngr = ManagerFactory.create(reqMessage, context);
 				Request req = reqMngr.createResource(reqMessage);
+				
+				// add in 2017-03-09
+				/*if ( resType == RESPONSE_TYPE.NBLOCK_REQ_ASYNC && (uriList == null || uriList.size() == 0)) {
+					if(uriList == null) {
+						uriList = new ArrayList<String>();
+					}
+					uriList.add(req.); 
+				}*/
 								
 				// return accepted with request resource
 				UriContent content = new UriContent();

@@ -226,7 +226,7 @@ public class Enums {
 	}
 
 	public enum MEMBER_TYPE {
-		NONE(0, "NONE"),
+		MIXED(0, "mixed"),
 		ACCESS_CTRL_POLICY(1, "accessControlPolicy"),
 		AE(2, "AE"),
 		CONTAINER(3, "container"),
@@ -250,7 +250,17 @@ public class Enums {
 		STATS_COLLECT(21, "statsCollect"),
 		STATS_CONFIG(22, "statsConfig"),
 		SUBSCRIPTION(23, "subscription"),
-		MIXED(24, "mixed");
+		SEMANTICDESCRIPTOR(24, "semanticDescriptor"),
+		NOTIFICATIONTARGETMGMTPOLICYREF(25, "notificationTargetMgmtPolicyRef"),
+		NOTIFICATIONTARGETPOLICY(26, "notificationTargetPolicy"),
+		POLICYDELETIONRULES(27, "policyDeletionRules"),
+		FLEXCONTAINER(28, "flexContainer"),
+		TIMESERIES(29, "timeSeries"),
+		TIMESERIESINSTANCE(30, "timeSeriesInstance"),
+		ROLE(31, "role"),
+		TOKEN(32, "token"),
+		TRAFFICPATTERN(33, "trafficPattern"),
+		DYNAMICAUTHORIZATIONCONSULTATION(34, "dynamicAuthorizationConsultation");
 	
 		final int value;
 		final String name;
@@ -281,7 +291,7 @@ public class Enums {
 		
 		public static MEMBER_TYPE get(int value) {
 			MEMBER_TYPE en = map.get(value);
-			if(en == null) return NONE;
+			if(en == null) return MIXED;
 			return en;
 		}
 	}

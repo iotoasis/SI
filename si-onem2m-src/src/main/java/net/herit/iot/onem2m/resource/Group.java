@@ -76,7 +76,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "subscriptionOrSemanticDescriptor"
 })
 //@XmlRootElement(name = "group")
-@XmlRootElement(name = "grp")
+@XmlRootElement(name = "m2m:" + Naming.GROUP_SN)
 public class Group
     extends AnnounceableResource
 {
@@ -535,6 +535,7 @@ public class Group
 			if (this.memberIDs == null) {
 				throw new OneM2MException(RESPONSE_STATUS.INVALID_ARGUMENTS, "'memberIDs' is M on CREATE operation");
 			}
+			
 			
 		} else if (operation.equals(OPERATION.UPDATE)) {	// update 요청에 의해 생성된 리소스에 대한 유효성 체크 (DB저장전)
 			

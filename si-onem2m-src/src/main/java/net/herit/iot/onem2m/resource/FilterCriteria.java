@@ -106,7 +106,7 @@ public class FilterCriteria {
     @XmlList
     protected List<String> labels;
     @XmlElement(name = Naming.FCRESOURCETYPE_SN)
-    protected Integer resourceType;
+    protected List<Integer> resourceType;
     @XmlElement(name = Naming.SIZEABOVE_SN)
     @XmlSchemaType(name = "nonNegativeInteger")
     protected Integer sizeAbove;
@@ -406,7 +406,7 @@ public class FilterCriteria {
      *     {@link Integer }
      *     
      */
-    public Integer getResourceType() {
+    public List<Integer> getResourceType() {
         return resourceType;
     }
 
@@ -418,8 +418,11 @@ public class FilterCriteria {
      *     {@link Integer }
      *     
      */
-    public void setResourceType(Integer value) {
-        this.resourceType = value;
+    public void addResourceType(Integer value) {
+    	if(resourceType == null) {
+    		resourceType = new ArrayList<Integer>();
+    	}
+        this.resourceType.add(value);
     }
 
     /**

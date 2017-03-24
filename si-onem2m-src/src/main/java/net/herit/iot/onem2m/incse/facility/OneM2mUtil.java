@@ -132,7 +132,7 @@ public class OneM2mUtil {
 			}
 		}
 		
-		System.out.println("checkAcessControlRule] return false..");
+	//	System.out.println("checkAcessControlRule] return false..");
 		
 		return false;
 	}
@@ -157,7 +157,7 @@ public class OneM2mUtil {
 			return true;
 		}
 		
-		System.out.println("checckAccessControlPolicy] return false..");
+	//	System.out.println("checckAccessControlPolicy] return false..");
 		
 		return false;
 		
@@ -175,7 +175,7 @@ public class OneM2mUtil {
 		Iterator<String> idIt = acr.getAccessControlOriginators().iterator();
 		while (idIt.hasNext()) {
 			String aOri = idIt.next();
-			System.out.println("aOri=" + aOri + ", ori=" + ori);
+		//	System.out.println("aOri=" + aOri + ", ori=" + ori);
 			if (ori != null) {
 				if (aOri.equalsIgnoreCase("all") || 
 						aOri.equalsIgnoreCase("*") || 
@@ -194,7 +194,7 @@ public class OneM2mUtil {
 			}
 		}
 		
-		System.out.println("return false ..2");
+//		System.out.println("return false ..2");
 		return false;
 	}
 

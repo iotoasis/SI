@@ -76,7 +76,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "childResource",
     "containerOrGroupOrAccessControlPolicy"
 })
-//@XmlRootElement(name = "AE")
+//@XmlRootElement(name = "m2m:ae")
 @XmlRootElement(name = Naming.AE_SN)
 public class AE
     extends AnnounceableResource

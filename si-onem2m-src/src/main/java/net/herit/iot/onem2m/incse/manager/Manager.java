@@ -83,9 +83,10 @@ public class Manager {
 					//System.out.println("resourceName: " + res.getResourceName());
 					return res;
 				case RES_JSON:
+					
 					jsonCvt = manager.getJSONConveter();
-					res = (Resource)jsonCvt.unmarshal(str);
-					//System.out.println("resourceName: " + res.getResourceName());
+					res = (Resource)jsonCvt.unmarshal(str); 
+					
 					return res;
 				case XML:	// cannot sure if content is resource or not, so just return null in case exception
 					try {
@@ -98,6 +99,7 @@ public class Manager {
 						return null;
 					}
 				case JSON:	// cannot sure if content is resource or not, so just return null in case exception
+					
 					try {
 						jsonCvt = manager.getJSONConveter();
 						res = (Resource)jsonCvt.unmarshal(str);

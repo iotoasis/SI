@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Security">
+	
+	<typeAlias alias="Account" type="net.herit.security.dto.Account" />
+	<typeAlias alias="Group" type="net.herit.security.dto.Group" />
+	<typeAlias alias="GroupAuthorization" type="net.herit.security.dto.GroupAuthorization" />
+	<typeAlias alias="URIResource" type="net.herit.security.dto.URIResource" />
+
+	<resultMap id="authenticationInfo" class="Account">
+		<result property="accountId" column="ID" />
+		<result property="groupId" column="MNG_ACCOUNT_GROUP_ID" />
+		<result property="name" column="NAME" />
+		<result property="loginId" column="LOGIN_ID" />
+		<result property="loginPassword" column="LOGIN_PASSWORD" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="lastAccessTime" column="LAST_ACCESS_TIME" />
+		<result property="email" column="EMAIL" />
+		<result property="phone" column="PHONE" />
+		<result property="mobile" column="MOBILE" />
+		<result property="department" column="DEPARTMENT" />
+		<result property="disabled" column="DISABLED" />
+		<result property="failCount" column="FAIL_COUNT" />
+	</resultMap>
+	
+	<resultMap id="groupAuthorizationList" class="GroupAuthorization">
+		<result property="groupId" column="MNG_ACCOUNT_GROUP_ID" />
+		<result property="resource" column="RESOURCE" />
+		<result property="authorizationDBCreate" column="RIGHT_C" />
+		<result property="authorizationDBRead" column="RIGHT_R" />
+		<result property="authorizationDBUpdate" column="RIGHT_U" />
+		<result property="authorizationDBDelete" column="RIGHT_D" />
+	</resultMap>
+	
+	<resultMap id="uriResourceList" class="URIResource">
+		<result property="uriResourceId" column="ID" />
+		<result property="uri" column="URI" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="isExcludeAuthentication" column="AUTH_CHECK" />
+	</resultMap>
+	
+	<select id="SecurityDAO.getAccount" parameterClass="Account" resultMap="authenticationInfo">
+		<![CDATA[
+			SELECT 
+				ID, 
+				MNG_ACCOUNT_GROUP_ID,
+				NAME,
+				LOGIN_ID,
+				LOGIN_PWD AS LOGIN_PASSWORD,
+				TO_CHAR(CREATE_TIME, 'YYYYMMDDHHMMSS') AS CREATE_TIME,
+				TO_CHAR(UPDATE_TIME, 'YYYYMMDDHHMMSS') AS UPDATE_TIME,
+				TO_CHAR(LAST_ACCESS_TIME, 'YYYYMMDDHHMMSS') AS LAST_ACCESS_TIME,
+				EMAIL,
+				PHONE,
+				MOBILE,
+				DEPARTMENT,
+				DISABLED,
+				FAIL_COUNT
+			FROM
+				MNG_ACCOUNT 
+			WHERE
+				LOGIN_ID = #loginId# 
+		]]>
+	</select>
+	
+	<select id="SecurityDAO.getGroupAuthorizationList" parameterClass="java.lang.Integer" resultMap="groupAuthorizationList">
+		<![CDATA[
+			SELECT 
+				A.MNG_ACCOUNT_GROUP_ID, 
+				(SELECT T.URL_PATH FROM MNG_MENU_MASTER T WHERE T.MENU_ID = A.MENU_ID) AS RESOURCE,
+				RIGHT_C, 
+				RIGHT_R, 
+				RIGHT_U, 
+				RIGHT_D
+			FROM
+				MNG_GROUP_RIGHT  A
+			WHERE
+				A.MNG_ACCOUNT_GROUP_ID = #groupId# 	
+		]]>
+	</select>
+	
+	<select id="SecurityDAO.getURIResourceList" resultMap="uriResourceList">
+		<![CDATA[
+			SELECT 
+				ID, 
+				URI,
+				DESCRIPTION,  
+				AUTH_CHECK
+			FROM
+				MNG_URI_RESOURCE 
+		]]>
+	</select>
+	
+	<select id="SecurityDAO.getIpLimitCount" resultClass="int">
+		SELECT 
+			 COUNT(*)	
+		FROM 
+			MNG_IP_LIMIT
+		WHERE 1=1
+			AND LOGIN_ID = #loginId#
+    </select>
+    
+	<select id="SecurityDAO.isAvailableIpLimitCheck" resultClass="int">
+		SELECT 
+			 COUNT(*)	
+		FROM 
+			MNG_IP_LIMIT
+		WHERE 1=1			
+			AND LOGIN_ID = #loginId#
+			AND IP = #ip#
+    </select>
+    
+	<update id="SecurityDAO.updateLoginFailCount">
+		UPDATE MNG_ACCOUNT SET
+			 FAIL_COUNT = FAIL_COUNT + 1
+		WHERE 1=1
+			AND LOGIN_ID = #loginId#
+	</update>	
+	<update id="SecurityDAO.updateLoginFailCountReset">
+		UPDATE MNG_ACCOUNT SET
+			 FAIL_COUNT = 0
+		WHERE 1=1
+			AND LOGIN_ID = #loginId#
+	</update>	 	    
+    	
+</sqlMap>

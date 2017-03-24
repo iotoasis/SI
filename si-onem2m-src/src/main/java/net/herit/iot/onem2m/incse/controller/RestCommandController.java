@@ -137,6 +137,64 @@ public class RestCommandController {
 		}
 	}
 	
+	public OneM2mResponse processIpeLwm2m(RestCommand command) {	
+		
+		try {
+
+			OneM2mRequest reqMessage = new OneM2mRequest();
+			
+			String commandId = command.getCommandId();
+			if (commandId == null || commandId.length() == 0) {
+				commandId = OneM2mUtil.createRequestId();
+				command.setCommandId(commandId);
+			}
+			
+			long hourLater = System.currentTimeMillis() + (1 * 60 * 60 * 1000);		// 1 hour settting
+			String expirationTime = new SimpleDateFormat(Naming.DATE_FORMAT).format(new java.util.Date(hourLater));
+			
+			ContentInstance ci = new ContentInstance();
+			ci.setContentInfo(command.getContentInfo());		// updated at 2017-02-08
+			//ci.setExpirationTime(CfgManager.getInstance().getDefaultExpirationTime());  // added at 2016-12-23
+			ci.setExpirationTime(expirationTime);			// added at 2016-12-28, set by 1-hour-later
+			ci.setContent(command.getContent());			// updated at 2017-02-08
+			
+			AbsSerializer serializer = AbsSerializer.getSerializer(CONTENT_TYPE.JSON);			
+			byte[] content = serializer.serialize(ci).getBytes();
+			
+			reqMessage.setTo(command.getUri()+"/"+command.getCommand()+"/write");
+			reqMessage.setFrom("C-AE-Internal");
+			reqMessage.setContent(content);
+			reqMessage.setOperation(OPERATION.CREATE);		
+			reqMessage.setRequestIdentifier(commandId);
+			reqMessage.setResourceType(RESOURCE_TYPE.CONTENT_INST);
+			reqMessage.setContentType(CONTENT_TYPE.RES_JSON);
+			reqMessage.setResultContent(RESULT_CONT.ATTRIBUTE);
+			reqMessage.setResponseType(RESPONSE_TYPE.BLOCK_REQ);
+					
+			try {
+				putCommandToMap(commandId, command);
+				
+				OneM2mResponse response = new ResourceManager(this.context).processEx(reqMessage, false);
+				log.debug("RestCommand Control processsed:"+response.toString());
+				
+				return response;
+			} catch (OneM2MException ex) {
+				log.debug("Exception during process internal request triggered by RestCommand Control :"+reqMessage.toString());
+				log.debug("Exception:"+ex.toString());
+				OneM2mResponse response = new OneM2mResponse();
+				response.setResponseStatusCodeEnum(ex.getResponseStatusCode());
+				response.setRequest(reqMessage);
+				log.debug("Handled exception", ex);
+				return response;
+			}
+			
+		} catch (Exception e) {
+			log.debug("Handled exception", e);
+			return null;
+			
+		}
+	}
+	
 	public OneM2mResponse processCommand(RestCommand command) {	
 				
 		try {

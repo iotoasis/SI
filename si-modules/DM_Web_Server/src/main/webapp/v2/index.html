@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INSPINIA | Main view</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element"> <span>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
+                             </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a href="login.html">Logout</a></li>
+                            </ul>
+                    </div>
+                    <div class="logo-element">
+                        IN+
+                    </div>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">모니터링</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="graph_flot.html">그룹 모니터링</a></li>
+                        <li><a href="graph_morris.html">디바이스 모니터링</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-tachometer"></i> <span class="nav-label">디바이스 관리</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="graph_flot.html">목록 조회</a></li>
+                        <li><a href="graph_morris.html">디바이스 상세</a></li>
+                        <li><a href="graph_rickshaw.html">디바이스 등록</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-download"></i> <span class="nav-label">펌웨어 관리</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="graph_flot.html">펌웨어 목록</a></li>
+                        <li><a href="graph_morris.html">펌웨어 상세정보</a></li>
+                        <li><a href="graph_rickshaw.html">펌웨어 업그레이드</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-history"></i> <span class="nav-label">이력</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="graph_flot.html">장애 이력</a></li>
+                        <li><a href="graph_morris.html">제어 이력</a></li>
+                        <li><a href="graph_rickshaw.html">펌웨어 업그레이드 이력</a></li>
+                        <li><a href="graph_rickshaw.html">상태 이력</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">통계</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="graph_flot.html">등록 통계</a></li>
+                        <li><a href="graph_morris.html">사용 통계</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-info-circle"></i> <span class="nav-label">정보 관리</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="graph_flot.html">디바이스 모델 정보</a></li>
+                        <li><a href="graph_morris.html">사용자 정보</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+					<li>
+						<span class="m-r-sm text-muted welcome-message">Welcome to HIT DM Administrator!!!</span>
+					</li>
+					<li>
+						<h3>Welcome to HIT DM Administrator!!!</h2>
+					</li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-sign-out"></i> Log out
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+		
+			<div class="row">
+				<div class="col-md-2">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>Views</h5>
+							<span class="label label-success pull-right">Monthly</span>
+						</div>
+						<div class="ibox-content">
+							<h1 class="no-margins">386,200</h1>
+							<div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
+							<small>Total views</small>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<span class="label label-info pull-right">Annual</span>
+							<h5>Orders</h5>
+						</div>
+						<div class="ibox-content">
+							<h1 class="no-margins">80,800</h1>
+							<div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+							<small>New orders</small>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<span class="label label-primary pull-right">Today</span>
+							<h5>Vistits</h5>
+						</div>
+						<div class="ibox-content">
+
+							<div class="row">
+								<div class="col-md-6">
+									<h1 class="no-margins">$ 406,420</h1>
+									<div class="font-bold text-navy">44% <i class="fa fa-level-up"></i> <small>Rapid pace</small></div>
+								</div>
+								<div class="col-md-6">
+									<h1 class="no-margins">206,120</h1>
+									<div class="font-bold text-navy">22% <i class="fa fa-level-up"></i> <small>Slow pace</small></div>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>Monthly income</h5>
+							<div class="ibox-tools">
+								<span class="label label-primary">Updated 12.2015</span>
+							</div>
+						</div>
+						<div class="ibox-content no-padding">
+							<div class="flot-chart m-t-lg" style="height: 55px;">
+								<div class="flot-chart-content" id="flot-chart1"></div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+            <div class="row">
+				<div class="col-lg-6">
+					<div>
+						<table class="table">
+							<tbody>
+							<tr>
+								<td>
+									<button type="button" class="btn btn-danger m-r-sm">12</button>
+									Total messages
+								</td>
+								<td>
+									<button type="button" class="btn btn-primary m-r-sm">28</button>
+									Posts
+								</td>
+								<td>
+									<button type="button" class="btn btn-info m-r-sm">15</button>
+								   Comments
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<button type="button" class="btn btn-info m-r-sm">20</button>
+									News
+								</td>
+								<td>
+									<button type="button" class="btn btn-success m-r-sm">40</button>
+									Likes
+								</td>
+								<td>
+									<button type="button" class="btn btn-danger m-r-sm">30</button>
+									Notifications
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<button type="button" class="btn btn-warning m-r-sm">20</button>
+									Albums
+								</td>
+								<td>
+									<button type="button" class="btn btn-default m-r-sm">40</button>
+									Groups
+								</td>
+								<td>
+									<button type="button" class="btn btn-warning m-r-sm">30</button>
+									Permissions
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+                <div class="col-lg-2">
+                    <div class="widget red-bg p-lg text-center">
+                        <div class="m-b-md">
+                            <i class="fa fa-bell fa-4x"></i>
+                            <h1 class="m-xs">47</h1>
+                            <h3 class="font-bold no-margins">
+                                Notification
+                            </h3>
+                            <small>We detect the error.</small>
+                        </div>
+                    </div>
+				</div>
+                <div class="col-lg-2">
+                    <div class="widget yellow-bg p-lg text-center">
+                        <div class="m-b-md">
+                            <i class="fa fa-warning fa-4x"></i>
+                            <h1 class="m-xs">Alarm</h1>
+                            <h3 class="font-bold no-margins">
+                                Do
+                            </h3>
+                            <small>something</small>
+                        </div>
+                    </div>
+				</div>
+                <div class="col-lg-2">
+					<div class="widget yellow-bg p-lg text-center">
+						<div class="m-b-md">
+							<i class="fa fa-thumbs-up fa-4x"></i>
+							<h1 class="m-xs">520</h1>
+							<h3 class="font-bold no-margins">
+								Likes
+							</h3>
+							<small>amount</small>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+
+
+</body>
+
+</html>

@@ -70,7 +70,7 @@ import javax.xml.bind.annotation.XmlType;
     "subscriptionOrSemanticDescriptorOrSemanticDescriptorAnnc"
 })
 //@XmlRootElement(name = "groupAnnc")
-@XmlRootElement(name = Naming.GROUPANNC_SN)
+@XmlRootElement(name = "m2m:" + Naming.GROUPANNC_SN)
 public class GroupAnnc
     extends AnnouncedResource
 {

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Monitor">
+	<select id="layout.component.list" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,A.DEVICE_MODEL_ID AS deviceModelId
+			,A.ROW_NUM AS rowNum
+			,A.COLUMN_NUM AS columnNum
+			,A.COLUMN_SIZE AS columnSize
+			,A.JSFILES AS jsFiles
+			,A.COMPONENT_NAME AS componentName
+			,A.COMPONENT_SHORT_NAME AS componentShortName
+			,A.RESOURCE_URIS AS resourceUris
+			,A.TITLE AS title
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime
+			,DATE_FORMAT(A.UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS updateTime
+			,PARAMETERS AS parameters
+		FROM 
+			HDP_MONITOR_LAYOUT A 
+		WHERE 1=1
+			AND USE_YN = 'Y'
+		<isNotEmpty property="deviceModelId">
+			AND A.DEVICE_MODEL_ID = #deviceModelId#
+		</isNotEmpty>
+		<isEmpty property="deviceModelId">
+			AND ISNULL(A.DEVICE_MODEL_ID)
+		</isEmpty>
+		ORDER BY A.ROW_NUM ASC, A.COLUMN_NUM ASC
+	</select>
+	
+	
+</sqlMap>

@@ -110,7 +110,7 @@ public class ResourceManager {
 		OneM2mResponse resMessage = null;
 		
 		try {
-
+			
 			resMessage = processEx(reqMessage, true);
 			
 			if (resMessage != null)	{

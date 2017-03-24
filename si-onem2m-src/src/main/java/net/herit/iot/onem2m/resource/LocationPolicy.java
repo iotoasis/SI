@@ -72,7 +72,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "subscription"
 })
 //@XmlRootElement(name = "locationPolicy")
-@XmlRootElement(name = "lcp")
+@XmlRootElement(name = "m2m:" + Naming.LOCATIONPOLICY_SN)
 public class LocationPolicy
     extends AnnounceableResource
 {

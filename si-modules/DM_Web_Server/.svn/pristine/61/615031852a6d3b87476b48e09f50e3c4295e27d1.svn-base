@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security  
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd 
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<!-- 추후 구현(2014.03.18 중지, 사유: 프로젝트 일정 및 도메인 설계 상 이슈로 인하여 추후 설계로 회의 의견 도출됨.) -->
+	<!-- 
+    <bean id="userDetailsServiceWrapper" class="org.springframework.security.userdetails.hierarchicalroles.UserDetailsServiceWrapper" >
+        <property name="roleHierarchy" ref="roleHierarchy"/>
+        <property name="userDetailsService" ref="jdbcUserService"/>
+    </bean>
+    
+    <bean id="roleHierarchy" 
+            class="org.springframework.security.userdetails.hierarchicalroles.RoleHierarchyImpl" >
+        <property name="hierarchy" ref="hierarchyStrings"/>
+    </bean>
+	
+    <bean id="accessDecisionManager"
+        class="org.springframework.security.vote.AffirmativeBased">
+        <property name="allowIfAllAbstainDecisions" value="false" />
+        <property name="decisionVoters">
+            <list>
+                <bean class="org.springframework.security.vote.RoleVoter">
+                    <property name="rolePrefix" value="" />
+                </bean>
+                <bean class="org.springframework.security.vote.AuthenticatedVoter" />
+            </list>
+        </property>
+    </bean>
+	
+	<security:http auto-config="true">
+		<security:intercept-url pattern="/*" access="ROLE_USER"/>
+	</security:http>
+	-->
+</beans>

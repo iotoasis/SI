@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Account">
+	
+    <typeAlias alias="CodeVO" type="net.herit.common.model.CodeVO" />
+    <typeAlias alias="AccountVO" type="net.herit.business.accountmng.service.AccountVO" />
+
+
+    <resultMap id="CodeVO" class="CodeVO">
+		<result property="code" column="CODE" />
+		<result property="name" column="NAME" />
+	</resultMap>	
+	
+	<select id="AccountDAO.getMngAccountGroupIdList" resultMap="CodeVO">
+		SELECT 
+			ID AS CODE, 
+			GROUP_NAME AS NAME
+		FROM 
+			MNG_ACCOUNT_GROUP
+		WHERE 1=1
+		ORDER BY CODE ASC
+    </select>	
+
+
+	<resultMap id="resultInfo" class="AccountVO">
+		<result property="id" column="ID" />
+		<result property="mngAccountGroupId" column="MNG_ACCOUNT_GROUP_ID" />
+		<result property="mngAccountGroupNm" column="MNG_ACCOUNT_GROUP_NM" />
+		<result property="name" column="NAME" />
+		<result property="loginId" column="LOGIN_ID" />
+		<result property="loginPwd" column="LOGIN_PWD" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="lastAccessTime" column="LAST_ACCESS_TIME" />
+		<result property="email" column="EMAIL" />
+		<result property="phone" column="PHONE" />
+		<result property="mobile" column="MOBILE" />
+		<result property="department" column="DEPARTMENT" />
+		<result property="departmentNm" column="DEPARTMENT_NM" />
+		<result property="disabled" column="DISABLED" />
+	</resultMap>
+
+	<select id="AccountDAO.accountPagingListSize" resultClass="int">
+		SELECT 
+			 COUNT(*)	
+		FROM 
+			MNG_ACCOUNT
+		WHERE 1=1
+		<isNotEmpty property="mngAccountGroupId">
+			AND MNG_ACCOUNT_GROUP_ID = #mngAccountGroupId#
+		</isNotEmpty>
+		<isNotEmpty property="searchVal">
+			AND $searchKey$ LIKE #searchVal# || '%'
+		</isNotEmpty>
+    </select>
+    
+	<select id="AccountDAO.accountPagingList" resultMap="resultInfo">
+		SELECT
+			 A.ID
+			,A.MNG_ACCOUNT_GROUP_ID
+			,(SELECT T.GROUP_NAME FROM MNG_ACCOUNT_GROUP T WHERE T.ID = A.MNG_ACCOUNT_GROUP_ID) AS MNG_ACCOUNT_GROUP_NM
+			,A.NAME
+			,A.LOGIN_ID
+			,'' AS LOGIN_PWD
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d') AS CREATE_TIME
+			,DATE_FORMAT(A.UPDATE_TIME, '%Y-%m-%d') AS UPDATE_TIME
+			,A.LAST_ACCESS_TIME
+			,A.EMAIL
+			,A.PHONE
+			,A.MOBILE
+			,A.DEPARTMENT
+			,A.DEPARTMENT AS DEPARTMENT_NM
+			,A.DISABLED
+		FROM 
+			MNG_ACCOUNT A 
+		WHERE 1=1
+		<isNotEmpty property="mngAccountGroupId">
+			AND MNG_ACCOUNT_GROUP_ID = #mngAccountGroupId#
+		</isNotEmpty>
+		<isNotEmpty property="searchVal">
+			AND $searchKey$ LIKE #searchVal# || '%'
+		</isNotEmpty>
+		ORDER BY A.LOGIN_ID
+		LIMIT #pageStartIndex#, #pageSize#
+	</select>
+	
+
+	<select id="AccountDAO.accountInfo" resultMap="resultInfo">
+		SELECT
+			 A.ID
+			,A.MNG_ACCOUNT_GROUP_ID
+			,(SELECT T.GROUP_NAME FROM MNG_ACCOUNT_GROUP T WHERE T.ID = A.MNG_ACCOUNT_GROUP_ID) AS MNG_ACCOUNT_GROUP_NM
+			,A.NAME
+			,A.LOGIN_ID
+			,'' AS LOGIN_PWD
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d') AS CREATE_TIME
+			,DATE_FORMAT(A.UPDATE_TIME, '%Y-%m-%d') AS UPDATE_TIME
+			,A.LAST_ACCESS_TIME
+			,A.EMAIL
+			,A.PHONE
+			,A.MOBILE
+			,A.DEPARTMENT
+			,A.DEPARTMENT AS DEPARTMENT_NM
+			,A.DISABLED
+		FROM 
+			MNG_ACCOUNT A 
+		WHERE 1=1
+			AND A.LOGIN_ID = #loginId#
+	</select>
+	
+	<insert id="AccountDAO.insertAccount">
+		INSERT INTO MNG_ACCOUNT 
+		(ID, MNG_ACCOUNT_GROUP_ID, NAME, LOGIN_ID, LOGIN_PWD, AGO_PWD, CREATE_TIME, UPDATE_TIME, EMAIL, PHONE, MOBILE, DEPARTMENT, DISABLED)		
+			VALUES 
+		(MNG_ACCOUNT_SEQ.nextval, #mngAccountGroupId#, #name#, #loginId#, #loginPwd#, #loginPwd#, sysdate, sysdate, #email#, #phone#, #mobile#, #department#, #disabled#);
+	</insert>
+	
+	<update id="AccountDAO.updateAccount">
+		UPDATE MNG_ACCOUNT SET
+			 MNG_ACCOUNT_GROUP_ID = #mngAccountGroupId#
+			,LOGIN_PWD = #loginPwd#
+			,AGO_PWD = #loginPwd#
+			,NAME = #name#
+			,DEPARTMENT = #department#
+			,EMAIL = #email#
+			,PHONE = #phone#
+			,MOBILE = #mobile#
+			,DISABLED = #disabled#
+			,FAIL_COUNT = 0
+		WHERE 1=1
+			AND LOGIN_ID = #loginId#
+	</update>	
+	
+	<delete id="AccountDAO.deleteAccount">
+		DELETE FROM MNG_ACCOUNT WHERE 1=1 AND LOGIN_ID = #loginId#
+	</delete>
+	
+
+	
+    <select id="AccountDAO.isExistId" resultClass="java.lang.Integer">
+    	SELECT 
+    		COUNT(*)
+    	FROM
+    		MNG_ACCOUNT A
+    	WHERE
+			AND LOGIN_ID = #loginId#
+    </select>
+	
+	
+	
+	
+	
+
+
+	<resultMap id="ipLimitResultInfo" class="AccountVO">
+		<result property="id" column="ID" />
+		<result property="ip" column="IP" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+	</resultMap>
+
+    
+	<select id="AccountDAO.ipLimitList" resultMap="ipLimitResultInfo">
+		SELECT
+			 A.ID
+			,A.IP
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d') AS CREATE_TIME
+			,DATE_FORMAT(A.UPDATE_TIME, '%Y-%m-%d') AS UPDATE_TIME
+		FROM 
+			MNG_IP_LIMIT A 
+		WHERE 1=1
+			AND A.LOGIN_ID = #loginId#
+		ORDER BY A.IP
+	</select>
+	
+
+	<select id="AccountDAO.ipLimitInfo" resultMap="ipLimitResultInfo">
+		SELECT
+			 A.ID
+			,A.IP
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d') AS CREATE_TIME
+			,DATE_FORMAT(A.UPDATE_TIME, '%Y-%m-%d') AS UPDATE_TIME
+		FROM 
+			MNG_IP_LIMIT A 
+		WHERE 1=1
+			AND A.ID = #id#
+			AND A.LOGIN_ID = #loginId#
+	</select>
+	
+	<insert id="AccountDAO.insertIpLimit">
+		INSERT INTO MNG_IP_LIMIT
+		(ID, IP, LOGIN_ID, CREATE_TIME, UPDATE_TIME) 
+			VALUES 
+		(MNG_IP_LIMIT_SEQ.nextval, #ip#, #loginId#, sysdate, sysdate)
+	</insert>
+	
+	<update id="AccountDAO.updateIpLimit">
+		UPDATE MNG_IP_LIMIT SET
+			 IP = #ip#
+			,UPDATE_TIME = sysdate
+		WHERE 1=1
+			AND ID = #id#
+	</update>	
+		
+	<delete id="AccountDAO.deleteIpLimit">
+		DELETE FROM MNG_IP_LIMIT WHERE 1=1 AND ID = #id#
+	</delete>
+	
+	<delete id="AccountDAO.deleteAllIpLimit">
+		DELETE FROM MNG_IP_LIMIT WHERE 1=1 AND LOGIN_ID = #loginId#
+	</delete>	
+	
+	<select id="AccountDAO.getIpLimitCount" resultClass="int">
+		SELECT 
+			 COUNT(*)	
+		FROM 
+			MNG_IP_LIMIT
+		WHERE 1=1
+			AND LOGIN_ID = #loginId#
+    </select>	
+	
+		
+	<select id="AccountDAO.accountAgoPwdInfo" resultClass="java.lang.String">
+		SELECT
+			A.AGO_PWD
+		FROM 
+			MNG_ACCOUNT A 
+		WHERE 1=1
+			AND A.LOGIN_ID = #loginId#
+	</select>
+	
+	
+	<select id="account.info.list" resultClass="java.util.HashMap">
+		SELECT 
+			A.ID AS id,
+			A.NAME AS name,
+			A.LOGIN_ID AS loginId,
+			DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %h:%i:%s') AS createTime,
+			DATE_FORMAT(A.UPDATE_TIME, '%Y-%m-%d %h:%i:%s') AS updateTime,
+			DATE_FORMAT(A.LAST_ACCESS_TIME, '%Y-%m-%d %h:%i:%s') AS lastAccessTime,
+			A.EMAIL AS email,
+			A.MOBILE AS mobile,
+			G.ID AS accountGroupId,
+			G.GROUP_NAME AS groupName
+		FROM MNG_ACCOUNT A INNER JOIN MNG_ACCOUNT_GROUP G ON A.MNG_ACCOUNT_GROUP_ID = G.ID
+		WHERE A.DISABLED = 1
+		ORDER BY A.NAME
+	</select>
+	
+	<insert id="account.info.insert">
+		INSERT INTO MNG_ACCOUNT 
+		(MNG_ACCOUNT_GROUP_ID, NAME, LOGIN_ID, LOGIN_PWD, AGO_PWD, CREATE_TIME, UPDATE_TIME, EMAIL, DISABLED)		
+			VALUES 
+		(#mngAccountGroupId#, #name#, #loginId#, #loginPwd#, #loginPwd#, now(), now(), #email#, 1);
+	</insert>
+	
+	<update id="account.info.set">
+		UPDATE MNG_ACCOUNT 
+		SET
+			 MNG_ACCOUNT_GROUP_ID = #mngAccountGroupId#
+			,LOGIN_ID = #loginId#
+		<isNotEmpty property="loginPwd">
+			,LOGIN_PWD = #loginPwd#
+			,AGO_PWD = LOGIN_PWD
+		</isNotEmpty>
+			,NAME = #name#
+			,EMAIL = #email#
+		WHERE 1=1
+			AND ID = #id#
+	</update>
+	
+	<delete id="account.info.delete">
+		DELETE FROM MNG_ACCOUNT WHERE 1=1 AND ID = #id#
+	</delete>
+	
+			
+</sqlMap>

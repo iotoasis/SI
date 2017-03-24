@@ -72,7 +72,8 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 		NONE(0, "NONE"), 
 		NBLOCK_REQ_SYNC(1, "NONBLOCKING_REQUEST_SYNC"),
 		NBLOCK_REQ_ASYNC(2, "NONEBLOCKING_REQUEST_ASYNC"), 
-		BLOCK_REQ(3, "BLOCKING_REQUEST");
+		BLOCK_REQ(3, "BLOCKING_REQUEST"),
+		FLEX_BLOCK(4, "FLEX_BLOCKING");
 		
 		final int value;
 		final String name;
@@ -617,7 +618,13 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 		} else if (this.to == null) {
 			throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INSUFFICIENT_ARGUMENT, "No to parameter specified");
 		} else if (this.from == null) {
-			throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INSUFFICIENT_ARGUMENT, "No from parameter specified");
+			// In case of AE, from should be set to CSE defined rule, added in 2017-03-09
+			if(RESOURCE_TYPE.AE.Value() == this.resourceType) {
+				this.from = "S";
+			} else {
+				throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INSUFFICIENT_ARGUMENT, "No from parameter specified");
+			}
+			
 		} else if (this.requestIdentifier == null) {
 			throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INSUFFICIENT_ARGUMENT, "No requestId parameter specified");
 		} 

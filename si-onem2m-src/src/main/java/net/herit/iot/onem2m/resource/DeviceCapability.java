@@ -62,7 +62,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "subscription"
 })
 //@XmlRootElement(name = "deviceCapability")
-@XmlRootElement(name = Naming.DEVICECAPABILITY_SN)
+@XmlRootElement(name = "m2m:" +  Naming.DEVICECAPABILITY_SN)
 public class DeviceCapability
     extends MgmtResource
 {

@@ -254,6 +254,7 @@ public class Naming {
 	public static final String DEVICEINFO_SN = "dvi";
 	public static final String DEVICEINFOANNC_SN = "dviA";
 	public static final String DEVICECAPABILITY_SN = "dvc";
+	public static final String DEVICECAPABILITYANNC_SN = "dvcA";
 	public static final String REBOOT_SN = "rbo";
 	public static final String REBOOTANNC_SN = "rboA";
 	public static final String EVENTLOG_SN = "evl";
@@ -301,7 +302,7 @@ public class Naming {
 	public static final String SUBSCRIPTIONREFERENCE_SN = "sur";
 	public static final String CREATOR_SN = "cr";
 	public static final String NOTIFICATIONFORWARDINGURI_SN = "nfu";
-	public static final String OPERATION_SN = "opr";
+	public static final String OPERATION_SN = "op";
 	public static final String ORIGINATOR_SN = "org";
 	public static final String ACCESSID_SN = "aci";
 	public static final String MSISDN_SN = "msd";
@@ -316,6 +317,7 @@ public class Naming {
 	//public static final String ACCESSCONTROLOPERATIONS_SN = "accessControlOperations";	
 	public static final String ACCESSCONTROLCONTEXTS_SN = "acco";	// v1.2.1
 	//public static final String ACCESSCONTROLCONTEXTS_SN = "accessControlContexts";	
+	public static final String ACCESSCONTROLAUTHENTICATION_FLAG_SN = "acaf";	// v2.7.1
 	public static final String ACCESSCONTROWINDOW_SN = "actw";	// v1.2.1
 	//public static final String ACCESSCONTROWINDOW_SN = "accessControWindow";	
 	public static final String ACCESSCONTROLIPADDRESSES_SN = "acip";	// v.2.1
@@ -437,12 +439,17 @@ public class Naming {
 	public static final String ALLJOYNMETHOD_SN = "ajmd";
 	public static final String ALLJOYNMETHODANNC_SN = "ajmda";
 	public static final String ALLJOYNMETHODCALL_SN = "ajmc";
+	public static final String ALLJOYNMETHODCALLANNC_SN = "ajmca";
 	public static final String ALLJOYNPROPERTY_SN = "ajpr";
 	public static final String ALLJOYNPROPERTYANNC_SN = "ajpra";
 	public static final String GENERICINTERWORKINGSERVICE_SN = "gis";
 	public static final String GENERICINTERWORKINGSERVICEANNC_SN = "gisa";
 	public static final String GENERICINTERWORKINGOPERATIONINSTANCE_SN = "gio";
 	public static final String GENERICINTERWORKINGOPERATIONINSTANCEANNC_SN = "gioa";
+	public static final String SVCOBJWRAPPER_SN = "ajsw";
+	public static final String SVCOBJWRAPPERANNC_SN = "ajswa";
+	public static final String SVCFWWRAPPER_SN = "ajfw";
+	public static final String SVCFWWRAPPERANNC_SN = "ajfwa";
 	public static final String TIMESERIESINSTANCE_SN = "tsi";
 	public static final String TIMESERIESINSTANCEANNC_SN = "tsia";
 	public static final String TRAFFICPATTERN_SN = "trpt";

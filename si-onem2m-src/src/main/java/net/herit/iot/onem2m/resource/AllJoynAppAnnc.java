@@ -15,7 +15,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
+import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
+import net.herit.iot.onem2m.core.util.OneM2MException;
 
 
 /**
@@ -53,6 +58,8 @@ import javax.xml.bind.annotation.XmlType;
     "childResource",
     "semanticDescriptorOrSemanticDescriptorAnncOrSubscription"
 })
+
+@XmlRootElement(name = Naming.ALLJOYNAPPANNC_SN)
 public class AllJoynAppAnnc
     extends AnnouncedFlexContainerResource
 {

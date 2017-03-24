@@ -60,6 +60,8 @@ public class AccessControlPolicyDAO extends ResourceDAO implements DAOInterface 
 	@Override
 	public void create(Resource resource) throws OneM2MException {
 		
+		System.out.println("################## >>>>" + ((AccessControlPolicy)resource).getPrivileges().getAccessControlRule().get(0).getAccessControlOriginators());
+		
 		super.create(resource);
 		
 //		try {

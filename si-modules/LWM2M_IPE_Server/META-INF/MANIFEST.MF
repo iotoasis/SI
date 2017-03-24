@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Built-By: 문선호
+Build-Jdk: 1.7.0_79
+Created-By: Apache Maven 3.3.3
+Main-Class: org.eclipse.leshan.client.demo.LeshanClientDemo
+Archiver-Version: Plexus Archiver
+

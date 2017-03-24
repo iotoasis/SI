@@ -57,7 +57,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "subscription"
 })
 //@XmlRootElement(name = "accessControlPolicyAnnc")
-@XmlRootElement(name = Naming.ACCESSCONTROLPOLICYANNC_SN) //"acpA")
+@XmlRootElement(name = "m2m:" + Naming.ACCESSCONTROLPOLICYANNC_SN) //"acpA")
 public class AccessControlPolicyAnnc
     extends AnnouncedSubordinateResource
 {

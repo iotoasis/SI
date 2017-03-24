@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="History">
+	
+	<select id="history.error.count" resultClass="int">
+		SELECT 
+			 COUNT(*)	
+		FROM 
+			HDH_ERROR_HIST A
+		WHERE 1=1
+		<isNotEmpty property="deviceId">
+			AND A.DEVICE_ID = #deviceId#
+		</isNotEmpty>
+    </select>
+    	
+	<select id="history.error.listPage" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,A.DEVICE_ID AS deviceId
+			,A.MODEL_NAME AS modelName
+			,A.SN AS sn
+			,A.RESOURCE_URI AS resourceUri
+			,A.ERROR_DATA AS errorData
+			,A.ERROR_CODE AS errorCode
+			,A.ERROR_GRADE AS errorGrade
+			,A.CREATE_YN AS createYn
+			,DATE_FORMAT(A.ERROR_TIME, '%Y-%m-%d %H:%i:%s') AS errorTime
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime
+		FROM 
+			HDH_ERROR_HIST A 
+		WHERE 1=1
+		<isNotEmpty property="deviceId">
+			AND A.DEVICE_ID = #deviceId#
+		</isNotEmpty>
+		<isNotEmpty property="orderBy">
+			ORDER BY A.#orderBy#
+		</isNotEmpty>
+		<isEmpty property="orderBy">
+			ORDER BY A.ERROR_TIME DESC, A.ID DESC
+		</isEmpty>
+		LIMIT #pageStartIndex#, #pageSize#
+		
+	</select>
+	
+    	
+	<select id="history.error.list" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,A.DEVICE_ID AS deviceId
+			,A.MODEL_NAME AS modelName
+			,A.SN AS sn
+			,A.RESOURCE_URI AS resourceUri
+			,A.ERROR_DATA AS errorData
+			,A.ERROR_CODE AS errorCode
+			,A.ERROR_GRADE AS errorGrade
+			,A.CREATE_YN AS createYn
+			,DATE_FORMAT(A.ERROR_TIME, '%Y-%m-%d %H:%i:%s') AS errorTime
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime
+		FROM 
+			HDH_ERROR_HIST A 
+		WHERE 1=1
+			AND A.ID > #id#
+		<isNotEmpty property="deviceId">
+			AND A.DEVICE_ID = #deviceId#
+		</isNotEmpty>
+		<isNotEmpty property="orderBy">
+			ORDER BY A.#orderBy#
+		</isNotEmpty>
+		<isEmpty property="orderBy">
+			ORDER BY A.ERROR_TIME DESC, A.ID DESC
+		</isEmpty>
+		LIMIT #limit#
+		
+	</select>
+	
+	<select id="history.control.count" resultClass="int">
+		SELECT 
+			 COUNT(*)	
+		FROM 
+			HDH_CONTROL_HIST A
+		WHERE 1=1
+		<isNotEmpty property="deviceId">
+			AND A.DEVICE_ID = #deviceId#
+		</isNotEmpty>
+		<isNotEmpty property="resourceUri">
+			AND A.RESOURCE_URI = #resourceUri#
+		</isNotEmpty>
+    </select>
+    	
+	<select id="history.control.listPage" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,A.DEVICE_ID AS deviceId
+			,A.MODEL_NAME AS modelName
+			,A.SN AS sn
+			,A.RESOURCE_URI AS resourceUri
+			,A.RESOURCE_NAME AS resourceName
+			,A.CTL_TYPE AS ctlType
+			,A.CTL_DATA AS ctlData
+			,A.CTL_RESULT AS ctlResult
+			,A.ERROR_CODE AS errorCode
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime
+		FROM 
+			HDH_CONTROL_HIST A 
+		WHERE 1=1
+		<isNotEmpty property="deviceId">
+			AND A.DEVICE_ID = #deviceId#
+		</isNotEmpty>
+		<isNotEmpty property="resourceUri">
+			AND A.RESOURCE_URI = #resourceUri#
+		</isNotEmpty>
+		<isNotEmpty property="orderBy">
+			ORDER BY A.#orderBy#
+		</isNotEmpty>
+		<isEmpty property="orderBy">
+			ORDER BY A.CREATE_TIME DESC, A.ID DESC
+		</isEmpty>
+		LIMIT #pageStartIndex#, #pageSize#
+		
+	</select>
+	
+	
+	
+	<select id="history.status.count" resultClass="int">
+		SELECT 
+			 COUNT(*)	
+		FROM 
+			HDH_STATUS_HIST A
+		WHERE 1=1
+		<isNotEmpty property="deviceId">
+			AND A.DEVICE_ID = #deviceId#
+		</isNotEmpty>
+		<isNotEmpty property="resourceUri">
+			AND A.RESOURCE_URI = #resourceUri#
+		</isNotEmpty>
+    </select>
+    	
+	<select id="history.status.listPage" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,A.DEVICE_ID AS deviceId
+			,A.MODEL_NAME AS modelName
+			,A.SN AS sn
+			,A.RESOURCE_URI AS resourceUri
+			,A.RESOURCE_NAME AS resourceName
+			,A.DATA AS data
+			,A.ACTION_TYPE AS actionType
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime
+		FROM 
+			HDH_STATUS_HIST A 
+		WHERE 1=1
+		<isNotEmpty property="deviceId">
+			AND A.DEVICE_ID = #deviceId#
+		</isNotEmpty>
+		<isNotEmpty property="resourceUri">
+			AND A.RESOURCE_URI = #resourceUri#
+		</isNotEmpty>
+		<isNotEmpty property="orderBy">
+			ORDER BY A.#orderBy#
+		</isNotEmpty>
+		<isEmpty property="orderBy">
+			ORDER BY A.CREATE_TIME DESC, A.ID DESC
+		</isEmpty>
+		LIMIT #pageStartIndex#, #pageSize#
+		
+	</select>
+	
+	
+	<!-- MOBILE -->
+	<select id="history.statusWeekAvg.list" resultClass="java.util.HashMap">
+		SELECT 
+		  AVG(CONVERT(DATA, INTEGER)) AS data
+		  ,RESOURCE_NAME AS resourceName
+		  ,DAYNAME (CREATE_TIME) AS dayName
+		  ,DATE_FORMAT(CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime
+		FROM HDH_STATUS_HIST
+		WHERE DEVICE_ID = '800000_KEMCTI2_DEVICE_SET_1_DEVICESET001'
+		AND RESOURCE_NAME = 'CO2'
+		GROUP BY dayName(CREATE_TIME)
+	</select>
+	
+	<select id="history.statusTimeAvg.list" resultClass="java.util.HashMap">
+		SELECT 
+		  AVG(CONVERT(DATA, INTEGER)) AS data
+		  ,RESOURCE_NAME AS resourceName
+		  ,TIME(CREATE_TIME) AS time
+		  ,HOUR(CREATE_TIME) AS hour
+		  ,DATE_FORMAT(CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime
+		FROM HDH_STATUS_HIST
+		WHERE DEVICE_ID = '800000_KEMCTI2_DEVICE_SET_1_DEVICESET001'
+		AND RESOURCE_NAME = 'CO2'
+		GROUP BY hour(CREATE_TIME)
+	</select>
+	
+	
+	
+	<select id="history.firmware.count" resultClass="int">
+		SELECT 
+			 COUNT(*)	
+		FROM 
+			HDH_FW_UP_HIST A
+		WHERE 1=1
+		<isNotEmpty property="deviceId">
+			AND A.DEVICE_ID = #deviceId#
+		</isNotEmpty>
+		<isNotEmpty property="packageName">
+			AND A.PACKAGE = #packageName#
+		</isNotEmpty>
+			AND A.STATUS &lt;&gt; -1
+    </select>
+    	
+	<select id="history.firmware.listPage" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,A.DEVICE_ID AS deviceId
+			,A.MODEL_NAME AS modelName
+			,A.SN AS sn
+			,A.PACKAGE AS package
+			,A.VERSION AS version
+			,A.STATUS AS status
+			,A.RESULT AS result
+			,DATE_FORMAT(A.STATUS_TIME, '%Y-%m-%d %H:%i:%s') AS statusTime
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime
+		FROM 
+			HDH_FW_UP_HIST A 
+		WHERE 1=1
+		<isNotEmpty property="deviceId">
+			AND A.DEVICE_ID = #deviceId#
+		</isNotEmpty>
+		<isNotEmpty property="packageName">
+			AND A.PACKAGE = #packageName#
+		</isNotEmpty>
+			AND A.STATUS &lt;&gt; -1
+		<isNotEmpty property="orderBy">
+			ORDER BY A.#orderBy#
+		</isNotEmpty>
+		<isEmpty property="orderBy">
+			ORDER BY A.CREATE_TIME DESC, A.ID DESC
+		</isEmpty>
+		LIMIT #pageStartIndex#, #pageSize#
+		
+	</select>
+	
+	<select id="history.deviceLog.count" resultClass="int">
+		SELECT 
+			 COUNT(*)	
+		FROM 
+			HDH_DEVICE_LOGFILE A
+		WHERE 1=1
+		<isNotEmpty property="deviceId">
+			AND A.DEVICE_ID = #deviceId#
+		</isNotEmpty>
+		<isNotEmpty property="startTime">
+			AND A.START_TIME &gt;= #startTime#
+		</isNotEmpty>
+		<isNotEmpty property="endTime">
+			AND A.START_TIME &lt;= #endTime#
+		</isNotEmpty>
+    </select>
+    	
+	<select id="history.deviceLog.listPage" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,A.DEVICE_ID AS deviceId
+			,A.MODEL_NAME AS modelName
+			,A.SN AS sn
+			,A.PACKAGE AS package
+			,A.PATH AS path
+			,A.FILESIZE AS filesize
+			,DATE_FORMAT(A.START_TIME, '%Y-%m-%d %H:%i:%s') AS startTime
+			,DATE_FORMAT(A.END_TIME, '%Y-%m-%d %H:%i:%s') AS endTime
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime
+		FROM 
+			HDH_DEVICE_LOGFILE A 
+		WHERE 1=1
+		<isNotEmpty property="deviceId">
+			AND A.DEVICE_ID = #deviceId#
+		</isNotEmpty>
+		<isNotEmpty property="startTime">
+			AND A.START_TIME &gt;= #startTime#
+		</isNotEmpty>
+		<isNotEmpty property="endTime">
+			AND A.START_TIME &lt;= #endTime#
+		</isNotEmpty>
+		<isNotEmpty property="orderBy">
+			ORDER BY A.#orderBy#
+		</isNotEmpty>
+		<isEmpty property="orderBy">
+			ORDER BY A.START_TIME DESC
+		</isEmpty>
+		LIMIT #pageStartIndex#, #pageSize#
+		
+	</select>
+	
+    
+	<select id="history.deviceToday.get" resultClass="java.util.HashMap">
+		SELECT 
+		  (SELECT COUNT(*) FROM HDH_ALARM_HIST 
+		  	WHERE DEVICE_ID = #deviceId# AND 
+		  		CREATE_TIME &lt;= DATE_ADD(#today#, INTERVAL 1 DAY) AND 
+		  		CREATE_TIME &gt; DATE_ADD(#today#, INTERVAL 0 DAY)) AS alarmToday,
+		  (SELECT COUNT(*) FROM HDH_ALARM_HIST 
+		  	WHERE DEVICE_ID = #deviceId# AND 
+		  		CREATE_TIME &lt;= DATE_ADD(#today#, INTERVAL 0 DAY) AND 
+		  		CREATE_TIME &gt; DATE_ADD(#today#, INTERVAL -1 DAY)) AS alarmBefore1,
+		  (SELECT COUNT(*) FROM HDH_ALARM_HIST 
+		  	WHERE DEVICE_ID = #deviceId# AND 
+		  		CREATE_TIME &lt;= DATE_ADD(#today#, INTERVAL -1 DAY) AND 
+		  		CREATE_TIME &gt; DATE_ADD(#today#, INTERVAL -2 DAY)) AS alarmBefore2,
+		  (SELECT COUNT(*) FROM HDH_ERROR_HIST 
+		  	WHERE DEVICE_ID = #deviceId# AND 
+		  		CREATE_TIME &lt;= DATE_ADD(#today#, INTERVAL 1 DAY) AND 
+		  		CREATE_TIME &gt; DATE_ADD(#today#, INTERVAL 0 DAY)) AS errorToday,
+		  (SELECT COUNT(*) FROM HDH_ERROR_HIST 
+		  	WHERE DEVICE_ID = #deviceId# AND 
+		  		CREATE_TIME &lt;= DATE_ADD(#today#, INTERVAL 0 DAY) AND 
+		  		CREATE_TIME &gt; DATE_ADD(#today#, INTERVAL -1 DAY)) AS errorBefore1,
+		  (SELECT COUNT(*) FROM HDH_ERROR_HIST 
+		  	WHERE DEVICE_ID = #deviceId# AND 
+		  		CREATE_TIME &lt;= DATE_ADD(#today#, INTERVAL -1 DAY) AND 
+		  		CREATE_TIME &gt; DATE_ADD(#today#, INTERVAL -2 DAY)) AS errorBefore2,
+		  (SELECT COUNT(*) FROM HDH_STATUS_HIST 
+		  	WHERE DEVICE_ID = #deviceId# AND TRIGGER_TYPE = 'N' AND (ACTION_TYPE IS NULL OR ACTION_TYPE &lt;&gt; 'D') AND
+		  		CREATE_TIME &lt;= DATE_ADD(#today#, INTERVAL 1 DAY) AND 
+		  		CREATE_TIME &gt; DATE_ADD(#today#, INTERVAL 0 DAY)) AS notiToday,
+		  (SELECT COUNT(*) FROM HDH_STATUS_HIST 
+		  	WHERE DEVICE_ID = #deviceId# AND TRIGGER_TYPE = 'N' AND (ACTION_TYPE IS NULL OR ACTION_TYPE &lt;&gt; 'D') AND
+		  		CREATE_TIME &lt;= DATE_ADD(#today#, INTERVAL 0 DAY) AND 
+		  		CREATE_TIME &gt; DATE_ADD(#today#, INTERVAL -1 DAY)) AS notiBefore1,
+		  (SELECT COUNT(*) FROM HDH_STATUS_HIST 
+		  	WHERE DEVICE_ID = #deviceId# AND TRIGGER_TYPE = 'N' AND (ACTION_TYPE IS NULL OR ACTION_TYPE &lt;&gt; 'D') AND
+		  		CREATE_TIME &lt;= DATE_ADD(#today#, INTERVAL -1 DAY) AND 
+		  		CREATE_TIME &gt; DATE_ADD(#today#, INTERVAL -2 DAY)) AS notiBefore2
+		FROM
+			DUAL
+	</select>
+	
+	
+	<!-- SK C&C 그래프 그리기 위한 조회 -->	
+	<select id="history.statusData.list" resultClass="java.util.HashMap">
+		SELECT 
+			ID AS id
+			,DEVICE_ID AS deviceId
+			,MODEL_NAME AS modelName
+			,SN AS sn
+			,RESOURCE_URI AS resourceUri
+			,RESOURCE_NAME AS resourceName
+			,DATA AS data
+			,ACTION_TYPE AS actionType
+			,DATE_FORMAT(CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime
+			,DATE_FORMAT(DATA_TIME, '%Y-%m-%d %H:%i:%s') AS dataTime
+		FROM 
+			HDH_STATUS_HIST
+		WHERE 1=1
+		<!-- AND <![CDATA[DATE(CREATE_TIME) >= DATE(SUBDATE(now(), INTERVAL 7 DAY)) AND DATE(CREATE_TIME) <= DATE(now())]]> -->
+		AND RESOURCE_URI = #resourceUri#
+		<!-- AND RESOURCE_NAME = #resourceName# -->
+		ORDER BY DATA_TIME DESC
+		LIMIT 100
+	</select>
+	
+</sqlMap>

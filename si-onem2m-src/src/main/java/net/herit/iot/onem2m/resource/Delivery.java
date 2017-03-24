@@ -68,7 +68,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "subscription"
 })
 //@XmlRootElement(name = "delivery")
-@XmlRootElement(name = Naming.DELIVERY_SN)
+@XmlRootElement(name = "m2m:" + Naming.DELIVERY_SN)
 public class Delivery
     extends RegularResource
 {

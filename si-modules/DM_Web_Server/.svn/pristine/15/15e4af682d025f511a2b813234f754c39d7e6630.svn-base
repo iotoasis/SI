@@ -1,0 +1,43 @@
+@CHARSET "UTF-8";
+
+
+/**
+	jquery validation css 
+*/
+input.error, textarea.error{
+	border:1px dashed red;
+}
+label.error{
+	margin-left:10px;
+	color:red;
+}
+
+/**
+	jquery modal popup
+*/
+#simplemodal-overlay {background-color:#000;}
+#modal_content {display:none;margin:50 auto; background-color:#ffffff;}
+#modal_content2 {display:none;margin:50 auto; background-color:#ffffff;}
+
+/**
+	jquery timepicker css
+*/
+.ui-datepicker TD:first-child A {color: #f00;}
+.ui-datepicker TD:last-child A {color: blue;} 
+div#ui-datepicker-div { width: 250px; }
+
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 40%; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+.ui-timepicker-rtl dl dd { margin: 0 40% 10px 10px; }
+
+
+.error_txt {height:60px; repeat-x; padding-left:40%;}
+

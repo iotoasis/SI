@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<dm>
+		<web>
+			<address>10.10.0.23</address>
+			<port>8080</port>
+		</web>
+	</dm>
+	<ipe>
+		<use>yes</use>	<!-- 'yes' or 'no' -->
+		<local>
+			<address>10.10.0.23</address>
+			<port>5683</port>
+		</local>
+		<secure>
+			<local>
+				<address>10.10.0.23</address>
+				<port>5684</port>
+			</local>
+		</secure>
+		<web>
+			<port>8085</port>
+		</web>
+	</ipe>
+	<si>
+		<local>
+			<address>10.10.224.240</address>
+			<port>
+				<normal>8080</normal>
+				<auth>8081</auth>
+			</port>
+		</local>
+	</si>
+	<redis>
+		<url></url>
+	</redis>
+</config>

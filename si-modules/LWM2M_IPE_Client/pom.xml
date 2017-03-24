@@ -1,0 +1,14 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+	
+	<groupId>net.herit.iot</groupId>
+	<artifactId>LWM2M_IPE_Client</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	
+	<name>LWM2M_IPE_Client</name>
+	<description>Client part of Leshan</description>
+	<modules>
+		<module>leshan-client-demo</module>
+	</modules>
+</project>

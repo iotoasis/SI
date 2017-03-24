@@ -37,6 +37,8 @@ public class AccessControlPolicyManager extends AbsManager {
 	@Override
 	public OneM2mResponse create(OneM2mRequest reqMessage) throws OneM2MException {
 
+		//System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@"+ ((AccessControlPolicy)this.getContentResource(reqMessage, this)).getPrivileges().getAccessControlRule().get(0).getAccessControlOriginators().size());
+		
 		return create(reqMessage, this);
 		
 //		String resourceID = createResourceID(reqMessage.getResourceType());

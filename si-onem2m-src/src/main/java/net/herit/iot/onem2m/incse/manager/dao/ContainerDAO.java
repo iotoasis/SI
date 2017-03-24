@@ -12,6 +12,7 @@ import net.herit.iot.onem2m.core.convertor.ConvertorFactory;
 import net.herit.iot.onem2m.core.convertor.DaoJSONConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.incse.context.OneM2mContext;
+import net.herit.iot.onem2m.incse.facility.CfgManager;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
 import net.herit.iot.onem2m.incse.manager.dao.DAOInterface;
 import net.herit.iot.onem2m.incse.manager.dao.ResourceDAO;
@@ -52,10 +53,25 @@ public class ContainerDAO extends ResourceDAO implements DAOInterface {
 
 	@Override
 	public void create(Resource resource) throws OneM2MException {
-
+		
 		((Container)resource).setCurrentNrOfInstances(0);
 		((Container)resource).setCurrentByteSize(0);
 		((Container)resource).setStateTag(0);
+		
+		// added in 2017-03-08
+		if(((Container)resource).getMaxNrOfInstances() == null) {
+			((Container)resource).setMaxNrOfInstances(CfgManager.getInstance().getMaxCIPerContainer());
+		}
+		// added in 2017-03-08
+		if(((Container)resource).getMaxInstanceAge() == null) {
+			((Container)resource).setMaxInstanceAge(CfgManager.getInstance().getMaxCIAgePerContainer());
+		}
+		// added in 2017-03-08
+		if(((Container)resource).getMaxByteSize() == null) {
+			((Container)resource).setMaxByteSize(CfgManager.getInstance().getMaxCIByteSizePerContainer());
+		}
+		
+		log.debug("container.getMaxNrOfInstances ==>" + ((Container)resource).getMaxNrOfInstances());
 		
 		super.create(resource);
 		

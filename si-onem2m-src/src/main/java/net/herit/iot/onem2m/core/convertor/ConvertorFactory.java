@@ -87,6 +87,8 @@ public class ConvertorFactory {
 			ContInstXC = new DaoJSONConvertor<AggregatedResponse>(AggregatedResponse.class);
 		} else if (t.equals(AggregatedRequest.class)) {
 			ContInstXC = new DaoJSONConvertor<AggregatedRequest>(AggregatedRequest.class);
+		} else if (t.equals(RequestPrimitive.class)) {
+			ContInstXC = new DaoJSONConvertor<RequestPrimitive>(RequestPrimitive.class);
 		} else if (t.equals(ResponsePrimitive.class)) {
 			ContInstXC = new DaoJSONConvertor<ResponsePrimitive>(ResponsePrimitive.class);
 		} else if (t.equals(AE.class)) {
@@ -175,6 +177,18 @@ public class ConvertorFactory {
 			ContInstXC = new DaoJSONConvertor<AllJoynApp>(AllJoynApp.class);			
 		} else if (t.equals(AllJoynProperty.class)) {
 			ContInstXC = new DaoJSONConvertor<AllJoynProperty>(AllJoynProperty.class);			
+		} else if (t.equals(AllJoynSvcObject.class)) {
+			ContInstXC = new DaoJSONConvertor<AllJoynSvcObject>(AllJoynSvcObject.class);			
+		} else if (t.equals(AllJoynInterface.class)) {
+			ContInstXC = new DaoJSONConvertor<AllJoynInterface>(AllJoynInterface.class);			
+		} else if (t.equals(AllJoynMethod.class)) {
+			ContInstXC = new DaoJSONConvertor<AllJoynMethod>(AllJoynMethod.class);			
+		} else if (t.equals(AllJoynMethodCall.class)) {
+			ContInstXC = new DaoJSONConvertor<AllJoynMethodCall>(AllJoynMethodCall.class);			
+		} else if (t.equals(SvcObjWrapper.class)) {
+			ContInstXC = new DaoJSONConvertor<SvcObjWrapper>(SvcObjWrapper.class);			
+		} else if (t.equals(SvcFwWrapper.class)) {
+			ContInstXC = new DaoJSONConvertor<SvcFwWrapper>(SvcFwWrapper.class);			
 		} else if (t.equals(GenericInterworkingService.class)) {
 			ContInstXC = new DaoJSONConvertor<GenericInterworkingService>(GenericInterworkingService.class);			
 		} else if (t.equals(GenericInterworkingOperationInstance.class)) {
@@ -207,6 +221,8 @@ public class ConvertorFactory {
 			ContInstXC = new JSONConvertor<AggregatedResponse>(AggregatedResponse.class);
 		} else if (t.equals(AggregatedRequest.class)) {
 			ContInstXC = new JSONConvertor<AggregatedRequest>(AggregatedRequest.class);
+		} else if (t.equals(RequestPrimitive.class)) {
+			ContInstXC = new JSONConvertor<RequestPrimitive>(RequestPrimitive.class);
 		} else if (t.equals(ResponsePrimitive.class)) {
 			ContInstXC = new JSONConvertor<ResponsePrimitive>(ResponsePrimitive.class);
 		} else if (t.equals(AE.class)) {
@@ -295,6 +311,18 @@ public class ConvertorFactory {
 			ContInstXC = new JSONConvertor<AllJoynApp>(AllJoynApp.class);			
 		} else if (t.equals(AllJoynProperty.class)) {
 			ContInstXC = new JSONConvertor<AllJoynProperty>(AllJoynProperty.class);			
+		} else if (t.equals(AllJoynSvcObject.class)) {
+			ContInstXC = new JSONConvertor<AllJoynSvcObject>(AllJoynSvcObject.class);			
+		} else if (t.equals(AllJoynInterface.class)) {
+			ContInstXC = new JSONConvertor<AllJoynInterface>(AllJoynInterface.class);			
+		} else if (t.equals(AllJoynMethod.class)) {
+			ContInstXC = new JSONConvertor<AllJoynMethod>(AllJoynMethod.class);			
+		} else if (t.equals(AllJoynMethodCall.class)) {
+			ContInstXC = new JSONConvertor<AllJoynMethodCall>(AllJoynMethodCall.class);			
+		} else if (t.equals(SvcObjWrapper.class)) {
+			ContInstXC = new JSONConvertor<SvcObjWrapper>(SvcObjWrapper.class);			
+		} else if (t.equals(SvcFwWrapper.class)) {
+			ContInstXC = new JSONConvertor<SvcFwWrapper>(SvcFwWrapper.class);			
 		} else if (t.equals(GenericInterworkingService.class)) {
 			ContInstXC = new JSONConvertor<GenericInterworkingService>(GenericInterworkingService.class);			
 		} else if (t.equals(GenericInterworkingOperationInstance.class)) {
@@ -408,6 +436,18 @@ public class ConvertorFactory {
 			ContInstXC = new XMLConvertor<AllJoynApp>(AllJoynApp.class, schema);
 		} else if (t.equals(AllJoynProperty.class)) {
 			ContInstXC = new XMLConvertor<AllJoynProperty>(AllJoynProperty.class, schema);
+		} else if (t.equals(AllJoynSvcObject.class)) {
+			ContInstXC = new XMLConvertor<AllJoynSvcObject>(AllJoynSvcObject.class, schema);
+		} else if (t.equals(AllJoynInterface.class)) {
+			ContInstXC = new XMLConvertor<AllJoynInterface>(AllJoynInterface.class, schema);
+		} else if (t.equals(AllJoynMethod.class)) {
+			ContInstXC = new XMLConvertor<AllJoynMethod>(AllJoynMethod.class, schema);
+		} else if (t.equals(AllJoynMethodCall.class)) {
+			ContInstXC = new XMLConvertor<AllJoynMethodCall>(AllJoynMethodCall.class, schema);
+		} else if (t.equals(SvcObjWrapper.class)) {
+			ContInstXC = new XMLConvertor<SvcObjWrapper>(SvcObjWrapper.class, schema);
+		} else if (t.equals(SvcFwWrapper.class)) {
+			ContInstXC = new XMLConvertor<SvcFwWrapper>(SvcFwWrapper.class, schema);
 		} else {
 			throw new OneM2MException(RESPONSE_STATUS.INTERNAL_SERVER_ERROR, "Fail to create XML Convertor for "+ t.getCanonicalName());
 		}

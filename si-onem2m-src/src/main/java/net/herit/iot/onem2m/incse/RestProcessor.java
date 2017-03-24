@@ -167,17 +167,55 @@ public class RestProcessor {
 				
 				OneM2mResponse response = RestCommandController.getInstance().processControl(cmd);
 				
+			}else if (uri.startsWith("/si/newcontrol")) { 
+				JSONConvertor<?> jsonCvt = ConvertorFactory.getJSONConvertor(RestCommand.class, null);
+				String json = new String(reqMessage.getContent());
+				json = "{ \"rest\" : " + json + "}"; 				// added in 2016-11-24 to process JSON ROOT
+				RestCommand cmd = (RestCommand)jsonCvt.unmarshal(json);
+				String resourceUri = cmd.getUri();
+				int pos = resourceUri.lastIndexOf('/');
+			
+				String devId = resourceUri.substring(pos+1, resourceUri.length());
+				
+				CASAuthManager casAuthMgr = new CASAuthManager();
+				casAuthMgr.initialize(context);
+				
+				Document result = casAuthMgr.getAuth(devId);
+				
+				if(result == null) {
+					this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "400", 
+							"{\"code\":\"4000\",\"_commandId\":\""+cmd.getCommandId()+"\"}");
+				} else {
+					log.debug(cmd.toString());
+					
+					// for demo
+					this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "200", 
+									"{\"code\":\"2000\",\"_commandId\":\""+cmd.getCommandId()+"\"}");	
+					
+					OneM2mResponse response = RestCommandController.getInstance().processControl(cmd);
+				}
+				
+			} else if (uri.startsWith("/si/ipe/lwm2m")) { 	// 2017-02-08
+				JSONConvertor<?> jsonCvt = ConvertorFactory.getJSONConvertor(RestCommand.class, null);
+				String json = new String(reqMessage.getContent());
+				json = "{ \"rest\" : " + json + "}"; 				// added in 2016-11-24 to process JSON ROOT
+				RestCommand cmd = (RestCommand)jsonCvt.unmarshal(json);
+				
+				log.debug(cmd.toString());
+				
+				// for demo
+				this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "200", 
+								"{\"code\":\"2000\",\"_commandId\":\""+cmd.getCommandId()+"\"}");	
+				
+				OneM2mResponse response = RestCommandController.getInstance().processIpeLwm2m(cmd);
+				
 			} else if(uri.startsWith("/si/dev_t1_reg") || uri.startsWith("/si/dev_upd")) {
 			
-				log.debug("***************************** trace-0");
 				JSONConvertor<?> jsonCvt = ConvertorFactory.getJSONConvertor(RestAuth.class, null);
 				String json = new String(reqMessage.getContent());
 				json = "{ \"rest\" : " + json + "}"; 				// added in 2016-11-24 to process JSON ROOT
-				log.debug("json ***************************** " + json);
+	
 				RestAuth auth = (RestAuth)jsonCvt.unmarshal(json);
-				
-				log.debug("auth ==============>" + auth.toString());
-				log.debug("auth.getDevId() ==============>" + auth.getDevId());
 				
 				CASAuthManager casAuthMgr = new CASAuthManager();
 				casAuthMgr.initialize(context);
@@ -199,14 +237,11 @@ public class RestProcessor {
 				this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "200", doc.toJson());
 				
 			} else if(uri.startsWith("/si/dev_t2_reg")) {
-				log.debug("***************************** trace-0");
+				
 				JSONConvertor<?> jsonCvt = ConvertorFactory.getJSONConvertor(RestAuth.class, null);
 				String json = new String(reqMessage.getContent());
 				json = "{ \"rest\" : " + json + "}"; 				// added in 2016-11-24 to process JSON ROOT
 				RestAuth auth = (RestAuth)jsonCvt.unmarshal(json);
-				
-				log.debug("auth ==============>" + auth.toString());
-				log.debug("auth.getDevId() ==============>" + auth.getDevId());
 				
 				CASAuthManager casAuthMgr = new CASAuthManager();
 				casAuthMgr.initialize(context);
@@ -228,14 +263,11 @@ public class RestProcessor {
 				this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "200", doc.toJson());
 				
 			} else if(uri.startsWith("/si/dev_inf")) {
-				log.debug("***************************** trace-0");
+				
 				JSONConvertor<?> jsonCvt = ConvertorFactory.getJSONConvertor(RestAuth.class, null);
 				String json = new String(reqMessage.getContent());
 				json = "{ \"rest\" : " + json + "}"; 				// added in 2016-11-24 to process JSON ROOT
 				RestAuth auth = (RestAuth)jsonCvt.unmarshal(json);
-				
-				log.debug("auth ==============>" + auth.toString());
-				log.debug("auth.getDevId() ==============>" + auth.getDevId());
 				
 				CASAuthManager casAuthMgr = new CASAuthManager();
 				casAuthMgr.initialize(context);
@@ -257,14 +289,11 @@ public class RestProcessor {
 				this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "200", doc.toJson());
 				
 			} else if(uri.startsWith("/si/dev_del")) {
-				log.debug("***************************** trace-0");
+				
 				JSONConvertor<?> jsonCvt = ConvertorFactory.getJSONConvertor(RestAuth.class, null);
 				String json = new String(reqMessage.getContent());
 				json = "{ \"rest\" : " + json + "}"; 				// added in 2016-11-24 to process JSON ROOT
 				RestAuth auth = (RestAuth)jsonCvt.unmarshal(json);
-				
-				log.debug("auth ==============>" + auth.toString());
-				log.debug("auth.getDevId() ==============>" + auth.getDevId());
 				
 				CASAuthManager casAuthMgr = new CASAuthManager();
 				casAuthMgr.initialize(context);

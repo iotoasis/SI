@@ -58,7 +58,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "semanticDescriptorOrSubscription"
 })
 
-@XmlRootElement(name = "ajpr")
+@XmlRootElement(name = Naming.ALLJOYNPROPERTY_SN)
 public class AllJoynProperty
     extends FlexContainerResource
 {

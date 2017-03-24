@@ -56,7 +56,7 @@ import javax.xml.bind.annotation.XmlType;
     "serviceSubscribedNodeOrSubscription"
 })
 //@XmlRootElement(name = "m2mServiceSubscriptionProfile")
-@XmlRootElement(name = Naming.M2MSERVICESUBSCRIPTIONPROFILE_SN)
+@XmlRootElement(name = "m2m:" +  Naming.M2MSERVICESUBSCRIPTIONPROFILE_SN)
 public class M2MServiceSubscriptionProfile
     extends RegularResource
 {

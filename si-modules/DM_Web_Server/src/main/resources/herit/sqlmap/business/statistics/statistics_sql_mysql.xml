@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Statistics">
+
+	    	
+	<select id="stat.errorSummary.get" resultClass="java.util.HashMap">
+		SELECT 
+		  (SELECT TOTAL_COUNT FROM HDS_ERROR_DEVICE_DAY WHERE STAT_DATE = DATE_ADD(#today#, INTERVAL -1 DAY) ORDER BY CREATE_TIME DESC LIMIT 1) AS dayBefore1,
+		  (SELECT TOTAL_COUNT FROM HDS_ERROR_DEVICE_DAY WHERE STAT_DATE = DATE_ADD(#today#, INTERVAL -2 DAY) ORDER BY CREATE_TIME DESC LIMIT 1) AS dayBefore2,
+		  (SELECT TOTAL_COUNT FROM HDS_ERROR_DEVICE_DAY WHERE STAT_DATE = DATE_ADD(#today#, INTERVAL -3 DAY) ORDER BY CREATE_TIME DESC LIMIT 1) AS dayBefore3,
+		  (SELECT AVG(TOTAL_COUNT) FROM HDS_ERROR_DEVICE_DAY 
+		  	WHERE STAT_DATE &gt;= DATE_ADD(#today#, INTERVAL -1 MONTH) AND STAT_DATE &lt; #today#) AS dayAverage,
+		  (SELECT TOTAL_COUNT FROM HDS_ERROR_DEVICE_MONTH WHERE STAT_MONTH = DATE_ADD(#thisMonth#, INTERVAL -1 MONTH) ORDER BY CREATE_TIME DESC LIMIT 1) AS monthBefore1,
+		  (SELECT TOTAL_COUNT FROM HDS_ERROR_DEVICE_MONTH WHERE STAT_MONTH = DATE_ADD(#thisMonth#, INTERVAL -2 MONTH) ORDER BY CREATE_TIME DESC LIMIT 1) AS monthBefore2,
+		  (SELECT TOTAL_COUNT FROM HDS_ERROR_DEVICE_MONTH WHERE STAT_MONTH = DATE_ADD(#thisMonth#, INTERVAL -3 MONTH) ORDER BY CREATE_TIME DESC LIMIT 1) AS monthBefore3,
+		  (SELECT AVG(TOTAL_COUNT) FROM HDS_ERROR_DEVICE_MONTH 
+		  	WHERE STAT_MONTH &gt;= DATE_ADD(#thisMonth#, INTERVAL -2 YEAR) AND STAT_MONTH &lt; #thisMonth#) AS monthAverage
+		FROM DUAL;
+   	</select>
+	
+	<select id="stat.errorDay.list" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,DATE_FORMAT(A.STAT_DATE, '%Y-%m-%d') AS statDate
+			,A.TOTAL_COUNT AS statCount
+			,A.MINOR_COUNT AS minorCount
+			,A.MAJOR_COUNT AS majorCount
+			,A.CRITICAL_COUNT AS criticalCount
+			,A.FATAL_COUNT AS fatalCount
+		FROM 
+			HDS_ERROR_DEVICE_DAY A 
+		WHERE 1=1
+			AND A.STAT_DATE &gt;= #start#
+			AND A.STAT_DATE &lt;= #end#
+		ORDER BY A.STAT_DATE DESC
+	</select>
+	    	
+	<select id="stat.errorMonth.list" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,DATE_FORMAT(A.STAT_MONTH, '%Y-%m') AS statMonth
+			,A.TOTAL_COUNT AS statCount
+			,A.MINOR_COUNT AS minorCount
+			,A.MAJOR_COUNT AS majorCount
+			,A.CRITICAL_COUNT AS criticalCount
+			,A.FATAL_COUNT AS fatalCount
+		FROM 
+			HDS_ERROR_DEVICE_MONTH A 
+		WHERE 1=1
+			AND A.STAT_MONTH &gt;= #start#
+			AND A.STAT_MONTH &lt;= #end#
+		ORDER BY A.STAT_MONTH DESC
+	</select>
+	
+	<select id="stat.registerDay.list" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,DATE_FORMAT(A.STAT_DATE, '%Y-%m-%d') AS statDate
+			,A.STAT_COUNT AS statCount
+		FROM 
+			HDS_REGISTER_DAY A 
+		WHERE 1=1
+			AND A.DEVICE_MODEL_ID IS NULL
+			AND A.STAT_DATE &gt;= #start#
+			AND A.STAT_DATE &lt;= #end#
+		ORDER BY A.STAT_DATE DESC
+	</select>
+	    	
+	<select id="stat.registerDayPerModel.list" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,DEVICE_MODEL_ID AS deviceModelId
+			,MANUFACTURER AS manufacturer
+			,OUI AS oui
+			,MODEL_NAME AS modelName
+			,DATE_FORMAT(A.STAT_DATE, '%Y-%m-%d') AS statDate
+			,A.STAT_COUNT AS statCount
+		FROM 
+			HDS_REGISTER_DAY A 
+		WHERE 1=1
+			AND A.STAT_DATE &gt;= #start#
+			AND A.STAT_DATE &lt;= #end#
+		ORDER BY A.STAT_DATE DESC
+	</select>
+	    	
+	<select id="stat.registerMonth.list" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,DATE_FORMAT(A.STAT_MONTH, '%Y-%m') AS statMonth
+			,A.STAT_COUNT AS statCount
+		FROM 
+			HDS_REGISTER_MONTH A 
+		WHERE 1=1
+			AND A.DEVICE_MODEL_ID IS NULL
+			AND A.STAT_MONTH &gt;= #start#
+			AND A.STAT_MONTH &lt;= #end#
+		ORDER BY A.STAT_MONTH DESC
+	</select>
+	    	
+	<select id="stat.registerMonthPerModel.list" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,DEVICE_MODEL_ID AS deviceModelId
+			,MANUFACTURER AS manufacturer
+			,OUI AS oui
+			,MODEL_NAME AS modelName
+			,DATE_FORMAT(A.STAT_MONTH, '%Y-%m') AS statMonth
+			,A.STAT_COUNT AS statCount
+		FROM 
+			HDS_REGISTER_MONTH A 
+		WHERE 1=1
+			AND A.STAT_MONTH &gt;= #start#
+			AND A.STAT_MONTH &lt;= #end#
+		ORDER BY A.STAT_MONTH DESC
+	</select>
+	    	
+	<select id="stat.usageDay.list" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,DATE_FORMAT(A.STAT_DATE, '%Y-%m-%d') AS statDate
+			,A.ERROR_COUNT AS errorCount
+			,A.CONTROL_COUNT AS controlCount
+			,A.FW_COUNT AS fwCount
+			,A.TOTAL_COUNT AS totalCount
+		FROM 
+			HDS_USAGE_DAY A 
+		WHERE 1=1
+			AND A.STAT_DATE &gt;= #start#
+			AND A.STAT_DATE &lt;= #end#
+		ORDER BY A.STAT_DATE DESC
+	</select>
+	    	
+	<select id="stat.usageMonth.list" resultClass="java.util.HashMap">
+		SELECT
+			A.ID AS id
+			,DATE_FORMAT(A.STAT_MONTH, '%Y-%m') AS statMonth
+			,A.ERROR_COUNT AS errorCount
+			,A.CONTROL_COUNT AS controlCount
+			,A.FW_COUNT AS fwCount
+			,A.TOTAL_COUNT AS totalCount
+		FROM 
+			HDS_USAGE_MONTH A 
+		WHERE 1=1
+			AND A.STAT_MONTH &gt;= #start#
+			AND A.STAT_MONTH &lt;= #end#
+		ORDER BY A.STAT_MONTH DESC
+	</select>
+	
+</sqlMap>

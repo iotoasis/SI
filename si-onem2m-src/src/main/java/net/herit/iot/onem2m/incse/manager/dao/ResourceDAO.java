@@ -169,6 +169,7 @@ public class ResourceDAO {
 				.getCollection(collectionName);
 
 		collection.insertOne(doc);
+		
 	}
 
 	public void update(Resource resource) throws OneM2MException {
@@ -296,7 +297,8 @@ public class ResourceDAO {
 		List<Resource> resources = new ArrayList<Resource>();
 		List<String> labels = fc.getLabels();
 		Integer limit = fc.getLimit();
-		RESOURCE_TYPE resType = fc.getResourceType() == null ? null : RESOURCE_TYPE.get(fc.getResourceType());
+		List<Integer> resType = fc.getResourceType();
+		//RESOURCE_TYPE resType = fc.getResourceType() == null ? null : RESOURCE_TYPE.get(fc.getResourceType()); blocked in 2017-03-09
 		String createdAfter = fc.getCreatedAfter();
 		String createdBefore = fc.getCreatedBefore();
 		String expiredAfter = fc.getExpireAfter();
@@ -338,11 +340,22 @@ public class ResourceDAO {
 		
 		} 
 		
+		if(resType != null && resType.size() > 0) {
+			BasicDBList resTypeOr = new BasicDBList();
+			Iterator<Integer> it = resType.iterator();
+			while (it.hasNext()) {
+				resTypeOr.add(new BasicDBObject(RESTYPE_KEY, it.next()));
+			}
+			
+			dbList.add(new BasicDBObject("$or", resTypeOr) );
+		}
+		
 		dbList.add(new BasicDBObject( URI_KEY, new BasicDBObject("$regex", uri+"/") ));
 		
-		if (resType != null && resType != RESOURCE_TYPE.NONE) {
+	/*	if (resType != null && resType != RESOURCE_TYPE.NONE) {
 			dbList.add(new BasicDBObject( RESTYPE_KEY, resType.Value() ));
 		}
+	*/	
 		if (createdAfter != null) {
 			dbList.add(new BasicDBObject( Naming.CREATIONTIME_SN, new BasicDBObject("$gt", createdAfter) ));
 		}
@@ -449,12 +462,14 @@ public class ResourceDAO {
 		
 		MongoCollection<Document> collection = context.getDatabaseManager()
 				.getCollection(collectionName);
-		FindIterable<Document> docs = collection.find(query).skip(offset);
-		if (limit != null && limit > 0) {
-			docs = docs.limit(limit);
-		}
+		//FindIterable<Document> docs = collection.find(query).skip(offset);  //blocked in 2017-03-10, processed below last sentences in this method.
+		FindIterable<Document> docs = collection.find(query);
+		//if (limit != null && limit > 0) {		// blocked in 2017-03-10, processed below last sentences in this method.
+		//	docs = docs.limit(limit);
+		//}
+		
 		MongoCursor<Document> cursors = docs.iterator();
-System.out.println("URI ===============================> " + uri);		
+		
 		int childLevel = 0;
 		while (cursors.hasNext()) {
 			Document doc = cursors.next();
@@ -483,7 +498,15 @@ System.out.println("URI ===============================> " + uri);
 			}
 			
 		}
-
+		
+		if(limit != null && limit <= resources.size()) {
+			resources = resources.subList(0, limit);
+		}
+		
+		if(offset > 0) {
+			resources = resources.subList(offset, resources.size());
+		}
+		
 		return resources;
 	}
 
@@ -554,21 +577,27 @@ System.out.println("URI ===============================> " + uri);
 		if(conDef.contains("allJoynApp")) {
 			jc = ConvertorFactory.getDaoJSONConvertor(AllJoynApp.class,
 					AllJoynApp.SCHEMA_LOCATION);
-		} /* else if(conDef.contains("allJoynSvcObject")) {
-			jc = ConvertorFactory.getDaoJSONConvertor(allJoynSvcObject.class,
-					allJoynSvcObject.SCHEMA_LOCATION);
+		}  else if(conDef.contains("allJoynSvcObject")) {
+			jc = ConvertorFactory.getDaoJSONConvertor(AllJoynSvcObject.class,
+					AllJoynSvcObject.SCHEMA_LOCATION);
 		} else if(conDef.contains("allJoynInterface")) {
-			jc = ConvertorFactory.getDaoJSONConvertor(allJoynInterface.class,
-					allJoynInterface.SCHEMA_LOCATION);
+			jc = ConvertorFactory.getDaoJSONConvertor(AllJoynInterface.class,
+					AllJoynInterface.SCHEMA_LOCATION);
 		} else if(conDef.contains("allJoynMethod")) {
-			jc = ConvertorFactory.getDaoJSONConvertor(allJoynMethod.class,
-					allJoynMethod.SCHEMA_LOCATION);
+			jc = ConvertorFactory.getDaoJSONConvertor(AllJoynMethod.class,
+					AllJoynMethod.SCHEMA_LOCATION);
 		} else if(conDef.contains("allJoynMethodCall")) {
-			jc = ConvertorFactory.getDaoJSONConvertor(allJoynMethodCall.class,
-					allJoynMethodCall.SCHEMA_LOCATION);
-		} */else if(conDef.contains("allJoynProperty")) {
+			jc = ConvertorFactory.getDaoJSONConvertor(AllJoynMethodCall.class,
+					AllJoynMethodCall.SCHEMA_LOCATION);
+		} else if(conDef.contains("allJoynProperty")) {
 			jc = ConvertorFactory.getDaoJSONConvertor(AllJoynProperty.class,
 					AllJoynProperty.SCHEMA_LOCATION);
+		} else if(conDef.contains("svcObjWrapper")) {
+			jc = ConvertorFactory.getDaoJSONConvertor(SvcObjWrapper.class,
+					SvcObjWrapper.SCHEMA_LOCATION);
+		} else if(conDef.contains("svcFwWrapper")) {
+			jc = ConvertorFactory.getDaoJSONConvertor(SvcFwWrapper.class,
+					SvcFwWrapper.SCHEMA_LOCATION);
 		} else if(conDef.contains("genericInterworkingService")) {
 			jc = ConvertorFactory.getDaoJSONConvertor(GenericInterworkingService.class,
 					GenericInterworkingService.SCHEMA_LOCATION);
@@ -1067,6 +1096,15 @@ System.out.println("URI ===============================> " + uri);
 
 		return docList;
 
+	}
+	
+	public void createResourceIndex() {					// added in 2017-03-13
+		MongoCollection<Document> collection = context.getDatabaseManager()
+				.getCollection(collectionName);
+		
+		collection.createIndex(new BasicDBObject("_uri", 1));
+		collection.createIndex(new BasicDBObject("ri", 1));
+		collection.createIndex(new BasicDBObject("pi", 1));
 	}
 
 //	public List<Document> getRefDocuments(String keyName, String keyValue) {

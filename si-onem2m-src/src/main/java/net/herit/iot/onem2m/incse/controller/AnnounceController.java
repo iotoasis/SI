@@ -248,7 +248,8 @@ public class AnnounceController extends AbsController implements AsyncResponseLi
 			filterC.setFilterUsage(reqMessage.getFilterCriteria().getFilterUsage());
 			filterC.setLimit(reqMessage.getFilterCriteria().getLimit());
 			filterC.setModifiedSince(reqMessage.getFilterCriteria().getModifiedSince());
-			filterC.setResourceType(reqMessage.getResourceTypeEnum().Value());
+			//filterC.setResourceType(reqMessage.getResourceTypeEnum().Value());  // blocked in 2017-03-09
+			filterC.addResourceType(reqMessage.getResourceTypeEnum().Value());
 			filterC.setSizeAbove(reqMessage.getFilterCriteria().getSizeAbove());
 			filterC.setSizeBelow(reqMessage.getFilterCriteria().getSizeBelow());
 			filterC.setStateTagBigger(reqMessage.getFilterCriteria().getStateTagBigger());

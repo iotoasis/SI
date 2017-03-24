@@ -1,11 +1,15 @@
 package net.herit.iot.onem2m.bind.ws.codec;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.herit.iot.message.onem2m.OneM2mRequest;
+import net.herit.iot.message.onem2m.OneM2mRequest.RESPONSE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mResponse;
 import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
@@ -21,6 +25,7 @@ import net.herit.iot.onem2m.core.convertor.JSONConvertor;
 import net.herit.iot.onem2m.core.convertor.XMLConvertor;
 import net.herit.iot.onem2m.core.util.OneM2MException;
 import net.herit.iot.onem2m.resource.FilterCriteria;
+import net.herit.iot.onem2m.resource.PrimitiveContent;
 import net.herit.iot.onem2m.resource.RequestPrimitive;
 import net.herit.iot.onem2m.resource.Resource;
 import net.herit.iot.onem2m.resource.ResponsePrimitive;
@@ -40,11 +45,17 @@ public class WSRequestCodec extends WSAbsCodec {
 	private final static String HTTP_HEADER_SEC_WEBSOCKET_KEY 		= "Sec-WebSocket-Key";
 	private final static String HTTP_HEADER_SEC_WEBSOCKET_VERSION 		= "Sec-WebSocket-Version";
 	
-	private static final XMLConvertor<OneM2mRequest> xmlConvertor = 
-			new XMLConvertor<OneM2mRequest>(OneM2mRequest.class, OneM2mRequest.SCHEMA_LOCATION);
+	//private static final XMLConvertor<OneM2mRequest> xmlConvertor = 
+	//		new XMLConvertor<OneM2mRequest>(OneM2mRequest.class, OneM2mRequest.SCHEMA_LOCATION);
+	private static final XMLConvertor<RequestPrimitive> xmlConvertor = 
+			new XMLConvertor<RequestPrimitive>(RequestPrimitive.class, RequestPrimitive.SCHEMA_LOCATION);
+			
 	private static final JSONConvertor<OneM2mRequest> decodeJsonConvertor =
 			new JSONConvertor<OneM2mRequest>(OneM2mRequest.class);
 	private static final JSONConvertor<RequestPrimitive> encodeJsonConvertor =
+			new JSONConvertor<RequestPrimitive>(RequestPrimitive.class);
+	
+	private static final JSONConvertor<RequestPrimitive> jsonConvertor =
 			new JSONConvertor<RequestPrimitive>(RequestPrimitive.class);
 	
 	private final static String ONEM2M_REQUEST_MESSAGE = "m2m:rqp";
@@ -54,7 +65,6 @@ public class WSRequestCodec extends WSAbsCodec {
 		
 		Map<String, Object> msg = new HashMap<String, Object>();
 		Map<String, Object> contents = new HashMap<String, Object>();
-		Map<String, Object> body = new HashMap<String, Object>();
 		
 		String resultMsg = "";
 		
@@ -74,25 +84,33 @@ public class WSRequestCodec extends WSAbsCodec {
 		case RES_JSON:
 		case NTFY_JSON:
 		case ATTRS_JSON:
+			
 			JSONSerializer jsonSerializer = new JSONSerializer();
 			strContentObject = jsonSerializer.serialize(reqMessage.getContentObject());
-			
-			body.put(bodyName, "###CONTENT###");
-			contents.put(ONEM2M_CONTENT, body);
-			
+		
+			contents.put(ONEM2M_CONTENT, strContentObject);
 			msg.put(ONEM2M_REQUEST_MESSAGE, contents);
-			
-			resultMsg = new ObjectMapper().writeValueAsString(msg);
-			
-			resultMsg = resultMsg.replace("\"###CONTENT###\"", strContentObject);
-			
+	
+			resultMsg = new ObjectMapper().writeValueAsString(msg);		
 			break;
 			
 		case XML:
 		case RES_XML:
 		case NTFY_XML: 
 		case ATTRS_XML:
-		default:
+		default:		
+			RequestPrimitive reqPriv = new RequestPrimitive();
+			reqPriv.setFrom(reqMessage.getFrom());
+			reqPriv.setTo(reqMessage.getTo());
+			reqPriv.setOperation(reqMessage.getOperation());
+			reqPriv.setResourceType(reqMessage.getResourceType());
+			reqPriv.setRequestIdentifier(reqMessage.getRequestIdentifier());
+			reqPriv.setPrimitiveContent(reqMessage.getPrimitiveContent());
+		
+			XMLSerializer xmlSerializer = new XMLSerializer();
+			resultMsg = xmlSerializer.serialize(reqPriv);
+			break;
+		/*	
 			XMLSerializer xmlSerializer = new XMLSerializer();
 			strContentObject = xmlSerializer.serialize(reqMessage.getContentObject());
 			
@@ -109,7 +127,7 @@ public class WSRequestCodec extends WSAbsCodec {
 			resultMsg = magicApi.toXML(msg);
 			
 			resultMsg = resultMsg.replace("###CONTENT###", strContentObject);
-			break;
+			break;   */
 		}
 		
 		return resultMsg.getBytes();
@@ -158,6 +176,7 @@ public class WSRequestCodec extends WSAbsCodec {
 	
 	public static OneM2mRequest decode(byte[] message) throws OneM2MException {
 		OneM2mRequest reqMessage = new OneM2mRequest();
+		RequestPrimitive reqPrimitive = new RequestPrimitive();
 		
 		CONTENT_TYPE contentType = CONTENT_TYPE.NONE;
 		
@@ -166,22 +185,75 @@ public class WSRequestCodec extends WSAbsCodec {
 			
 			contentType = WSRequestCodec.getContentType(strContents);
 			
+			Object contObject = null;
+			
 			switch (contentType) {
 			case XML:
 			case ATTRS_XML:
 			case NTFY_XML:
 			case RES_XML:
-				reqMessage = (OneM2mRequest)xmlConvertor.unmarshal(strContents);
+				reqPrimitive = (RequestPrimitive)xmlConvertor.unmarshal(strContents);
+				
+				reqMessage.setFrom(reqPrimitive.getFrom());
+				reqMessage.setTo(reqPrimitive.getTo());
+				reqMessage.setOperation(reqPrimitive.getOperation());
+				reqMessage.setRequestIdentifier(reqPrimitive.getRequestIdentifier());
+				reqMessage.setPrimitiveContent(reqPrimitive.getPrimitiveContent());
+				reqMessage.setContentType(contentType);
+				reqMessage.setDiscoveryResultType(reqPrimitive.getDiscoveryResultType());
+				reqMessage.setEventCategory(reqPrimitive.getEventCategory());
+				reqMessage.setFilterCriteria(reqPrimitive.getFilterCriteria());
+				reqMessage.setResourceType(reqPrimitive.getResourceType());
+				
+				if(reqPrimitive.getResponseType() == null || reqPrimitive.getResponseType().getResponseTypeValue() == RESPONSE_TYPE.NONE.Value()) {
+					reqMessage.setResponseType(RESPONSE_TYPE.BLOCK_REQ);
+				} else {
+					reqMessage.setResponseType(reqPrimitive.getResponseType());
+				}
+				
+				//PrimitiveContent ptx = reqPrimitive.getPrimitiveContent();
+				
+				//System.out.println("################### reqPrimitive.getPrimitiveContent() === " + ptx.getAnyOrAny().size());
+				
+				contObject = reqMessage.getPrimitiveContent().getAnyOrAny().get(0);
+			
+				reqMessage.setContentObject(contObject);
+				
+				reqMessage.setResultContent(reqPrimitive.getResultContent());
+				
+				if (reqMessage.getResultContentEnum().equals(RESULT_CONT.NONE)) {
+					OPERATION operation = reqMessage.getOperationEnum();
+					reqMessage.setResultContent(Utils.getDefaultResultContent(operation));
+				}
+				
 				break;
 			case JSON:
 			case ATTRS_JSON:
 			case NTFY_JSON:
 			case RES_JSON:
+				reqPrimitive = (RequestPrimitive)jsonConvertor.unmarshal(strContents);
+				
+				reqMessage.setFrom(reqPrimitive.getFrom());
+				reqMessage.setTo(reqPrimitive.getTo());
+				reqMessage.setOperation(reqPrimitive.getOperation());
+				reqMessage.setRequestIdentifier(reqPrimitive.getRequestIdentifier());
+				reqMessage.setContentType(contentType);
+				reqMessage.setDiscoveryResultType(reqPrimitive.getDiscoveryResultType());
+				reqMessage.setEventCategory(reqPrimitive.getEventCategory());
+				reqMessage.setFilterCriteria(reqPrimitive.getFilterCriteria());
+				reqMessage.setResourceType(reqPrimitive.getResourceType());				
+				
+				if(reqPrimitive.getResponseType() == null || reqPrimitive.getResponseType().getResponseTypeValue() == RESPONSE_TYPE.NONE.Value()) {
+					reqMessage.setResponseType(RESPONSE_TYPE.BLOCK_REQ);
+				} else {
+					reqMessage.setResponseType(reqPrimitive.getResponseType());
+				}
 				
 				JSONObject jsonMsgObj = new JSONObject(strContents);
 				JSONObject jsonContentsObj = (JSONObject)jsonMsgObj.get("m2m:rqp");
 				JSONObject jsonBodyObj = jsonContentsObj.getJSONObject("pc");
-				int nType = (int)jsonContentsObj.get("ty");
+				//int nType = (int)jsonContentsObj.get("ty");
+				int nType = reqPrimitive.getResourceType();
 				
 				String resourceType = RESOURCE_TYPE.get(nType).Name();
 				
@@ -191,19 +263,19 @@ public class WSRequestCodec extends WSAbsCodec {
 				
 				JSONConvertor<?> jsonCvt = ConvertorFactory.getJSONConvertor(classObj, schemaLoc);
 			
-				Resource resource = (Resource)jsonCvt.unmarshal(jsonBodyObj.get("m2m:" + resourceType).toString());
+				Resource resource = (Resource)jsonCvt.unmarshal(jsonBodyObj.toString());
 				
-				reqMessage = (OneM2mRequest)decodeJsonConvertor.unmarshal(jsonMsgObj.get("m2m:rqp").toString());
-				
-				reqMessage.setContentType(contentType);
+				//reqMessage = (OneM2mRequest)decodeJsonConvertor.unmarshal(jsonMsgObj.get("m2m:rqp").toString());
 				
 				FilterCriteria filterCriteria = reqMessage.getFilterCriteria();
-				OPERATION operation = OPERATION.NONE;
+				//OPERATION operation = OPERATION.NONE;
 				
-				if(jsonContentsObj.getInt("op") > 0) {
-					int op = jsonContentsObj.getInt("op");
-					operation = OPERATION.get(op);
-				}
+				//if(jsonContentsObj.getInt("op") > 0) {
+				//	int op = jsonContentsObj.getInt("op");
+				//	operation = OPERATION.get(op);
+				//}
+				
+				/*operation = reqMessage.getOperationEnum();
 				
 				if(filterCriteria != null && filterCriteria.getFilterUsage() == FILTER_USAGE.DISCOVERY.Value()) {
 					operation = OPERATION.DISCOVERY;
@@ -222,9 +294,13 @@ public class WSRequestCodec extends WSAbsCodec {
 					}
 				}
 				
-				reqMessage.setOperation(operation);
+				reqMessage.setOperation(operation);*/
+				
+				//System.out.println("################### reqPrimitive.getResultContent() ===== " + reqPrimitive.getResultContent());
+				reqMessage.setResultContent(reqPrimitive.getResultContent());
 				
 				if (reqMessage.getResultContentEnum().equals(RESULT_CONT.NONE)) {
+					OPERATION operation = reqMessage.getOperationEnum();
 					reqMessage.setResultContent(Utils.getDefaultResultContent(operation));
 				}
 				

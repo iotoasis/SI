@@ -192,6 +192,12 @@ public class GroupManager extends AbsManager {
 			
 			List<RegularResource> resList = new ArrayList<RegularResource>();
 			List<String> midList = grp.getMemberIDs();
+			
+			if(midList.size() == 0) {		// added in 2017-03-07
+				grp.setConsistencyStrategy(CONSISTENCY_STRATEGY.SET_MIXED.Value());
+				grp.setMemberType(MEMBER_TYPE.MIXED.Value());
+			}
+			
 			Iterator<String> itMid = midList.iterator();
 			while (itMid.hasNext()) {
 				String memId = itMid.next();

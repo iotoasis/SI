@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlList;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
@@ -61,6 +62,8 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "childResource",
     "genericInterworkingServiceOrGenericInterworkingOperationInstanceOrSemanticDescriptor"
 })
+
+@XmlRootElement(name = Naming.GENERICINTERWORKINGSERVICE_SN)
 public class GenericInterworkingService
     extends FlexContainerResource
 {

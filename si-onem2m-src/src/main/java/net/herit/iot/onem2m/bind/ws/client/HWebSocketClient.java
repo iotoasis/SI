@@ -99,18 +99,17 @@ public class HWebSocketClient extends WebSocketClient {
 	}
 */	
 	public static void main( String[] args ) throws URISyntaxException {
-		Map<String, String> headers = new HashMap();
+Map<String, String> headers = new HashMap();
 		
 		headers.put("Sec-WebSockdet-Protocol", "oneM2M.R2.0.JSON");
+		//headers.put("Sec-WebSockdet-Protocol", "oneM2M.R2.0.XML");
 		
-		HWebSocketClient c = new HWebSocketClient( new URI( "ws://localhost:8887" ), new Draft_17(), headers, 0 ); // more about drafts here: http://github.com/TooTallNate/Java-WebSocket/wiki/Drafts
-		c.connect();
-		
-		
+		HWebSocketClient c = new HWebSocketClient( new URI( "ws://10.10.0.22:8887" ), new Draft_17(), headers, 0 ); // more about drafts here: http://github.com/TooTallNate/Java-WebSocket/wiki/Drafts
+		//c.connect();
 		
 		OneM2mRequest req = new OneM2mRequest();
 		req.setRequestIdentifier("req_222222");
-		req.setFrom("ae_0001");
+		req.setFrom("ae_001");
 		req.setTo("/herit-cse");
 		req.setContentType(CONTENT_TYPE.JSON);
 //		req.setOperation(OPERATION.RETRIEVE);
@@ -128,9 +127,32 @@ public class HWebSocketClient extends WebSocketClient {
 		
 		req.setPrimitiveContent(pCont);
 		
-		//OneM2mResponse resMessage = c.process(req);
-		//System.out.println("ResponseCode=" + resMessage.getResponseStatusCode());
-		//System.out.println(resMessage.toString());
+		String msg = "{\"m2m:rqp\":{\"op\":1,\"to\":\"/herit-cse\",\"rqi\":\"A1000\", \"rcn\":1,\"pc\":{\"m2m:ae\":{\"rn\":\"SmartHomeApplication6\", \"api\":\"Na561\", \"apn\":\"app123456\", \"rr\": false}},\"ty\":2, \"fr\" : \"//iot.herit.net/csebase/AE_00001123456\"}}";
+		String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+				       + "<m2m:rqp xmlns:m2m=\"http://www.onem2m.org/xml/protocols\">"
+				       +     "<op>1</op>"
+				       +     "<to>/herit-cse</to>"
+				       +     "<fr>/cse1234/app5</fr>"
+				       +     "<rqi>0002bf63</rqi>"
+				       +     "<ty>2</ty>"
+				       +     "<pc>"
+				       +         "<m2m:ae>"
+				       +             "<rn>SmartHomeApp4</rn>"
+				       +             "<api>Na5666</api>"
+				       +             "<apn>app12345</apn>"
+				       +             "<rr>false</rr>"
+				       +         "</m2m:ae>" 
+				       +     "</pc>"
+				       +  "</m2m:rqp>";
+		
+		try {
+			if(c.connectBlocking()) {
+				c.send(xml);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 }

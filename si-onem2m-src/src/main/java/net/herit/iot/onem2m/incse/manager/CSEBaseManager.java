@@ -124,9 +124,14 @@ public class CSEBaseManager extends AbsManager {
 			csebase.addSupportedResourceType(RESOURCE_TYPE.REMOTE_CSE.Value());
 			csebase.addSupportedResourceType(RESOURCE_TYPE.REQUEST.Value());
 			csebase.addSupportedResourceType(RESOURCE_TYPE.SUBSCRIPTION.Value());
+			csebase.addSupportedResourceType(RESOURCE_TYPE.FLEXCONTAINER.Value());						// added in 2017-03-13
+			csebase.addSupportedResourceType(RESOURCE_TYPE.SCHEDULE.Value());						// added in 2017-03-13
+			csebase.addSupportedResourceType(RESOURCE_TYPE.NOTIFICATIONTARGETPOLICY.Value());						// added in 2017-03-13
 			csebase.addPointOfAccess(CfgManager.getInstance().getPointOfAccess());
 			
 			dao.create(csebase);
+			
+			dao.createResourceIndex(); // added in 2017-03-13
 			
 		}
 		

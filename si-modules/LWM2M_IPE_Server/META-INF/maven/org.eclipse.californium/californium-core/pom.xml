@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>org.eclipse.californium</groupId>
+		<artifactId>parent</artifactId>
+		<version>2.0.0-M1</version>
+	</parent>
+	<artifactId>californium-core</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Californium (Cf) Core</name>
+	<description>CoAP library module</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>element-connector</artifactId>
+			<type>jar</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<systemPropertyVariables>
+						<!--
+						   configures the JDK Logging to use the CaliforniumFormatter
+						   by means of the Californium-logging.properties file
+						-->
+						<java.util.logging.config.file>${project.build.testOutputDirectory}/Californium-logging.properties</java.util.logging.config.file>
+					</systemPropertyVariables>
+					<excludes>
+						<exclude>**/*$*</exclude>
+					</excludes>
+					<!-- 
+						Parallel test execution fails on OpenJDK 8 on linux :-(
+						For now, execute tests sequentially one by one.
+						We'll have to investigate this further ...
+					 -->
+					<!-- parallel>classes</parallel>
+					<threadCountClasses>8</threadCountClasses-->
+					<groups>org.eclipse.californium.category.Small</groups>
+					<excludedGroups>org.eclipse.californium.category.Medium,org.eclipse.californium.category.Large</excludedGroups>
+				</configuration>
+				<executions>
+					<execution>
+						<id>medium-tests</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<groups>org.eclipse.californium.category.Medium</groups>
+							<excludedGroups>org.eclipse.californium.category.Small,org.eclipse.californium.category.Large</excludedGroups>
+						</configuration>
+					</execution>
+					<execution>
+						<id>large-tests</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<groups>org.eclipse.californium.category.Large</groups>
+							<excludedGroups>org.eclipse.californium.category.Small,org.eclipse.californium.category.Medium</excludedGroups>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

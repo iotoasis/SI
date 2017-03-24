@@ -1,0 +1,71 @@
+## method 별 명령
+- doGet : humidity, temperature 등 read
+- doPost : humidity, temperature 등 observe / reboot
+- doPut : led, sound 등 write(text/plain만)
+- doDelete : humidity, temperature 등 observe 취소
+
+-- 여러개를 read 하기 위해서 post로 보내서 get의 방식대로 반복문 처리
+-- 기존 폼과 연동이 되는가?? : yes
+
+
+
+## Direct
+
+# connect
+{
+	"conn":"connect",
+	"oui":"unidtf",
+	"manufacturer":"",
+	"modelName":"",
+	"sn":"",
+	"authId":"",
+	"authPwd":"",
+	"objectModels":[
+		{"uri":"/1/0"},
+		{"uri":"/3/0"},
+		...
+	]
+}
+
+# disconnect
+{
+	"conn":"disconnect",
+	"oui":"unidtf",
+	"manufacturer":"",
+	"modelName":"",
+	"sn":"",
+	"authId":"",
+	"authPwd":"",
+	"objectModels":[
+		{"uri":"/1/0"},
+		{"uri":"/3/0"},
+		...
+	]
+}
+
+# conn
+- connect
+- disconnect
+- oneM2M_write
+- oneM2M_read
+- controlHistory
+
+
+
+# IPE -> 외부
+{
+	
+}
+
+
+
+## oneM2M
+# 외부 -> IPE
+{
+
+}
+
+## IPE -> 외부
+{
+
+}

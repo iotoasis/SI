@@ -57,7 +57,7 @@ import javax.xml.bind.annotation.XmlType;
     "subscription"
 })
 //@XmlRootElement(name = "deviceCapabilityAnnc")
-@XmlRootElement(name = "dvcA")
+@XmlRootElement(name = "m2m:" + Naming.DEVICECAPABILITYANNC_SN)
 public class DeviceCapabilityAnnc
     extends AnnouncedMgmtResource
 {

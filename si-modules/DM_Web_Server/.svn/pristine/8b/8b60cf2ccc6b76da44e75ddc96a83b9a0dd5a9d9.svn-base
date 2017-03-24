@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Device">
+	
+    <typeAlias alias="DeviceVO" type="net.herit.business.device.service.DeviceVO" />
+    <typeAlias alias="ParameterVO" type="net.herit.business.device.service.ParameterVO" />
+
+	<resultMap id="resultInfo" class="DeviceVO">
+		<result property="deviceId" column="DEVICE_ID" />
+		<result property="parentId" column="PARENT_ID" />
+		<result property="deviceType" column="DEVICE_TYPE" />
+		<result property="modelName" column="MODEL_NAME" />
+		<result property="oui" column="OUI" />
+		<result property="manufacturer" column="MANUFACTURER" />
+		<result property="embededUri" column="EMBEDED_URI" />
+		<result property="sn" column="SN" />
+		<result property="authId" column="AUTH_ID" />
+		<result property="authPwd" column="AUTH_PWD" />
+		<result property="bsStatus" column="BS_STATUS" />
+		<result property="regTime" column="REG_TIME" />
+		<result property="regUpdateTime" column="REG_UPDATE_TIME" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+	</resultMap>
+
+	<select id="DeviceDAO.deviceCount" resultClass="int">
+		SELECT 
+			 COUNT(*)	
+		FROM 
+			HDM_DEVICE
+		WHERE 1=1
+		<isNotEmpty property="modelName">
+			AND MODEL_NAME LIKE #modelName# || %
+		</isNotEmpty>
+		<isNotEmpty property="oui">
+			AND OUI LIKE #oui# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sn">
+			AND SN LIKE #sn# || '%'
+		</isNotEmpty>
+    </select>
+    
+    
+	<select id="DeviceDAO.deviceList" resultMap="resultInfo">
+		SELECT
+			 A.DEVICE_ID
+			,A.PARENT_ID
+			,A.DEVICE_TYPE
+			,A.MODEL_NAME
+			,A.OUI
+			,A.MANUFACTURER
+			,A.EMBEDED_URI
+			,A.SN
+			,A.AUTH_ID
+			,A.AUTH_PWD
+			,A.BS_STATUS
+			,DATE_FORMAT(A.REG_TIME, '%Y-%m-%d %H:%i:%s') AS REG_TIME
+			,DATE_FORMAT(A.REG_UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS REG_UPDATE_TIME
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS CREATE_TIME
+			,DATE_FORMAT(A.UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_TIME
+		FROM 
+			HDM_DEVICE A 
+		WHERE 1=1
+		<isNotEmpty property="modelName">
+			AND MODEL_NAME LIKE #modelName# || %
+		</isNotEmpty>
+		<isNotEmpty property="oui">
+			AND OUI LIKE #oui# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sn">
+			AND SN LIKE #sn# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="orderBy">
+			ORDER BY A.#sn#
+		</isNotEmpty>
+		<isEmpty property="orderBy">
+			ORDER BY A.DEVICE_ID
+		</isEmpty>
+	</select>
+	
+
+	<select id="DeviceDAO.device" resultMap="resultInfo">
+		SELECT
+			 A.DEVICE_ID
+			,A.PARENT_ID
+			,A.DEVICE_TYPE
+			,A.MODEL_NAME
+			,A.OUI
+			,A.MANUFACTURER
+			,A.EMBEDED_URI
+			,A.SN
+			,A.AUTH_ID
+			,A.AUTH_PWD
+			,A.BS_STATUS
+			,DATE_FORMAT(A.REG_TIME, '%Y-%m-%d %H:%i:%s') AS REG_TIME
+			,DATE_FORMAT(A.REG_UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS REG_UPDATE_TIME
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS CREATE_TIME
+			,DATE_FORMAT(A.UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_TIME
+		FROM 
+			HDM_DEVICE A 
+		WHERE 1=1
+			AND A.DEVICE_ID = #deviceId#
+	</select>
+	
+
+	<select id="error.message.list" resultClass="java.util.HashMap">
+		SELECT
+		    A.ID
+		  , A.DEVICE_ID
+		  , A.MODEL_NAME
+		  , A.SN
+		  , A.RESOURCE_URI
+		  , A.RESOURCE_NAME
+		  , A.ERROR_DATA
+  		  , DATE_FORMAT(A.ERROR_TIME, '%Y %c/%e %T') AS ERROR_TIME
+		  , A.ERROR_CODE
+		  , A.ERROR_GRADE
+		  , A.ERROR_NAME
+		  , A.CREATE_YN
+		  , A.CREATE_TIME
+		  , IFNULL((SELECT T.MANUFACTURER FROM hdm.HDM_DEVICE T WHERE T.DEVICE_ID = A.DEVICE_ID), '') AS MANUFACTURER
+		FROM
+		  HDH_ERROR_HIST A
+		WHERE 1=1
+		ORDER BY A.ERROR_TIME DESC, A.ERROR_GRADE DESC 
+		LIMIT 30
+	</select>
+	
+	<select id="devicecontroll.history.list" resultClass="java.util.HashMap">
+		SELECT
+		    A.ID
+		  , A.DEVICE_ID
+		  , A.MODEL_NAME
+		  , A.SN
+		  , A.RESOURCE_URI
+		  , A.RESOURCE_NAME
+		  , A.CTL_TYPE
+		  , A.CTL_DATA
+		  , A.CTL_RESULT
+		  , A.ERROR_CODE
+		  , DATE_FORMAT(A.CREATE_TIME, '%Y %c/%e %T') AS CREATE_TIME
+		FROM
+		  HDH_CONTROL_HIST A
+		WHERE 1=1
+		  AND A.DEVICE_ID = #deviceId#
+		ORDER BY A.CREATE_TIME DESC
+		LIMIT 30
+	</select>
+	
+	<select id="deviceerror.history.list" resultClass="java.util.HashMap">
+		SELECT
+		    A.ID
+		  , A.DEVICE_ID
+		  , A.MODEL_NAME
+		  , A.SN
+		  , A.RESOURCE_URI
+		  , A.RESOURCE_NAME
+		  , A.ERROR_DATA
+  		  , DATE_FORMAT(A.ERROR_TIME, '%Y %c/%e %T') AS ERROR_TIME
+		  , A.ERROR_CODE
+		  , A.ERROR_GRADE
+		  , A.ERROR_NAME
+		  , A.CREATE_YN
+		  , A.CREATE_TIME
+		  , IFNULL((SELECT T.MANUFACTURER FROM hdm.HDM_DEVICE T WHERE T.DEVICE_ID = A.DEVICE_ID), '') AS MANUFACTURER
+		FROM
+		  HDH_ERROR_HIST A
+		WHERE 1=1
+		  AND A.DEVICE_ID = #deviceId#
+		ORDER BY A.ERROR_TIME DESC, A.ERROR_GRADE DESC 
+		LIMIT 30
+	</select>
+	
+</sqlMap>

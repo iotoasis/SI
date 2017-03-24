@@ -79,7 +79,7 @@ import net.herit.iot.onem2m.core.util.OneM2MException;
     "contentInstanceOrContentInstanceAnncOrContainer"
 })
 //@XmlRootElement(name = "containerAnnc")
-@XmlRootElement(name = "cntA")
+@XmlRootElement(name = Naming.CONTAINERANNC_SN)
 public class ContainerAnnc
     extends AnnouncedResource
 {
