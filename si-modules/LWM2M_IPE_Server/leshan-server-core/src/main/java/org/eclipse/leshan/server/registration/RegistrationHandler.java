@@ -26,14 +26,13 @@ import org.eclipse.leshan.core.response.DeregisterResponse;
 import org.eclipse.leshan.core.response.RegisterResponse;
 import org.eclipse.leshan.core.response.UpdateResponse;
 import org.eclipse.leshan.server.Lwm2mServerConfig;
-import org.eclipse.leshan.server.api.Connector;
-import org.eclipse.leshan.server.api.Tokenization;
-import org.eclipse.leshan.server.api.Util;
 import org.eclipse.leshan.server.client.Client;
 import org.eclipse.leshan.server.client.ClientRegistry;
 import org.eclipse.leshan.server.client.ClientUpdate;
-import org.eclipse.leshan.server.onem2m.CSEConnector;
-import org.eclipse.leshan.server.onem2m.handler.CommandReceiver;
+import org.eclipse.leshan.server.extension.Lwm2mVO;
+import org.eclipse.leshan.server.extension.Util;
+import org.eclipse.leshan.server.extension.dm.handler.DmConnector;
+import org.eclipse.leshan.server.extension.onem2m.handler.IncseConnector;
 import org.eclipse.leshan.server.security.SecurityCheck;
 import org.eclipse.leshan.server.security.SecurityInfo;
 import org.eclipse.leshan.server.security.SecurityStore;
@@ -54,15 +53,11 @@ public class RegistrationHandler {
 
     private SecurityStore securityStore;
     private ClientRegistry clientRegistry;
-    private Thread thrRec = null;
     
     private String authId;
     private String authPwd;
-    private JSONObject result;
-    
     private Client client;
-    private boolean isConnected = false;
-    
+    private Lwm2mVO vo = null;
     
     
     public RegistrationHandler(ClientRegistry clientRegistry, SecurityStore securityStore) {
@@ -101,7 +96,7 @@ public class RegistrationHandler {
             /*******************************************************************
              * 			CONNECT TO DEVICE MANAGEMENT SERVER & IN-CSE SERVER
              *******************************************************************/
-            
+            /*
             new Thread(new Runnable(){
     			@Override
     			public void run() {
@@ -122,6 +117,7 @@ public class RegistrationHandler {
 		    		}
     			}
             }).start();
+            
             
     		Lwm2mServerConfig config = Lwm2mServerConfig.getInstance();
         	if( config.isUsing() ){
@@ -164,15 +160,43 @@ public class RegistrationHandler {
     								}
     							}
     						}
-    				    	
     					} catch(Exception e) {
     						e.printStackTrace();
     					}
     				}
     	    	}).start();
-    	    	//*/
     	    	   
         	}
+        	*/
+             
+
+            // MSH-START
+            
+            // set lwm2m info to VO
+            if(Lwm2mServerConfig.getInstance().isDmUsing() || Lwm2mServerConfig.getInstance().isIpeUsing()){
+            	vo = new Lwm2mVO();
+            	vo.setAuthId(authId);
+            	vo.setAuthPwd(authPwd);
+            	vo.setClient(client);
+            }
+            
+            // DM-Server
+            // connect
+            if(Lwm2mServerConfig.getInstance().isDmUsing()){
+            	Runnable rDmOperator = new DmConnector(vo);
+            	Thread tDmOperator = new Thread(rDmOperator);
+            	tDmOperator.start();
+            }
+            
+            // IN-CSE 
+			// createRepository, subscribe, report
+            if(Lwm2mServerConfig.getInstance().isIpeUsing()){
+				Runnable rIncseOperator = new IncseConnector(authId);
+	            Thread tIncseOperator = new Thread(rIncseOperator);
+	            tIncseOperator.start();
+            }
+            
+            // MSH-END
             
         	return res;
         } else {
@@ -181,6 +205,8 @@ public class RegistrationHandler {
     }
 
     public UpdateResponse update(Identity sender, UpdateRequest updateRequest) {
+    	
+    	System.out.println("####################   update test ");
     	
         if (sender == null) {
             return UpdateResponse.badRequest(null);
@@ -221,6 +247,7 @@ public class RegistrationHandler {
             return DeregisterResponse.badRequest("forbidden");
         }
         
+        /*
         new Thread(new Runnable(){
 			@Override
 			public void run() {
@@ -243,6 +270,7 @@ public class RegistrationHandler {
 				}
 			}
     	}).start();
+    	*/
 
         Client unregistered = clientRegistry.deregisterClient(deregisterRequest.getRegistrationID());
         if (unregistered != null) {

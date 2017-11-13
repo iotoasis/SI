@@ -9,7 +9,7 @@
 	<name>LWM2M_IPE_Server</name>
 	<description>Lightweight M2M(LWM2M) based on leshan</description>
 	<modules>
-		<module>lwm2m-server-dms</module>
 		<module>leshan-server-core</module>
+		<module>lwm2m-server-dms</module>
 	</modules>
 </project>

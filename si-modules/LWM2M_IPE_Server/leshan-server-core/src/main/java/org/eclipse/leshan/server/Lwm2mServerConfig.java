@@ -1,5 +1,8 @@
 package org.eclipse.leshan.server;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.apache.commons.configuration.XMLConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,25 +15,36 @@ public class Lwm2mServerConfig {
 	
 	private static Lwm2mServerConfig instance = null;
 	
-	// lwm2m_ipe
-	private String localAddress = "";
-	private int localPort = 0;
-	private String secureLocalAddress = "";
-	private int secureLocalPort = 0;
-	private int webPort = 8085;
-	private String redisUrl = null;
+	// si_server
+	private String siIp = "[siIp]";
+	private int siPortNormal = 0;
+	private int siPortAuth = 0;
+	private boolean siAuthUse = false;
+	private String siUri = "[siUri]";
+	private String siUriAuth = "[siUriAuth]";
+	private String siResourceId = "[siResourceId]";
+	private String siResourceName = "[siResourceName]";
+	private int retryInterval = 0;
 	
 	// dm_server
-	private String dmAddress = "";
+	private boolean dmUsing = false;
+	private String dmIp = "[dmIp]";
 	private int dmPort = 0;
 	
-	// si_server
-	private boolean isUsing = false;
-	private String siAddress = "";
-	private int siNormalPort = 0;
-	private int siAuthPort = 0;
-	private String incseAddress = "";
-	private String authAddress = "";
+	// lwm2m_ipe
+	private boolean ipeUsing = false;
+	private String ipeIp = "[ipeIp]";
+	private int ipePortNormal = 0;
+	private int ipePortSecure = 0;
+	private int ipePortWeb = 0;
+	
+	// debug log
+	private boolean debug = false;
+	
+	// report
+	private boolean report = false;
+	private String reportUri = "[reportUri]";
+	
 	
 	public static Lwm2mServerConfig getInstance(){
 		if(instance == null){
@@ -54,155 +68,143 @@ public class Lwm2mServerConfig {
 			log.info("Configuration loading started!!!");
 			xmlConfig.load(CONFIG_FILENAME);
 			
+			// si_server
+			siIp = xmlConfig.getString("si.ip");
+			siPortNormal = xmlConfig.getInt("si.port.normal");
+			siPortAuth = xmlConfig.getInt("si.port.auth");
+			siAuthUse = xmlConfig.getString("si.auth").equals("yes");
+			siResourceId = xmlConfig.getString("si.resourceId");
+			siResourceName = xmlConfig.getString("si.resourceName");
+			siUri = "http://"+siIp+":"+siPortNormal+"/"+siResourceId+"/"+siResourceName;
+			siUriAuth = "http://"+siIp+":"+siPortAuth+"/si/dev_inf";
+			retryInterval = xmlConfig.getInt("si.retryInterval") * 1000;
 			
 			// dm_server
-			dmAddress = xmlConfig.getString("dm.web.address");
+			dmUsing = xmlConfig.getString("dm.use").equals("yes");
+			dmIp = xmlConfig.getString("dm.web.ip");
 			dmPort = xmlConfig.getInt("dm.web.port");
-
+			
 			// lwm2m_ipe
-			isUsing = xmlConfig.getString("ipe.use").equals("yes") ? true : false;
-			localAddress = xmlConfig.getString("ipe.local.address");
-			localPort = xmlConfig.getInt("ipe.local.port");
-			secureLocalAddress = xmlConfig.getString("ipe.secure.local.address");
-			secureLocalPort = xmlConfig.getInt("ipe.secure.local.port");
-			webPort = xmlConfig.getInt("ipe.web.port");
-			redisUrl = xmlConfig.getString("ipe.redis.url");
-
-			// si_server
-			siAddress = xmlConfig.getString("si.local.address");
-			siNormalPort = xmlConfig.getInt("si.local.port.normal");
-			siAuthPort = xmlConfig.getInt("si.local.port.auth");
-			incseAddress = "http://"+siAddress+":"+siNormalPort+"/herit-in/herit-cse";
-			authAddress = "http://"+siAddress+":"+siAuthPort+"/si/dev_inf";
+			ipeUsing = xmlConfig.getString("ipe.use").equals("yes");
+			ipeIp = xmlConfig.getString("ipe.ip");
+			ipePortNormal = xmlConfig.getInt("ipe.port.normal");
+			ipePortSecure = xmlConfig.getInt("ipe.port.secure");
+			ipePortWeb = xmlConfig.getInt("ipe.port.web");
 			
-
+			// debug log
+			debug = xmlConfig.getString("log.debug").equals("yes");
+			
+			// report
+			report = xmlConfig.getString("report.use").equals("yes");
+			reportUri = xmlConfig.getString("report.uri");
+			
 			log.info("*= Configuration loading succeeded!!!");
-		} catch (Exception e) {
-
-			log.error("Exception during Configuration loading: ", e);
 			
+		} catch (Exception e) {
+			log.error("Exception during Configuration loading: ", e);
 			throw e;
 		}
 	}
 
 	@Override
 	public String toString() {
-		return "Lwm2mServerConfig [localAddress=" + localAddress + ", localPort=" + localPort + ", secureLocalAddress="
-				+ secureLocalAddress + ", secureLocalPort=" + secureLocalPort + ", webPort=" + webPort + ", redisUrl="
-				+ redisUrl + "]";
+		StringBuffer sb = new StringBuffer();
+		/*
+		Method[] methods = this.getClass().getMethods();
+		for(Method method : methods){
+			try{
+				Object result = method.invoke(new Object());
+				
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				sb.append("[").append(method.getName()).append("] : ");
+			} catch (Exception e) {}
+		}*/
+		return null;
 	}
 
-	public String getLocalAddress() {
-		return localAddress;
+	public String getSiIp() {
+		return siIp;
 	}
 
-	public void setLocalAddress(String localAddress) {
-		this.localAddress = localAddress;
+	public int getSiPortNormal() {
+		return siPortNormal;
 	}
 
-	public int getLocalPort() {
-		return localPort;
+	public int getSiPortAuth() {
+		return siPortAuth;
 	}
 
-	public void setLocalPort(int localPort) {
-		this.localPort = localPort;
+	public String getSiUri() {
+		return siUri;
 	}
 
-	public String getSecureLocalAddress() {
-		return secureLocalAddress;
+	public String getSiUriAuth() {
+		return siUriAuth;
 	}
 
-	public void setSecureLocalAddress(String secureLocalAddress) {
-		this.secureLocalAddress = secureLocalAddress;
+	public String getSiResourceId() {
+		return siResourceId;
 	}
 
-	public int getSecureLocalPort() {
-		return secureLocalPort;
+	public String getSiResourceName() {
+		return siResourceName;
 	}
 
-	public void setSecureLocalPort(int secureLocalPort) {
-		this.secureLocalPort = secureLocalPort;
+	public int getRetryInterval() {
+		return retryInterval;
 	}
 
-	public int getWebPort() {
-		return webPort;
+	public boolean isDmUsing() {
+		return dmUsing;
 	}
 
-	public void setWebPort(int webPort) {
-		this.webPort = webPort;
-	}
-
-	public String getRedisUrl() {
-		return redisUrl;
-	}
-
-	public void setRedisUrl(String redisUrl) {
-		this.redisUrl = redisUrl;
-	}
-
-	public String getDmAddress() {
-		return dmAddress;
-	}
-
-	public void setDmAddress(String dmAddress) {
-		this.dmAddress = dmAddress;
+	public String getDmIp() {
+		return dmIp;
 	}
 
 	public int getDmPort() {
 		return dmPort;
 	}
 
-	public void setDmPort(int dmPort) {
-		this.dmPort = dmPort;
+	public boolean isIpeUsing() {
+		return ipeUsing;
 	}
 
-	public String getSiAddress() {
-		return siAddress;
+	public String getIpeIp() {
+		return ipeIp;
 	}
 
-	public void setSiAddress(String siAddress) {
-		this.siAddress = siAddress;
+	public int getIpePortNormal() {
+		return ipePortNormal;
 	}
 
-	public int getSiNormalPort() {
-		return siNormalPort;
+	public int getIpePortSecure() {
+		return ipePortSecure;
 	}
 
-	public void setSiNormalPort(int siNormalPort) {
-		this.siNormalPort = siNormalPort;
+	public int getIpePortWeb() {
+		return ipePortWeb;
 	}
 
-	public int getSiAuthPort() {
-		return siAuthPort;
+	public boolean isDebug() {
+		return debug;
 	}
 
-	public void setSiAuthPort(int siAuthPort) {
-		this.siAuthPort = siAuthPort;
+	public boolean isReport() {
+		return report;
 	}
 
-	public String getIncseAddress() {
-		return incseAddress;
+	public String getReportUri() {
+		return reportUri;
 	}
 
-	public void setIncseAddress(String incseAddress) {
-		this.incseAddress = incseAddress;
+	public boolean isSiAuthUse() {
+		return siAuthUse;
 	}
-
-	public String getAuthAddress() {
-		return authAddress;
-	}
-
-	public void setAuthAddress(String authAddress) {
-		this.authAddress = authAddress;
-	}
-
-	public boolean isUsing() {
-		return isUsing;
-	}
-
-	public void setUsing(boolean isUsing) {
-		this.isUsing = isUsing;
-	}
-
+	
 	
 }

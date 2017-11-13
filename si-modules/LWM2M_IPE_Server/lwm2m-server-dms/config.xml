@@ -1,37 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<si>
+		<!-- pineone -->
+		<!-- 
+		<ip>166.104.112.42</ip>
+		<port>
+			<normal>58080</normal>
+			<auth>58081</auth>
+		</port>
+		<auth>no</auth>
+		<resourceId>lwm2m-in</resourceId>
+		<resourceName>lwm2m-cse</resourceName>
+		<retryInterval>10</retryInterval>
+		-->
+		 
+		<ip>10.10.0.23</ip>
+		<port>
+			<normal>8080</normal>
+			<auth>8081</auth>
+		</port>
+		<auth>no</auth>
+		<resourceId>herit-in</resourceId>
+		<resourceName>herit-cse</resourceName>
+		<retryInterval>10</retryInterval>				<!-- unit : seconds -->
+	</si>
+
 	<dm>
+		<use>no</use>									<!-- 'yes' or 'no' -->
 		<web>
-			<address>10.10.0.23</address>
-			<port>8080</port>
+			<ip>10.10.0.23</ip>
+			<port>8089</port>
 		</web>
 	</dm>
+	
 	<ipe>
-		<use>yes</use>	<!-- 'yes' or 'no' -->
-		<local>
-			<address>10.10.0.23</address>
-			<port>5683</port>
-		</local>
-		<secure>
-			<local>
-				<address>10.10.0.23</address>
-				<port>5684</port>
-			</local>
-		</secure>
-		<web>
-			<port>8085</port>
-		</web>
+		<use>yes</use>									<!-- 'yes' or 'no' -->
+		<ip>10.10.0.23</ip>
+		<port>
+			<normal>5683</normal>
+			<secure>5684</secure>
+			<web>8085</web>
+		</port>
 	</ipe>
-	<si>
-		<local>
-			<address>10.10.224.240</address>
-			<port>
-				<normal>8080</normal>
-				<auth>8081</auth>
-			</port>
-		</local>
-	</si>
-	<redis>
-		<url></url>
-	</redis>
+	
+	<log>
+		<debug>no</debug>								<!-- 'yes' or 'no' -->
+	</log>
+	
+	<report>
+		<use>no</use>									<!-- 'yes' or 'no' -->
+		<reportInterval>30</reportInterval>				<!-- unit : seconds -->
+		<uri></uri>
+	</report>
 </config>

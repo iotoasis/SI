@@ -55,17 +55,14 @@ public class Lwm2mServerMain {
 
     public static void main(String[] args) throws Exception {
     	try {
-        	Lwm2mServerConfig config = Lwm2mServerConfig.getInstance();
+//        	/Lwm2mServerConfig config = Lwm2mServerConfig.getInstance();
         	
-        	String localAddress = config.getLocalAddress();
-        	int localPort = config.getLocalPort();
-        	String secureLocalAddress = config.getSecureLocalAddress();
-        	int secureLocalPort = config.getSecureLocalPort();
-        	int webPort = config.getWebPort();
+        	String localAddress = Lwm2mServerConfig.getInstance().getIpeIp();
+        	int localPort = Lwm2mServerConfig.getInstance().getIpePortNormal();
+        	String secureLocalAddress = Lwm2mServerConfig.getInstance().getIpeIp();
+        	int secureLocalPort = Lwm2mServerConfig.getInstance().getIpePortSecure();
+        	int webPort = Lwm2mServerConfig.getInstance().getIpePortWeb();
         	String redisUrl = null;
-        	if(config.getRedisUrl() != null && !config.getRedisUrl().equals("")) {
-        		redisUrl = config.getRedisUrl();
-        	}
         	
             createAndStartServer(webPort, localAddress, localPort, secureLocalAddress, secureLocalPort, redisUrl);
         } catch (BindException e) {
