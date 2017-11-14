@@ -56,6 +56,7 @@ import net.herit.iot.onem2m.resource.TrafficPattern;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -263,7 +264,29 @@ public class OneM2MApiService {
 		return res;
 	}
 	
-public OneM2mResponse retrieve(String resuri, String from) throws OneM2MException {
+	public String discoverResource(String resuri, String from, RESOURCE_TYPE type) throws Exception {
+		CONTENT_TYPE contentType = CONTENT_TYPE.RES_JSON;
+		OPERATION operationType = OPERATION.DISCOVERY;
+		String requestId = "rqi";
+		
+		String host = this.GLOBALS_IP;
+		String xM2MRi = "pm_12233254546";
+		String xM2MOrigin = requestId; 
+		
+		String targetAddr  = this.cseAddr + resuri + "?fu=1&lbl=onem2m&ty=" + type.Value();
+		
+		OneM2MHttpClient hc = new OneM2MHttpClient(targetAddr);
+		
+		hc.openConnection();
+		hc.setRequestHeaderBase(host, xM2MRi, "", xM2MOrigin, 0);
+		hc.setRequestMethod("GET");
+		
+		String response = hc.getResponseString();
+		
+		return response;
+	}
+	
+	public OneM2mResponse retrieve(String resuri, String from) throws OneM2MException {
 		
 		CONTENT_TYPE contentType = CONTENT_TYPE.RES_JSON;
 		OPERATION operationType = OPERATION.RETRIEVE;
@@ -534,5 +557,28 @@ public OneM2mResponse retrieve(String resuri, String from) throws OneM2MExceptio
 		String response = hc.getResponseString();
 		
 		return hc.getResponseCode();
+	}
+	
+	public JSONObject updateResourceNew(String resuri, String origin, String body) throws Exception {
+		String host = this.GLOBALS_IP;
+		String xM2MRi = "pm_12233254546";
+		String xM2MOrigin = origin; 
+		
+		JSONObject jsonResult = new JSONObject();
+		
+		String targetAddr  = this.cseAddr + resuri;
+		
+		OneM2MHttpClient hc = new OneM2MHttpClient(targetAddr);
+		
+		hc.openConnection();
+		hc.setRequestHeaderBase(host, xM2MRi, "", xM2MOrigin, 0);
+		hc.setRequestMethod("PUT");
+		hc.sendRequest(body);
+		String response = hc.getResponseString();
+		
+		jsonResult.append("responseCode", hc.getResponseCode());
+		jsonResult.append("content", response);
+		
+		return jsonResult;
 	}
 }

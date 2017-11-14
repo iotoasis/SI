@@ -219,6 +219,24 @@
 		WHERE 1=1
 		ORDER BY A.MODEL_NAME
    	</select>
+   	
+   	<select id="deviceModel.model.list.by.deviceType" resultClass="java.util.HashMap">
+		SELECT
+			 A.ID AS id
+			,A.OUI AS oui
+			,A.MANUFACTURER AS manufacturer
+			,A.MODEL_NAME AS modelName
+			,A.DEVICE_TYPE AS deviceType
+			,A.ICON_URL AS iconUrl
+			,ifnull(A.DESCRIPTION, '') AS description
+			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime
+			,DATE_FORMAT(A.UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS updateTime
+		FROM 
+			HDP_DEVICE_MODEL A 
+		WHERE 1=1
+			AND A.DEVICE_TYPE = #deviceType#
+		ORDER BY A.MODEL_NAME
+   	</select>
 	
 	<select id="deviceModel.firmwarePackage.list" resultClass="java.util.HashMap">
 		SELECT
@@ -403,5 +421,25 @@
 			SELECT 1 FROM DUAL
 		</selectKey>
 	</insert>
+	
+	
+	
+	<!-- ************************************************************* -->
+	<!-- *				 TR-069  -->
+	<!-- ************************************************************* -->
+   	
+   	<select id="a" resultMap="uris">
+		SELECT resource_uri, display_name
+		FROM hdp_mo_profile
+		WHERE device_model_id =
+			(
+				SELECT id
+				FROM hdp_device_model
+				WHERE oui = #oui#
+					AND model_name = #model_name#
+			)
+			AND operation = 'R'
+			AND is_historical = 'Y'
+	</select>
    	
 </sqlMap>

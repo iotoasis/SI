@@ -13,6 +13,20 @@
 			AND DEVICE_MODEL_ID = #deviceModelId# 
 		</isNotEmpty>
     </select> 
+    
+    <select id="firmware.id" resultClass="int">
+		SELECT 
+			 IFNULL(ID, COUNT(*))
+		FROM 
+			HDP_FIRMWARE
+		WHERE 1=1
+		<isNotEmpty property="deviceModelId">
+			AND DEVICE_MODEL_ID = #deviceModelId# 
+		</isNotEmpty>
+		<isNotEmpty property="firmwareType">
+			AND FIRMWARE_TYPE = #firmwareType# 
+		</isNotEmpty>
+    </select>
 
 	<select id="firmware.info.get" resultClass="java.util.HashMap">
 		SELECT
@@ -98,6 +112,7 @@
 			A.ID AS id
 			,A.DEVICE_MODEL_ID AS deviceModelId
 			,A.PACKAGE AS package
+			,A.PACKAGE AS packageName
 			,A.FIRMWARE_TYPE AS firmwareType
 			,DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime
 			,DATE_FORMAT(A.UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS updateTime
@@ -145,6 +160,21 @@
 			VALUES
 		(#firmwareId#, #version#, #fileUrl#, #fileSize#, now(), now(), #checksum#);
 	</insert>
+	
+	
+<!-- MSH-START FIRMWARE UPLOAD -->
+	<insert id="firmware.upload">
+		INSERT INTO HDP_FIRMWARE
+		(DEVICE_MODEL_ID, PACKAGE, FIRMWARE_TYPE, CREATE_TIME, UPDATE_TIME, DESCRIPTION)
+			VALUES
+		(#device_model_id#, #package#, #firmware_type#, now(), now(), #description#);
+		<selectKey keyProperty="id" resultClass="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+<!-- MSH-END -->
+
+
 	
 <!-- HERE FIRMWARE VERSION UPDATE -->
 	<update id="firmware.versionUpdate.upload">
@@ -212,6 +242,21 @@
 		AND V.FIRMWARE_ID = F.ID
 		AND F.DEVICE_MODEL_ID = M.ID
 		GROUP BY U.ID
-	</select>	  	
+	</select>
+	
+	<select id="firmware.version.count" resultClass="int">
+		SELECT 
+			 COUNT(*)	
+		FROM 
+			HDP_FIRMWARE_VER
+		WHERE 1=1
+		<isNotEmpty property="firmwareId">
+			AND FIRMWARE_ID = #firmwareId# 
+		</isNotEmpty>
+		<isNotEmpty property="version">
+			AND VERSION = #version# 
+		</isNotEmpty>
+		
+    </select>	 	
 
 </sqlMap>

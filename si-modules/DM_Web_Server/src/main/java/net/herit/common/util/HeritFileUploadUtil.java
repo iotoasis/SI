@@ -104,6 +104,8 @@ public class HeritFileUploadUtil extends HeritFormBasedFileUtil {
 		MultipartHttpServletRequest mptRequest = (MultipartHttpServletRequest)request;
 		Iterator fileIter = mptRequest.getFileNames();
 
+		System.out.println("in");
+		
 		while (fileIter.hasNext()) {
 		    MultipartFile mFile = mptRequest.getFile((String)fileIter.next());
 		    //if (mFile.getSize() == 0) {
@@ -113,41 +115,44 @@ public class HeritFileUploadUtil extends HeritFormBasedFileUtil {
 		    HeritFormBasedFileVO vo = new HeritFormBasedFileVO();
 
 		    String tmp = mFile.getOriginalFilename();
+		    System.out.println("Orifilename : "+tmp);
+		    System.out.println("filename : "+mFile.getName());
+            if (tmp.lastIndexOf("\\") >= 0) {
+            	tmp = tmp.substring(tmp.lastIndexOf("\\") + 1);
+            }
 
-	            if (tmp.lastIndexOf("\\") >= 0) {
-	        	tmp = tmp.substring(tmp.lastIndexOf("\\") + 1);
-	            }
-
-	            vo.setFieldName(mFile.getName());
-	            vo.setFileName(tmp);
-	            vo.setContentType(mFile.getContentType());
-	            //서브디렉토리 주석처리
+            vo.setFieldName(mFile.getName());
+            vo.setFileName(tmp);
+            vo.setContentType(mFile.getContentType());
+            //서브디렉토리 주석처리
 //	            vo.setServerSubPath(getTodayString());
-	            vo.setPhysicalName(getPhysicalFileName());
-	            vo.setSize(mFile.getSize());
-	            System.out.println("size : " + mFile.getSize());
+            vo.setPhysicalName(getPhysicalFileName());
+            vo.setSize(mFile.getSize());
+            System.out.println("size : " + mFile.getSize());
 
-	            if (tmp.lastIndexOf(".") >= 0) {
-	       	 		vo.setPhysicalName(vo.getPhysicalName());	// 2012.11 KISA 보안조치
-	            }
+            if (tmp.lastIndexOf(".") >= 0) {
+       	 		vo.setPhysicalName(vo.getPhysicalName());	// 2012.11 KISA 보안조치
+            }
 
-	            if (mFile.getSize() > 0) {
-	            	InputStream is = null;
-	            	System.out.println("size : " + mFile.getSize());
-	            	try {
-	            		is = mFile.getInputStream();
+            if (mFile.getSize() > 0) {
+            	InputStream is = null;
+            	System.out.println("size : " + mFile.getSize());
+            	try {
+            		is = mFile.getInputStream();
 //	            		saveFile(is, new File(HeritWebUtil.filePathBlackList(where+SEPERATOR+vo.getServerSubPath()+SEPERATOR+vo.getPhysicalName())));
-	            		
-	            		//저장되는 이름 제어
-	            		saveFile(is, new File(HeritWebUtil.filePathBlackList(where+SEPERATOR+vo.getFileName())));
-	            		System.out.println("saveFile Name : "+vo.getFileName());
-	            	} finally {
-	            		if (is != null) {
-	            			is.close();
-	            		}
-	            	}
-	            }
-            	list.add(vo);
+            		
+            		//저장되는 이름 제어
+            		saveFile(is, new File(HeritWebUtil.filePathBlackList(where+SEPERATOR+vo.getFileName())));
+            		System.out.println("saveFile Name : "+vo.getFileName());
+            	} catch(Exception e){
+            		e.printStackTrace();
+            	} finally {
+            		if (is != null) {
+            			is.close();
+            		}
+            	}
+            }
+        	list.add(vo);
 		}
 
 		return list;

@@ -29,6 +29,18 @@ public class DeviceController {
 	@Resource(name = "DeviceService")
 	private DeviceService deviceService;
 
+	@RequestMapping(value="/test.do")
+    public String test(@ModelAttribute("parameterVO") ParameterVO po,
+			    		HttpServletRequest request,
+			            Locale locale,
+			            ModelMap model)
+			throws Exception {
+		
+		
+		
+		return "/v2/device/test";
+	}
+	
     @RequestMapping(value="/list.do")
     public String deviceList(@ModelAttribute("parameterVO") ParameterVO po,
     		                   HttpServletRequest request,

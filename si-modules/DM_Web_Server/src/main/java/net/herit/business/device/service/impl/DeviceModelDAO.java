@@ -42,6 +42,24 @@ public class DeviceModelDAO extends HeritHdpAbstractDAO {
 		}
 		return resultList;
 	}
+	
+	// MSH-START
+	public List<HashMap<String, String>> getDeviceModelListByDeviceType(String deviceType) throws UserSysException {
+		METHOD_NAME = "getDeviceModelList";
+
+		List resultList = null;
+
+		try {
+			resultList = getSqlMapClientTemplate().queryForList(
+					"deviceModel.model.list.by.deviceType", deviceType);
+
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME,
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return resultList;
+	}
+	// MSH-END
 
 	public List<HashMap<String, Object>> getDeviceModelProfileList(String oui, String modelName, String uri) throws UserSysException {
 		METHOD_NAME = "getDeviceModelProfileList";

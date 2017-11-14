@@ -220,6 +220,15 @@ public class DeviceService {
     	
     	return list;
     }
+    
+    // MSH-START
+    public List<HashMap<String,String>> getDeviceModelListByDeviceType(String deviceType) throws UserSysException {
+
+    	List<HashMap<String,String>> list = deviceModelDAO.getDeviceModelListByDeviceType(deviceType);
+    	
+    	return list;
+    }
+    // MSH-END
 
 
     public HashMap<String,String> getDeviceModelInfo(int id) throws UserSysException {

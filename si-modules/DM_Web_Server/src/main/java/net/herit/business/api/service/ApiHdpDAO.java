@@ -219,7 +219,7 @@ public class ApiHdpDAO extends HeritHdpAbstractDAO {
 			
 			result = (Integer)getSqlMapClientTemplate().queryForObject(
 					"deviceModel.get.count.by.modelName", po);
-			
+			System.out.println(result);
 		} catch (SqlMapException ex) {
 			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
 					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);

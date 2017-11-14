@@ -68,9 +68,9 @@ public class DatabaseService {
 			if (param.get("limit") != null) {
 				param.put("limit", Integer.parseInt((String)param.get("limit"), 10));
 			}
-			
+			System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDD1");
 			content.put("list", (ArrayList)dao.list(domain+"."+data+"."+operation, param));
-			
+			System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDD2");
 		} else if (operation.equalsIgnoreCase("listPage")) {
 			String page = (String)param.get("page");
 			if (page == null || page.equals("")) {

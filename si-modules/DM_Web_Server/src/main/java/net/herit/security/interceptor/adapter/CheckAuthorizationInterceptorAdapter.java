@@ -39,7 +39,7 @@ public class CheckAuthorizationInterceptorAdapter extends HandlerInterceptorAdap
 			//	return true;
 			//}
 			
-			if (requestURI.indexOf("/lwm2m") != -1) {
+			if (requestURI.indexOf("/lwm2m") > -1 || requestURI.indexOf("/tr069") > -1) {
 				return true;
 			}
 			

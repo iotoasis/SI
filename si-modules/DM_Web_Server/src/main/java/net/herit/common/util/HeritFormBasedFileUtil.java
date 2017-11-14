@@ -84,30 +84,30 @@ public class HeritFormBasedFileUtil {
      * @throws IOException
      */
     public static long saveFile(InputStream is, File file) throws IOException {
-	// 디렉토리 생성
-	if (! file.getParentFile().exists()) {
-	    file.getParentFile().mkdirs();
-	}
-
-	OutputStream os = null;
-	long size = 0L;
-
-	try {
-	    os = new FileOutputStream(file);
-	    int bytesRead = 0;
-	    byte[] buffer = new byte[BUFFER_SIZE];
-
-	    while ((bytesRead = is.read(buffer, 0, BUFFER_SIZE)) != -1) {
-		size += bytesRead;
-		os.write(buffer, 0, bytesRead);
-	    }
-	} finally {
-	    if (os != null) {
-		os.close();
-	    }
-	}
-
-	return size;
+		// 디렉토리 생성
+		if (! file.getParentFile().exists()) {
+		    file.getParentFile().mkdirs();
+		}
+	
+		OutputStream os = null;
+		long size = 0L;
+	
+		try {
+		    os = new FileOutputStream(file);
+		    int bytesRead = 0;
+		    byte[] buffer = new byte[BUFFER_SIZE];
+	
+		    while ((bytesRead = is.read(buffer, 0, BUFFER_SIZE)) != -1) {
+			size += bytesRead;
+			os.write(buffer, 0, bytesRead);
+		    }
+		} finally {
+		    if (os != null) {
+			os.close();
+		    }
+		}
+	
+		return size;
     }
 
     /**

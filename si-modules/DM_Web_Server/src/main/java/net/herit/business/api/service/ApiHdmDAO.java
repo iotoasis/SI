@@ -2,12 +2,14 @@ package net.herit.business.api.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import net.herit.business.api.service.*;
 import net.herit.business.device.service.DeviceModelVO;
 import net.herit.business.device.service.DeviceVO;
 import net.herit.business.device.service.MoProfileVO;
+import net.herit.business.etcprotocol.constant.Type;
 import net.herit.common.dataaccess.*;
 import net.herit.common.exception.UserSysException;
 import net.herit.common.model.*;
@@ -65,8 +67,9 @@ public class ApiHdmDAO extends HeritHdmAbstractDAO {
 			HashMap<String, String> po = new HashMap<String, String>();
 			po.put("deviceId", deviceId);
 			
+			System.out.println("11111111111111");
 			resultVO = (DeviceVO)getSqlMapClientTemplate().queryForObject("DeviceDAO.device", po);
-			
+			System.out.println("22222222222222");
 		} catch (SqlMapException ex) {
 			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
 					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
@@ -121,10 +124,64 @@ public class ApiHdmDAO extends HeritHdmAbstractDAO {
 	}
 	 
 	
+	/****************************************************
+	 * 	ETC Protocol
+	 ****************************************************/
+	public int getCountByAuthAccount(String deviceId, JSONObject token, Type type) throws UserSysException {
+		METHOD_NAME = "getCountByAuthAccount";
+		
+		int result = 0;
+		
+		try {
+			HashMap<String, String> po = new HashMap<String, String>();
+			po.put("deviceId", deviceId);
+			switch(type){
+			case LWM2M:
+				po.put("authId", token.getString("authId"));
+				po.put("authPwd", token.getString("authPw"));
+				break;
+			case TR_069:
+				po.put("authId", token.getString("Device.ManagementServer.Username"));
+				po.put("authPwd", token.getString("Device.ManagementServer.Password"));
+				break;
+			}
+			
+			
+			result = (Integer)getSqlMapClientTemplate().queryForObject(
+					"device.get.count.by.authAccount", po);
+			
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
+	
+	
 	/*************************************************
 	 *			lwm2m 
 	 *************************************************/
-	
+	public int getCountByAuthAccount(JSONObject token) throws UserSysException {
+		METHOD_NAME = "getCountByAuthAccount";
+		
+		int result = 0;
+		
+		try {
+			HashMap<String, String> po = new HashMap<String, String>();
+			po.put("deviceId", token.getString("deviceId"));
+			po.put("authId", token.getString("authId"));
+			po.put("authPwd", token.getString("authPw"));
+			
+			result = (Integer)getSqlMapClientTemplate().queryForObject(
+					"device.get.count.by.authAccount", po);
+			
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
 	public int getCountByAuthAccount(String deviceId, String authId, String authPwd) throws UserSysException {
 		METHOD_NAME = "getCountByAuthAccount";
 		
@@ -201,8 +258,14 @@ public class ApiHdmDAO extends HeritHdmAbstractDAO {
 				po.put("device_id", deviceId);
 				po.put("resource_uri", unList.get(i).getResourceUri());
 				po.put("resource_name", unList.get(i).getDisplayName());
-				
+				po.put("data", unList.get(i).getData());
+				System.out.println(po.get("data"));
 				rCode += (Integer)insert("device.insert.resource", po);
+/*				if(unList.get(i).getData() != null){
+					po.put("data", unList.get(i).getData());
+					rCode += (Integer)insert("device.insert.resource.withData", po);
+				} else {
+				}*/
 			}
 			
 			if(rCode == unList.size()){
@@ -317,4 +380,107 @@ public class ApiHdmDAO extends HeritHdmAbstractDAO {
 		return result;
 	}
 	
+	
+	/*********************************************
+	 * 	TR-069
+	 * ******************************************/
+	
+	public boolean updateDeviceResourcesData(String deviceId, JSONObject param) throws UserSysException {
+		METHOD_NAME = "insertDeviceResources";
+		
+		boolean result = false;
+		
+		try {
+			int rCode = 0;
+			
+			Iterator it = param.keys();
+			while(it.hasNext()){
+				
+				HashMap<String,String> resMap = new HashMap<String,String>();
+				String uri = (String)it.next();
+				String value = param.getString(uri);
+				
+				if(!uri.equals("command")){
+					resMap.put("value", value);
+					resMap.put("uri", uri.replace(".", "/"));
+					resMap.put("device_id", deviceId);
+					update("device.update.data", resMap);
+				}
+			}
+			
+			
+			//rCode += (Integer)insert("device.insert.resource", po);
+			/*if(rCode == ){
+				result = true;
+			}*/
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME,
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
+	
+	public ArrayList<MoProfileVO> getResources(String deviceId, List<String> paramList) throws UserSysException {
+		METHOD_NAME = "getDeviceInfo";
+		
+		ArrayList<MoProfileVO> result = null;
+		try {
+			StringBuffer listToString = new StringBuffer();
+			for(int i=0; i<paramList.size(); i++){
+				System.out.println(paramList.get(i));
+				listToString.append("'").append(paramList.get(i)).append("'");
+				if(i < paramList.size()-1){
+					listToString.append(", ");
+				}
+			}
+			
+			HashMap po = new HashMap();
+			po.put("deviceId", deviceId);
+			po.put("resource_uris", listToString.toString());
+			
+			result = (ArrayList<MoProfileVO>)getSqlMapClientTemplate().queryForList("device.status.list.by.uris", po);
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
+	public String getHistoricalOption(String deviceId, String resourceUri, String operation) throws UserSysException {
+		METHOD_NAME = "getDeviceInfo";
+		
+		String result = null;
+		try {
+			
+			HashMap po = new HashMap();
+			po.put("operation", operation);
+			po.put("deviceId", deviceId);
+			po.put("resourceUri", resourceUri);
+			
+			result = (String)getSqlMapClientTemplate().queryForObject("get.historical.option", po);
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
+	public HashMap<String, String> getResourceInfoByDeviceId(String deviceId, String resourceUri) throws UserSysException {
+		METHOD_NAME = "getDeviceInfo";
+		
+		HashMap<String, String> result = null;
+		try {
+			
+			HashMap po = new HashMap();
+			po.put("deviceId", deviceId);
+			po.put("resourceUri", resourceUri);
+			
+			result = (HashMap<String, String>)getSqlMapClientTemplate().queryForObject("get.resource.info.by.id", po);
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
 }

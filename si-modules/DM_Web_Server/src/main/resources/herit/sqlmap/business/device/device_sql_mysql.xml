@@ -4,7 +4,9 @@
 <sqlMap namespace="Device">
 	
     <typeAlias alias="DeviceVO" type="net.herit.business.device.service.DeviceVO" />
+    <typeAlias alias="MoProfileVO" type="net.herit.business.device.service.MoProfileVO" />
     <typeAlias alias="ParameterVO" type="net.herit.business.device.service.ParameterVO" />
+    
 
 	<resultMap id="resultInfo" class="DeviceVO">
 		<result property="deviceId" column="DEVICE_ID" />
@@ -27,6 +29,7 @@
 		<result property="dmType" column="DM_TYPE" />
 		<result property="extDeviceId" column="EXT_DEVICE_ID" />
 	</resultMap>
+
     
 	<select id="DeviceDAO.deviceList" resultMap="resultInfo">
 		SELECT
@@ -350,9 +353,9 @@
     
 	<select id="device.status.list" resultClass="java.util.HashMap">
 		SELECT
-			A.RESOURCE_URI AS resourceUri
-			,A.RESOURCE_NAME AS resourceName
-			,A.DATA AS data, 
+			A.RESOURCE_URI AS resourceUri,
+			A.RESOURCE_NAME AS resourceName,
+			A.DATA AS data, 
 			DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime, 
 			DATE_FORMAT(A.UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS updateTime,
 			DATE_FORMAT(A.DATA_TIME, '%Y-%m-%d %H:%i:%s') AS dataTime
@@ -524,13 +527,24 @@
 	</delete>
 	<insert id="device.insert.resource">
 		INSERT INTO hdm_device_mo_data
-		(resource_uri, device_id, resource_name, attribute, create_time, update_time, attr_customized_yn, attr_update_time, data_time, base_resource_uri)
+		(resource_uri, device_id, resource_name, data, attribute, create_time, update_time, attr_customized_yn, attr_update_time, data_time, base_resource_uri)
 		VALUES
-		(#resource_uri#, #device_id#, #resource_name#, '', now(), now(), 'N', now(), now(), #resource_uri#)
+		(#resource_uri#, #device_id#, #resource_name#, #data#, '', now(), now(), 'N', now(), now(), #resource_uri#)
 		<selectKey resultClass="Integer">
 			SELECT 1 FROM DUAL
 		</selectKey>	
 	</insert>
+	<!-- 
+	<insert id="device.insert.resource.withData">
+		INSERT INTO hdm_device_mo_data
+		(resource_uri, device_id, resource_name, data, attribute, create_time, update_time, attr_customized_yn, attr_update_time, data_time, base_resource_uri)
+		VALUES
+		(#resource_uri#, #device_id#, #resource_name#, #data#, '', now(), now(), 'N', now(), now(), #resource_uri#)
+		<selectKey resultClass="Integer">
+			SELECT 1 FROM DUAL
+		</selectKey>	
+	</insert>
+	-->
 	
 	<select id="device.get.count.by.deviceId" resultClass="java.lang.Integer">
 		SELECT
@@ -554,7 +568,7 @@
 	<update id="device.update.data">
 		UPDATE hdm_device_mo_data
 		SET
-			data = #value#
+			data = #value#, update_time = now()
 		WHERE DEVICE_ID = #device_id#
 			AND resource_uri = #uri#		
 	</update>
@@ -566,5 +580,58 @@
 		(#session_id#, #request_id#, #device_id#, #status#, #result#, now(), now(), #retry#, #request_contents#, #request_system#, #service_id#)
 	</insert>
 	
+	
+	
+	<!-- ****************************************************** -->
+	<!-- 		TR-069	 -->
+	<!-- ****************************************************** -->
+	
+	<select id="device.status.list.by.uris" resultClass="MoProfileVO">
+		SELECT
+			A.RESOURCE_URI AS resourceUri,
+			A.RESOURCE_NAME AS resourceName,
+			A.DATA AS data,
+			DATE_FORMAT(A.CREATE_TIME, '%Y-%m-%d %H:%i:%s') AS createTime, 
+			DATE_FORMAT(A.UPDATE_TIME, '%Y-%m-%d %H:%i:%s') AS updateTime,
+			DATE_FORMAT(A.DATA_TIME, '%Y-%m-%d %H:%i:%s') AS dataTime
+		FROM 
+			HDM_DEVICE_MO_DATA A 
+		WHERE 1=1
+			AND DEVICE_ID = #deviceId#
+			<isNotNull property="resource_uris">
+				AND RESOURCE_URI IN ($resource_uris$)
+			</isNotNull>
+	</select>
+	
+	<select id="get.historical.option" resultClass="java.lang.String">
+		SELECT
+			(CASE 
+				WHEN operation = #operation#
+				THEN is_historical
+				ELSE "N"
+			END) as is_historical
+		FROM hdp.hdp_mo_profile
+		WHERE device_model_id = (
+			SELECT id
+			FROM hdp.hdp_device_model hdpdm
+			INNER JOIN (
+				SELECT oui, manufacturer, model_name
+				FROM hdm_device
+				WHERE device_id = #deviceId#
+			) hdmd
+			ON hdpdm.oui = hdmd.oui
+			AND hdpdm.manufacturer = hdmd.manufacturer
+			AND hdpdm.model_name = hdmd.model_name
+		)
+		AND resource_uri = #resourceUri#
+	</select>
+	
+	<select id="get.resource.info.by.id" resultClass="java.util.HashMap">
+		SELECT hd.device_id, model_name, sn, resource_uri, resource_name, base_resource_uri
+		FROM hdm_device hd INNER JOIN hdm_device_mo_data hdmd
+		ON hd.DEVICE_ID = hdmd.DEVICE_ID
+		WHERE hd.device_id = #deviceId#
+			AND resource_uri = #resourceUri#
+	</select>
 	
 </sqlMap>

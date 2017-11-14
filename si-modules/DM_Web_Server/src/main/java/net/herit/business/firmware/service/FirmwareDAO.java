@@ -190,4 +190,108 @@ public class FirmwareDAO extends HeritHdpAbstractDAO {
 		return resultMap;
 		
 	}
+	
+	// MSH-START TR-069 Firmware upload
+	public int getFirmwareCount(int dmId) throws UserSysException {
+		
+		METHOD_NAME = "getFirmwareCount";
+		
+		int result = 0;
+		System.out.println(dmId);
+		try {
+			HashMap<String, Object> po = new HashMap<String,Object>();
+			po.put("deviceModelId", dmId);
+			
+			result = (Integer) getSqlMapClientTemplate().queryForObject("firmware.info.count", po);
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME,
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
+	public int getFirmwareVersionCount(int fwId, String version) throws UserSysException {
+		
+		METHOD_NAME = "getFirmwareCount";
+		
+		int result = 0;
+		System.out.println(fwId+"/"+version);
+		try {
+			HashMap<String, Object> po = new HashMap<String,Object>();
+			po.put("firmwareId", fwId);
+			po.put("version", version);
+			
+			result = (Integer) getSqlMapClientTemplate().queryForObject("firmware.version.count", po);
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME,
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
+	public int getFirmwareId(int deviceModelId, int firmwareType) throws UserSysException {
+		
+		METHOD_NAME = "getFirmwareCount";
+		
+		int result = 0;
+		System.out.println(deviceModelId);
+		try {
+			HashMap<String, Object> po = new HashMap<String,Object>();
+			po.put("deviceModelId", deviceModelId);
+			po.put("firmwareType", firmwareType);
+			
+			result = (Integer) getSqlMapClientTemplate().queryForObject("firmware.id", po);
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME,
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
+	public int addFirmwareInfo(int dmId, String fileName, int fileType, String description) throws UserSysException {
+		
+		METHOD_NAME = "addFirmwareInfo";
+		
+		int result = 0;
+		System.out.println(dmId+"/"+fileName+"/"+fileType+"/"+description);
+		try {
+			HashMap<String, Object> po = new HashMap<String,Object>();
+			po.put("device_model_id", dmId);
+			po.put("package", fileName);
+			po.put("firmware_type", fileType);
+			po.put("description", description);
+			
+			result = (Integer) getSqlMapClientTemplate().insert("firmware.upload", po);
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME,
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
+	public int addFirmwareVersion(int firmwareId, String version, long fileSize) throws UserSysException {
+		
+		METHOD_NAME = "addFirmwareVersion";
+		
+		int result = 0;
+		System.out.println(firmwareId+"/"+version+"/"+fileSize);
+		try {
+			HashMap<String, Object> po = new HashMap<String,Object>();
+			
+			po.put("firmwareId", firmwareId);
+			po.put("version", version);
+			po.put("checksum", "checksum_tbd");
+			po.put("fileUrl", "");
+			po.put("fileSize", fileSize);
+			
+			getSqlMapClientTemplate().insert("firmware.version.upload", po);
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME,
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
+	
+	// MSH-END
 }

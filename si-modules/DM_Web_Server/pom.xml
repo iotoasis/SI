@@ -8,12 +8,22 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
-		<java-version>1.6</java-version>
+		<java-version>1.7</java-version>
 	    <org.springframework-version>3.2.8.RELEASE</org.springframework-version>  
 		<org.springframework.security-version>3.2.2.RELEASE</org.springframework.security-version>
 		<org.aspectj-version>1.7.4</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
+	
+	<repositories>
+		<!-- local -->
+		<repository>
+			<id>local-repo</id>
+			<name>local Repository</name>
+			<url>file://${project.basedir}/ext-lib/onem2m</url>
+		</repository>
+	</repositories>
+	
 	<dependencies>
 		<!-- Spring Framework -->
 		<dependency>
@@ -28,6 +38,24 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.xml.soap/com.springsource.javax.xml.soap -->
+		
+		
+		<!-- https://mvnrepository.com/artifact/org.jdom/jdom -->
+		<dependency>
+		    <groupId>org.jdom</groupId>
+		    <artifactId>jdom</artifactId>
+		    <version>2.0.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/servlets.com/cos -->
+		<dependency>
+		    <groupId>servlets.com</groupId>
+		    <artifactId>cos</artifactId>
+		    <version>05Nov2002</version>
+		</dependency>
+				
 		
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -69,6 +97,13 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>1.7.0.RELEASE</version> <!-- 1.0.0 => 1.7.0 -->
 		</dependency>
+
+		<!-- added in 2017-09-18 -->
+		<dependency>
+	        <groupId>org.mongodb</groupId>
+	        <artifactId>mongo-java-driver</artifactId>
+	        <version>3.4.1</version>
+	    </dependency>
 				
 		<!-- 2014.03.10 회의 결과 반영 (필요 시 dependency 추가), 수정자: 헤리트 웹 서비스 플랫폼 임효섭
 		<dependency>
@@ -255,7 +290,7 @@
 			mvn install:install-file -Dfile=C:\jar\herit-onem2m-ae.jar -DgroupId=herit-onem2m-ae -DartifactId=onem2m-hubiss-ae -Dversion=1.0 -Dpackaging=jar
 		-->
 		<dependency>
-			<groupId>herit-onem2m-ae</groupId>
+			<groupId>herit</groupId>
 			<artifactId>onem2m-hubiss-ae</artifactId>
 			<version>1.0</version>
 		</dependency>
@@ -431,8 +466,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>

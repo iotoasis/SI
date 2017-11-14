@@ -42,7 +42,6 @@ public class DeviceVO implements Serializable{
 	/** EXT_DEVICE_ID */
 	private String extDeviceId;
 
-
 	public String getDeviceId() {
 		return StringUtil.nvl(deviceId);
 	}
@@ -133,6 +132,6 @@ public class DeviceVO implements Serializable{
 	}
 	public void setExtDeviceId(String extDeviceId) {
 		this.extDeviceId = extDeviceId;
-	}
-
+	}	
+	
 }

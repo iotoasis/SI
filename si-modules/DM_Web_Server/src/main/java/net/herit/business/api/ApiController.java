@@ -1,7 +1,10 @@
 package net.herit.business.api;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -21,27 +24,49 @@ import net.herit.business.api.service.FileUploadVO;
 import net.herit.business.api.service.LWM2MApiService;
 import net.herit.business.api.service.OneM2MApiService;
 import net.herit.business.api.service.OpenApiService;
+import net.herit.business.api.service.TR069ApiService;
 import net.herit.business.device.service.DeviceModelVO;
 import net.herit.business.device.service.DeviceVO;
 import net.herit.business.device.service.ExtMoProfileVO;
 import net.herit.business.device.service.MoProfileVO;
+import net.herit.business.device.service.ParameterVO;
+import net.herit.business.etcprotocol.HttpConnector;
+import net.herit.business.etcprotocol.tr069.CurlOperation;
+import net.herit.business.firmware.service.FirmwareDAO;
+import net.herit.business.firmware.service.FirmwareService;
 import net.herit.business.lwm2m.Util;
 import net.herit.common.conf.HeritProperties;
 import net.herit.common.exception.UserSysException;
 import net.herit.common.model.ErrorVO;
 import net.herit.common.model.HeritFormBasedFileVO;
 import net.herit.common.util.HeritFileUploadUtil;
+import net.herit.common.util.PagingUtil;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.oreilly.servlet.MultipartRequest;
 
 @Controller
 @RequestMapping(value = "/api")
@@ -53,10 +78,16 @@ public class ApiController {
 	private OpenApiService openApiService;
 	@Resource(name = "LWM2MApiService")
 	private LWM2MApiService lwm2mApiService;
+	@Resource(name = "TR069ApiService")
+	private TR069ApiService tr069ApiService;
 	@Resource(name = "ApiHdmDAO")
 	private ApiHdmDAO hdmDAO;
 	@Resource(name="ApiHdpDAO")
 	private ApiHdpDAO hdpDAO;
+	@Resource(name = "FirmwareService")
+	private FirmwareService firmwareService;
+	@Resource(name = "FirmwareDAO")
+	private FirmwareDAO fdao;
 
 	/** 이미지경로를 위한 URL */
 	private final String hostUrl = HeritProperties
@@ -84,6 +115,7 @@ public class ApiController {
 			@PathVariable("operation") String operation,
 			HttpServletRequest request) throws Exception {
 
+		System.out.println("##### get in! "+system+"/"+domain+"/"+data+"/"+operation);
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		HashMap<String, Object> param = new HashMap<String, Object>();
@@ -107,11 +139,13 @@ public class ApiController {
 			String value = request.getParameter(name);
 			param.put(name, value);
 		}
+		System.out.println(param);
 
 		try {
 
 			Map<String, Object> content = databaseService.execute(system,
 					domain, data, operation, param);
+			System.out.println(content);
 
 			response.put("result", 0);
 			response.put("errorCode", 0);
@@ -119,6 +153,7 @@ public class ApiController {
 			response.put("parameter", param);
 
 		} catch (UserSysException ex) {
+			ex.printStackTrace();
 			ErrorVO err = ex.getErrorVO();
 			response.put("result", 1);
 			response.put("errorCode", err.getErrorCode());
@@ -126,6 +161,7 @@ public class ApiController {
 			response.put("parameter", param);
 
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			response.put("result", 1);
 			response.put("errorCode", -1);
 			response.put("content", ex.toString());
@@ -145,6 +181,8 @@ public class ApiController {
 			@PathVariable("domain") String domain,
 			@PathVariable("operation") String operation,
 			HttpServletRequest request) throws Exception {
+		
+		System.out.println("##### get in222! "+system+"/"+domain+"/"+operation);
 
 		Map<String, Object> response = new HashMap<String, Object>();
 		HashMap<String, String> param = new HashMap<String, String>();
@@ -194,8 +232,10 @@ public class ApiController {
 		}
 		
 		System.out.println("deviceId:" + deviceId);
-		
+		System.out.println("WHY");
 		DeviceVO deviceInfo = hdmDAO.getDeviceInfo(deviceId);
+		
+		System.out.println("deviceInfo is null? : " + deviceInfo == null);
 
 		int dmType = deviceInfo.getDmType();
 		String extDeviceId = deviceInfo.getExtDeviceId();
@@ -346,7 +386,7 @@ public class ApiController {
 				}
 				contentMap.put("o", op);
 				HashMap<String, Object> content = lwm2mApiService.execute(operation, contentMap, deviceInfo.getAuthId());
-				System.out.println("CONTENT : " + content.toString());
+				
 				
 				//* 
 				if (content.get("exception") == null
@@ -368,6 +408,9 @@ public class ApiController {
 					response.put("requestBody", body);
 					response.put("responseBody", content.get("body"));
 				}//*/
+				
+				System.out.println("CONTENT : " + content.toString());
+				System.out.println("RESPONSE : " + response);
 
 			} catch (UserSysException ex) {
 				ex.printStackTrace();
@@ -388,9 +431,159 @@ public class ApiController {
 				response.put("requestBody", body);
 			}
 			
+		} else if (dmType == 3) { // TR-069 Server
+			
+			System.out.println("##### operation : "+operation);
+			System.out.println("##### bodyString : "+bodyString);
+			System.out.println("##### contentMap : "+contentMap);
+			
+			HashMap<String, Object> content = null;
+			
+			try{
+				content = tr069ApiService.execute2(operation, new JSONObject(bodyString));
+				System.out.println("::::::::::::::::::::::::::::::::::");
+				System.out.println(content);
+				if (content.get("exception") == null && (Integer) content.get("status") == 200) {
+					
+					response.put("result", 0);
+					response.put("errorCode", content.get("status"));
+					response.put("content", content.get("json"));
+				} else if (content.get("exception") == null && (Integer) content.get("status") != 200) {
+					response.put("result", 1);
+					response.put("errorCode", content.get("status"));
+					response.put("content", content.get("json"));
+					response.put("requestBody", body);
+					response.put("responseBody", content.get("body"));
+				} else {
+					response.put("result", 0);
+					response.put("errorCode", content.get("status"));
+					response.put("content", content.get("exception").toString());
+					response.put("requestBody", body);
+					response.put("responseBody", content.get("body"));
+				}
+			} /*catch (UserSysException ex) {
+				ex.printStackTrace();
+				System.out.println(ex);
+				ErrorVO err = ex.getErrorVO();
+				response.put("result", 1);
+				response.put("errorCode", err.getErrorCode());
+				response.put("content", err.getErrorMessage());
+				response.put("parameter", param);
+
+			}*/ catch (Exception ex) {
+				ex.printStackTrace();
+				System.out.println(ex);
+				response.put("result", 1);
+				response.put("errorCode", -1);
+				response.put("content", ex.toString());
+				response.put("exception", ex);
+				response.put("requestBody", body);
+			}
+			
+			System.out.println("[ CONTENT_OUT ] : "+content);
+			System.out.println("[ RESPONSE_OUT ] : "+response);
+			
 		}
 		
 		return response;
+	}
+	
+	// HERE FIRMWARE VERSION INSERT, UPDATE
+	@ResponseBody
+	@RequestMapping(value = "/{system}/{domain}/upload")
+	public String uploadFirmware(
+		@PathVariable("system") String system,
+		@PathVariable("domain") String domain,
+		HttpServletRequest request) {
+		//throws Exception {
+
+		String returnMsg = "success";
+		Map<String, Object> response = new HashMap<String, Object>();
+		
+		try{
+			System.out.println("##### get in444! "+system+"/"+domain);
+			
+			String savePath = "";
+			System.out.println(firmwareDir);
+			System.out.println(tomcatDir+uploadDir);
+			System.out.println("ddddddddd3333");
+			
+			MultipartHttpServletRequest mptRequest = (MultipartHttpServletRequest)request;
+			String originalFileName = mptRequest.getFile("packageName").getOriginalFilename();
+			System.out.println(originalFileName);
+			File dir = new File(originalFileName);
+			
+			if (!dir.exists()) {
+				dir.mkdir();
+			}
+			
+			String directory = null;
+			int fileType = Integer.parseInt(mptRequest.getParameter("fileType").substring(0, mptRequest.getParameter("fileType").indexOf(" ")));
+			if( fileType == 1 ){
+				directory = firmwareDir;
+			} else {
+				directory = tomcatDir+uploadDir;
+			}
+				
+			System.out.println("middle test : " +dir);
+			List<HeritFormBasedFileVO> result = HeritFileUploadUtil.filesUpload(request, directory, maxFileSize);
+			System.out.println(result.size());
+			
+			String res = null;
+			HttpConnector hc = new HttpConnector();
+			res = hc.sendFile(mptRequest);
+			System.out.println("---- res : "+res);
+			/*
+			hc.sendFileWithCurl();
+	
+			
+			if( result.size() > 0 ){
+				
+				CurlOperation co = new CurlOperation();
+				co.setHeader("fileType", mptRequest.getParameter("fileType"));
+				co.setHeader("oui", mptRequest.getParameter("oui"));
+				co.setHeader("productClass", mptRequest.getParameter("productClass"));
+				co.setHeader("version", mptRequest.getParameter("version"));
+				
+				Object[] params = new Object[3];
+				params[0] = "http://"+HeritProperties.getProperty("Globals.tr069ServerHost")+":"+HeritProperties.getProperty("Globals.tr069ServerPort");
+				params[1] = co.getHeader();
+				params[2] = firmwareDir+dir.getName();
+				
+				res = co.send("file upload", params);
+				System.out.println(res);				
+			}*/
+			
+			if(res != null && res.indexOf("201") > -1){
+				int deviceModelId = Integer.parseInt(mptRequest.getParameter("deviceModel"));
+				//long fileSize = dir.length();
+				long fileSize = result.get(0).getSize();
+				System.out.println("######################## file size ");
+				System.out.println(fileSize);
+				int fwId = 0;
+				String fileName = originalFileName;
+				String version = mptRequest.getParameter("version");
+				String description = mptRequest.getParameter("description");
+				
+				fwId = fdao.getFirmwareId(deviceModelId, fileType);
+				int fvCount = 0;
+				if(fwId == 0){
+					fwId = fdao.addFirmwareInfo(deviceModelId, fileName, fileType, description);
+					fdao.addFirmwareVersion(fwId, version, fileSize);
+				} else {
+					fvCount = fdao.getFirmwareVersionCount(fwId, mptRequest.getParameter("version"));
+					if(fvCount == 0){
+						fdao.addFirmwareVersion(fwId, version, fileSize);
+					}
+				}
+			}
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			returnMsg = ex.getMessage();
+		}
+
+		return returnMsg;
 	}
 
 	// HERE FIRMWARE VERSION INSERT, UPDATE
@@ -402,6 +595,8 @@ public class ApiController {
 			@PathVariable("data") String data, HttpServletRequest request)
 			throws Exception {
 
+		System.out.println("##### get in333! "+system+"/"+domain+"/"+data);
+		
 		Map<String, Object> response = new HashMap<String, Object>();
 		HashMap<String, Object> param = new HashMap<String, Object>();
 
@@ -564,5 +759,55 @@ public class ApiController {
 		return null;
 	}
 	*/
+	
+	@ResponseBody
+	@RequestMapping(value = "/firmware/list.do")
+	//public Map<String, Object> getFirmwareList(ParameterVO po, HttpServletRequest request) throws Exception {
+	public Map<String, Object> getFirmwareList(@RequestBody String bodyString, HttpServletRequest request) throws Exception {
+		System.out.println("값 체크");
+		Map<String, Object> response = new HashMap<String, Object>();
+
+		
+
+		//*
+		JSONObject param = new JSONObject(bodyString);
+		System.out.println(bodyString);
+		System.out.println(param);
+		System.out.println("@@@@@@@@@@@@@@@@@@@");
+		ParameterVO po = new ParameterVO();
+		try{
+			po.setSn(param.getString("sn"));
+			po.setDeviceModel(String.valueOf(param.getInt("deviceModel")));
+			po.setOui(param.getString("oui"));
+			po.setModelName(param.getString("modelName"));//*/
+			
+			Method[] methods = po.getClass().getMethods();
+			for(int i=0; i<methods.length; i++){
+				if( methods[i].getName().startsWith("get") && methods[i].invoke(po) != null ){
+					System.out.println("[PO - "+methods[i].getName()+"] : "+methods[i].invoke(po));
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		PagingUtil pagingUtil = null;
+		try {
+			pagingUtil = firmwareService.getFirmwareListPaging(1, 10, po);
+			
+			response.put("result", 0);
+			response.put("errorCode", 0);
+			response.put("pagingUtil", pagingUtil);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			response.put("result", 1);
+			response.put("errorCode", -1);
+			response.put("content", ex.toString());
+			response.put("exception", ex);
+		}
+		
+		return response;
+	}
 	
 }

@@ -53,8 +53,10 @@ public class MoProfileVO implements Serializable{
 	private String createTime;
 	/** UPDATE_TIME */
 	private String updateTime;
+	private String data;
 	
 		
+	
 	/** IS_ERROR */
 	private String isError;
 	/** IS_MULTIPLE */
@@ -222,7 +224,12 @@ public class MoProfileVO implements Serializable{
 	public void setDisplayType(String displayType) {
 		this.displayType = displayType;
 	}
-
+	public String getData() {
+		return data;
+	}
+	public void setData(String data) {
+		this.data = data;
+	}
 
 
 }

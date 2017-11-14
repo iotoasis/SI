@@ -1,6 +1,7 @@
 package net.herit.business.firmware;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -14,10 +15,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import net.herit.business.device.service.DeviceService;
 import net.herit.business.device.service.ParameterVO;
 import net.herit.business.firmware.service.FirmwareService;
+import net.herit.business.firmware.service.FirmwareVO;
 import net.herit.common.conf.HeritProperties;
 import net.herit.common.util.PagingUtil;
 import net.herit.common.util.StringUtil;
@@ -72,6 +79,88 @@ public class FirmwareController {
 		model.addAttribute("resultPagingUtil", resultPagingUtil);
 
     	return "/v2/firmware/list";
+    }
+    
+    @RequestMapping(value="/index.do")
+    public String firmwareIndex(@ModelAttribute("parameterVO") ParameterVO po,
+    		                   HttpServletRequest request,
+    		                   Locale locale,
+    		                   ModelMap model)
+            throws Exception {
+
+		HttpSession session = request.getSession(false);
+		if(session != null){
+			//페이지 권한 확인
+			GroupAuthorization requestAuth = (GroupAuthorization) session.getAttribute("requestAuth");
+			if(!requestAuth.getAuthorizationDBRead().equals("1")){
+				model.addAttribute("authMessage", "사용자관리 메뉴는 읽기 권한이 없습니다.");
+				return "forward:" + HeritProperties.getProperty("Globals.MainPage");
+			}
+		}
+		
+/*		String deviceModel = po.getDeviceModel();
+		String[] tokens = deviceModel.split("\\|");
+		if (tokens.length == 2) {
+			po.setOui(tokens[0]);
+			po.setModelName(tokens[1]);
+		}
+*/		
+
+		HashMap param = new HashMap<String, Object>();
+		int page = StringUtil.parseInt(request.getParameter("page"), 1);
+        PagingUtil resultPagingUtil = firmwareService.getFirmwareListPaging(page, 0, po);
+        List deviceModelList = deviceService.getDeviceModelList(null);
+
+		/**
+		 * 데이터 셋팅
+		 */
+		model.addAttribute("page", page);
+		model.addAttribute("param", po);
+		model.addAttribute("deviceModelList", deviceModelList);
+		model.addAttribute("resultPagingUtil", resultPagingUtil);
+
+    	return "/v2/firmware/index";
+    }
+    
+    @RequestMapping(value="/upload.do")
+    public String firmwareUpload(@ModelAttribute("parameterVO") ParameterVO po,
+    		                   HttpServletRequest request,
+    		                   Locale locale,
+    		                   ModelMap model)
+            throws Exception {
+
+		HttpSession session = request.getSession(false);
+		if(session != null){
+			//페이지 권한 확인
+			GroupAuthorization requestAuth = (GroupAuthorization) session.getAttribute("requestAuth");
+			if(!requestAuth.getAuthorizationDBRead().equals("1")){
+				model.addAttribute("authMessage", "사용자관리 메뉴는 읽기 권한이 없습니다.");
+				return "forward:" + HeritProperties.getProperty("Globals.MainPage");
+			}
+		}
+		
+/*		String deviceModel = po.getDeviceModel();
+		String[] tokens = deviceModel.split("\\|");
+		if (tokens.length == 2) {
+			po.setOui(tokens[0]);
+			po.setModelName(tokens[1]);
+		}
+*/		
+
+		HashMap param = new HashMap<String, Object>();
+		int page = StringUtil.parseInt(request.getParameter("page"), 1);
+        PagingUtil resultPagingUtil = firmwareService.getFirmwareListPaging(page, 0, po);
+        List deviceModelList = deviceService.getDeviceModelListByDeviceType("TR-069");
+
+		/**
+		 * 데이터 셋팅
+		 */
+		model.addAttribute("page", page);
+		model.addAttribute("param", po);
+		model.addAttribute("deviceModelList", deviceModelList);
+		model.addAttribute("resultPagingUtil", resultPagingUtil);
+
+    	return "/v2/firmware/upload";
     }
 
     /**
