@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -30,6 +31,8 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -68,11 +71,27 @@ public class DeviceManagerController {
 		fiwareAgentAccessKey = HeritProperties.getProperty("Globals.fiwareAgentAccessKey");
 		fiwareAgentUrl = HeritProperties.getProperty("Globals.fiwareAgentUrl");
 		
-		// added in 2017-09-18
-		mongoClient = new MongoClient(HeritProperties.getProperty("Globals.MongoDB.Host"), Integer.parseInt( HeritProperties.getProperty("Globals.MongoDB.Port") ) );
-		//db = mongoClient.getDatabase(HeritProperties.getProperty("Globals.MongoDB.DBName"));
-		db = mongoClient.getDB(HeritProperties.getProperty("Globals.MongoDB.DBName"));
-
+		// added in 2017-09-18, blocked in 2017-11-15
+		//mongoClient = new MongoClient(HeritProperties.getProperty("Globals.MongoDB.Host"), Integer.parseInt( HeritProperties.getProperty("Globals.MongoDB.Port") ) );
+		//db = mongoClient.getDB(HeritProperties.getProperty("Globals.MongoDB.DBName"));
+		
+		// added in 2017-11-15 to support authentication
+		String mongoDbName = HeritProperties.getProperty("Globals.MongoDB.DBName");
+		String mongoHost = HeritProperties.getProperty("Globals.MongoDB.Host");
+		String mongoPort = HeritProperties.getProperty("Globals.MongoDB.Port");
+		
+		if(HeritProperties.getProperty("Globals.MongoDB.User") != null && !HeritProperties.getProperty("Globals.MongoDB.User").equals("")
+				&& HeritProperties.getProperty("Globals.MongoDB.Password") != null && !HeritProperties.getProperty("Globals.MongoDB.Password").equals("")) {
+			
+			String user = HeritProperties.getProperty("Globals.MongoDB.User");
+			String pwd = HeritProperties.getProperty("Globals.MongoDB.Password");
+			
+			MongoCredential credential = MongoCredential.createScramSha1Credential(user, mongoDbName, pwd.toCharArray());
+			mongoClient = new MongoClient(new ServerAddress(mongoHost, Integer.parseInt(mongoPort)), Arrays.asList(credential));
+		} else {
+			mongoClient = new MongoClient(mongoHost, Integer.parseInt( mongoPort ) );
+		}
+		db = mongoClient.getDB(mongoDbName);
 		
 	}
 	
