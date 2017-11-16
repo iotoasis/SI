@@ -106,15 +106,6 @@ public class TR069 implements EtcProtocol{
 				api = api.substring(headUri.length());
 				hdmDAO.updateDeviceResourcesData(Formatter.getInstance().getTR069DeviceIdToDm(token.getString("deviceId")), token.getJSONObject("param"));
 				
-				if(api.equals("/noti/active")){
-					
-				} else if(api.equals("/noti/passive")){
-					
-				} else if(api.equals("/add/cpe")){
-					
-				} else if(api.equals("/test")){
-					
-				}
 				
 				System.out.println("REPORT !!!!!!!!!!!!!!!!!!!!!!!!");
 				System.out.println(token);
@@ -163,8 +154,7 @@ public class TR069 implements EtcProtocol{
 		}
 		return result;
 	}
-	
-	
+
 	
 	
 }
