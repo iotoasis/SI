@@ -1,5 +1,7 @@
+Servers
 */target/
 .project
 .settings
 .metadata
 .recommenders
+.classpath
