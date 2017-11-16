@@ -9,7 +9,10 @@ import net.herit.business.api.service.*;
 import net.herit.business.device.service.DeviceModelVO;
 import net.herit.business.device.service.DeviceVO;
 import net.herit.business.device.service.MoProfileVO;
+import net.herit.business.protocol.DmVO;
+import net.herit.business.protocol.constant.Target;
 import net.herit.business.protocol.constant.Type;
+import net.herit.business.protocol.tr069.TR069Formatter;
 import net.herit.common.dataaccess.*;
 import net.herit.common.exception.UserSysException;
 import net.herit.common.model.*;
@@ -393,7 +396,7 @@ public class ApiHdmDAO extends HeritHdmAbstractDAO {
 		try {
 			int rCode = 0;
 			
-			Iterator it = param.keys();
+			Iterator<String> it = param.keys();
 			while(it.hasNext()){
 				
 				HashMap<String,String> resMap = new HashMap<String,String>();
@@ -410,16 +413,15 @@ public class ApiHdmDAO extends HeritHdmAbstractDAO {
 			
 			
 			//rCode += (Integer)insert("device.insert.resource", po);
-			/*if(rCode == ){
-				result = true;
-			}*/
+			//if(rCode == ){
+			//	result = true;
+			//}
 		} catch (SqlMapException ex) {
 			throw new UserSysException(CLASS_NAME, METHOD_NAME,
 					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
 		}
 		return result;
 	}
-	
 	
 	public ArrayList<MoProfileVO> getResources(String deviceId, List<String> paramList) throws UserSysException {
 		METHOD_NAME = "getDeviceInfo";
@@ -483,4 +485,55 @@ public class ApiHdmDAO extends HeritHdmAbstractDAO {
 		}
 		return result;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * using package : protocol
+	 * made by : MSH
+	 * date : 17.11.16
+	 * 
+	 */
+	
+	public boolean updateDeviceResourcesData(DmVO vo) throws UserSysException {
+		METHOD_NAME = "insertDeviceResources";
+		
+		boolean result = false;
+		
+		try {
+			String deviceId = TR069Formatter.getInstance().getDeviceId(vo.getDeviceId(), Target.DM);
+			JSONObject param = vo.getInform();
+			
+			Iterator<String> it = param.keys();
+			while(it.hasNext()){
+				
+				HashMap<String,String> resMap = new HashMap<String,String>();
+				String uri = (String)it.next();
+				String value = param.getString(uri);
+				
+				if(!uri.equals("command")){
+					resMap.put("value", value);
+					resMap.put("uri", TR069Formatter.getInstance().getResourceUri(uri, Target.DM));
+					resMap.put("device_id", deviceId);
+					update("device.update.data", resMap);
+				}
+			}
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME,
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
 }

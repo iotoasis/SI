@@ -1,6 +1,7 @@
 package net.herit.business.protocol;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,14 +24,14 @@ public class MessageHandler {
 	
 	// getByJSON
 	public JSONObject jsonReceiver(HttpServletRequest request) throws JsonFormatException{
-		InputStream is;
-		String token;
+		
 		JSONObject result = null;
+		InputStream is = null;
+		ByteArrayOutputStream baos = null;
 		
 		try{
 			is = request.getInputStream();
-			
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			baos = new ByteArrayOutputStream();
 			byte[] byteBuffer = new byte[1024];
 			byte[] byteData;
 			int nLength = 0;
@@ -38,12 +39,23 @@ public class MessageHandler {
 				baos.write(byteBuffer,0,nLength);
 			}
 			byteData = baos.toByteArray();
-			token = new String(byteData);
-			result = new JSONObject(token);
+			result = new JSONObject(new String(byteData));
 			
 		} catch(Exception e) {
-			throw new JsonFormatException();
+			e.printStackTrace();
+		} finally {
+			try {
+				if(baos != null){
+					baos.close();
+				}
+				if(is != null){
+					is.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		
 		System.out.println(result);
 		return result;
 	}

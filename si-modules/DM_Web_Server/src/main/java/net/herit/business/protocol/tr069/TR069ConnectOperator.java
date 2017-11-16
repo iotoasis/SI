@@ -1,4 +1,4 @@
-package net.herit.business.protocol;
+package net.herit.business.protocol.tr069;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +14,14 @@ import net.herit.business.api.service.ApiHdpDAO;
 import net.herit.business.device.service.DeviceModelVO;
 import net.herit.business.device.service.DeviceService;
 import net.herit.business.device.service.MoProfileVO;
+import net.herit.business.protocol.DmVO;
 import net.herit.business.protocol.constant.Errors;
+import net.herit.business.protocol.constant.Target;
 import net.herit.business.protocol.constant.Type;
 import net.herit.common.exception.UserSysException;
 
 @Service("Connector")
-public class Connector {
+public class TR069ConnectOperator {
 
 	@Resource(name = "DeviceService")
 	private DeviceService deviceService;
@@ -34,10 +36,10 @@ public class Connector {
 	private String acsIp = null;
 	private int acsPort = 0;
 	
-	private static Connector instance;
-	public static Connector getInstance(){
+	private static TR069ConnectOperator instance;
+	public static TR069ConnectOperator getInstance(){
 		if(instance == null){
-			instance = new Connector();
+			instance = new TR069ConnectOperator();
 		}
 		return instance;
 	}
@@ -79,10 +81,28 @@ public class Connector {
 			deviceModel = hdpDAO.getDeviceModelId(modelName);
 		}
 	}
+	public DeviceModelVO checkDeviceModelRegist(String modelName) throws Exception{
+		DeviceModelVO deviceModel = null;
+		int deviceModelCount = hdpDAO.getDeviceModelCountByModelName(modelName);
+		if(deviceModelCount != 1){
+			// 기대값이 아니므로 exception 발생
+			throw new Exception(Errors.ERR_500.getMsg());
+		} else {
+			deviceModel = hdpDAO.getDeviceModelId(modelName);
+		}
+		return deviceModel;
+	}
 	
 	/** 등록 조회 : hdp_mo_profile 
 	 * @throws Exception **/
 	public void checkDeviceModelProfileRegistered() throws Exception{
+		int profileCount = hdpDAO.getMoProfileCountByDeviceModelId(deviceModel.getId());
+		if(profileCount < 1){
+			// 최소 1개 이상의 resource가 등록되어야 함
+			throw new Exception(Errors.ERR_500.getMsg());
+		}
+	}
+	public void checkDeviceModelProfileRegist(DeviceModelVO deviceModel) throws Exception{
 		int profileCount = hdpDAO.getMoProfileCountByDeviceModelId(deviceModel.getId());
 		if(profileCount < 1){
 			// 최소 1개 이상의 resource가 등록되어야 함
@@ -98,6 +118,16 @@ public class Connector {
 			throw new Exception(Errors.ERR_500.getMsg());
 		} else if (deviceCount == 1) {
 			registResourceModel(protocol);
+		} else {
+			throw new Exception(Errors.ERR_500.getMsg());
+		}
+	}
+	public void checkDeviceRegist(DmVO vo) throws Exception{
+		int deviceCount = hdmDAO.getCountByAuthAccount(TR069Formatter.getInstance().getDeviceId(vo.getDeviceId(), Target.DM), vo.getInform(), Type.TR_069);
+		if(deviceCount == 0){
+			throw new Exception(Errors.ERR_500.getMsg());
+		} else if (deviceCount == 1) {
+			registResourceModel(Type.TR_069);
 		} else {
 			throw new Exception(Errors.ERR_500.getMsg());
 		}

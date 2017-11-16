@@ -28,23 +28,6 @@ public class Util {
 		return result;
 	}
 	
-	
-	public static String makeDeviceId(JSONObject token){
-		
-		StringBuffer deviceId = new StringBuffer();
-		
-		try {
-			deviceId.append(token.get("oui")).append("_");
-			deviceId.append(token.get("modelName")).append("_");
-			deviceId.append(token.get("sn"));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		
-		return deviceId.toString();
-	}
-	
 	// JSONObject 내용 전부 출력
 	public static void printJSONObject(JSONObject obj){
 		Iterator<String> it = obj.keys();
@@ -68,6 +51,43 @@ public class Util {
 			System.out.println("["+key+"]-["+value+"]");
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public static String makeDeviceId(JSONObject token){
+		
+		StringBuffer deviceId = new StringBuffer();
+		
+		try {
+			deviceId.append(token.get("oui")).append("_");
+			deviceId.append(token.get("modelName")).append("_");
+			deviceId.append(token.get("sn"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return deviceId.toString();
+	}
+	
+	
 	
 	public static List<String[]> getUriAndName(JSONObject token){
 		

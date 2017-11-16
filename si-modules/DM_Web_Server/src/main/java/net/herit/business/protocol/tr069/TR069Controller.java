@@ -15,19 +15,22 @@ import net.herit.business.api.service.ApiHdhDAO;
 import net.herit.business.api.service.ApiHdmDAO;
 import net.herit.business.api.service.ApiHdpDAO;
 import net.herit.business.api.service.Formatter;
-import net.herit.business.protocol.Connector;
+import net.herit.business.device.service.DeviceModelVO;
+import net.herit.business.protocol.DmVO;
+import net.herit.business.protocol.HttpOperator;
 import net.herit.business.protocol.MessageHandler;
 import net.herit.business.protocol.constant.Errors;
 import net.herit.business.protocol.constant.KeyName;
+import net.herit.business.protocol.constant.Target;
 import net.herit.business.protocol.constant.Type;
 import net.herit.business.protocol.model.EtcProtocol;
 
 @Controller
 @RequestMapping("/tr069")
-public class TR069 implements EtcProtocol{
+public class TR069Controller implements EtcProtocol{
 
 	@Resource(name = "Connector")
-	private Connector connector;
+	private TR069ConnectOperator connector;
 	
 	@Resource(name="ApiHdhDAO")
 	private ApiHdhDAO hdhDAO;
@@ -40,15 +43,111 @@ public class TR069 implements EtcProtocol{
 	private JSONObject token;
 	
 	private MessageHandler msgHandler = MessageHandler.getInstance();
-	private Extractor ext = new Extractor();
+	private KeyExtractor ext = new KeyExtractor();
 	private String deviceId = null;
 	private String oui = null;
 	private String modelName = null;
 	private String serialNumber = null;
 	private JSONObject inform = null;
 	
-	// handler
+	
+	
+	
+	
+	private HttpOperator httpOperator = new HttpOperator();
+	private KeyExtractor keyExtractor = new KeyExtractor();
+	private TR069ConnectOperator connOperator = new TR069ConnectOperator();
+	
+	private DmVO initialize(JSONObject token){
+		DmVO vo = new DmVO();
+		vo.setDeviceId(keyExtractor.getDeviceId(token));
+		vo.setModelName(keyExtractor.getKeyFromId(deviceId, KeyName.MODEL_NAME));
+		vo.setOui(keyExtractor.getKeyFromId(deviceId, KeyName.MANUFACTURER_OUI));
+		vo.setSerialNumber(keyExtractor.getKeyFromId(deviceId, KeyName.SERIAL_NUMBER));
+		vo.setInform(keyExtractor.getInform(token));
+		return vo;
+	}
+	
+	
+	// CONNECT
+	@ResponseBody
 	@RequestMapping(value="/connect.do", produces="application/json; charset=utf8")
+	public String connect(HttpServletRequest request){
+		String response = null;
+		try{
+			System.out.println("----------------------------------- Connect Start!!");
+			JSONObject token = httpOperator.getParamFromRequest(request);
+			System.out.println(token);
+			
+			// 초기화
+			DmVO vo = initialize(token);
+			
+			// 등록 조회
+			DeviceModelVO deviceModel = connOperator.checkDeviceModelRegist(vo.getModelName());			// 등록 조회 : hdp_device_model
+			connOperator.checkDeviceModelProfileRegist(deviceModel);									// 등록 조회 : hdp_mo_profile
+			connOperator.checkDeviceRegist(vo);															// 등록 조회 : hdm_device 
+			System.out.println("----------------------------------- Device has connected.");
+			response = "200";
+			
+			// DB에 데이터 업데이트
+			hdmDAO.updateDeviceResourcesData(vo);
+			
+		} catch(Exception e) {
+			response = e.getMessage();
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	// REPORT
+	@ResponseBody
+	@RequestMapping(value="/report.do", produces="application/json; charset=utf8")
+	public String report(HttpServletRequest request){
+		String response = null;
+		try{
+			System.out.println("----------------------------------- Report Start!!");
+			JSONObject token = httpOperator.getParamFromRequest(request);
+			System.out.println(token);
+			
+			// DB에 데이터 업데이트
+			hdmDAO.updateDeviceResourcesData(Formatter.getInstance().getTR069DeviceIdToDm(token.getString("deviceId")), token.getJSONObject("param"));
+		} catch(Exception e) {
+			response = e.getMessage();
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// handler
+	@RequestMapping(value="/connect2.do", produces="application/json; charset=utf8")
 	@ResponseBody
 	public String connectHandler(HttpServletRequest request){
 		System.out.println("----------------------------------- connect");
@@ -91,7 +190,7 @@ public class TR069 implements EtcProtocol{
 	}
 	
 	// handler
-	@RequestMapping(value="/report.do", produces="application/json; charset=utf8")
+	@RequestMapping(value="/report2.do", produces="application/json; charset=utf8")
 	@ResponseBody
 	public String reportHandler(HttpServletRequest request){
 		System.out.println("----------------------------------- report");
@@ -118,7 +217,7 @@ public class TR069 implements EtcProtocol{
 	}
 	
 	
-	private void init(JSONObject token){
+	private void init(JSONObject token){		
 		deviceId = ext.getDeviceId(token);
 		modelName = ext.getKeyFromId(deviceId, KeyName.MODEL_NAME);
 		oui = ext.getKeyFromId(deviceId, KeyName.MANUFACTURER_OUI);

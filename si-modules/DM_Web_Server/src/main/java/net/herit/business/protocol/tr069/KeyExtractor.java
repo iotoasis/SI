@@ -15,13 +15,14 @@ import org.xml.sax.InputSource;
 import net.herit.business.protocol.constant.KeyName;
 import net.herit.business.protocol.constant.Target;
 
-public class Extractor {
+public class KeyExtractor {
 	
 	// device ID 불러오기
 	public String getDeviceId(JSONObject token){
 		return getDeviceId(token, Target.DM);
 	}
 	public String getDeviceId(JSONObject token, Target target){
+		TR069Formatter formatter = new TR069Formatter();
 		String deviceId = token.getString("deviceId");
 		if(target == Target.DM){
 			deviceId = deviceId.replace("-", "_");
