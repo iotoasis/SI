@@ -48,6 +48,10 @@ public class Resource {
 		
 		return sb.toString();
 	}
+	
+
+	
+    
 		
 	// special variables
 	private String shortName;

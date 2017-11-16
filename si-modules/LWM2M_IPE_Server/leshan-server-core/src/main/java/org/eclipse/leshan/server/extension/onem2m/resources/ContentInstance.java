@@ -11,7 +11,7 @@ import org.json.JSONObject;
 public class ContentInstance extends Resource{
 	public ContentInstance(){
         setShortName("cin");
-        setRn(getShortName()+"_"+getEt());
+        //setRn(getShortName()+"_"+getEt());
         setCnf("application/json:1");
         resetLbl();
     }
@@ -51,4 +51,9 @@ public class ContentInstance extends Resource{
         setResToJson(setForCreate());
         return this;
     }
+    
+    public JSONObject getJSON(){
+    	makes();
+		return getResToJson();
+	}
 }

@@ -15,13 +15,13 @@ import org.json.JSONObject;
 public class HttpOperator {
 	
 	// send get with base header
-	public HttpURLConnection sendGet(String strUrl){
+	public HttpURLConnection sendGet(String strUri){
 		
 		URL url = null;
 		HttpURLConnection conn = null;
 		
 		try {
-			url = new URL(strUrl);
+			url = new URL(strUri);
 			conn = (HttpURLConnection)url.openConnection();
 			
 			conn.setRequestMethod("GET");
@@ -36,16 +36,49 @@ public class HttpOperator {
 		
 		return conn;
 	}
+	
+	// send get with oneM2M header
+	public HttpURLConnection sendGet(String strUri, HashMap<String, String> header){
+		
+		URL url = null;
+		HttpURLConnection conn = null;
+		
+		try {
+			url = new URL(strUri);
+			conn = (HttpURLConnection)url.openConnection();
+			
+			conn.setRequestMethod("GET");
+			conn.setDoInput(true);
+			if(header != null){
+				// header print(출력)
+				// Util.printMap(header);
+				Iterator<String> it = header.keySet().iterator();
+				while(it.hasNext()){
+					String key = it.next();
+					String value = header.get(key);
+					conn.addRequestProperty(key, value);
+				}
+			}
+			
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+			if(Lwm2mServerConfig.getInstance().isDebug()){
+				e.printStackTrace();
+			}
+		}
+		
+		return conn;
+	}
 		
 	// send post with base header
-	public HttpURLConnection sendPost(String strUrl, JSONObject data){
+	public HttpURLConnection sendPost(String strUri, JSONObject data){
 		
 		URL url = null;
 		HttpURLConnection conn = null;
 		OutputStream os = null;
 		
 		try {
-			url = new URL(strUrl);
+			url = new URL(strUri);
 			conn = (HttpURLConnection)url.openConnection();
 			
 			conn.setRequestMethod("POST");
@@ -79,14 +112,14 @@ public class HttpOperator {
 	}
 	
 	// send post with onem2m header
-	public HttpURLConnection sendPost(String strUrl, JSONObject data, HashMap<String, String> header){
+	public HttpURLConnection sendPost(String strUri, JSONObject data, HashMap<String, String> header){
 		
 		URL url = null;
 		HttpURLConnection conn = null;
 		OutputStream os = null;
 		
 		try {
-			url = new URL(strUrl);
+			url = new URL(strUri);
 			conn = (HttpURLConnection)url.openConnection();
 			
 			conn.setRequestMethod("POST");
@@ -95,7 +128,7 @@ public class HttpOperator {
 			conn.setDoInput(true);
 			if(header != null){
 				// header print(출력)
-				Util.printMap(header);
+				// Util.printMap(header);
 				Iterator<String> it = header.keySet().iterator();
 				while(it.hasNext()){
 					String key = it.next();
@@ -108,6 +141,51 @@ public class HttpOperator {
 			os.write(data.toString().getBytes());
 			os.flush();
 			
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+			if(Lwm2mServerConfig.getInstance().isDebug()){
+				e.printStackTrace();
+			}
+		} finally {
+			try{
+				if(os != null){
+					os.close();
+				}
+			} catch (IOException e) {
+				System.err.println(e.getMessage());
+				if(Lwm2mServerConfig.getInstance().isDebug()){
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return conn;
+	}
+	
+	// send delete with onem2m header
+	public HttpURLConnection sendLongPolling(String strUri, HashMap<String, String> header){
+		
+		URL url = null;
+		HttpURLConnection conn = null;
+		OutputStream os = null;
+		
+		try {
+			url = new URL(strUri);
+			conn = (HttpURLConnection)url.openConnection();
+			
+			conn.setRequestMethod("DELETE");
+			conn.setDoInput(true);
+	        conn.setDoOutput(false);
+			if(header != null){
+				// header print(출력)
+				// Util.printMap(header);
+				Iterator<String> it = header.keySet().iterator();
+				while(it.hasNext()){
+					String key = it.next();
+					String value = header.get(key);
+					conn.addRequestProperty(key, value);
+				}
+			}
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 			if(Lwm2mServerConfig.getInstance().isDebug()){
@@ -181,4 +259,55 @@ public class HttpOperator {
 
         return result;
 	}
+	
+	public String getResponseString(HttpURLConnection conn){
+    	
+        String result = null;
+        InputStream is = null;
+		ByteArrayOutputStream baos = null;
+		
+        try{
+	        int responseCode = conn.getResponseCode();
+	      
+	        if (responseCode >= HttpURLConnection.HTTP_OK && responseCode <= 202) {
+	            is = conn.getInputStream();
+	            baos = new ByteArrayOutputStream();
+	            byte[] byteBuffer = new byte[1024];
+	            int nLength = 0;
+	            while ((nLength = is.read(byteBuffer, 0, byteBuffer.length)) != -1) {
+	                baos.write(byteBuffer, 0, nLength);
+	            }
+	            result = new String(baos.toByteArray());
+	        } else {
+	            JSONObject job = new JSONObject();
+	            job.put("RESPONSE-CODE", String.valueOf(responseCode));
+	
+	            result = job.toString();
+	        }
+        } catch(Exception e) {
+			System.err.println(e.getMessage());
+			if(Lwm2mServerConfig.getInstance().isDebug()){
+				e.printStackTrace();
+			}
+		} finally {
+			try {
+				if(is != null){
+					is.close();
+				}
+				if(baos != null){
+					baos.close();
+				}
+				if(conn != null){
+					conn.disconnect();
+				}
+			} catch (IOException e) {
+				System.err.println(e.getMessage());
+				if(Lwm2mServerConfig.getInstance().isDebug()){
+					e.printStackTrace();
+				}
+			}
+		}
+
+        return result;
+    }
 }

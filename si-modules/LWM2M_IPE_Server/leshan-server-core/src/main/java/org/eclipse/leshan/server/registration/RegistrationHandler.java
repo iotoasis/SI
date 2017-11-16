@@ -32,7 +32,7 @@ import org.eclipse.leshan.server.client.ClientUpdate;
 import org.eclipse.leshan.server.extension.Lwm2mVO;
 import org.eclipse.leshan.server.extension.Util;
 import org.eclipse.leshan.server.extension.dm.handler.DmConnector;
-import org.eclipse.leshan.server.extension.onem2m.handler.IncseConnector;
+import org.eclipse.leshan.server.extension.onem2m.handler.Onem2mConnector;
 import org.eclipse.leshan.server.security.SecurityCheck;
 import org.eclipse.leshan.server.security.SecurityInfo;
 import org.eclipse.leshan.server.security.SecurityStore;
@@ -91,84 +91,7 @@ public class RegistrationHandler {
 
         if (clientRegistry.registerClient(client)) {
             LOG.debug("New registered client: {}", client);
-            RegisterResponse res = RegisterResponse.success(client.getRegistrationId()); 
-
-            /*******************************************************************
-             * 			CONNECT TO DEVICE MANAGEMENT SERVER & IN-CSE SERVER
-             *******************************************************************/
-            /*
-            new Thread(new Runnable(){
-    			@Override
-    			public void run() {
-		    		try{
-		    			System.out.println("****************************   CONNECT TO DEVICE MANAGEMENT SERVER [START]   ****************************");
-		    			// 토큰화
-		    	        JSONObject token = Tokenization.makesTokenForConnect(authId, authPwd, client);
-		    	        
-		    	        // 커넥션
-		    	        Connector conn = Connector.getInstance().connect();
-		    	    	conn.sendRequest(token);
-		    	    	JSONObject result = conn.getResponse();
-		    	    	System.out.println(result);
-		    			
-		    	    	System.out.println("****************************   CONNECT TO DEVICE MANAGEMENT SERVER [E N D]   ****************************");
-		    		} catch(Exception e) {
-		    			e.printStackTrace();
-		    		}
-    			}
-            }).start();
-            
-            
-    		Lwm2mServerConfig config = Lwm2mServerConfig.getInstance();
-        	if( config.isUsing() ){
-        		
-    			// repository 생성
-    			new Thread(new Runnable(){
-    				@Override
-    				public void run() {
-    					try{
-    						System.out.println("****************************   CONNECT TO IN-CSE SERVER [START]   ****************************");
-    				    	CSEConnector cseConn = CSEConnector.getInstance();
-    				    	
-    				    	if( cseConn.checkAEExist() ){
-    				    		if( !cseConn.hasSameObjects() ){
-    				    			System.out.println("Some issue has detected at current repository structure.");
-    				    			//cseConn.removeRepository();
-    				    			//cseConn.createRepository(Tokenization.makesBasicToken(authId, "connect_oneM2M"));
-    				    		}
-    				    	} else {
-    				    		System.out.println("Repository doesn't exists.");
-    				    		System.out.println("Create new repository.");
-    				    		cseConn.createRepository(Tokenization.makesBasicToken(authId, "connect_oneM2M"));
-    				    	}
-    				    	
-    				    	isConnected = true;
-    				    	
-    				    	System.out.println("****************************   CONNECT TO IN-CSE SERVER [E N D]   ****************************");
-    				    	
-    						while(isConnected){
-    							try{
-    								CommandReceiver cr = new CommandReceiver();
-    								result = cr.receive();
-    							} catch(Exception e) {
-    								e.printStackTrace();
-    								try {
-    									System.out.println("Failed to connect to server. It will try again in 5 seconds.");
-    									Thread.sleep(5000);
-    								} catch (InterruptedException e1) {
-    									e1.printStackTrace();
-    								}
-    							}
-    						}
-    					} catch(Exception e) {
-    						e.printStackTrace();
-    					}
-    				}
-    	    	}).start();
-    	    	   
-        	}
-        	*/
-             
+            RegisterResponse res = RegisterResponse.success(client.getRegistrationId());
 
             // MSH-START
             
@@ -191,7 +114,7 @@ public class RegistrationHandler {
             // IN-CSE 
 			// createRepository, subscribe, report
             if(Lwm2mServerConfig.getInstance().isIpeUsing()){
-				Runnable rIncseOperator = new IncseConnector(authId);
+				Runnable rIncseOperator = new Onem2mConnector(vo);
 	            Thread tIncseOperator = new Thread(rIncseOperator);
 	            tIncseOperator.start();
             }

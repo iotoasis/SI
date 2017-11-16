@@ -3,7 +3,7 @@ package org.eclipse.leshan.server.extension;
 import org.eclipse.leshan.server.client.Client;
 
 public class Lwm2mVO {
-	
+		
 	private String authId = null;
 	private String authPwd = null;
 	private Client client = null;
@@ -26,4 +26,14 @@ public class Lwm2mVO {
 	public void setClient(Client client) {
 		this.client = client;
 	}
+	
+	private int currCount = 0;
+
+	public int getCurrCount() {
+		return currCount;
+	}
+	public void setCurrCount(int currCount) {
+		this.currCount = currCount;
+	}
+	
 }

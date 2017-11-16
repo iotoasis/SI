@@ -50,11 +50,16 @@ public class AE extends Resource{
         
         return body_wrap;
     }
-    
+
     public AE makes(){
     	setResToJson(setForCreate());
     	return this;
     }
+    
+    public JSONObject getJSON(){
+    	makes();
+		return getResToJson();
+	}
     
     /*
     

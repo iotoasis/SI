@@ -14,7 +14,7 @@
 		<retryInterval>10</retryInterval>
 		-->
 		 
-		<ip>10.10.0.23</ip>
+		<ip>129.254.202.158</ip>
 		<port>
 			<normal>8080</normal>
 			<auth>8081</auth>
@@ -41,15 +41,13 @@
 			<secure>5684</secure>
 			<web>8085</web>
 		</port>
+		<report>
+			<interval>10</interval>						<!-- unit : seconds -->
+		</report>
 	</ipe>
 	
 	<log>
 		<debug>no</debug>								<!-- 'yes' or 'no' -->
 	</log>
 	
-	<report>
-		<use>no</use>									<!-- 'yes' or 'no' -->
-		<reportInterval>30</reportInterval>				<!-- unit : seconds -->
-		<uri></uri>
-	</report>
 </config>

@@ -9,7 +9,7 @@ import net.herit.business.api.service.*;
 import net.herit.business.device.service.DeviceModelVO;
 import net.herit.business.device.service.DeviceVO;
 import net.herit.business.device.service.MoProfileVO;
-import net.herit.business.etcprotocol.constant.Type;
+import net.herit.business.protocol.constant.Type;
 import net.herit.common.dataaccess.*;
 import net.herit.common.exception.UserSysException;
 import net.herit.common.model.*;

@@ -10,8 +10,8 @@ import javax.annotation.Resource;
 import org.json.JSONObject;
 
 import net.herit.business.device.service.MoProfileVO;
-import net.herit.business.etcprotocol.HttpConnector;
-import net.herit.business.etcprotocol.tr069.CurlOperation;
+import net.herit.business.protocol.HttpConnector;
+import net.herit.business.protocol.tr069.CurlOperation;
 
 
 public class TR069Apis {

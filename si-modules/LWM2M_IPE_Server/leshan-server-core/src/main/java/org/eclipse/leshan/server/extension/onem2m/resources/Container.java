@@ -52,4 +52,9 @@ public class Container extends Resource{
     	setResToJson(setForCreate());
     	return this;
     }
+    
+    public JSONObject getJSON(){
+    	makes();
+		return getResToJson();
+	}
 }

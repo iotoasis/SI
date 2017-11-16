@@ -24,7 +24,7 @@ public class Lwm2mServerConfig {
 	private String siUriAuth = "[siUriAuth]";
 	private String siResourceId = "[siResourceId]";
 	private String siResourceName = "[siResourceName]";
-	private int retryInterval = 0;
+	private int retryInterval = 10;
 	
 	// dm_server
 	private boolean dmUsing = false;
@@ -37,13 +37,10 @@ public class Lwm2mServerConfig {
 	private int ipePortNormal = 0;
 	private int ipePortSecure = 0;
 	private int ipePortWeb = 0;
+	private int reportInterval = 30;
 	
 	// debug log
-	private boolean debug = false;
-	
-	// report
-	private boolean report = false;
-	private String reportUri = "[reportUri]";
+	private boolean debug = false;	
 	
 	
 	public static Lwm2mServerConfig getInstance(){
@@ -90,13 +87,10 @@ public class Lwm2mServerConfig {
 			ipePortNormal = xmlConfig.getInt("ipe.port.normal");
 			ipePortSecure = xmlConfig.getInt("ipe.port.secure");
 			ipePortWeb = xmlConfig.getInt("ipe.port.web");
+			reportInterval = xmlConfig.getInt("ipe.report.interval") * 1000;
 			
 			// debug log
 			debug = xmlConfig.getString("log.debug").equals("yes");
-			
-			// report
-			report = xmlConfig.getString("report.use").equals("yes");
-			reportUri = xmlConfig.getString("report.uri");
 			
 			log.info("*= Configuration loading succeeded!!!");
 			
@@ -194,12 +188,8 @@ public class Lwm2mServerConfig {
 		return debug;
 	}
 
-	public boolean isReport() {
-		return report;
-	}
-
-	public String getReportUri() {
-		return reportUri;
+	public int getReportInterval() {
+		return reportInterval;
 	}
 
 	public boolean isSiAuthUse() {

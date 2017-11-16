@@ -55,6 +55,11 @@ public class SemanticDescriptor extends Resource{
     	return this;
     }
     
+    public JSONObject getJSON(){
+    	makes();
+		return getResToJson();
+	}
+    
     /*
     
     // retrieve
