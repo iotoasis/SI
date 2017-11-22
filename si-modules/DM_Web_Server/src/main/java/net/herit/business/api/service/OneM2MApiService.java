@@ -214,7 +214,9 @@ public class OneM2MApiService {
 				System.out.println("exContent:" + exContent);
 				
 				ci = aeController.doControlCommand(resUris.get(0), aeId, ciCommand, aeTimeout);
-				res.put(resUris.get(0), ci.getContent());
+				if(ci != null) {
+					res.put(resUris.get(0), ci.getContent());
+				}
 				System.out.println("Control result:" + (ci != null ? ci.getContent() : "null"));
 				 
 				
