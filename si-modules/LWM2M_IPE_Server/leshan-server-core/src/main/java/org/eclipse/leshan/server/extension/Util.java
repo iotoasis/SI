@@ -13,9 +13,6 @@ import javax.xml.xpath.XPathFactory;
 import org.eclipse.leshan.LinkObject;
 import org.eclipse.leshan.server.Lwm2mServerConfig;
 
-import sun.misc.BASE64Encoder;
-import sun.misc.BASE64Decoder;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
@@ -165,23 +162,5 @@ public class Util {
 	}
 	
 	
-	public static String doEncDec(JSONObject j, String operation){
-        String result = null;
-        
-        BASE64Encoder encoder = new BASE64Encoder();
-        BASE64Decoder decoder = new BASE64Decoder();
-        
-        if( "encode".equals(operation) ){
-            result = encoder.encode(j.toString().replace("\\","").getBytes());
-        } else if( "decode".equals(operation) ){
-            try {
-				result = new String(decoder.decodeBuffer(j.toString()));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        }
-        return new String(result);
-    }
 
 }

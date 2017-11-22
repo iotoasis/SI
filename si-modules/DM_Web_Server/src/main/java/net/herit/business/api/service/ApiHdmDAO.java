@@ -130,35 +130,7 @@ public class ApiHdmDAO extends HeritHdmAbstractDAO {
 	/****************************************************
 	 * 	ETC Protocol
 	 ****************************************************/
-	public int getCountByAuthAccount(String deviceId, JSONObject token, Type type) throws UserSysException {
-		METHOD_NAME = "getCountByAuthAccount";
-		
-		int result = 0;
-		
-		try {
-			HashMap<String, String> po = new HashMap<String, String>();
-			po.put("deviceId", deviceId);
-			switch(type){
-			case LWM2M:
-				po.put("authId", token.getString("authId"));
-				po.put("authPwd", token.getString("authPw"));
-				break;
-			case TR_069:
-				po.put("authId", token.getString("Device.ManagementServer.Username"));
-				po.put("authPwd", token.getString("Device.ManagementServer.Password"));
-				break;
-			}
-			
-			
-			result = (Integer)getSqlMapClientTemplate().queryForObject(
-					"device.get.count.by.authAccount", po);
-			
-		} catch (SqlMapException ex) {
-			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
-					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
-		}
-		return result;
-	}
+	
 	
 	
 	
@@ -185,27 +157,6 @@ public class ApiHdmDAO extends HeritHdmAbstractDAO {
 		}
 		return result;
 	}
-	public int getCountByAuthAccount(String deviceId, String authId, String authPwd) throws UserSysException {
-		METHOD_NAME = "getCountByAuthAccount";
-		
-		int result = 0;
-		
-		try {
-			HashMap<String, String> po = new HashMap<String, String>();
-			po.put("deviceId", deviceId);
-			po.put("authId", authId);
-			po.put("authPwd", authPwd);
-			
-			result = (Integer)getSqlMapClientTemplate().queryForObject(
-					"device.get.count.by.authAccount", po);
-			
-		} catch (SqlMapException ex) {
-			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
-					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
-		}
-		return result;
-	}
-	
 	// device Resource 갯수 파악
 	public int getResourceCountByDeviceId(String deviceId) throws UserSysException {
 		METHOD_NAME = "getResourceCountByDeviceId";
@@ -506,6 +457,81 @@ public class ApiHdmDAO extends HeritHdmAbstractDAO {
 	 * 
 	 */
 	
+	// 디바이스 조회(계정별)
+	public int getCountByAuthAccount(DmVO vo) throws UserSysException {
+		METHOD_NAME = "getCountByAuthAccount";
+		
+		int result = 0;
+		
+		try {
+			HashMap<String, String> po = new HashMap<String, String>();
+			po.put("deviceId", vo.getDeviceId());
+			po.put("authId", vo.getAuthId());
+			po.put("authPwd", vo.getAuthPwd());
+			
+			result = (Integer)getSqlMapClientTemplate().queryForObject(
+					"device.get.count.by.authAccount", po);
+			
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
+	
+	
+	public int getCountByAuthAccount(String deviceId, String authId, String authPwd) throws UserSysException {
+		METHOD_NAME = "getCountByAuthAccount";
+		
+		int result = 0;
+		
+		try {
+			HashMap<String, String> po = new HashMap<String, String>();
+			po.put("deviceId", deviceId);
+			po.put("authId", authId);
+			po.put("authPwd", authPwd);
+			
+			result = (Integer)getSqlMapClientTemplate().queryForObject(
+					"device.get.count.by.authAccount", po);
+			
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	public int getCountByAuthAccount(String deviceId, JSONObject token, Type type) throws UserSysException {
+		METHOD_NAME = "getCountByAuthAccount";
+		
+		int result = 0;
+		
+		try {
+			HashMap<String, String> po = new HashMap<String, String>();
+			po.put("deviceId", deviceId);
+			switch(type){
+			case LWM2M:
+				po.put("authId", token.getString("authId"));
+				po.put("authPwd", token.getString("authPw"));
+				break;
+			case TR_069:
+				po.put("authId", token.getString("Device.ManagementServer.Username"));
+				po.put("authPwd", token.getString("Device.ManagementServer.Password"));
+				break;
+			}
+			
+			
+			result = (Integer)getSqlMapClientTemplate().queryForObject(
+					"device.get.count.by.authAccount", po);
+			
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
+	// 디바이스 리소스 업데이트
 	public boolean updateDeviceResourcesData(DmVO vo) throws UserSysException {
 		METHOD_NAME = "insertDeviceResources";
 		

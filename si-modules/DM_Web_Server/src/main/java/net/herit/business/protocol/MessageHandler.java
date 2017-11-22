@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONObject;
 
-import net.herit.business.lwm2m.exception.JsonFormatException;
 import net.herit.business.protocol.constant.Errors;
+import net.herit.business.protocol.lwm2m.exception.JsonFormatException;
 
 public class MessageHandler {
 	

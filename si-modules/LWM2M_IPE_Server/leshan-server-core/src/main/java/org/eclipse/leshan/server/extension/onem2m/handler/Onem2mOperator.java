@@ -5,9 +5,6 @@ import java.net.HttpURLConnection;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-
 import org.eclipse.leshan.server.Lwm2mServerConfig;
 import org.eclipse.leshan.server.extension.Constants;
 import org.eclipse.leshan.server.extension.HttpOperator;
@@ -20,6 +17,7 @@ import org.eclipse.leshan.server.extension.onem2m.resources.ContentInstance;
 import org.eclipse.leshan.server.extension.onem2m.resources.PollingChannel;
 import org.eclipse.leshan.server.extension.onem2m.resources.SemanticDescriptor;
 import org.eclipse.leshan.server.extension.onem2m.resources.Subscription;
+import org.eclipse.leshan.util.Base64;
 
 public class Onem2mOperator {
 	
@@ -80,7 +78,7 @@ public class Onem2mOperator {
 	}
 	
 	// contentInstance 생성
-	public boolean createContentInstance(String resourceName, JSONObject item) throws JSONException, Base64DecodingException{
+	public boolean createContentInstance(String resourceName, JSONObject item) throws JSONException{
 		
 		boolean result = false;
 		StringBuffer sbUri = new StringBuffer(Lwm2mServerConfig.getInstance().getSiUri()).append("/").append(Constants.BASIC_AE_NAME);
@@ -92,7 +90,7 @@ public class Onem2mOperator {
 			cin.setCnf("text/plain:0");
 		} else {
 			sbUri.append("/").append(resourceName).append("/status");
-			cin.setCon(new String(Base64.encode(item.toString().getBytes())));
+			cin.setCon(new String(Base64.encodeBase64(item.toString().getBytes())));
 		}
 		
 		HttpURLConnection conn = httpOperator.sendPost(sbUri.toString(), cin.getJSON(), headerMaker.getResourceCreationHeader(Constants.CONTENTINSTANCE));

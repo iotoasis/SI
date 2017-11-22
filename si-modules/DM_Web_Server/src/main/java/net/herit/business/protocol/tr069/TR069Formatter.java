@@ -19,8 +19,10 @@ public class TR069Formatter {
 		switch(to){
 		case DM: 
 			result = resourceUri.replace(".", "/");
+			break;
 		case ACS:
 			result = resourceUri.replace("/", ".");
+			break;
 		}
 		return result;
 	}
@@ -31,8 +33,10 @@ public class TR069Formatter {
 		switch(to){
 		case DM: 
 			result = deviceId.replace("-", "_");
+			break;
 		case ACS:
 			result = deviceId.replace("_", "-");
+			break;
 		}
 		return result;
 	}

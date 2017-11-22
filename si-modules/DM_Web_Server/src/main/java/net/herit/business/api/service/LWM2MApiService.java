@@ -9,7 +9,7 @@ import java.net.*;
 import java.sql.Timestamp;
 
 import net.herit.business.device.service.MoProfileVO;
-import net.herit.business.lwm2m.Util;
+import net.herit.business.protocol.lwm2m.Util;
 import net.herit.common.conf.HeritProperties;
 import net.herit.common.exception.UserSysException;
 

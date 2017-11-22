@@ -1,6 +1,8 @@
 package net.herit.business.protocol.tr069;
 
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -12,31 +14,34 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import net.herit.business.device.service.MoProfileVO;
+import net.herit.business.protocol.DmVO;
 import net.herit.business.protocol.constant.KeyName;
 import net.herit.business.protocol.constant.Target;
 
-public class KeyExtractor {
+public class TR069KeyExtractor {
 	
 	// device ID 불러오기
 	public String getDeviceId(JSONObject token){
 		return getDeviceId(token, Target.DM);
 	}
-	public String getDeviceId(JSONObject token, Target target){
-		TR069Formatter formatter = new TR069Formatter();
-		String deviceId = token.getString("deviceId");
-		if(target == Target.DM){
-			deviceId = deviceId.replace("-", "_");
-		}
-		return deviceId;
+	public String getDeviceId(JSONObject token, Target to){
+		return TR069Formatter.getInstance().getDeviceId(token.getString("deviceId"), to);
+	}
+	
+	// DM authId, authPwd 불러오기
+	public String getAuthId(JSONObject token){
+		return token.getString("Device.ManagementServer.Username");
+	}
+	public String getAuthPwd(JSONObject token){
+		return token.getString("Device.ManagementServer.Password");
 	}
 	
 	// 필수 항목 불러오기
 	public String getKeyFromId(String deviceId, KeyName keyName){
 		String result = null;
 		String[] idSplit = deviceId.split("_");
-		if(idSplit.length == 0){
-			idSplit = deviceId.split("_");
-		}
+		
 		switch(keyName){
 		case MODEL_NAME:
 			result = idSplit[1];
@@ -52,9 +57,31 @@ public class KeyExtractor {
 	}
 	
 	// inform 메시지 불러오기
-	public JSONObject getInform(JSONObject token){
+	public JSONObject getConnectInform(JSONObject token){
 		return parametersToJSON(token.getString("httpRequest"));
 	}
+	public JSONObject getReportInform(JSONObject token){
+		return token.getJSONObject("param");
+	}
+	
+	// uriString 불러오기
+	public List<MoProfileVO> getUriList(DmVO vo){
+		List<MoProfileVO> uriList = new ArrayList<MoProfileVO>();
+		String uriString = vo.getUriString().replace(",", "/");
+		String[] uriSplit = uriString.split("@@");
+		for(int i=0; i<uriSplit.length; i++){
+			MoProfileVO uriObj = new MoProfileVO();
+			uriObj.setResourceUri(uriSplit[i]);
+			uriObj.setDisplayName(uriSplit[i]);
+			try{
+				uriObj.setData(vo.getInform().getString(uriSplit[i].replace("/", ".")));
+			} catch(Exception e) {}
+			uriList.add(uriObj);
+		}
+		return uriList;
+	} 
+	
+	
 	
 	
 	// getByXml

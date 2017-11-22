@@ -11,8 +11,6 @@ import org.eclipse.leshan.server.extension.Lwm2mVO;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-
 public class TReport extends TimerTask implements Runnable{
 	
 	private Lwm2mVO vo = null;
@@ -45,11 +43,6 @@ public class TReport extends TimerTask implements Runnable{
 					System.out.println(result);
 					
 					onem2mOperator.createContentInstance(Constants.RESOURCE[i][1], result);
-				}
-			} catch (Base64DecodingException e) {
-				System.out.println(e.getMessage());
-				if(Lwm2mServerConfig.getInstance().isDebug()){
-					e.printStackTrace();
 				}
 			} catch (JSONException e) {
 				System.out.println(e.getMessage());

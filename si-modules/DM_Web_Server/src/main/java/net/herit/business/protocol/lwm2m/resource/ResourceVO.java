@@ -1,4 +1,4 @@
-package net.herit.business.lwm2m.resource;
+package net.herit.business.protocol.lwm2m.resource;
 
 import java.sql.Timestamp;
 

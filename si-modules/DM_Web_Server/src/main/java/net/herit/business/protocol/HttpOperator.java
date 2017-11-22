@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import net.herit.business.lwm2m.exception.JsonFormatException;
+import net.herit.business.protocol.lwm2m.exception.JsonFormatException;
 import net.herit.common.conf.HeritProperties;
 
 public class HttpOperator {

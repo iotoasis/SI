@@ -35,7 +35,7 @@
 			</mqtt>
 
 			<coap>
-				<supported>yes</supported>  <!-- yes or no -->
+				<supported>no</supported>  <!-- yes or no -->
 				<port>5683</port>
 				<sec-port>4433</sec-port>   <!-- dtls port -->
 			</coap>
@@ -47,19 +47,13 @@
        </binding>
 
 		<cse>
-			<host>10.10.0.18</host>
+			<host>10.10.0.23</host>
 			<baseName>herit-cse</baseName>
 			<resourceId>herit-in</resourceId>
-			<poa>http://10.10.0.18:8080</poa>
+			<poa>http://10.10.0.23:8080</poa>
 
 			<default-resource-expiration-time>3</default-resource-expiration-time>	<!-- days -->
  			<allowed-subgroup-depth>3</allowed-subgroup-depth>
-			<!-- 
-			<host>221.163.165.156</host>
-			<baseName>herit-cse</baseName>
-			<resourceId>herit-in</resourceId>
-			<poa>http://221.163.165.156:8080</poa>
-			-->
         </cse>
         <cmdh>
                 <commandTimeout>10</commandTimeout>
@@ -80,16 +74,7 @@
 				<maxTPS>1</maxTPS>
 				<poa>http://10.10.0.18:8080</poa>
 			</remoteCSE>
-		    
-		    <remoteCSE>
-				<cseId>/inEtri</cseId>
-				<cseName>base</cseName>
-				<cseHost>129.254.85.251</cseHost>
-				<maxTPS>1</maxTPS>
-				<poa>http://129.254.85.251:18080</poa>
-			</remoteCSE>
-					
-			
+		    			
 			<remoteCSE>
 				<cseId>herit-mn1</cseId>
 				<cseName>herit-cse</cseName>

@@ -29,7 +29,8 @@ public class Util {
 	}
 	
 	// JSONObject 내용 전부 출력
-	public static void printJSONObject(JSONObject obj){
+	public void printJSONObject(JSONObject obj){
+		System.out.println("::::  JSONObject contains..");
 		Iterator<String> it = obj.keys();
 		while(it.hasNext()){
 			try{
@@ -43,7 +44,8 @@ public class Util {
 	}
 	
 	// HashMap 내용 전부 출력
-	public static void printMap(HashMap<String,?> map){
+	public void printMap(HashMap<String,?> map){
+		System.out.println("::::  HashMap contains..");
 		Iterator<String> it = map.keySet().iterator();
 		while(it.hasNext()){
 			String key = it.next();

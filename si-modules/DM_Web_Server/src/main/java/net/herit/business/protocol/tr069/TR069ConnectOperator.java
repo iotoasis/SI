@@ -127,7 +127,7 @@ public class TR069ConnectOperator {
 		if(deviceCount == 0){
 			throw new Exception(Errors.ERR_500.getMsg());
 		} else if (deviceCount == 1) {
-			registResourceModel(Type.TR_069);
+			registResourceModel(vo);
 		} else {
 			throw new Exception(Errors.ERR_500.getMsg());
 		}
@@ -160,6 +160,29 @@ public class TR069ConnectOperator {
 			System.out.println("Resource has registered.");
 		}
 	}
+	public void registResources(DmVO vo) throws UserSysException{
+		// resource 개수 파악  
+		int resourceCount = hdmDAO.getResourceCountByDeviceId(deviceId);
+		
+		List<MoProfileVO> uriList = new ArrayList<MoProfileVO>();
+		String uriString = vo.getUriString().replace(",", "/");
+		String[] uriSplit = uriString.split("@@");
+		for(int i=0; i<uriSplit.length; i++){
+			MoProfileVO uriObj = new MoProfileVO();
+			uriObj.setResourceUri(uriSplit[i]);
+			uriObj.setDisplayName(uriSplit[i]);
+			try{
+				uriObj.setData(vo.getInform().getString(uriSplit[i].replace("/", ".")));
+			} catch(Exception e) {}
+			uriList.add(uriObj);
+		}
+		
+		if(resourceCount == 0){
+			// resource 등록
+			hdmDAO.insertDeviceResources(vo.getDeviceId(), uriList);
+			System.out.println("Resource has registered.");
+		}
+	}
 	
 	
 	/** resource 등록 : hdm_device_mo_data : resource 추출 
@@ -172,6 +195,31 @@ public class TR069ConnectOperator {
 			registResources();
 			break;
 		}
+		
+		boolean isConnected = false;
+		int connCount = hdmDAO.getDeviceConnStatusCount(deviceId);
+		switch(connCount){
+		case 0:
+			// 연결 정보가 없기 때문에 추가
+			isConnected = hdmDAO.insertDeviceConnStatus(deviceId, "DGP2");
+			break;
+		case 1:
+			// 연결 정보가 있기 때문에 상태값만 업데이트
+			isConnected = hdmDAO.updateDeviceConnStatus(deviceId, "1");
+			break;
+		default :
+			// 기대값 아니므로 exception 발생
+			throw new Exception(Errors.ERR_500.getMsg());
+		}
+		
+		if(isConnected){
+			System.out.println("!!!    The device has connected!");
+		} else {
+			throw new Exception(Errors.ERR_500.getMsg());
+		}
+	}
+	public void registResourceModel(DmVO vo) throws Exception{
+		registResources(vo);
 		
 		boolean isConnected = false;
 		int connCount = hdmDAO.getDeviceConnStatusCount(deviceId);

@@ -52,10 +52,12 @@ var dssnb_lwm2m_ip = {
 		
 		var value = moData.data;
 		var realIp = value;
+		/*
 		if(value != null && value != undefined && value.indexOf("\n")){
 			var valArray = value.split("\n");
 			realIp = valArray[1];
 		}
+		*/
 		$(div).find(".dssnb_lwm2m_ip-value").text(realIp);
 		$(div).find(".dssnb_lwm2m_ip-unit").text(unit);
 		

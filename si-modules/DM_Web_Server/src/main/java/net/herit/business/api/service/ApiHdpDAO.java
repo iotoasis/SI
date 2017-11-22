@@ -9,7 +9,7 @@ import net.herit.business.device.service.DeviceModelVO;
 import net.herit.business.device.service.DeviceVO;
 import net.herit.business.device.service.ExtMoProfileVO;
 import net.herit.business.device.service.MoProfileVO;
-import net.herit.business.lwm2m.resource.ResourceVO;
+import net.herit.business.protocol.lwm2m.resource.ResourceVO;
 import net.herit.common.dataaccess.*;
 import net.herit.common.exception.UserSysException;
 import net.herit.common.model.*;
@@ -210,7 +210,7 @@ public class ApiHdpDAO extends HeritHdpAbstractDAO {
 	// device model 갯수 확인
 	public int getDeviceModelCountByModelName(String modelName) throws UserSysException {
 		METHOD_NAME = "getDeviceModelCountByModelName";
-		
+		System.out.println(modelName);
 		int result = 0;
 		
 		try {

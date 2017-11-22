@@ -1,10 +1,9 @@
-package net.herit.business.lwm2m;
+package net.herit.business.protocol.lwm2m;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,20 +16,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.herit.business.api.service.ApiHdhDAO;
 import net.herit.business.api.service.ApiHdmDAO;
 import net.herit.business.api.service.ApiHdpDAO;
+import net.herit.business.api.service.Formatter;
 import net.herit.business.api.service.LWM2MApiService;
 import net.herit.business.device.service.DeviceModelVO;
 import net.herit.business.device.service.DeviceService;
 import net.herit.business.device.service.MoProfileVO;
-import net.herit.business.lwm2m.exception.JsonFormatException;
-import net.herit.business.lwm2m.resource.ResourceVO;
+import net.herit.business.protocol.DmVO;
+import net.herit.business.protocol.HttpOperator;
+import net.herit.business.protocol.constant.Errors;
+import net.herit.business.protocol.constant.KeyName;
+import net.herit.business.protocol.constant.Target;
+import net.herit.business.protocol.lwm2m.exception.JsonFormatException;
+import net.herit.business.protocol.lwm2m.resource.ResourceVO;
 import net.herit.common.exception.UserSysException;
 import net.herit.iot.message.onem2m.OneM2mRequest;
 import net.herit.iot.message.onem2m.OneM2mResponse;
@@ -41,7 +44,7 @@ import net.herit.iot.onem2m.bind.http.client.HttpClient;
 
 @Controller
 @RequestMapping("/lwm2m")
-public class Lwm2mConnector {
+public class LWM2MController {
 
 	@Resource(name = "DeviceService")
 	private DeviceService deviceService;
@@ -53,6 +56,194 @@ public class Lwm2mConnector {
 	@Resource(name="ApiHdpDAO")
 	private ApiHdpDAO hdpDAO;
 
+	
+	private HttpOperator httpOperator = new HttpOperator();
+	private LWM2MKeyExtractor keyExtractor = new LWM2MKeyExtractor();
+
+	private DmVO initialize(JSONObject token){
+		DmVO vo = new DmVO();
+		vo.setDeviceId(keyExtractor.getDeviceId(token));
+		vo.setModelName(keyExtractor.getKeyFromId(vo.getDeviceId(), KeyName.MODEL_NAME));
+		vo.setOui(keyExtractor.getKeyFromId(vo.getDeviceId(), KeyName.MANUFACTURER_OUI));
+		vo.setSerialNumber(keyExtractor.getKeyFromId(vo.getDeviceId(), KeyName.SERIAL_NUMBER));
+		vo.setAuthId(keyExtractor.getAuthId(token));
+		vo.setAuthPwd(keyExtractor.getAuthPwd(token));
+		return vo;
+	}
+	
+	
+	// CONNECT
+	@ResponseBody
+	@RequestMapping(value="/connect.do", produces="application/json; charset=utf8")
+	public String connect(HttpServletRequest request){
+		String response = null;
+		try{
+			System.out.println("----------------------------------- LWM2M Connect Start!!");
+			JSONObject token = httpOperator.getParamFromRequest(request);
+			
+			// 초기화
+			DmVO vo = initialize(token);
+			
+			// 등록 조회
+			DeviceModelVO deviceModel = checkDeviceModelRegist(vo.getModelName());		// 등록 조회 : hdp_device_model
+			checkDeviceModelProfileRegist(deviceModel);									// 등록 조회 : hdp_mo_profile
+			checkDeviceRegist(vo);														// 등록 조회 : hdm_device 
+			System.out.println("----------------------------------- LWM2M Device has connected.");
+			response = "200 OK";
+			
+		} catch(Exception e) {
+			response = e.getMessage();
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	// REPORT
+	@ResponseBody
+	@RequestMapping(value="/report.do", produces="application/json; charset=utf8")
+	public String report(HttpServletRequest request){
+		String response = null;
+		try{
+			System.out.println("----------------------------------- LWM2M Report Start!!");
+			JSONObject token = httpOperator.getParamFromRequest(request);
+			System.out.println(token);
+			response = "200 OK";
+			
+			// DB에 데이터 업데이트
+			hdmDAO.updateDeviceResourcesData(Formatter.getInstance().getTR069DeviceIdToDm(token.getString("deviceId")), token.getJSONObject("param"));
+			
+		} catch(Exception e) {
+			response = e.getMessage();
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/** 등록 조회 : hdp_device_model 
+	 * @throws Exception **/
+	public DeviceModelVO checkDeviceModelRegist(String modelName) throws Exception{
+		DeviceModelVO deviceModel = null;
+		
+		System.out.println(hdpDAO==null);
+		int deviceModelCount = hdpDAO.getDeviceModelCountByModelName(modelName);
+		if(deviceModelCount != 1){
+			throw new Exception(Response.ERR101.getMsg());
+		} else {
+			deviceModel = hdpDAO.getDeviceModelId(modelName);
+		}
+		return deviceModel;
+	}
+	
+	/** 등록 조회 : hdp_mo_profile 
+	 * @throws Exception **/
+	public void checkDeviceModelProfileRegist(DeviceModelVO deviceModel) throws Exception{
+		int profileCount = hdpDAO.getMoProfileCountByDeviceModelId(deviceModel.getId());
+		if(profileCount < 1){
+			// 최소 1개 이상의 resource가 등록되어야 함
+			throw new Exception(Response.ERR102.getMsg());
+		}
+	}
+	
+	/** 등록 조회 : hdm_device 
+	 * @throws Exception **/
+	public void checkDeviceRegist(DmVO vo) throws Exception{
+		int deviceCount = hdmDAO.getCountByAuthAccount(vo);
+		if(deviceCount == 0){
+			throw new Exception(Errors.ERR_500.getMsg());
+		} else if (deviceCount == 1) {
+			registResourceModel(vo);
+		} else {
+			throw new Exception(Errors.ERR_500.getMsg());
+		}
+	}
+	
+	/** 리소스 등록
+	 * @throws UserSysException
+	 */
+	public void registResources(DmVO vo) throws UserSysException{
+		// resource 개수 파악
+		int resourceCount = hdmDAO.getResourceCountByDeviceId(vo.getDeviceId());
+		if(resourceCount == 0){
+			// resource 등록 : hdm_device_mo_data : resource 추출
+			List<MoProfileVO> profileList = hdpDAO.getResourceUriByDeviceModelId(vo.getDeviceId());
+			List<MoProfileVO> uri_list = new ArrayList<MoProfileVO>();
+			
+			JSONArray om = vo.getObjectModels();
+			for(int i=0; i<om.length(); i++){
+				for(int j=0; j<profileList.size(); j++){
+					if(LWM2MFormatter.getInstance().getResourceUri(profileList.get(j).getResourceUri(), Target.DM).indexOf(om.getJSONObject(i).getString("uri")) > -1){
+						uri_list.add(profileList.get(j));
+					}
+				}
+			}
+			hdmDAO.insertDeviceResources(vo.getDeviceId(), uri_list);
+			System.out.println("Resources have registered.");
+		}
+	}
+	
+	/** resource 등록 : hdm_device_mo_data : resource 추출 
+	 * @throws Exception **/
+	public void registResourceModel(DmVO vo) throws Exception{
+		registResources(vo);
+		
+		boolean isConnected = false;
+		int connCount = hdmDAO.getDeviceConnStatusCount(vo.getDeviceId());
+		switch(connCount){
+		case 0:
+			// 연결 정보가 없기 때문에 추가
+			isConnected = hdmDAO.insertDeviceConnStatus(vo.getDeviceId(), "DGP2");
+			break;
+		case 1:
+			// 연결 정보가 있기 때문에 상태값만 업데이트
+			isConnected = hdmDAO.updateDeviceConnStatus(vo.getDeviceId(), "1");
+			break;
+		default :
+			// 기대값 아니므로 exception 발생
+			throw new Exception(Errors.ERR_500.getMsg());
+		}
+		
+		if(isConnected){
+			System.out.println("----------------------------------- Process done");
+		} else {
+			throw new Exception(Errors.ERR_500.getMsg());
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// key value
 	private JSONObject token;
 	private String deviceId;
@@ -99,7 +290,7 @@ public class Lwm2mConnector {
 			
 			String connectMethod = token.get("conn").toString();
 			if(connectMethod.equals("connect")){
-				response = connect();
+				response = connect2();
 			} else if(connectMethod.equals("disconnect")){
 				response = disconnect();
 			} else if(connectMethod.equals("controlHistory")){
@@ -219,7 +410,7 @@ public class Lwm2mConnector {
 	
 	
 	
-	public JSONObject connect(){
+	public JSONObject connect2(){
 		
 		JSONObject result = null;
 		boolean hasConnected = false;

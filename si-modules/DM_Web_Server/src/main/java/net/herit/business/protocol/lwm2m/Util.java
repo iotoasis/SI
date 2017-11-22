@@ -1,4 +1,4 @@
-package net.herit.business.lwm2m;
+package net.herit.business.protocol.lwm2m;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import net.herit.business.lwm2m.resource.ResourceVO;
+import net.herit.business.protocol.lwm2m.resource.ResourceVO;
 
 public class Util {
 	
