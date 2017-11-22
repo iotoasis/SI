@@ -75,7 +75,9 @@ public class TR069KeyExtractor {
 			uriObj.setDisplayName(uriSplit[i]);
 			try{
 				uriObj.setData(vo.getInform().getString(uriSplit[i].replace("/", ".")));
-			} catch(Exception e) {}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 			uriList.add(uriObj);
 		}
 		return uriList;

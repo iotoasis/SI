@@ -30,7 +30,9 @@ public class HttpConnector {
 		try{
 			url = new URL(target);
 			conn = (HttpURLConnection)url.openConnection();
-		} catch(Exception e){}
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 		return conn;
 	}
 	
@@ -69,7 +71,14 @@ public class HttpConnector {
 			
 		}
 		
-		return resBody.toString();
+		String resultStr;
+		if(resBody == null || resBody.length() < 1) {
+			resBody.append("");
+			resultStr = resBody.toString();
+		} else {
+			resultStr = resBody.toString();
+		}
+		return resultStr;
 	}
 	
 	public String sendMsg(String target, String msg){

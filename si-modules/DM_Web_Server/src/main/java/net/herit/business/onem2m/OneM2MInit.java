@@ -33,7 +33,7 @@ public class OneM2MInit implements ServletContextListener {
 				aeInit();
 			
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace().toString());
+			e.printStackTrace();
 		}
 	}
 	

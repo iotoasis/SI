@@ -150,7 +150,9 @@ public class TR069ConnectOperator {
 			uriObj.setDisplayName(uriSplit[i]);
 			try{
 				uriObj.setData(inform.getString(uriSplit[i].replace("/", ".")));
-			} catch(Exception e) {}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 			uriList.add(uriObj);
 		}
 		
@@ -173,7 +175,9 @@ public class TR069ConnectOperator {
 			uriObj.setDisplayName(uriSplit[i]);
 			try{
 				uriObj.setData(vo.getInform().getString(uriSplit[i].replace("/", ".")));
-			} catch(Exception e) {}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 			uriList.add(uriObj);
 		}
 		
