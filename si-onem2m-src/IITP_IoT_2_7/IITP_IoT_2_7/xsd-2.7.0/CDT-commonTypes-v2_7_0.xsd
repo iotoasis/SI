@@ -1,0 +1,1206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Copyright Notification
+
+The oneM2M Partners authorize you to copy this document, provided that you retain all copyright and other proprietary notices 
+contained in the original materials on any copies of the materials and that you comply strictly with these terms. 
+This copyright permission does not constitute an endorsement of the products or services, nor does it encompass the granting of 
+any patent rights. The oneM2M Partners assume no responsibility for errors or omissions in this document. 
+© 2016, oneM2M Partners Type 1 (ARIB, ATIS, CCSA, ETSI, TIA, TSDSI, TTA, TTC). All rights reserved.
+
+Notice of Disclaimer & Limitation of Liability 
+
+The information provided in this document is directed solely to professionals who have the appropriate degree of experience to understand 
+and interpret its contents in accordance with generally accepted engineering or other professional standards and applicable regulations. 
+No recommendation as to products or vendors is made or should be implied. 
+
+NO REPRESENTATION OR WARRANTY IS MADE THAT THE INFORMATION IS TECHNICALLY ACCURATE OR SUFFICIENT OR CONFORMS TO ANY STATUTE, 
+GOVERNMENTAL RULE OR REGULATION, AND FURTHER, NO REPRESENTATION OR WARRANTY IS MADE OF MERCHANTABILITY OR FITNESS FOR ANY 
+PARTICULAR PURPOSE OR AGAINST INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS. 
+NO oneM2M PARTNER TYPE 1 SHALL BE LIABLE, BEYOND THE AMOUNT OF ANY SUM RECEIVED IN PAYMENT BY THAT PARTNER FOR THIS DOCUMENT, WITH RESPECT TO 
+ANY CLAIM, AND IN NO EVENT SHALL oneM2M BE LIABLE FOR LOST PROFITS OR OTHER INCIDENTAL OR CONSEQUENTIAL DAMAGES. 
+oneM2M EXPRESSLY ADVISES ANY AND ALL USE OF OR RELIANCE UPON THIS INFORMATION PROVIDED IN THIS DOCUMENT IS AT THE RISK OF THE USER.
+
+-->
+<xs:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.onem2m.org/xml/protocols"
+	xmlns:m2m="http://www.onem2m.org/xml/protocols" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
+
+	<xs:include schemaLocation="CDT-enumerationTypes-v2_7_0.xsd" />
+
+	<!--********************** -->
+	<!-- oneM2M Simple Types   -->
+	<!--********************** -->
+
+	<xs:simpleType name="ID">
+		<xs:restriction base="xs:anyURI" />
+	</xs:simpleType>
+
+	<xs:simpleType name="nodeID">
+		<xs:restriction base="xs:token" />
+	</xs:simpleType>
+
+	<xs:simpleType name="deviceID">
+		<xs:restriction base="xs:token">
+			<xs:pattern value="urn:dev:ops:[\dABCDEFabcdef]{6}-[\w_%]+-[\w_%]+" />
+			<xs:pattern value="urn:dev:os:[\dABCDEFabcdef]{6}-[\w_%]+" />
+			<xs:pattern value="urn:imei:\d{15}" />
+			<xs:pattern value="urn:esn:[\dABCDEFabcdef]{8}" />
+			<xs:pattern value="urn:meid:[\dABCDEFabcdef]{14}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="externalID">
+		<xs:restriction base="xs:token" />
+	</xs:simpleType>
+
+	<xs:simpleType name="requestID">
+		<xs:restriction base="xs:token" />
+	</xs:simpleType>
+	
+	<xs:simpleType name="roleID">
+		<xs:restriction base="xs:string" >
+			<xs:pattern value="([a-zA-Z0-9\.\-,_]*)@([A-Za-z0-9\-_]*)(\.([A-Za-z0-9\-_])*)*" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="tokenID">
+		<xs:restriction base="xs:string" >
+			<xs:pattern value="([a-zA-Z0-9\.\-,_]*)@([A-Za-z0-9\-_]*)(\.([A-Za-z0-9\-_])*)*" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="nhURI">
+		<xs:restriction base="xs:anyURI" />
+	</xs:simpleType>
+	
+	 <xs:simpleType name="acpType">
+	 	<xs:restriction> 
+	 		<xs:simpleType> 
+	 			<xs:list itemType="m2m:ID" /> 
+	 		</xs:simpleType> 	
+	 		<xs:minLength value="1" /> 
+	 	</xs:restriction> 
+    </xs:simpleType>
+
+	<xs:simpleType name="labels">
+		<xs:restriction> 
+			<xs:simpleType> 
+				<xs:list itemType="xs:token" />
+			</xs:simpleType> 	
+			<xs:minLength value="1" /> 
+		</xs:restriction> 
+	</xs:simpleType>
+
+    <xs:simpleType name="triggerRecipientID">
+        <xs:restriction base="xs:unsignedInt">
+            <xs:minInclusive value="0"></xs:minInclusive>
+            <xs:maxInclusive value="65535"></xs:maxInclusive>
+        </xs:restriction>
+    </xs:simpleType>
+
+	<!-- "listOfM2MID" is a space separated list of CSE-IDs and/or AE-IDs (i.e. elements of data type m2m:ID") -->
+	<xs:simpleType name="listOfM2MID">
+		<xs:restriction> 
+			<xs:simpleType> 
+				<xs:list itemType="m2m:ID" /> 
+			</xs:simpleType> 				
+			<xs:minLength value="1" /> 
+		</xs:restriction> 
+	</xs:simpleType>
+
+	<!-- auxiliary data type required to define "listOflongMin-1" below -->
+	<xs:simpleType name="longMin-1">
+		<xs:restriction base="xs:long">
+			<xs:minInclusive value="-1" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- "listOfMinMax" represents a list of min and max numbers used in attributes of the [cmdhLimits] resource based on  
+		type xs:long in the range -1, 0, 1, 2 ... . Unit is milliseconds. Value setting of -1 expresses infinity -->
+	<xs:simpleType name="listOfMinMax">
+		<xs:restriction>
+			<xs:simpleType>
+				<xs:list itemType="m2m:longMin-1" />
+			</xs:simpleType>			
+			<xs:length value="2" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	 
+	<!-- ipv4 and ipv6 are defined in commonTypes -->
+	<!-- Initial IPv4 and IPv6 address representation types were found here:
+     http://lists.w3.org/Archives/Public/www-xml-schema-comments/2005OctDec/0138.html, CIDR suffix has been added  -->
+	
+	<xs:simpleType name="ipv4">
+		<xs:annotation>
+			<xs:documentation> An IP version 4 address, with optional CIDR suffix in the range /0
+				... /32. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:pattern
+				value="(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])(/([0-9]|[1-2][0-9]|3[0-2]))?"/>
+			<xs:pattern value="[0-9A-Fa-f]{8}(/([0-9]|[1-2][0-9]|3[0-2]))?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="ipv6">
+		<xs:annotation>
+			<xs:documentation> An IP version 6 address, based on RFC 1884, with optional CIDR suffix
+				in the range /0 ... /128. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<!-- Fully specified address -->
+			<xs:pattern
+				value="[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){7}(/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?"/>
+			<!-- Double colon start -->
+			<xs:pattern value=":(:[0-9A-Fa-f]{1,4}){1,7}"/>
+			<!-- Double colon middle -->
+			<xs:pattern
+				value="([0-9A-Fa-f]{1,4}:){1,6}(:[0-9A-Fa-f]{1,4}){1}(/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?"/>
+			<xs:pattern
+				value="([0-9A-Fa-f]{1,4}:){1,5}(:[0-9A-Fa-f]{1,4}){1,2}(/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?"/>
+			<xs:pattern
+				value="([0-9A-Fa-f]{1,4}:){1,4}(:[0-9A-Fa-f]{1,4}){1,3}(/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?"/>
+			<xs:pattern
+				value="([0-9A-Fa-f]{1,4}:){1,3}(:[0-9A-Fa-f]{1,4}){1,4}(/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?"/>
+			<xs:pattern
+				value="([0-9A-Fa-f]{1,4}:){1,2}(:[0-9A-Fa-f]{1,4}){1,5}(/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?"/>
+			<xs:pattern
+				value="([0-9A-Fa-f]{1,4}:){1}(:[0-9A-Fa-f]{1,4}){1,6}(/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?"/>
+			<!-- Double colon end -->
+			<xs:pattern value="([0-9A-Fa-f]{1,4}:){1,7}:(/([0-9]|[1-9][0-9]|1[0-1][0-9]|12[0-8]))?"/>
+			<!-- Embedded IPv4 addresses without CIDR suffix. Should IPv4 CIDR suffix be added?-->
+			<xs:pattern
+				value="((:(:0{1,4}){0,3}(:(0{1,4}|[fF]{4}))?)|(0{1,4}:(:0{1,4}){0,2}(:(0{1,4}|[fF]{4}))?)|((0{1,4}:){2}(:0{1,4})?(:(0{1,4}|[fF]{4}))?)|((0{1,4}:){3}(:(0{1,4}|[fF]{4}))?)|((0{1,4}:){4}(0{1,4}|[fF]{4})?)):(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])"/>
+			<!-- The unspecified address -->
+			<xs:pattern value="::(/0)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+
+	<xs:simpleType name="poaList">
+		<xs:restriction> 
+			<xs:simpleType> 
+				<xs:list itemType="xs:string" />
+			</xs:simpleType> 
+			<xs:minLength value="1" /> 
+		</xs:restriction> 
+	</xs:simpleType>
+
+	<!--Format is YYYYMMDDThhmmss,ssssss with optional up to 6 digits of fractional seconds -->
+	<xs:simpleType name="timestamp">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{4}(0[1-9]|1[0-2])(0[1-9]|[1-2]\d|30|31)T([01]\d|2[0-3])[0-5]\d[0-5]\d(,\d{1,6})?"></xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	<xs:simpleType name="absRelTimestamp">
+		<xs:union>
+			<!-- absolute Time -->
+			<xs:simpleType>
+				<xs:restriction base='m2m:timestamp' />
+			</xs:simpleType>
+			<!-- relative Time -->
+			<xs:simpleType>
+				<xs:restriction base='xs:long' />
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	
+	<xs:simpleType name="missingDataList">	
+	    <xs:union>
+	    	<simpleType>
+	    		<restriction base='m2m:listOfTimeStamp' />
+	    	</simpleType>
+	    	<simpleType>
+	    		<restriction base='m2m:listOfRelTimeStamp' />
+	    	</simpleType>
+	    </xs:union>
+	</xs:simpleType>
+	
+	<!-- auxiliary data type required for definition of m2m:missingDataList -->
+	<xs:simpleType name="listOfTimeStamp">
+		<xs:restriction>
+			<xs:simpleType> 
+				<xs:list itemType="m2m:timestamp" /> 
+			</xs:simpleType> 			
+			<xs:minLength value="1" /> 
+		</xs:restriction> 
+	</xs:simpleType>
+	
+	<!-- auxiliary data type required for definition of m2m:missingDataList -->
+	<xs:simpleType name="listOfRelTimeStamp">
+		<xs:restriction>
+			<xs:simpleType> 
+				<xs:list itemType="xs:long" /> 
+			</xs:simpleType> 			
+			<xs:minLength value="1" /> 
+		</xs:restriction> 
+	</xs:simpleType>
+
+	<xs:simpleType name="typeOfContent">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[\w/!#$^_.+&amp;\-]+" />
+        </xs:restriction>
+    </xs:simpleType>
+	
+	
+	<!-- auxiliary data type required to define "serializations" below -->
+	<xs:simpleType name="permittedMediaTypes"> 
+		<xs:restriction base="m2m:typeOfContent">
+			<xs:enumeration value="application/xml" />
+			<xs:enumeration value="application/json" />
+			<xs:enumeration value="application/cbor" />
+		</xs:restriction>
+	</xs:simpleType> 
+	
+	<!-- "serializations" data type is a list of permitted media types as defined above -->
+	<xs:simpleType name="serializations"> 
+		<xs:restriction>
+			<xs:simpleType>
+				<xs:list itemType="m2m:permittedMediaTypes" />
+			</xs:simpleType>
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType> 
+	
+
+	<xs:simpleType name="contentInfo">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[\w/!#$^_.+&amp;\-]+(:[0-2])?" />
+			<xs:pattern value="[\w/!#$^_.+&amp;\-]+((:[0-2])?)+((:[0-5])?)" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="eventCat">
+        <union>
+            <simpleType>
+                <restriction base='m2m:stdEventCats' />
+            </simpleType>
+            <!-- User-defined range -->
+            <simpleType>
+                <restriction base='xs:integer'>
+                    <xs:minInclusive value="100" />
+                    <xs:maxInclusive value="999" />
+                </restriction>
+            </simpleType>
+        </union>
+    </xs:simpleType>
+
+    <xs:simpleType name="eventCatWithDef">
+        <union>
+            <simpleType>
+                <restriction base='m2m:eventCat' />
+            </simpleType>
+            <!-- User-defined range -->
+            <simpleType>
+                <restriction base='xs:integer'>
+                    <xs:enumeration value="0" />
+                </restriction>
+            </simpleType>
+        </union>
+    </xs:simpleType>
+	
+    <xs:simpleType name="listOfEventCat">
+    	<xs:restriction>
+    		<xs:simpleType> 
+    			<xs:list itemType="m2m:eventCat" /> 
+    		</xs:simpleType> 			
+    		<xs:minLength value="1" /> 
+    	</xs:restriction> 
+    </xs:simpleType>
+
+    <xs:simpleType name="listOfEventCatWithDef">
+    	<xs:restriction>
+    		<xs:simpleType> 
+    			<xs:list itemType="m2m:eventCatWithDef" /> 
+    		</xs:simpleType> 	    		
+    		<xs:minLength value="1" /> 
+    	</xs:restriction> 
+    </xs:simpleType>
+
+	<xs:simpleType name="scheduleEntry">
+		<xs:restriction base="xs:string">
+			<xs:pattern
+				value="(([*]|[1-5]?\d([,-/][1-5]?\d)*)\s+){2}([*]|((1?\d|2[0-3])([,-/](1?\d|2[0-3]))*))\s+([*]|(([1-9]|1\d|2\d|3[01])([,-/]([1-9]|1\d|2\d|3[01]))*))\s+([*]|(([1-9]|1[0-2])([,-/]([1-9]|1[0-2]))*))\s+([*]|([0-6]([,-/][0-6])*))\s+([*]|([2-9]\d\d\d)(([,-]([2-9]\d\d\d)([/][\d]?[\d]?[\d]?[\d])?)*))" /> 				
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="listOfURIs">
+		<xs:restriction> 
+			<xs:simpleType> 
+				<xs:list itemType="xs:anyURI" /> 
+			</xs:simpleType> 
+			<xs:minLength value="1" /> 
+		</xs:restriction> 
+	</xs:simpleType>
+
+	<xs:simpleType name="listOfDuration">
+		<list itemType="xs:duration" />
+	</xs:simpleType>
+	
+	<xs:simpleType name="attributeList">
+		<list itemType="xs:NCName" />
+	</xs:simpleType>
+	
+	<xs:simpleType name="resourceTypeList">
+		<xs:restriction> 
+			<xs:simpleType> 
+				<xs:list itemType="m2m:resourceType" />
+			</xs:simpleType> 	
+			<xs:minLength value="1" /> 
+		</xs:restriction> 
+	</xs:simpleType>
+
+	<xs:simpleType name="sparql">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+	
+	<xs:simpleType name="descriptorRepresentation">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="application\/rdf\+xml\:1" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="e2eCompactJWS">
+		<xs:restriction base="xs:string" >
+			<xs:pattern value="([a-zA-Z0-9\-_=]+)\.([a-zA-Z0-9\-_=]*)\.([A-Za-z0-9\-_=])+" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="e2eCompactJWE">
+		<xs:restriction base="xs:string" >
+			<xs:pattern value="([a-zA-Z0-9\-_=]+)\.([a-zA-Z0-9\-_=]*)\.([a-zA-Z0-9\-_=]*)\.([a-zA-Z0-9\-_=]*)\.([A-Za-z0-9\-_=])+" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="dynAuthJWT">
+		<xs:union>
+			<xs:simpleType>
+				<xs:restriction base='m2m:e2eCompactJWS' />
+			</xs:simpleType>
+			<xs:simpleType>
+				<xs:restriction base='m2m:e2eCompactJWE' />
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+	
+	<!--********************** -->
+	<!-- oneM2M Complex Types -->
+	<!--********************** -->
+
+	<xs:complexType name="deliveryMetaData">
+		<xs:sequence>
+			<xs:sequence>
+				<xs:element name="tracingOption" type="xs:boolean" />
+				<xs:element name="tracingInfo" type="m2m:listOfM2MID" minOccurs="0"/>
+				<!-- should tracing Info be list of anyURI? -->
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="aggregatedRequest">
+		<xs:sequence>
+			<xs:element name="request" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="operation" type="m2m:operation" />
+						<xs:element name="to" type="xs:anyURI" />
+						<xs:element name="from" type="m2m:ID" />
+						<xs:element name="requestIdentifier" type="m2m:requestID" />
+						<xs:element name="primitiveContent" type="m2m:primitiveContent" minOccurs="0" />
+						<xs:element name="metaInformation" type="m2m:metaInformation" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="metaInformation">
+		<xs:sequence>
+			<xs:element name="resourceType" type="m2m:resourceType" minOccurs="0" />
+			<xs:element name="name" type="xs:NCName" minOccurs="0" />
+			<xs:element name="originatingTimestamp" type="m2m:timestamp" minOccurs="0" />
+			<xs:element name="requestExpirationTimestamp" type="m2m:absRelTimestamp" minOccurs="0" />
+			<xs:element name="resultExpirationTimestamp" type="m2m:absRelTimestamp" minOccurs="0" />
+			<xs:element name="operationExecutionTime" type="m2m:absRelTimestamp" minOccurs="0" />
+			<xs:element name="responseType" type="m2m:responseTypeInfo" minOccurs="0" />
+			<xs:element name="resultPersistence" type="m2m:absRelTimestamp" minOccurs="0" />
+			<xs:element name="resultContent" type="m2m:resultContent" minOccurs="0" />
+			<xs:element name="eventCategory" type="m2m:eventCat" minOccurs="0" />
+			<xs:element name="deliveryAggregation" type="xs:boolean" minOccurs="0" />
+			<xs:element name="groupRequestIdentifier" type="xs:string" minOccurs="0" />
+			<xs:element name="filterCriteria" type="m2m:filterCriteria" minOccurs="0" />
+			<xs:element name="discoveryResultType" type="m2m:discResType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+<!-- primitiveContent defined in CDT-reqestPrimitive and CDT-responsePrimitive ??? -->
+	<xs:complexType name="primitiveContent">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:any namespace="http://www.onem2m.org/xml/protocols" processContents="lax" />
+			<xs:any namespace="##other" processContents="lax"  />
+		</xs:choice>
+	</xs:complexType>
+	
+	<!-- m2m:batchNotify and m2m:eventNotificationCriteria are defined in the subscription resource file --> 
+
+	<xs:complexType name="filterCriteria">
+		<xs:sequence>
+			<xs:element name="createdBefore" type="m2m:timestamp" minOccurs="0" />
+			<xs:element name="createdAfter" type="m2m:timestamp" minOccurs="0" />
+			<xs:element name="modifiedSince" type="m2m:timestamp" minOccurs="0" />
+			<xs:element name="unmodifiedSince" type="m2m:timestamp" minOccurs="0" />
+			<xs:element name="stateTagSmaller" type="xs:positiveInteger" minOccurs="0" />
+			<xs:element name="stateTagBigger" type="xs:nonNegativeInteger" minOccurs="0" />
+			<xs:element name="expireBefore" type="m2m:timestamp" minOccurs="0" />
+			<xs:element name="expireAfter" type="m2m:timestamp" minOccurs="0" />
+			<xs:element name="labels" type="m2m:labels" minOccurs="0" />
+			<xs:element name="resourceType" type="m2m:resourceTypeList" minOccurs="0" />
+			<xs:element name="sizeAbove" type="xs:nonNegativeInteger" minOccurs="0" />
+			<xs:element name="sizeBelow" type="xs:positiveInteger" minOccurs="0" />
+			<xs:element name="contentType" type="m2m:typeOfContent" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="attribute" type="m2m:attribute" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="filterUsage" type="m2m:filterUsage" minOccurs="0" />
+			<xs:element name="limit" type="xs:nonNegativeInteger" minOccurs="0" />
+			<xs:element name="semanticsFilter" type="m2m:sparql" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="filterOperation" type="xs:boolean" minOccurs="0" />		
+			<xs:element name="contentFilterSyntax" type="m2m:contentFilterSyntax" minOccurs="0" />
+			<xs:element name="contentFilterQuery" type="xs:string" minOccurs="0" />
+			<xs:element name="level" type="xs:positiveInteger" minOccurs="0" />
+			<xs:element name="offset" type="xs:positiveInteger" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="attribute">
+		<xs:sequence>
+			<xs:element name="name" type="xs:NCName" />
+			<xs:element name="value" type="xs:anyType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="scheduleEntries">
+		<xs:sequence>
+			<xs:element name="scheduleEntry" type="m2m:scheduleEntry" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- m2m:aggregatedNotification and m2m:notification are in the CDT-notification xsd file -->
+
+	<!-- "actionStatus" is used across mgmtObj resources -->
+	<xs:complexType name="actionStatus">
+		<xs:sequence>
+			<xs:element name="action" type="xs:anyURI" minOccurs="0" />
+			<xs:element name="status" type="m2m:status" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="anyArgType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:NCName" />
+			<xs:element name="value" type="xs:anyType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="resetArgsType">
+		<xs:sequence>
+			<xs:element name="anyArg" type="m2m:anyArgType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="rebootArgsType">
+		<xs:sequence>
+			<xs:element name="anyArg" type="m2m:anyArgType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="uploadArgsType">
+		<xs:sequence>
+			<xs:element name="fileType" type="xs:string" />
+			<xs:element name="URL" type="xs:anyURI" />
+			<xs:element name="username" type="xs:string" />
+			<xs:element name="password" type="xs:string" />
+			<xs:element name="anyArg" type="m2m:anyArgType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="downloadArgsType">
+		<xs:sequence>
+			<xs:element name="fileType" type="xs:string" />
+			<xs:element name="URL" type="xs:anyURI" />
+			<xs:element name="username" type="xs:string" />
+			<xs:element name="password" type="xs:string" />
+			<xs:element name="filesize" type="xs:positiveInteger" />
+            <xs:element name="targetFile" type="xs:string" />
+            <xs:element name="delaySeconds" type="xs:positiveInteger" />
+			<xs:element name="successURL" type="xs:anyURI" />
+			<xs:element name="startTime" type="m2m:timestamp" />
+			<xs:element name="completeTime" type="m2m:timestamp" />
+			<xs:element name="anyArg" type="m2m:anyArgType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="softwareInstallArgsType">
+		<xs:sequence>
+			<xs:element name="URL" type="xs:anyURI" />
+			<xs:element name="UUID" type="xs:string" />
+			<xs:element name="username" type="xs:string" />
+			<xs:element name="password" type="xs:string" />
+			<xs:element name="executionEnvRef" type="xs:string" />
+			<xs:element name="anyArg" type="m2m:anyArgType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="softwareUpdateArgsType">
+		<xs:sequence>
+			<xs:element name="UUID" type="xs:string" />
+			<xs:element name="version" type="xs:string" />
+			<xs:element name="URL" type="xs:anyURI" />
+			<xs:element name="username" type="xs:string" />
+			<xs:element name="password" type="xs:string" />
+			<xs:element name="executionEnvRef" type="xs:string" />
+			<xs:element name="anyArg" type="m2m:anyArgType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="softwareUninstallArgsType">
+		<xs:sequence>
+			<xs:element name="UUID" type="xs:string" />
+			<xs:element name="version" type="xs:string" />
+			<xs:element name="executionEnvRef" type="xs:string" />
+			<xs:element name="anyArg" type="m2m:anyArgType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="execReqArgsListType">
+		<xs:choice>
+            <xs:element name="reset" type="m2m:resetArgsType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="reboot" type="m2m:rebootArgsType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="upload" type="m2m:uploadArgsType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="download" type="m2m:downloadArgsType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="softwareInstall" type="m2m:softwareInstallArgsType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="softwareUpdate" type="m2m:softwareUpdateArgsType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="softwareUninstall" type="m2m:softwareUninstallArgsType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="mgmtLinkRef">
+		<xs:simpleContent>
+			<xs:extension base="xs:anyURI">
+				<xs:attribute name="name" type="xs:NCName" use="required" />
+				<xs:attribute name="type" type="m2m:mgmtDefinition" use="required" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<!--  m2m:resourceWrapper is defined in the responsePrimitive xsd file -->
+
+	<xs:complexType name="setOfAcrs">
+		<xs:sequence>
+			<xs:element name="accessControlRule" type="m2m:accessControlRule" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="accessControlRule">
+		<xs:sequence>
+			<xs:element name="accessControlOriginators" type="m2m:listOfURIs" />
+			
+			<!-- accessControlOperations defined as enumerated list 1 ... 63 -->
+			<xs:element name="accessControlOperations" type="m2m:accessControlOperations" />
+			
+			<xs:element name="accessControlContexts" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="accessControlWindow" type="m2m:scheduleEntry" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="accessControlIpAddresses" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ipv4Addresses" minOccurs="0" maxOccurs="1">
+										<!-- space separated list of IPv4 addresses -->										
+										<xs:simpleType>
+											<xs:restriction>
+												<xs:simpleType>
+													<xs:list itemType="m2m:ipv4" />
+												</xs:simpleType>
+												<xs:minLength value="1"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="ipv6Addresses" minOccurs="0" maxOccurs="1">
+										<!-- space separated list of IPv6 addresses -->
+										<xs:simpleType>
+											<xs:restriction>
+												<xs:simpleType>
+													<xs:list itemType="m2m:ipv6" />
+												</xs:simpleType>
+												<xs:minLength value="1"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="accessControlLocationRegion" type="m2m:locationRegion" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="accessControlAuthenticationFlag" type="xs:boolean" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>   
+
+	<xs:complexType name="childResourceRef">
+		<xs:simpleContent>
+			<xs:extension base="xs:anyURI">
+				<xs:attribute name="name" type="xs:NCName" use="required" />
+				<xs:attribute name="type" type="m2m:resourceType" use="required" /> 
+				<xs:attribute name="specializationID" type="xs:anyURI" use="optional" /> 
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="responseTypeInfo">
+		<xs:sequence>
+			<xs:element name="responseTypeValue" type="m2m:responseType" />
+			<xs:element name="notificationURI">
+				<xs:simpleType>
+					<xs:restriction> 
+						<xs:simpleType> 
+							<xs:list itemType="xs:anyURI" /> 
+						</xs:simpleType> 
+						<xs:minLength value="0" /> 
+					</xs:restriction> 
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+    
+    <!-- m2m:rateLimit is in the Subscription xsd file -->
+
+	<xs:complexType name="operationResult">
+		<xs:sequence>
+			<xs:element name="responseStatusCode" type="m2m:responseStatusCode" />
+			<xs:element name="requestIdentifier" type="m2m:requestID" />			
+			<xs:element name="primitiveContent" type="m2m:primitiveContent" minOccurs="0" />
+			<xs:element name="to" type="xs:anyURI" minOccurs="0" />
+			<xs:element name="from" type="m2m:ID" minOccurs="0" />
+			<xs:element name="originatingTimestamp" type="m2m:timestamp" minOccurs="0" />
+			<xs:element name="resultExpirationTimestamp" type="m2m:absRelTimestamp" minOccurs="0" />
+			<xs:element name="eventCategory" type="m2m:eventCat" minOccurs="0" />
+			<xs:element name="contentStatus" type="m2m:contentStatus" minOccurs="0" />
+			<xs:element name="contentOffset" type="xs:positiveInteger" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+    <!-- m2m:aggregatedResponse is in the CDT-responsePrimitive xsd file -->
+	
+	<xs:complexType name="contentRef">
+		<xs:sequence>
+			<xs:element name="URIReference" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence> 
+						<xs:element name="name" type="xs:NCName"/>
+						<xs:element name="URI" type="xs:anyURI"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="deletionContexts">
+		<xs:sequence>
+			<xs:element name="timeOfDay" type="m2m:scheduleEntry" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="locationRegions" type="m2m:locationRegion" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="locationRegion">
+		<xs:choice>
+			<xs:element name="countryCode">
+				<!-- Space separated list of 2-digit country codes -->
+				<xs:simpleType>
+					<xs:restriction>
+						<xs:simpleType>
+							<xs:list itemType="m2m:countryCode" />
+						</xs:simpleType>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="circRegion">
+				<!-- "circularRegion" is an ordered list of following three parameters of data type float ´ 1) longitude in the range 
+					+/-180 degrees 2) latitude in the range +/-90 degrees, 3) radius in meters -->
+				<xs:simpleType>
+					<xs:restriction>
+						<xs:simpleType>
+							<xs:list itemType="xs:float" />
+						</xs:simpleType>
+						<xs:length value="3" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	
+	<xs:simpleType name="countryCode">
+		<xs:annotation>
+			<xs:documentation>2-character country code as defined by ISO-3166</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z]{2}" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="missingData">
+		<xs:sequence>
+			<xs:element name="number" type="xs:nonNegativeInteger" minOccurs="1" />
+			<xs:element name="duration" type="xs:duration" minOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- m2m:securityInfo, m2m:dynAuthDasResponse and m2m:eSPrimObject are in the CDT-notification xsd file -->
+	
+	<!-- m2m:listOfChildResourceRef is defined in CDT-responsePrimitive xsd file -->
+	
+	<xs:complexType name="receiverESPrimRandObject">
+		<xs:sequence>
+			<xs:element name="esprimRandID" type="xs:NCName" />
+			<xs:element name="esprimRandValue" type="xs:NCName"  />
+			<xs:element name="esprimRandExpiry" type="m2m:absRelTimestamp"  />
+			<xs:element name="esprimKeyGenAlgIDs" >
+				<xs:simpleType>
+					<xs:restriction> 
+						<xs:simpleType> 
+							<xs:list itemType="m2m:esprimKeyGenAlgID" />
+						</xs:simpleType> 	
+						<xs:minLength value="1" /> 
+					</xs:restriction> 
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="esprimProtocolAndAlgIDs" >
+				<xs:simpleType>
+					<xs:restriction> 
+						<xs:simpleType> 
+							<xs:list itemType="m2m:esprimProtocolAndAlgID" />
+						</xs:simpleType> 	
+						<xs:minLength value="1" /> 
+					</xs:restriction> 
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>        
+	</xs:complexType>
+	
+	<!-- This data type is used for the originatorESPrimRandObject parameter in End-to-End Security of Primitives, see TS-0003 -->
+	<xs:complexType name="originatorESPrimRandObject">
+		<xs:sequence>
+			<xs:element name="esprimRandID" type="xs:NCName" />
+			<xs:element name="esprimRandValue" type="xs:NCName"  />
+			<xs:element name="esprimRandExpiry" type="m2m:absRelTimestamp"  />
+			<xs:element name="esprimKeyGenAlgIDs" type="m2m:esprimKeyGenAlgID" />
+			<xs:element name="esprimProtocolAndAlgIDs" >
+				<xs:simpleType>
+					<xs:restriction> 
+						<xs:simpleType> 
+							<xs:list itemType="m2m:esprimProtocolAndAlgID" />
+						</xs:simpleType> 	
+						<xs:minLength value="1" /> 
+					</xs:restriction> 
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>        
+	</xs:complexType>
+		
+	
+	<xs:complexType name="e2eSecInfo">
+		<xs:sequence>
+			<xs:element name="supportedE2ESecFeatures" minOccurs="1" >
+				<xs:simpleType>
+					<xs:restriction> 
+						<xs:simpleType> 
+							<xs:list itemType="m2m:suid" /> 
+						</xs:simpleType> 				
+						<xs:minLength value="1" /> 
+					</xs:restriction> 
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="certificates" minOccurs="0" >
+				<xs:simpleType>
+					<xs:restriction> 
+						<xs:simpleType> 
+							<xs:list itemType="xs:base64Binary" /> 
+						</xs:simpleType> 				
+						<xs:minLength value="1" /> 
+					</xs:restriction> 
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="sharedReceiverESPrimRandObject" type="m2m:receiverESPrimRandObject" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+
+	<xs:complexType name="tokenPermission">
+		<xs:sequence>
+			<xs:element name="resourceIDs" type="m2m:listOfM2MID" minOccurs="0" />
+			<xs:element name="privileges" type="m2m:setOfAcrs" minOccurs="0" />
+			<xs:element name="roleIDs" minOccurs="0">      
+				<xs:simpleType>
+					<xs:restriction> 
+						<xs:simpleType> 
+							<xs:list itemType="m2m:roleID" /> 
+						</xs:simpleType> 				
+						<xs:minLength value="1" /> 
+					</xs:restriction> 
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="tokenPermissions">
+		<xs:sequence>
+			<xs:element name="permission" type="m2m:tokenPermission" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="tokenClaimSet">
+		<xs:sequence>
+			<xs:element name="version" type="xs:string" />
+			<xs:element name="tokenID" type="m2m:tokenID" />
+			<xs:element name="holder" type="m2m:ID" />
+			<xs:element name="issuer" type="m2m:ID" />
+			<xs:element name="notBefore" type="m2m:timestamp" />
+			<xs:element name="notAfter" type="m2m:timestamp" />
+			<xs:element name="tokenName" type="xs:string" minOccurs="0" />
+			<xs:element name="audience" type="m2m:listOfM2MID" minOccurs="0" />
+			<xs:element name="permissions" type="m2m:tokenPermissions" minOccurs="0" />
+			<xs:element name="extension" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="dynAuthLocalTokenIdAssignments">
+		<xs:sequence>
+			<xs:element name="localTokenIdAssignment" minOccurs="1" maxOccurs="unbounded" >
+				<complexType>
+					<sequence>
+						<xs:element name="localTokenID" type="xs:NCName" />
+						<xs:element name="tokenID" type="m2m:tokenID" />
+					</sequence>
+				</complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="dynAuthTokenSummary">
+		<xs:sequence>
+			<xs:element name="tokenID" type="m2m:tokenID" />
+			<xs:element name="notBefore" type="m2m:timestamp" />
+			<xs:element name="notAfter" type="m2m:timestamp" />
+			<xs:element name="tokenName" type="xs:string" minOccurs="0" />
+			<xs:element name="audience" type="m2m:listOfM2MID" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="dynAuthTokenReqInfo">
+		<xs:sequence>
+			<xs:element name="dasInfo" minOccurs="1" maxOccurs="unbounded" >
+				<complexType>
+					<sequence>
+						<xs:element name="URI" type="xs:anyURI" />
+						<xs:element name="dasRequest" type="m2m:dynAuthDasRequest" minOccurs="0"/>
+						<xs:element name="securedDasRequest" type="m2m:dynAuthJWT" minOccurs="0"/>
+					</sequence>
+				</complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="dynAuthDasRequest">
+		<xs:sequence>
+			<xs:element name="originator" type="m2m:ID" minOccurs="1" />
+			<xs:element name="targetedResourceType" type="m2m:resourceType" minOccurs="1" />
+			<xs:element name="operation" type="m2m:operation" minOccurs="1" />
+			<xs:element name="originatorIP" minOccurs="0" >
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ipv4Address" type="m2m:ipv4" minOccurs="0" />
+						<xs:element name="ipv6Address" type="m2m:ipv6" minOccurs="0" />         
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>            
+			<xs:element name="originatorLocation" type="m2m:locationRegion" minOccurs="0" />
+			<xs:element name="originatorRoleIDs" minOccurs="0" >
+				<xs:simpleType>
+					<xs:restriction> 
+						<xs:simpleType> 
+							<xs:list itemType="m2m:roleID" />
+						</xs:simpleType> 
+						<xs:minLength value="1" /> 
+					</xs:restriction> 
+				</xs:simpleType>
+			</xs:element>            
+			<xs:element name="requestTimestamp" type="m2m:absRelTimestamp" minOccurs="0" />
+			<xs:element name="targetedResourceID" type="xs:anyURI" minOccurs="0" />
+			<xs:element name="proposedPrivilegesLifetime" type="m2m:absRelTimestamp" minOccurs="0" />
+			<xs:element name="roleIDsFromACPs"  minOccurs="0" >
+				<xs:simpleType>
+					<xs:restriction> 
+						<xs:simpleType> 
+							<xs:list itemType="m2m:roleID" />
+						</xs:simpleType> 
+						<xs:minLength value="1" /> 
+					</xs:restriction> 
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="tokenIDs" minOccurs="0" >
+				<xs:simpleType>
+					<xs:restriction> 
+						<xs:simpleType> 
+							<xs:list itemType="m2m:tokenID" />
+						</xs:simpleType> 
+						<xs:minLength value="1" /> 
+					</xs:restriction> 
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- initialBackoffTime, additionalBackoffTime, maximumBackoffTime in units in milliseconds -->
+	<xs:complexType name="backOffParameters">
+		<xs:sequence>
+			<xs:element name="backOffParametersSet" minOccurs="1" maxOccurs="unbounded" >
+				<complexType>
+					<sequence>
+						<xs:element name="networkAction" type="m2m:networkAction" minOccurs="0"/>
+						<xs:element name="initialBackoffTime" type="xs:nonNegativeInteger" minOccurs="1"/>
+						<xs:element name="additionalBackoffTime" type="xs:nonNegativeInteger" minOccurs="1"/>
+						<xs:element name="maximumBackoffTime" type="xs:nonNegativeInteger" minOccurs="1"/>
+						<xs:element name="optionalRandomBackoffTime" type="xs:nonNegativeInteger" minOccurs="0"/>
+					</sequence>
+				</complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- a list of dataLinks to describe persistent input/output data (as in Input/OutputDataPoint)	-->
+	<!-- of services and operations, or transient data (as in operationInput/Output)of operations 	--> 	
+	<xs:complexType name="listOfDataLinks">
+		<xs:sequence>
+			<xs:element name="dataLinkEntry" type="m2m:dataLink" minOccurs="1" maxOccurs="unbounded">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- a dataLink links (simple or complex) data specified in an ontology to their oneM2M resource --> 
+	<xs:complexType name="dataLink">
+		<xs:sequence>
+			
+			<!-- the name of the Input/OutputDataPoint or OperationIn-/Output as specified by the ontology --> 
+			<xs:element name="name" type="xs:anyURI" />
+			
+			<!-- the URL of the container/flexContainer resource for the Input/OutputDataPoint or OperationIn-/Output --> 
+			<xs:element name="dataContainerID" type="m2m:ID" />
+			
+			<!-- if the dataLink references simpe type data the element shall contain		-->
+			<!--	a)	the name of the customAttribute if URL points to a flexContainer or -->
+			<!-- 	b)	the string "latest" if URL points to a container					-->
+			<!-- if the dataLink references complex-type data (i.e. the complete resource	-->
+			<!-- including customAttributes and subresources) the element is empty			-->
+			<xs:element name="attributeName" type="xs:NCName" minOccurs="0" maxOccurs="1" />
+			
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Resource type definitions. These types include the "common attributes" that are used by oneM2M Resources. Each oneM2M 
+		Resource has a resource type that is defined in a separate schema, but each resource type extends one of the types that is 
+		defined below -->
+	
+	<xs:complexType name="resource">
+		<xs:sequence>
+			<xs:element name="resourceType" type="m2m:resourceType" />
+			<xs:element name="resourceID" type="m2m:ID" />
+			<xs:element name="parentID" type="m2m:nhURI" />
+			<xs:element name="creationTime" type="m2m:timestamp" />
+			<xs:element name="lastModifiedTime" type="m2m:timestamp" />
+			<xs:element name="labels" type="m2m:labels" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="resourceName" type="xs:NCName" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="regularResource">
+		<xs:complexContent>
+			<xs:extension base="m2m:resource">
+				<xs:sequence>
+					<xs:element name="accessControlPolicyIDs" type="m2m:acpType" minOccurs="0" />
+					<xs:element name="expirationTime" type="m2m:timestamp" />
+					<xs:element name="dynamicAuthorizationConsultationIDs" type="m2m:listOfURIs" minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="announceableResource">
+		<xs:complexContent>
+			<xs:extension base="m2m:regularResource">
+				<xs:sequence>
+					<xs:element name="announceTo" type="m2m:listOfURIs" minOccurs="0" />
+					<xs:element name="announcedAttribute" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction> 
+								<xs:simpleType> 
+									<xs:list itemType="xs:NCName" />
+								</xs:simpleType> 	
+								<xs:minLength value="1" /> 
+							</xs:restriction> 
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="announcedResource">
+		<xs:complexContent>
+			<!-- AccessControlPolicyIDs is mandatory for announced resources but not for the original ones -->
+			<xs:extension base="m2m:resource">
+				<xs:sequence>
+					<xs:element name="accessControlPolicyIDs" type="m2m:acpType" />
+					<xs:element name="expirationTime" type="m2m:timestamp" />
+					<xs:element name="link" type="xs:anyURI" />
+					<xs:element name="dynamicAuthorizationConsultationIDs" type="m2m:listOfURIs" minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="announceableSubordinateResource">
+		<xs:complexContent>
+			<xs:extension base="m2m:resource">
+				<xs:sequence>
+					<xs:element name="expirationTime" type="m2m:timestamp" />
+					<xs:element name="announceTo" type="m2m:listOfURIs" minOccurs="0" />
+					<xs:element name="announcedAttribute" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction> 
+								<xs:simpleType> 
+									<xs:list itemType="xs:NCName" />
+								</xs:simpleType>
+								<xs:minLength value="1" /> 
+							</xs:restriction> 
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="subordinateResource">
+		<xs:complexContent>
+			<xs:extension base="m2m:resource">
+				<xs:sequence>
+					<xs:element name="expirationTime" type="m2m:timestamp" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="announcedSubordinateResource">
+		<xs:complexContent>
+			<xs:extension base="m2m:resource">
+				<xs:sequence>
+					<xs:element name="expirationTime" type="m2m:timestamp" />
+					<xs:element name="link" type="xs:anyURI" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="mgmtResource">
+		<xs:complexContent>
+			<xs:extension base="m2m:announceableResource">
+				<xs:sequence>
+					<xs:element name="mgmtDefinition" type="m2m:mgmtDefinition" />
+					<xs:element name="objectIDs" type="m2m:listOfURIs" minOccurs="0" />
+					<xs:element name="objectPaths" type="m2m:listOfURIs" minOccurs="0" />
+					<xs:element name="description" type="xs:string" minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="announcedMgmtResource">
+		<xs:complexContent>
+			<xs:extension base="m2m:announcedResource">
+				<xs:sequence>
+					<xs:element name="mgmtDefinition" type="m2m:mgmtDefinition" />
+					<xs:element name="objectIDs" type="m2m:listOfURIs" minOccurs="0" />
+					<xs:element name="objectPaths" type="m2m:listOfURIs" minOccurs="0" />
+					<xs:element name="description" type="xs:string" minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Auxiliary datatype used below -->
+	<xs:simpleType name="listOfNCNames" >
+		<xs:restriction> 
+			<xs:simpleType> 
+				<xs:list itemType="xs:NCName" />
+			</xs:simpleType> 	
+			<xs:minLength value="1" /> 
+		</xs:restriction> 
+	</xs:simpleType>
+	
+	<xs:complexType name="flexContainerResource">
+				<xs:sequence>
+					<xs:element name="resourceType" type="m2m:resourceType" />
+					<xs:element name="resourceID" type="m2m:ID" />
+					<xs:element name="parentID" type="m2m:nhURI" />
+					<xs:element name="creationTime" type="m2m:timestamp" minOccurs="0" />
+					<xs:element name="lastModifiedTime" type="m2m:timestamp" minOccurs="0" />
+					<xs:element name="labels" type="m2m:labels" minOccurs="0" />					
+					<xs:element name="accessControlPolicyIDs" type="m2m:acpType" minOccurs="0" />
+					<xs:element name="expirationTime" type="m2m:timestamp" minOccurs="0" />
+					<xs:element name="dynamicAuthorizationConsultationIDs" type="m2m:listOfURIs" minOccurs="0" />					
+					<xs:element name="announceTo" type="m2m:listOfURIs" minOccurs="0" />
+					<xs:element name="announcedAttribute" type="m2m:listOfNCNames" minOccurs="0" />
+					<xs:element name="stateTag" type="xs:nonNegativeInteger" />
+					<xs:element name="creator" type="m2m:ID" minOccurs="0" />
+					<xs:element name="containerDefinition" type="xs:anyURI" />					
+					<xs:element name="ontologyRef" type="xs:anyURI" minOccurs="0" />
+				</xs:sequence>	
+				<xs:attribute name="resourceName" type="xs:NCName" use="required" />				
+	</xs:complexType>
+	
+	<xs:complexType name="announcedFlexContainerResource">
+				<xs:sequence>
+					<xs:element name="resourceType" type="m2m:resourceType" />
+					<xs:element name="resourceID" type="m2m:ID" />
+					<xs:element name="parentID" type="m2m:nhURI" />
+					<xs:element name="creationTime" type="m2m:timestamp" minOccurs="0" />
+					<xs:element name="lastModifiedTime" type="m2m:timestamp" minOccurs="0" />
+					<xs:element name="labels" type="m2m:labels" minOccurs="0" />					
+					<xs:element name="accessControlPolicyIDs" type="m2m:acpType" />
+					<xs:element name="expirationTime" type="m2m:timestamp" minOccurs="0" />
+					<xs:element name="link" type="xs:anyURI" />
+					<xs:element name="dynamicAuthorizationConsultationIDs" type="m2m:listOfURIs" minOccurs="0" />					
+					<xs:element name="stateTag" type="xs:nonNegativeInteger" minOccurs="0" />
+					<xs:element name="containerDefinition" type="xs:anyURI" />
+					<xs:element name="ontologyRef" type="xs:anyURI" minOccurs="0" />
+				</xs:sequence>	
+				<xs:attribute name="resourceName" type="xs:NCName" use="required" />									
+	</xs:complexType>
+	
+	<!-- The following Global Elements define substitution groups -->
+	<xs:element name="sg_resource" type="m2m:resource"  abstract="true" />
+	<xs:element name="sg_regularResource" type="m2m:regularResource"  abstract="true" />
+	<xs:element name="sg_announcedResource" type="m2m:announcedResource"  abstract="true" />
+	<xs:element name="sg_announceableResource" type="m2m:announceableResource"  abstract="true"/>
+	<xs:element name="sg_subordinateResource" type="m2m:subordinateResource"  abstract="true" />
+	<xs:element name="sg_announceableSubordinateResource" type="m2m:announceableSubordinateResource"  abstract="true" />
+	<xs:element name="sg_announcedSubordinateResource" type="m2m:announcedSubordinateResource"  abstract="true" />
+	<xs:element name="sg_mgmtResource" type="m2m:mgmtResource"  abstract="true" />
+	<xs:element name="sg_announcedMgmtResource" type="m2m:announcedMgmtResource" abstract="true" />
+	<xs:element name="sg_flexContainerResource" type="m2m:flexContainerResource"  abstract="true" />
+	<xs:element name="sg_announcedFlexContainerResource" type="m2m:announcedFlexContainerResource"  abstract="true" />
+
+</xs:schema>
