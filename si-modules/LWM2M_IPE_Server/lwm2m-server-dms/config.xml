@@ -14,7 +14,7 @@
 		<retryInterval>10</retryInterval>
 		-->
 		 
-		<ip>10.10.0.23</ip>
+		<ip>10.10.224.240</ip>
 		<port>
 			<normal>8080</normal>
 			<auth>8081</auth>
@@ -28,7 +28,7 @@
 	<dm>
 		<use>yes</use>									<!-- 'yes' or 'no' -->
 		<web>
-			<ip>10.10.0.23</ip>
+			<ip>10.10.224.240</ip>
 			<port>8089</port>
 		</web>
 	</dm>
