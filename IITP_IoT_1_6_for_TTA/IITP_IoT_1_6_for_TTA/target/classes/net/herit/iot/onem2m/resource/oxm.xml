@@ -1,0 +1,616 @@
+<?xml version="1.0"?>
+<xml-bindings
+	xmlns="http://www.eclipse.org/eclipselink/xsds/persistence/oxm"
+	package-name="net.herit.iot.onem2m.resource">
+	<java-types>
+		<java-type name="ChildResourceRef">
+			<java-attributes>
+				<xml-element java-attribute="value" name="value"/>
+			</java-attributes>
+		</java-type>
+
+		<java-type name="MgmtLinkRef">
+			<java-attributes>
+				<xml-element java-attribute="value" name="value"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- Resource -->
+		<java-type name="Resource">
+			<java-attributes>
+				<xml-element java-attribute="labels" name="lbl" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		
+		<!-- RegularResource -->
+		<java-type name="RegularResource">
+			<java-attributes>
+				<xml-element java-attribute="accessControlPolicyIDs" name="acpi" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		
+		<!-- AnnouncedResource -->
+		<java-type name="AnnouncedResource">
+			<java-attributes>
+				<xml-element java-attribute="accessControlPolicyIDs" name="acpi" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+
+		<!-- AnnounceableResource -->
+		<java-type name="AnnounceableResource">
+			<java-attributes>
+				<xml-element java-attribute="announceTo" name="at" xml-list="false"/>
+				<xml-element java-attribute="announcedAttribute" name="aa" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+
+		
+		<!-- AnnounceableSubordinateResource -->
+		<java-type name="AnnounceableSubordinateResource">
+			<java-attributes>
+				<xml-element java-attribute="announceTo" name="at" xml-list="false"/>
+				<xml-element java-attribute="announcedAttribute" name="aa" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- DeliveryMetaData -->
+		<java-type name="DeliveryMetaData">
+			<java-attributes>
+				<xml-element java-attribute="tracingInfo" name="tracingInfo" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		
+		<!-- FilterCriteria -->
+		<java-type name="FilterCriteria">
+			<java-attributes>
+				<xml-element java-attribute="labels" name="lbl" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+
+		<!-- UriListContent -->
+		<java-type name="UriListContent">
+			<java-attributes>
+				<xml-element java-attribute="uriList" name="URIList" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- AnnouncedMgmtResource -->
+		<java-type name="AnnouncedMgmtResource">
+			<java-attributes>
+				<xml-element java-attribute="objectIDs" name="obis" xml-list="false"/>
+				<xml-element java-attribute="objectPaths" name="obps" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- MgmtResource -->
+		<java-type name="MgmtResource">
+			<java-attributes>
+				<xml-element java-attribute="objectIDs" name="obis" xml-list="false"/>
+				<xml-element java-attribute="objectPaths" name="obps" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- PrimitiveContent  
+		<java-type name="PrimitiveContent">
+		   <java-attributes>
+		   	<xml-element java-attribute="anyOrAny" xml-list="false"/>
+		   </java-attributes>
+		</java-type>      blocked in 2017-08-31 -->
+		
+		<!-- RequestPrimitive -->
+		<java-type name="RequestPrimitive">
+		    <xml-root-element name = "m2m:rqp"/>
+			<java-attributes>
+				<xml-element java-attribute="primitiveContent" name="pc"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- ReponsePrimitive  added in 2017-09-01-->
+		<java-type name="ResponsePrimitive">
+		    <xml-root-element name = "m2m:rsp"/>
+			<java-attributes>
+				<xml-element java-attribute="primitiveContent" name="pc"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- Node -->
+		<java-type name="Node">
+		    <xml-root-element name = "m2m:nod"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- mgmtObj, Memory -->
+		<java-type name="Memory">
+		    <xml-root-element name = "m2m:mem"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- mgmtObj, Firmware -->
+		<java-type name="Firmware">
+		    <xml-root-element name = "m2m:fwr"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- mgmtObj, Software -->
+		<java-type name="Software">
+		    <xml-root-element name = "m2m:swr"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- mgmtObj, Battery -->
+		<java-type name="Battery">
+		    <xml-root-element name = "m2m:bat"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- mgmtObj, DeviceInfo -->
+		<java-type name="DeviceInfo">
+		    <xml-root-element name = "m2m:dvi"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- mgmtObj, DeviceCapability -->
+		<java-type name="DeviceCapability">
+		    <xml-root-element name = "m2m:dvc"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- mgmtObj, Reboot -->
+		<java-type name="Reboot">
+		    <xml-root-element name = "m2m:rbo"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- mgmtObj, EventLog -->
+		<java-type name="EventLog">
+		    <xml-root-element name = "m2m:evl"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- mgmtObj, CmdhPolicy -->
+		<java-type name="CmdhPolicy">
+		    <xml-root-element name = "m2m:cmp"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- mgmtCmd -->
+		<java-type name="MgmtCmd">
+		    <xml-root-element name = "m2m:mgc"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- ExecInstance -->
+		<java-type name="ExecInstance">
+		    <xml-root-element name = "m2m:exin"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- AE -->
+		<java-type name="AE">
+		    <xml-root-element name = "m2m:ae"/>
+			<java-attributes>
+				<xml-element java-attribute="pointOfAccess" name="poa" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		
+		<!-- AEAnnc -->
+		<java-type name="AEAnnc">
+		    <xml-root-element name = "m2m:aeA"/>
+			<java-attributes>
+				<xml-element java-attribute="pointOfAccess" name="poa" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+
+		<!-- RemoteCSE -->
+		<java-type name="RemoteCSE">
+		    <xml-root-element name = "m2m:csr"/>
+			<java-attributes>
+				<xml-element java-attribute="pointOfAccess" name="poa" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		
+		<!-- RemoteCSEAnnc -->
+		<java-type name="RemoteCSEAnnc">
+		    <xml-root-element name = "m2m:csrA"/>
+			<java-attributes>
+				<xml-element java-attribute="pointOfAccess" name="poa" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- AccessControlPolicy -->
+		<java-type name="AccessControlPolicy">
+			<xml-root-element name = "m2m:acp"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		<!-- SetOfAcrs -->
+		<!-- AccessControlRule -->
+		<java-type name="AccessControlRule">
+			<java-attributes>
+				<xml-element java-attribute="accessControlOriginators" name="acor" xml-list="false"/>	<!-- 1.0.1 -->
+			</java-attributes>
+		</java-type>
+		<java-type name="AccessControlRule$AccessControlContexts$AccessControlIpAddresses">
+			<java-attributes>
+				<xml-element java-attribute="ipv4Addresses" name="ipv4" xml-list="false"/>
+				<xml-element java-attribute="ipv6Addresses" name="ipv6" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		<!-- AccessControlRule -->
+		<java-type name="LocationRegion">
+			<java-attributes>
+				<xml-element java-attribute="countryCode" name="accc" xml-list="false"/>
+				<xml-element java-attribute="circRegion" name="accr" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+
+		<!-- CSEBase -->
+		<java-type name="CSEBase">
+		    <xml-root-element name = "m2m:cb"/>
+			<java-attributes>
+				<xml-element java-attribute="accessControlPolicyIDs" name="acpi" xml-list="false"/>
+				<xml-element java-attribute="supportedResourceType" name="srt" xml-list="false"/>
+				<xml-element java-attribute="pointOfAccess" name="poa" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+
+		
+		<!-- Group -->
+		<java-type name="Group">
+		    <xml-root-element name = "m2m:grp"/>
+			<java-attributes>
+				<xml-element java-attribute="memberIDs" name="mid" xml-list="false"/>
+				<xml-element java-attribute="membersAccessControlPolicyIDs" name="macp" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- Container -->
+		<java-type name="Container">
+		    <xml-root-element name = "m2m:cnt"/>
+			<java-attributes>
+				<xml-element java-attribute="accessControlPolicyIDs" name="acpi" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- ContentInstance -->
+		<java-type name="ContentInstance">
+		    <xml-root-element name = "m2m:cin"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- AEAnnc -->
+		<java-type name="AEAnnc">
+		    <xml-root-element name = "m2m:aeA"/>
+			<java-attributes>
+				<xml-element java-attribute="pointOfAccess" name="poa" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- GroupAnnc -->
+		<java-type name="GroupAnnc">
+		    <xml-root-element name = "m2m:grpA"/>
+			<java-attributes>
+				<xml-element java-attribute="memberIDs" name="mid" xml-list="false"/>
+				<xml-element java-attribute="membersAccessControlPolicyIDs" name="macp" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- ContainerAnnc -->
+		<java-type name="ContainerAnnc">
+		    <xml-root-element name = "m2m:cntA"/>
+			<java-attributes>
+				<xml-element java-attribute="accessControlPolicyIDs" name="acpi" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- ContentInstanceAnnc -->
+		<java-type name="ContentInstanceAnnc">
+		    <xml-root-element name = "m2m:cinA"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- EventConfig -->
+		<java-type name="EventConfig">
+		    <xml-root-element name = "evcg"/>
+			<java-attributes>
+				<xml-element java-attribute="operationType" name="opt" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		
+		<!-- M2MServiceSubscriptionProfile -->
+		<java-type name="M2MServiceSubscriptionProfile">
+		    <xml-root-element name = "m2m:mssp"/>
+			<java-attributes>
+				<xml-element java-attribute="serviceRoles" name="svr" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- ServiceSubscribedAppRule -->
+		<java-type name="ServiceSubscribedAppRule">
+		    <xml-root-element name = "m2m:asar"/>
+			<java-attributes>
+				<xml-element java-attribute="applicableCredIDs" name="aci" xml-list="false"/>
+				<xml-element java-attribute="allowedAppIDs" name="aai" xml-list="false"/>
+				<xml-element java-attribute="allowedAEs" name="aae" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		
+		<!-- ServiceSubscribedNode -->
+		<java-type name="ServiceSubscribedNode">
+		    <xml-root-element name = "m2m:svsn"/>
+			<java-attributes>
+				<xml-element java-attribute="deviceIdentifier" name="di" xml-list="false"/>
+				<xml-element java-attribute="ruleLinks" name="ruleLinks" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- Subscription -->
+		<java-type name="Subscription">
+		    <xml-root-element name = "m2m:sub"/>
+			<java-attributes>
+				<xml-element java-attribute="notificationURI" name="nu" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- PollingChannel -->
+		<java-type name="PollingChannel">
+		    <xml-root-element name = "m2m:pch"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- AreaNwkDeviceInfo -->
+		<java-type name="AreaNwkDeviceInfo">
+		    <xml-root-element name = "m2m:andi"/>
+			<java-attributes>
+				<xml-element java-attribute="listOfNeighbors" name="lnh" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- AreaNwkDeviceInfoAnnc -->
+		<java-type name="AreaNwkDeviceInfoAnnc">
+		    <xml-root-element name = "m2m:andiA"/>
+			<java-attributes>
+				<xml-element java-attribute="listOfNeighbors" name="lnh" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		
+		<!-- AreaNwkInfo -->
+		<java-type name="AreaNwkInfo">
+		    <xml-root-element name = "m2m:ani"/>
+			<java-attributes>
+				<xml-element java-attribute="listOfDevices" name="ldv" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		
+		<!-- AreaNwkInfoAnnc -->
+		<java-type name="AreaNwkInfoAnnc">
+		    <xml-root-element name = "m2m:aniA"/>
+			<java-attributes>
+				<xml-element java-attribute="listOfDevices" name="ldv" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		
+		<!-- CmdhBuffer -->
+		<java-type name="CmdhBuffer">
+		    <xml-root-element name = "m2m:cmbf"/>
+			<java-attributes>
+				<xml-element java-attribute="applicableEventCategory" name="aec" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- CmdhDefEcValue -->
+		<java-type name="CmdhDefEcValue">
+		    <xml-root-element name = "m2m:cmdv"/>
+			<java-attributes>
+				<xml-element java-attribute="requestOrigin" name="ror" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		
+		<!-- CmdhEcDefParamValues -->
+		<java-type name="CmdhEcDefParamValues">
+		    <xml-root-element name = "m2m:cmpv"/>
+			<java-attributes>
+				<xml-element java-attribute="applicableEventCategory" name="aec" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		
+		<!-- CmdhLimits -->
+		<java-type name="CmdhLimits">
+		    <xml-root-element name = "m2m:cml"/>
+			<java-attributes>
+				<xml-element java-attribute="requestOrigin" name="ror" xml-list="false"/>
+				<xml-element java-attribute="limitsEventCategory" name="lec" xml-list="false"/>
+				<xml-element java-attribute="limitsRequestExpTime" name="lqet" xml-list="false"/>
+				<xml-element java-attribute="limitsResultExpTime" name="lset" xml-list="false"/>
+				<xml-element java-attribute="limitsOpExecTime" name="loet" xml-list="false"/>
+				<xml-element java-attribute="limitsRespPersistence" name="lrp" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- CmdhNetworkAccessRules -->
+		<java-type name="CmdhNetworkAccessRules">
+		    <xml-root-element name = "m2m:cmnr"/>
+			<java-attributes>
+				<xml-element java-attribute="applicableEventCategories" name="aecs" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- CmdhNwAccessRule -->
+		<java-type name="CmdhNwAccessRule">
+		    <xml-root-element name = "m2m:cmwr"/>
+			<java-attributes>
+				<xml-element java-attribute="targetNetwork" name="ttn" xml-list="false"/>
+				<xml-element java-attribute="backOffParameters" name="bop" xml-list="false"/>
+			</java-attributes>
+		</java-type>
+		
+		<!-- SemanticDescriptor -->
+		<java-type name="SemanticDescriptor">
+		    <xml-root-element name = "m2m:smd"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- SemanticDescriptorAnnc -->
+		<java-type name="SemanticDescriptorAnnc">
+		    <xml-root-element name = "m2m:smdA"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- FlexContainer Specialization -->
+		
+		<!-- AllJoynApp -->
+		<java-type name="AllJoynApp">
+		    <xml-root-element name = "m2m:ajap"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- AllJoynInterface -->
+		<java-type name="AllJoynInterface">
+		    <xml-root-element name = "m2m:ajif"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- AllJoynMethod -->
+		<java-type name="AllJoynMethod">
+		    <xml-root-element name = "m2m:ajmd"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- AllJoynMethodCall -->
+		<java-type name="AllJoynMethodCall">
+		    <xml-root-element name = "m2m:ajmc"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- AllJoynProperty -->
+		<java-type name="AllJoynProperty">
+		    <xml-root-element name = "m2m:ajpr"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- AllJoynSvcObject -->
+		<java-type name="AllJoynSvcObject">
+		    <xml-root-element name = "m2m:ajso"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- GenericInterworkingService -->
+		<java-type name="GenericInterworkingService">
+		    <xml-root-element name = "m2m:gis"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- GenericInterworkingOperationInstance -->
+		<java-type name="GenericInterworkingOperationInstance">
+		    <xml-root-element name = "m2m:gio"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- SvcFwWrapper -->
+		<java-type name="SvcFwWrapper">
+		    <xml-root-element name = "m2m:ajfw"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- SvcObjWrapper -->
+		<java-type name="SvcObjWrapper">
+		    <xml-root-element name = "m2m:ajsw"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- FlexContainerAnnc Specialization -->
+		
+		<!-- AllJoynAppAnnc -->
+		<java-type name="AllJoynAppAnnc">
+		    <xml-root-element name = "m2m:ajapa"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- AllJoynInterfaceAnnc -->
+		<java-type name="AllJoynInterfaceAnnc">
+		    <xml-root-element name = "m2m:ajifa"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- AllJoynMethodAnnc -->
+		<java-type name="AllJoynMethodAnnc">
+		    <xml-root-element name = "m2m:ajmda"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- AllJoynMethodCallAnnc -->
+		<java-type name="AllJoynMethodCallAnnc">
+		    <xml-root-element name = "m2m:ajmca"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- AllJoynPropertyAnnc -->
+		<java-type name="AllJoynPropertyAnnc">
+		    <xml-root-element name = "m2m:ajpra"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- AllJoynSvcObjectAnnc -->
+		<java-type name="AllJoynSvcObjectAnnc">
+		    <xml-root-element name = "m2m:ajsoa"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- GenericInterworkingServiceAnnc -->
+		<java-type name="GenericInterworkingServiceAnnc">
+		    <xml-root-element name = "m2m:gisa"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- GenericInterworkingOperationInstanceAnnc -->
+		<java-type name="GenericInterworkingOperationInstanceAnnc">
+		    <xml-root-element name = "m2m:gioa"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- SvcFwWrapperAnnc -->
+		<java-type name="SvcFwWrapperAnnc">
+		    <xml-root-element name = "m2m:ajfwa"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- SvcObjWrapperAnnc -->
+		<java-type name="SvcObjWrapperAnnc">
+		    <xml-root-element name = "m2m:ajswa"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- RestAuth Class  added in 2017-07-26 -->
+		<java-type name="RestAuth">
+			<xml-root-element name = "restAuth"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- RestCommand Class  added in 2017-07-27 -->
+		<java-type name="RestCommand">
+			<xml-root-element name = "restComm"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+		<!-- RestSubscription Class  added in 2017-07-27 -->
+		<java-type name="RestSubscription">
+			<xml-root-element name = "restSubs"/>
+			<java-attributes></java-attributes>
+		</java-type>
+		
+	</java-types>
+</xml-bindings>

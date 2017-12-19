@@ -1,0 +1,84 @@
+2017/11/07-16:23:19.920 INFO  n.h.i.o.i.f.CfgManager[initialize:81] - Configuration loading started!!!
+2017/11/07-16:23:20.112 INFO  n.h.i.o.i.f.CfgManager[initialize:103] - Configuration loading succeeded!!!
+2017/11/07-16:23:20.572 INFO  o.m.d.cluster[info:71] - Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=640}
+2017/11/07-16:23:20.572 INFO  o.m.d.cluster[info:71] - Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=640}
+2017/11/07-16:23:20.603 DEBUG o.m.d.connection[debug:56] - Ensuring minimum pooled connections to localhost:27017
+2017/11/07-16:23:20.860 DEBUG n.h.i.o.b.h.s.HttpServer[<init>:82] - Netty bossThreadPoolSize: 0, workerThreadPoolSize: 1024
+2017/11/07-16:23:20.886 DEBUG i.n.u.i.l.InternalLoggerFactory[debug:71] - Using SLF4J as the default logging framework
+2017/11/07-16:23:20.888 DEBUG i.n.c.MultithreadEventLoopGroup[debug:76] - -Dio.netty.eventLoopThreads: 4
+2017/11/07-16:23:20.911 DEBUG i.n.u.i.PlatformDependent0[debug:76] - java.nio.Buffer.address: available
+2017/11/07-16:23:20.911 DEBUG i.n.u.i.PlatformDependent0[debug:76] - sun.misc.Unsafe.theUnsafe: available
+2017/11/07-16:23:20.912 DEBUG i.n.u.i.PlatformDependent0[debug:71] - sun.misc.Unsafe.copyMemory: available
+2017/11/07-16:23:20.913 DEBUG i.n.u.i.PlatformDependent0[debug:76] - java.nio.Bits.unaligned: true
+2017/11/07-16:23:20.914 INFO  o.m.d.connection[info:71] - Opened connection [connectionId{localValue:65, serverValue:1}] to localhost:27017
+2017/11/07-16:23:20.915 DEBUG i.n.u.i.PlatformDependent[debug:76] - Java version: 7
+2017/11/07-16:23:20.916 INFO  o.m.d.cluster[info:71] - Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 2, 9]}, minWireVersion=0, maxWireVersion=4, electionId=null, maxDocumentSize=16777216, roundTripTimeNanos=1102000}
+2017/11/07-16:23:20.916 DEBUG i.n.u.i.PlatformDependent[debug:76] - -Dio.netty.noUnsafe: false
+2017/11/07-16:23:20.916 INFO  o.m.d.cluster[info:71] - Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 2, 9]}, minWireVersion=0, maxWireVersion=4, electionId=null, maxDocumentSize=16777216, roundTripTimeNanos=1102000}
+2017/11/07-16:23:20.916 DEBUG i.n.u.i.PlatformDependent[debug:76] - sun.misc.Unsafe: available
+2017/11/07-16:23:20.918 DEBUG i.n.u.i.PlatformDependent[debug:76] - -Dio.netty.noJavassist: false
+2017/11/07-16:23:20.920 DEBUG i.n.u.i.PlatformDependent[debug:71] - Javassist: unavailable
+2017/11/07-16:23:20.920 DEBUG i.n.u.i.PlatformDependent[debug:71] - You don't have Javassist in your class path or you don't have enough permission to load dynamically generated classes.  Please check the configuration for better performance.
+2017/11/07-16:23:20.920 DEBUG i.n.u.i.PlatformDependent[debug:76] - -Dio.netty.tmpdir: /var/folders/tm/w6pglknj4gl9pqfcx2t9pwfr0000gn/T (java.io.tmpdir)
+2017/11/07-16:23:20.921 DEBUG i.n.u.i.PlatformDependent[debug:76] - -Dio.netty.bitMode: 64 (sun.arch.data.model)
+2017/11/07-16:23:20.921 DEBUG i.n.u.i.PlatformDependent[debug:76] - -Dio.netty.noPreferDirect: false
+2017/11/07-16:23:20.965 DEBUG i.n.c.n.NioEventLoop[debug:76] - -Dio.netty.noKeySetOptimization: false
+2017/11/07-16:23:20.966 DEBUG i.n.c.n.NioEventLoop[debug:76] - -Dio.netty.selectorAutoRebuildThreshold: 512
+2017/11/07-16:23:21.310 DEBUG n.h.i.o.b.c.s.HCoapServer[<init>:123] - ######### HCoapServer RESOURCE_ID: herit-in, resourceName: herit-cse
+2017/11/07-16:23:21.311 DEBUG n.h.i.o.b.c.s.HCoapServer[addEndpoints:48] - addEndpoints
+2017/11/07-16:23:21.333 INFO  n.h.i.o.b.c.s.HCoapServer[addEndpoints:58] - Coap port: 5683
+2017/11/07-16:23:21.501 INFO  n.h.i.o.b.c.s.HCoapServer[addEndpoints:91] - Coaps port: 4433
+2017/11/07-16:23:21.553 INFO  o.m.d.connection[info:71] - Opened connection [connectionId{localValue:64, serverValue:2}] to localhost:27017
+2017/11/07-16:23:21.568 DEBUG o.m.d.p.query[debug:56] - Sending query of namespace IITP-IOT-TTA_ACTION9.configuration on connection [connectionId{localValue:64, serverValue:2}] to server localhost:27017
+2017/11/07-16:23:21.598 DEBUG o.m.d.p.query[debug:56] - Query completed
+2017/11/07-16:23:21.600 DEBUG n.h.i.o.i.m.d.SeqNumDAO[getAllSequenceNumber:52] - Pass non integer sequence:_id
+2017/11/07-16:23:21.603 DEBUG n.h.i.o.i.m.d.SeqNumDAO[getAllSequenceNumber:52] - Pass non integer sequence:CONFIGURATION_NAME
+2017/11/07-16:23:21.604 INFO  n.h.i.o.i.f.QosManager[initialize:62] - QoS initialization started!!!
+2017/11/07-16:23:21.630 DEBUG o.m.d.p.command[debug:56] - Sending command {count : BsonString{value='resource'}} to database IITP-IOT-TTA_ACTION9 on connection [connectionId{localValue:64, serverValue:2}] to server localhost:27017
+2017/11/07-16:23:21.647 DEBUG o.m.d.p.command[debug:56] - Command execution completed
+2017/11/07-16:23:21.649 DEBUG o.m.d.p.command[debug:56] - Sending command {count : BsonString{value='resource'}} to database IITP-IOT-TTA_ACTION9 on connection [connectionId{localValue:64, serverValue:2}] to server localhost:27017
+2017/11/07-16:23:21.654 DEBUG o.m.d.p.command[debug:56] - Command execution completed
+2017/11/07-16:23:21.655 INFO  n.h.i.o.i.f.QosManager[initialize:86] - AE- Max:1024, Current:0
+2017/11/07-16:23:21.656 INFO  n.h.i.o.i.f.QosManager[initialize:87] - CSE- Max:300, Current:0
+2017/11/07-16:23:21.656 INFO  n.h.i.o.i.f.QosManager[initialize:95] - QoS initialization ended!!!
+2017/11/07-16:23:21.773 DEBUG n.h.i.o.i.m.d.CSEBaseDAO[retrieve:65] - retrieve id=/herit-cse, result content type=null
+2017/11/07-16:23:26.033 DEBUG o.m.d.p.query[debug:56] - Sending query of namespace IITP-IOT-TTA_ACTION9.resource on connection [connectionId{localValue:64, serverValue:2}] to server localhost:27017
+2017/11/07-16:23:26.043 DEBUG o.m.d.p.query[debug:56] - Query completed
+2017/11/07-16:23:26.046 DEBUG o.m.d.p.query[debug:56] - Sending query of namespace IITP-IOT-TTA_ACTION9.resource on connection [connectionId{localValue:64, serverValue:2}] to server localhost:27017
+2017/11/07-16:23:26.050 DEBUG o.m.d.p.query[debug:56] - Query completed
+2017/11/07-16:23:26.058 DEBUG n.h.i.o.i.InCse[<init>:168] - Handled exception
+net.herit.iot.onem2m.core.util.OneM2MException: Resource already exist!!! :/herit-in/herit-cse
+	at net.herit.iot.onem2m.incse.manager.dao.ResourceDAO.create(ResourceDAO.java:151) ~[classes/:na]
+	at net.herit.iot.onem2m.incse.manager.dao.CSEBaseDAO.create(CSEBaseDAO.java:45) ~[classes/:na]
+	at net.herit.iot.onem2m.incse.manager.CSEBaseManager.createIfNotExist(CSEBaseManager.java:132) ~[classes/:na]
+	at net.herit.iot.onem2m.incse.InCse.<init>(InCse.java:166) [classes/:na]
+	at net.herit.iot.onem2m.incse.InCse.main(InCse.java:671) [classes/:na]
+2017/11/07-16:23:26.269 DEBUG n.h.i.o.b.m.c.MqttClientHandler[connect:201] - MQTT] connected to mqtt borker.
+2017/11/07-16:23:26.270 DEBUG n.h.i.o.b.m.c.MqttClientHandler[connect:106] - [MqttClientHandler.connect] connected! CES_ID : herit-in, BrokerURL : tcp://10.10.0.22:1883
+2017/11/07-16:23:26.275 DEBUG n.h.i.o.b.m.c.MqttClientHandler[setSubscribe:337] - SUBSCRIBED. TOPIC = /oneM2M/req/+/herit-in
+2017/11/07-16:23:26.330 DEBUG n.h.i.o.b.m.c.MqttClientHandler[setSubscribe:340] - SUBSCRIBED. TOPIC = /oneM2M/resp/herit-in/+
+2017/11/07-16:23:29.402 DEBUG i.n.u.i.ThreadLocalRandom[debug:71] - -Dio.netty.initialSeedUniquifier: 0x98192b47ca57abac (took 0 ms)
+2017/11/07-16:23:29.492 DEBUG i.n.b.ByteBufUtil[debug:76] - -Dio.netty.allocator.type: unpooled
+2017/11/07-16:23:29.493 DEBUG i.n.b.ByteBufUtil[debug:76] - -Dio.netty.threadLocalDirectBufferSize: 65536
+2017/11/07-16:23:29.494 DEBUG i.n.b.ByteBufUtil[debug:76] - -Dio.netty.maxThreadLocalCharBufferSize: 16384
+2017/11/07-16:23:29.497 DEBUG i.n.u.NetUtil[debug:86] - Loopback interface: lo0 (lo0, 0:0:0:0:0:0:0:1)
+2017/11/07-16:23:29.504 DEBUG i.n.u.NetUtil[debug:81] - /proc/sys/net/core/somaxconn: 128 (non-existent)
+2017/11/07-16:23:29.549 DEBUG n.h.i.o.b.h.s.HttpServer[runAll:157] - Open your web browser and navigate to http://127.0.0.1:8080/
+2017/11/07-16:23:29.560 INFO  i.n.h.l.LoggingHandler[info:101] - [id: 0x4b19130e] REGISTERED
+2017/11/07-16:23:29.561 INFO  i.n.h.l.LoggingHandler[info:101] - [id: 0x4b19130e] BIND(0.0.0.0/0.0.0.0:8080)
+2017/11/07-16:23:29.584 INFO  i.n.h.l.LoggingHandler[info:101] - [id: 0x4b19130e, /0:0:0:0:0:0:0:0:8080] ACTIVE
+2017/11/07-16:23:30.062 DEBUG i.n.b.AbstractByteBuf[debug:81] - -Dio.netty.buffer.bytebuf.checkAccessible: true
+2017/11/07-16:23:30.066 DEBUG i.n.u.ResourceLeakDetector[debug:81] - -Dio.netty.leakDetection.level: simple
+2017/11/07-16:23:30.067 DEBUG i.n.u.ResourceLeakDetector[debug:81] - -Dio.netty.leakDetection.maxRecords: 4
+2017/11/07-16:23:30.110 DEBUG i.n.u.i.Cleaner0[debug:76] - java.nio.ByteBuffer.cleaner(): available
+2017/11/07-16:23:30.125 DEBUG i.n.h.s.OpenSsl[debug:71] - netty-tcnative not in the classpath; OpenSslEngine will be unavailable.
+2017/11/07-16:23:31.602 DEBUG i.n.h.s.JdkSslContext[debug:76] - Default protocols (JDK): [TLSv1.2, TLSv1.1, TLSv1] 
+2017/11/07-16:23:31.603 DEBUG i.n.h.s.JdkSslContext[debug:76] - Default cipher suites (JDK): [TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA, SSL_RSA_WITH_3DES_EDE_CBC_SHA]
+2017/11/07-16:23:31.616 DEBUG n.h.i.o.b.h.s.HttpServer[runAll:157] - Open your web browser and navigate to https://127.0.0.1:8443/
+2017/11/07-16:23:31.617 DEBUG n.h.i.o.b.h.s.HttpServer[runAll:157] - Open your web browser and navigate to http://127.0.0.1:8081/
+2017/11/07-16:23:31.620 INFO  i.n.h.l.LoggingHandler[info:101] - [id: 0x46e66308] REGISTERED
+2017/11/07-16:23:31.620 INFO  i.n.h.l.LoggingHandler[info:101] - [id: 0x46e66308] BIND(0.0.0.0/0.0.0.0:8443)
+2017/11/07-16:23:31.621 INFO  i.n.h.l.LoggingHandler[info:101] - [id: 0x46e66308, /0:0:0:0:0:0:0:0:8443] ACTIVE
+2017/11/07-16:23:31.622 INFO  i.n.h.l.LoggingHandler[info:101] - [id: 0xdbd08b38] REGISTERED
+2017/11/07-16:23:31.622 INFO  i.n.h.l.LoggingHandler[info:101] - [id: 0xdbd08b38] BIND(0.0.0.0/0.0.0.0:8081)
+2017/11/07-16:23:31.622 INFO  i.n.h.l.LoggingHandler[info:101] - [id: 0xdbd08b38, /0:0:0:0:0:0:0:0:8081] ACTIVE

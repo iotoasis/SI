@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Main-Class: net.herit.iot.onem2m.incse.InCse
+Class-Path: common-lib_db.jar  common-lib_http.jar  common-message.jar  onem2m-core.jar  onem2m-resource.jar  
+    ./libs/netty-all-4.0.31.Final.jar 
+    ./libs/slf4j-api-1.7.12.jar 
+    ./libs/mongo-java-driver-3.0.2.jar 
+    ./libs/org.eclipse.persistence.antlr_3.2.0.v201302191141.jar 
+    ./libs/org.eclipse.persistence.core_2.4.3.v20150713-6e43db3.jar 
+    ./libs/org.eclipse.persistence.asm_3.3.1.v201302191223.jar 
+    ./libs/org.eclipse.persistence.moxy_2.4.3.v20150713-6e43db3.jar 
+    ./libs/joda-time-2.3.jar 
+    ./libs/logback-classic-1.1.3.jar  
+    ./libs/logback-core-1.1.3.jar
