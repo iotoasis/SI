@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="net.herit.iot.onem2m.bind.http.server.HttpServer"
+        x="758" y="604">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpServerListener"
+            endpointName="listener" kind="Simple"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.bind.http.server.HttpServer.BindInfo"
+            endpointName="bindInfo" kind="Simple"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.bind.http.server.HttpServer.BindInfo"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.bind.http.server.HttpServerHandler"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.bind.http.client.HttpClient.ConnectListner"
+        x="563" y="173">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpClientListener"
+            endpointName="clientListener" kind="Simple"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.bind.http.client.HttpClient"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.bind.http.codec.HttpRequestCodec"
+        x="164" y="370">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.herit.iot.onem2m.bind.http.codec.HttpAbsCodec"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.bind.http.codec.HttpAbsCodec"
+        x="42" y="368">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.bind.http.server.HttpServer.BindInfo"
+        x="617" y="645">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpServerListener"
+            endpointName="listener" kind="Simple"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.bind.http.util.QueryEntry" x="82" y="607">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.bind.http.server.HttpServerInitializer"
+        x="62" y="510">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpServerListener"
+            endpointName="listener" kind="Simple"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.bind.http.client.HttpClient"
+        x="289" y="341">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpClientListener"
+            endpointName="mHttpClientListener" kind="Simple"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.bind.http.codec.HttpRequestCodec"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.bind.http.codec.HttpResponseCodec"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.bind.http.api.HttpClientListener"
+        x="24" y="165">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpEventListener"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.bind.http.client.HttpClientInitializer"
+        x="785" y="507">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpClientListener"
+            endpointName="mHttpClientListener" kind="Simple"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.bind.http.codec.HttpResponseCodec"
+        x="161" y="428">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.herit.iot.onem2m.bind.http.codec.HttpAbsCodec"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.bind.http.status.OneM2mResponseStatus"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.bind.http.client.HttpClientHandler.EventListener"
+        x="883" y="178">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpClientListener"
+            endpointName="listener" kind="Simple"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpEventListener"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.bind.http.api.HttpEventListener"
+        x="32" y="25">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.bind.http.client.AsyncResponseListener"
+        x="27" y="269">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.bind.http.api.HttpServerListener"
+        x="464" y="37">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpEventListener"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.bind.http.status.OneM2mResponseStatus"
+        x="602" y="750">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.bind.http.server.HttpServerInitializer.MyHandler"
+        x="1024" y="505">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.bind.http.server.HttpServerHandler"
+        x="221" y="624">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpServerListener"
+            endpointName="requestListener" kind="Simple"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpEventListener"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpServerListener"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.bind.http.client.HttpClientHandler"
+        x="755" y="323">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpClientListener"
+            endpointName="responseListener" kind="Simple"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpEventListener"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpClientListener"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.bind.http.client.HttpClientBasic"
+        x="898" y="46">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.bind.http.api.HttpClientListener"
+            endpointName="mHttpClientListener" kind="Simple"/>
+    </Class>
+</ClassDiagram>

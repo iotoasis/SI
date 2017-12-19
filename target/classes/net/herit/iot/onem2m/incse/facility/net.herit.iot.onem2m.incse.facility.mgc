@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="net.herit.iot.onem2m.incse.facility.QosManager" x="470" y="196">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.incse.facility.QosManager.TpsInfo"
+            endpointName="cseTpsMap" kind="Simple"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.incse.facility.QosManager.TpsInfo"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.incse.facility.CfgManager"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.incse.facility.CfgManager.RemoteCSEInfo"
+        x="43" y="469">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.incse.facility.QosManager.TpsInfo"
+        x="320" y="299">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.incse.facility.CASAuthManager"
+        x="44" y="314">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.incse.facility.NseManager.BINDING_TYPE"
+        x="41" y="191">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="net.herit.iot.onem2m.incse.facility.CfgManager.CSEQoSConfig"
+        x="576" y="455">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.incse.facility.DatabaseManager"
+        x="266" y="194">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.incse.facility.OneM2mUtil" x="497" y="131">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.incse.facility.CfgManager"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.incse.facility.NseManager" x="36" y="39">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.incse.facility.NseManager.BINDING_TYPE"
+            endpointName="binding" kind="Simple"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.incse.facility.CfgManager" x="284" y="474">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.incse.facility.CfgManager.RemoteCSEInfo"
+            endpointName="remoteCSEList" kind="Simple"/>
+        <Association
+            destinationClassName="net.herit.iot.onem2m.incse.facility.CfgManager.CSEQoSConfig"
+            endpointName="cseQoSMap" kind="Simple"/>
+        <Communication destinationClassName="net.herit.iot.onem2m.incse.facility.CfgManager.RemoteCSEInfo"/>
+    </Class>
+    <Class name="net.herit.iot.onem2m.incse.facility.SeqNumManager"
+        x="494" y="42">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+</ClassDiagram>
