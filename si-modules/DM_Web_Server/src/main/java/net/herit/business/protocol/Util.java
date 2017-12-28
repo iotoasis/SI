@@ -1,13 +1,21 @@
 package net.herit.business.protocol;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 public class Util {
 	
@@ -44,24 +52,15 @@ public class Util {
 	}
 	
 	// HashMap 내용 전부 출력
-	public void printMap(HashMap<String,?> map){
+	public void printMap(HashMap<String,String> map){
 		System.out.println("::::  HashMap contains..");
 		Iterator<String> it = map.keySet().iterator();
 		while(it.hasNext()){
 			String key = it.next();
-			Object value = map.get(key);
+			String value = map.get(key);
 			System.out.println("["+key+"]-["+value+"]");
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -160,5 +159,34 @@ public class Util {
 		
 		return result;
 	}
+	
+	public static String getValueFromXml( String xml, String target ) {
+        Node node = null;
+        String make_xml = combineString(xml.substring(0,xml.indexOf(">")+1),"<root>",xml.substring(xml.indexOf(">")+1),"</root>");
+        try {
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(make_xml.getBytes()));
+            doc.getDocumentElement().normalize();
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String pathResult = "";
+            if( target.equals("sur") ){
+            	pathResult = "//sgn/sur";
+            } else {
+            	pathResult = "//sgn/nev/rep/cin/"+target;
+            }
+            node = (Node) xpath.evaluate(pathResult, doc, XPathConstants.NODE);
+        } catch( Exception e ) {
+            e.printStackTrace();
+        }
+        return node.getTextContent();
+    }
+	
+	// 글자 조합하기
+	public static String combineString(String... str){
+        StringBuffer sb = new StringBuffer();
+        for( int i=0; i<str.length; i++ ) {
+            sb.append(str[i]);
+        }
+        return sb.toString();
+    }
 
 }

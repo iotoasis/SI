@@ -1,2 +1,0 @@
-configurations.create("default")
-artifacts.add("default", file('iotivity-base-x86-release.aar'))

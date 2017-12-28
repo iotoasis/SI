@@ -562,4 +562,30 @@ public class ApiHdmDAO extends HeritHdmAbstractDAO {
 		return result;
 	}
 	
+	
+	
+	/**
+	 * 
+	 * made by : MSH
+	 * date : 17.11.16
+	 * 
+	 */
+	// hdm_device_mo_data테이블에 데이터 추가
+	public boolean insertNotificationResource(HashMap<String, String> notification) throws UserSysException {
+		METHOD_NAME = "insertDeviceResources";
+		
+		boolean result = false;
+		
+		try {
+			int rCode = (Integer)insert("insert.oneM2M.notifications", notification);
+			if( rCode > 0 ){
+				result = true;
+			}
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME,
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
 }

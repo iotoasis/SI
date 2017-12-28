@@ -634,4 +634,19 @@
 			AND resource_uri = #resourceUri#
 	</select>
 	
+	
+	<!-- ****************************************************** -->
+	<!-- 		oneM2M	 -->
+	<!-- ****************************************************** -->
+	
+	<insert id="insert.oneM2M.notifications">
+		INSERT INTO notifications
+		(sur, con, cnf)
+		VALUES 
+		(#sur#, #con#, #cnf#)
+		<selectKey resultClass="Integer">
+			SELECT 1 FROM DUAL
+		</selectKey>	
+	</insert>
+	
 </sqlMap>

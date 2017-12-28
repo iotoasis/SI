@@ -1,8 +1,10 @@
 package net.herit.business.api;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -16,6 +18,15 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.sax.SAXSource;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
 import net.herit.business.api.service.ApiHdmDAO;
 import net.herit.business.api.service.ApiHdpDAO;
@@ -33,7 +44,7 @@ import net.herit.business.device.service.ParameterVO;
 import net.herit.business.firmware.service.FirmwareDAO;
 import net.herit.business.firmware.service.FirmwareService;
 import net.herit.business.protocol.HttpConnector;
-import net.herit.business.protocol.lwm2m.Util;
+import net.herit.business.protocol.Util;
 import net.herit.business.protocol.tr069.CurlOperation;
 import net.herit.common.conf.HeritProperties;
 import net.herit.common.exception.UserSysException;
@@ -41,6 +52,7 @@ import net.herit.common.model.ErrorVO;
 import net.herit.common.model.HeritFormBasedFileVO;
 import net.herit.common.util.HeritFileUploadUtil;
 import net.herit.common.util.PagingUtil;
+import net.herit.security.dto.GroupAuthorization;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -51,12 +63,15 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.poi.util.IOUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,6 +80,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLFilterImpl;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.oreilly.servlet.MultipartRequest;
 
@@ -809,5 +830,46 @@ public class ApiController {
 		
 		return response;
 	}
+	
+	// MSH-START
+	/**
+	 * store "con" value to database when server is received notification 
+	 * 
+	 * @param request
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/{system}/onem2m/noti")
+	public String getConFromNotification(HttpServletRequest request, ModelMap model) {
+		
+		String result = null;
+		
+		try(InputStream is = request.getInputStream()){	
+			byte[] buffer = IOUtils.toByteArray(is);
+			String xml = new String(buffer);
+			HashMap<String, String> notification = new HashMap<String, String>();
+			notification.put("con", Util.getValueFromXml(xml, "con"));
+			notification.put("cnf", Util.getValueFromXml(xml, "cnf"));
+			notification.put("sur", Util.getValueFromXml(xml, "sur"));
+			Util.getInstance().printMap(notification);
+			
+			boolean isSuccess = hdmDAO.insertNotificationResource(notification);
+			if( isSuccess ){
+				
+			} else {
+				
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			
+		}
+		
+		return result;
+	}
+	// MSH-END
 	
 }

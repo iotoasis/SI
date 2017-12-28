@@ -57,6 +57,9 @@
   <listener>
     <listener-class>net.herit.business.onem2m.OneM2MInit</listener-class>
   </listener>
+  <listener>
+    <listener-class>net.herit.business.mobius.Initializer</listener-class>
+  </listener>
   <error-page>
     <error-code>401</error-code>
     <location>/WEB-INF/views/common/error/error.jsp</location>

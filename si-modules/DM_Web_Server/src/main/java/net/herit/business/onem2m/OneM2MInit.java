@@ -1,9 +1,12 @@
 package net.herit.business.onem2m;
 
+import java.lang.reflect.Field;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import net.herit.business.api.service.OneM2MApiService;
+import net.herit.business.onem2m.resource.AE;
 import net.herit.common.conf.HeritProperties;
 
 
@@ -15,6 +18,7 @@ public class OneM2MInit implements ServletContextListener {
 	// 컨테이너 처음 구동될 때 실행
 	@Override
 	public void contextInitialized(ServletContextEvent init) {
+		
 		//System.out.println("initialized!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		try {
 			/*

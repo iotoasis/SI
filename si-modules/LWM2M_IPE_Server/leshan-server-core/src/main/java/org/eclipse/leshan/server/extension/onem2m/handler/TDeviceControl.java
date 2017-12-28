@@ -25,13 +25,13 @@ public class TDeviceControl implements Runnable{
 				throw new Exception("NOT REACHABLE : "+response);
 			} else if( response.indexOf("<con>") > -1 && response.indexOf("</con>") > -1 ) {	// con 태그가 존재하는지 확인
 				
-				String[] cnf = Util.getValue(response, "cnf").split(":");
+				String[] cnf = Util.getValueFromXml(response, "cnf").split(":");
 				String contentType = cnf[0];
 				String contentEncoded = cnf[1];
 				
 				if( contentType.equals("application/json") ){
 					if( contentEncoded.equals("1") ){
-						byte[] decoded = Base64.decodeBase64(Util.getValue(response, "con"));
+						byte[] decoded = Base64.decodeBase64(Util.getValueFromXml(response, "con"));
 						String strCon = new String(decoded);
 						item = new JSONObject(strCon);
 						
