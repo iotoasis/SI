@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -31,23 +30,27 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
 import net.herit.business.api.service.OneM2MApiService;
+import net.herit.business.dm.service.DeviceManagerService;
+import net.herit.business.dm.service.NotificationVO;
 import net.herit.business.onem2m.service.ConfigurationService;
 import net.herit.business.onem2m.service.PlatformService;
 import net.herit.common.conf.HeritProperties;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
+import net.herit.iot.message.onem2m.OneM2mResponse;
 import net.herit.security.dto.GroupAuthorization;
 
 @Controller
 @RequestMapping(value="/dm")
 public class DeviceManagerController {
 
+	@Resource(name = "DeviceManagerService")
+	private DeviceManagerService deviceManagerService;
+	
 	@Resource(name = "ConfigurationService")
 	private ConfigurationService configurationService;
 
@@ -71,27 +74,11 @@ public class DeviceManagerController {
 		fiwareAgentAccessKey = HeritProperties.getProperty("Globals.fiwareAgentAccessKey");
 		fiwareAgentUrl = HeritProperties.getProperty("Globals.fiwareAgentUrl");
 		
-		// added in 2017-09-18, blocked in 2017-11-15
-		//mongoClient = new MongoClient(HeritProperties.getProperty("Globals.MongoDB.Host"), Integer.parseInt( HeritProperties.getProperty("Globals.MongoDB.Port") ) );
-		//db = mongoClient.getDB(HeritProperties.getProperty("Globals.MongoDB.DBName"));
-		
-		// added in 2017-11-15 to support authentication
-		String mongoDbName = HeritProperties.getProperty("Globals.MongoDB.DBName");
-		String mongoHost = HeritProperties.getProperty("Globals.MongoDB.Host");
-		String mongoPort = HeritProperties.getProperty("Globals.MongoDB.Port");
-		
-		if(HeritProperties.getProperty("Globals.MongoDB.User") != null && !HeritProperties.getProperty("Globals.MongoDB.User").equals("")
-				&& HeritProperties.getProperty("Globals.MongoDB.Password") != null && !HeritProperties.getProperty("Globals.MongoDB.Password").equals("")) {
-			
-			String user = HeritProperties.getProperty("Globals.MongoDB.User");
-			String pwd = HeritProperties.getProperty("Globals.MongoDB.Password");
-			
-			MongoCredential credential = MongoCredential.createScramSha1Credential(user, mongoDbName, pwd.toCharArray());
-			mongoClient = new MongoClient(new ServerAddress(mongoHost, Integer.parseInt(mongoPort)), Arrays.asList(credential));
-		} else {
-			mongoClient = new MongoClient(mongoHost, Integer.parseInt( mongoPort ) );
-		}
-		db = mongoClient.getDB(mongoDbName);
+		// added in 2017-09-18
+		mongoClient = new MongoClient(HeritProperties.getProperty("Globals.MongoDB.Host"), Integer.parseInt( HeritProperties.getProperty("Globals.MongoDB.Port") ) );
+		//db = mongoClient.getDatabase(HeritProperties.getProperty("Globals.MongoDB.DBName"));
+		db = mongoClient.getDB(HeritProperties.getProperty("Globals.MongoDB.DBName"));
+
 		
 	}
 	
@@ -109,77 +96,245 @@ public class DeviceManagerController {
 		}
 		
 		String resourceUri = request.getParameter("uri");
+		OneM2MApiService onem2mService = OneM2MApiService.getInstance();
+		String from = onem2mService.getAppName();
 		
 		if (resourceUri == null) {
 			resourceUri = "/herit-in/herit-cse"; 
 		}
 		
-		OneM2MApiService onem2mService = OneM2MApiService.getInstance();
-		String from = onem2mService.getAppName();
-		
-		String response = onem2mService.discoverResource(resourceUri, from, RESOURCE_TYPE.AE);
-		
-		JSONObject json = new JSONObject(response);
-		
-		JSONArray jsonUriList = json.getJSONObject("uril").getJSONArray("URIList");
-		
-		List<Object> uriList = jsonUriList.toList();
-		
-		String aeResoureName, resourceNodeId = "", unstructResourceUri = "";
-		JSONArray retDeviceList = new JSONArray();
-		JSONObject retJson = null;
-		for(Object objUri : uriList) {
-			
-			retJson = new JSONObject();
-			
-			response = onem2mService.getResourceString(objUri.toString(), from);
-			json = new JSONObject(response);
-			
-			aeResoureName = json.getJSONObject("m2m:ae").getString("rn");
-			
-			if(json.getJSONObject("m2m:ae").get("nl") != null) {
-				resourceNodeId = json.getJSONObject("m2m:ae").getString("nl");
-				
-				unstructResourceUri = "/" + HeritProperties.getProperty("Globals.cseId") + "/" + resourceNodeId;
-				response = onem2mService.getResourceString(unstructResourceUri, from);
-			} else {
-				resourceNodeId = json.getJSONObject("m2m:ae").getString("nl");
-				
-				unstructResourceUri = "/" + HeritProperties.getProperty("Globals.cseId") + "/" + resourceNodeId;
-				response = "{}";
-			}
-			
-			
-			retJson.put("ae_rn", aeResoureName);
-			retJson.put("node", new JSONObject(response));
-			
-			retDeviceList.put(retJson);
-			
-		}
-		
-		response = onem2mService.discoverResource(resourceUri, from, RESOURCE_TYPE.MGMT_CMD);
-		json = new JSONObject(response);
-		jsonUriList = json.getJSONObject("uril").getJSONArray("URIList");
-		uriList = jsonUriList.toList();
-		
-		JSONArray retMgmtCmdList = new JSONArray();
-		
-		for(Object objUri2 : uriList) {
-			response = onem2mService.getResourceString(objUri2.toString(), from);
-			retMgmtCmdList.put(new JSONObject(response));
-		}
-		
 		model.addAttribute("onem2m_host", HeritProperties.getProperty("Globals.cseAddr"));
 		model.addAttribute("cse_base", HeritProperties.getProperty("Globals.csebaseName"));
 		model.addAttribute("cse_id", HeritProperties.getProperty("Globals.cseId"));
-		model.addAttribute("main_uri", resourceUri);
-		model.addAttribute("device_list", retDeviceList);
-		model.addAttribute("mgmt_cmd_list", retMgmtCmdList);
+		
+		JSONArray retDeviceList = new JSONArray();
+		
+		if(pageName.equals("mobius")) {
+			
+			resourceUri = HeritProperties.getProperty("Globals.csebase");
+			
+			OneM2mResponse response = onem2mService.retrieve(resourceUri, from);
+			System.out.println("####### trace-1");
+			System.out.println(String.format("###### response.getContent() = %s", new String( response.getContent(), "UTF-8") ));
+			JSONObject json = new JSONObject( new String( response.getContent(), "UTF-8") );
+			JSONArray jsonAes = json.getJSONArray("m2m:ae");
+			
+			JSONObject retJson = null;
+			
+			for(int i = 0; i < jsonAes.length(); i++) {
+				JSONObject jsonAe = jsonAes.getJSONObject(i);
+				
+				if(jsonAe.getString("api") != null && !jsonAe.getString("api").equals( HeritProperties.getProperty("Globals.appId") ) ) {
+					retJson = new JSONObject();
+					retJson.put("aei", jsonAe.getString("aei"));
+					retJson.put("ae_rn", jsonAe.getString("rn"));
+					retJson.put("ct", jsonAe.getString("ct"));
+					
+					retDeviceList.put(retJson);
+				}
+			}
+			System.out.println(String.format("###### AE JSON length = %d", jsonAes.length()));
+			
+			model.addAttribute("main_uri", resourceUri);
+			model.addAttribute("device_list", retDeviceList);
+			
+		} else {
+			String response = onem2mService.discoverResource(resourceUri, from, RESOURCE_TYPE.AE);
+			
+			JSONObject json = new JSONObject(response);
+			
+			JSONArray jsonUriList = json.getJSONObject("uril").getJSONArray("URIList");
+			
+			List<Object> uriList = jsonUriList.toList();
+			
+			String aeResoureName, resourceNodeId = "", unstructResourceUri = "";
+			
+			JSONObject retJson = null;
+			for(Object objUri : uriList) {
+				
+				retJson = new JSONObject();
+				
+				response = onem2mService.getResourceString(objUri.toString(), from);
+				json = new JSONObject(response);
+				
+				aeResoureName = json.getJSONObject("m2m:ae").getString("rn");
+				
+				if(json.getJSONObject("m2m:ae").get("nl") != null) {
+					resourceNodeId = json.getJSONObject("m2m:ae").getString("nl");
+					
+					unstructResourceUri = "/" + HeritProperties.getProperty("Globals.cseId") + "/" + resourceNodeId;
+					response = onem2mService.getResourceString(unstructResourceUri, from);
+				} else {
+					resourceNodeId = json.getJSONObject("m2m:ae").getString("nl");
+					
+					unstructResourceUri = "/" + HeritProperties.getProperty("Globals.cseId") + "/" + resourceNodeId;
+					response = "{}";
+				}
+				
+				
+				retJson.put("ae_rn", aeResoureName);
+				retJson.put("node", new JSONObject(response));
+				
+				retDeviceList.put(retJson);
+				
+			}
+			
+			response = onem2mService.discoverResource(resourceUri, from, RESOURCE_TYPE.MGMT_CMD);
+			json = new JSONObject(response);
+			jsonUriList = json.getJSONObject("uril").getJSONArray("URIList");
+			uriList = jsonUriList.toList();
+			
+			JSONArray retMgmtCmdList = new JSONArray();
+			
+			for(Object objUri2 : uriList) {
+				response = onem2mService.getResourceString(objUri2.toString(), from);
+				retMgmtCmdList.put(new JSONObject(response));
+			}
+			
+			
+			model.addAttribute("main_uri", resourceUri);
+			model.addAttribute("device_list", retDeviceList);
+			model.addAttribute("mgmt_cmd_list", retMgmtCmdList);
+		}
+		
+		String remoteCseUri = HeritProperties.getProperty("Globals.csebase");
+		if(remoteCseUri != null && !remoteCseUri.equals("")) {
+			String[] splitItems = remoteCseUri.split("/");
+			if(splitItems.length >= 3) {
+				model.addAttribute("remote_cse_id", splitItems[splitItems.length - 1]);
+				model.addAttribute("remote_cse_base", splitItems[splitItems.length - 2]);
+			}
+		}
 		
 		//return "/v2/dm/onem2m";
 		return "/v2/dm/" + pageName;
 		
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/postExecuteMessage.do")
+	public Map<String, Object> postExecuteMessage(HttpServletRequest request) throws Exception {
+		Map<String, Object> response = new HashMap<String, Object>();
+		HttpSession session = request.getSession(false);
+		
+		if(session != null){
+			//페이지 권한 확인
+			GroupAuthorization requestAuth = (GroupAuthorization) session.getAttribute("requestAuth");
+			if(!requestAuth.getAuthorizationDBRead().equals("1")){
+				response.put("result", 1);
+				response.put("errorCode", -1);
+				response.put("content", "authMessage: onem2m 페이지 접근 권한이 없습니다.");
+			} else {
+				
+				String resourceUri = request.getParameter("uri");
+				String value = request.getParameter("value");
+				
+				String body = "{ \"con\":" + value  + "}";
+				
+				OneM2MApiService onem2mService = OneM2MApiService.getInstance();
+				String from = onem2mService.getAppName();
+				
+				int nResult = onem2mService.createResourceOther(resourceUri, from, body, 4);
+				
+				response.put("result", 0);
+				response.put("errorCode", 0);
+				response.put("content", String.valueOf(nResult));
+				
+			}
+		} else {
+			response.put("result", 1);
+			response.put("errorCode", -1);
+			response.put("content", "session is null");
+		}
+		
+		return response;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getCurrentNotification.do")
+	public Map<String, Object> getCurrentNotification(HttpServletRequest request) throws Exception {
+		Map<String, Object> response = new HashMap<String, Object>();
+		HttpSession session = request.getSession(false);
+		
+		if(session != null){
+			//페이지 권한 확인
+			GroupAuthorization requestAuth = (GroupAuthorization) session.getAttribute("requestAuth");
+			if(!requestAuth.getAuthorizationDBRead().equals("1")){
+				response.put("result", 1);
+				response.put("errorCode", -1);
+				response.put("content", "authMessage: onem2m 페이지 접근 권한이 없습니다.");
+			} else {
+				
+				NotificationVO notiVo = deviceManagerService.getCurrentNotificationInfo();
+					
+				response.put("result", 0);
+				response.put("errorCode", 0);
+				response.put("content", notiVo.toJsonString());
+				
+			}
+		} else {
+			response.put("result", 1);
+			response.put("errorCode", -1);
+			response.put("content", "session is null");
+		}
+		
+		return response;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getOneM2mContainers.do")
+	public Map<String, Object> getOneM2mContainers(HttpServletRequest request) throws Exception {
+		
+		Map<String, Object> response = new HashMap<String, Object>();
+		HttpSession session = request.getSession(false);
+		
+		JSONArray retContainerList = new JSONArray();
+		
+		if(session != null){
+			//페이지 권한 확인
+			GroupAuthorization requestAuth = (GroupAuthorization) session.getAttribute("requestAuth");
+			if(!requestAuth.getAuthorizationDBRead().equals("1")){
+				response.put("result", 1);
+				response.put("errorCode", -1);
+				response.put("content", "authMessage: onem2m 페이지 접근 권한이 없습니다.");
+			} else {
+				String uri = request.getParameter("uri");
+				
+				OneM2MApiService onem2mService = OneM2MApiService.getInstance();
+				String from = onem2mService.getAppName();
+				
+				OneM2mResponse oneM2MResponse = onem2mService.retrieve(uri, from);
+				
+				JSONObject json = new JSONObject( new String( oneM2MResponse.getContent(), "UTF-8") );
+				JSONArray jsonContainers = json.getJSONArray("m2m:cnt");
+				
+				JSONObject retJson = null;
+				
+				for(int i = 0; i < jsonContainers.length(); i++) {
+					JSONObject jsonContainer = jsonContainers.getJSONObject(i);
+		
+					if(jsonContainer.getString("rn") != null && jsonContainer.getString("rn").startsWith("cnt") )  {
+						retJson = new JSONObject();
+						retJson.put("cnt_rn", jsonContainer.getString("rn"));
+						retJson.put("cnt_cni", jsonContainer.getInt("cni"));
+						
+						retContainerList.put(retJson); 
+					} 
+				}	
+				response.put("result", 0);
+				response.put("errorCode", 0);
+				response.put("content", retContainerList.toString());
+				
+			}
+		} else {
+			response.put("result", 1);
+			response.put("errorCode", -1);
+			response.put("content", "session is null");
+		}
+		
+		return response;
+	}
+	
 	
 	@ResponseBody
 	@RequestMapping(value="/getOneM2mMgmtResource.do")

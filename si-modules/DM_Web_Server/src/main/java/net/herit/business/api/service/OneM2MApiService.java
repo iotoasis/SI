@@ -140,14 +140,15 @@ public class OneM2MApiService {
 
 			// AE ��Ʈ�ѷ� ��
 			aeController = new AEControllerEx(cseAddr, cseId, csebaseName, CONTENT_TYPE.RES_XML, null);
-			
+			System.out.println("###### trace-0, " + aeController.toString());		
 			// Notification Handler ��
 			notiHandler = new HubissEmulatorNotiHandler(aeController);
-			aeController.doHttpServerStart(ip, port, notiHandler);
-			
+			System.out.println("###### trace-1");
+			//aeController.doHttpServerStart(ip, port, notiHandler);
+			System.out.println("###### trace-2");
 			// AE ��
 			AE ae = aeController.doCreateAE(csebase, aeId, aeName, appId, appName, poa, true);
-			
+			System.out.println("###### trace-3, " + ae.getResourceName());
 			/*OneM2MInitData.getInstance().data.put("notiHandler", notiHandler);
 			OneM2MInitData.getInstance().data.put("aeController", aeController);
 			OneM2MInitData.getInstance().data.put("ae", ae);*/
@@ -214,9 +215,7 @@ public class OneM2MApiService {
 				System.out.println("exContent:" + exContent);
 				
 				ci = aeController.doControlCommand(resUris.get(0), aeId, ciCommand, aeTimeout);
-				if(ci != null) {
-					res.put(resUris.get(0), ci.getContent());
-				}
+				res.put(resUris.get(0), ci.getContent());
 				System.out.println("Control result:" + (ci != null ? ci.getContent() : "null"));
 				 
 				

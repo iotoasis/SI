@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Dm">
+	<typeAlias alias="NotificationVO" type="net.herit.business.dm.service.NotificationVO" />
+	
+	<resultMap id="resultInfo" class="NotificationVO">
+		<result property="sur" column="sur" />
+		<result property="con" column="con" />
+		<result property="cnf" column="cnf" />
+		<result property="createTime" column="createTime" />
+	</resultMap>
+	
+	<select id="DeviceManagerDAO.getCurrentNotificationInfo" resultMap="resultInfo">
+		SELECT
+			A.SUR
+			,A.CON
+			,A.CNF
+			,DATE_FORMAT(A.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+		FROM 
+			NOTIFICATIONS A 
+		ORDER BY CREATETIME DESC
+		LIMIT 1
+		
+	</select>
+</sqlMap>

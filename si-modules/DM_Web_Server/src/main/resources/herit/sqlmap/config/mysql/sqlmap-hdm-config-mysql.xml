@@ -5,4 +5,5 @@
 <sqlMapConfig>
 	<!-- 디바이스 -->
 	<sqlMap resource="herit/sqlmap/business/device/device_sql_mysql.xml"/>
+	<sqlMap resource="herit/sqlmap/business/dm/dm_sql_mysql.xml"/>
 </sqlMapConfig>
