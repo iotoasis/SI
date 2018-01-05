@@ -131,6 +131,15 @@ public class DeviceManagerController {
 					retJson.put("ct", jsonAe.getString("ct"));
 					
 					retDeviceList.put(retJson);
+					// create subscription
+					resourceUri = resourceUri + "/" + jsonAe.getString("rn") + "/cnt-sensor/Status"; 
+					
+					String body = "{\"m2m:sub\":{ \"rn\": \"sub_sensor_status\", "
+							+ "\"enc\" : { \"net\": [3]},"
+							+ "\"nu\": [\"" + HeritProperties.getProperty("Globals.oneM2MNotificationUrl") + "\"]"
+							+ "}}";
+					
+					int nResult = onem2mService.createResourceOther(resourceUri, from, body, 23);
 				}
 			}
 			System.out.println(String.format("###### AE JSON length = %d", jsonAes.length()));
@@ -212,6 +221,47 @@ public class DeviceManagerController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="/subscribeMessage.do")
+	public Map<String, Object> postSubscriptionMessage(HttpServletRequest request) throws Exception {
+		Map<String, Object> response = new HashMap<String, Object>();
+		HttpSession session = request.getSession(false);
+		
+		if(session != null){
+			//페이지 권한 확인
+			GroupAuthorization requestAuth = (GroupAuthorization) session.getAttribute("requestAuth");
+			if(!requestAuth.getAuthorizationDBRead().equals("1")){
+				response.put("result", 1);
+				response.put("errorCode", -1);
+				response.put("content", "authMessage: onem2m 페이지 접근 권한이 없습니다.");
+			} else {
+				String resourceUri = request.getParameter("uri");
+				String resourceName = request.getParameter("rn");
+				
+				String body = "{\"m2m:sub\":{ \"rn\": \"" + resourceName + "\", "
+						+ "\"enc\" : { \"net\": [3]},"
+						+ "\"nu\": [\"" + HeritProperties.getProperty("Globals.oneM2MNotificationUrl") + "\"]"
+						+ "}}";
+				
+				OneM2MApiService onem2mService = OneM2MApiService.getInstance();
+				String from = onem2mService.getAppName();
+				
+				int nResult = onem2mService.createResourceOther(resourceUri, from, body, 23);
+				
+				response.put("result", 0);
+				response.put("errorCode", 0);
+				response.put("content", String.valueOf(nResult));
+				
+			}
+		} else {
+			response.put("result", 1);
+			response.put("errorCode", -1);
+			response.put("content", "session is null");
+		}
+		
+		return response;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/postExecuteMessage.do")
 	public Map<String, Object> postExecuteMessage(HttpServletRequest request) throws Exception {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -229,7 +279,7 @@ public class DeviceManagerController {
 				String resourceUri = request.getParameter("uri");
 				String value = request.getParameter("value");
 				
-				String body = "{ \"con\":" + value  + "}";
+				String body = "{\"m2m:cin\":{ \"con\":" + value  + "}}";
 				
 				OneM2MApiService onem2mService = OneM2MApiService.getInstance();
 				String from = onem2mService.getAppName();

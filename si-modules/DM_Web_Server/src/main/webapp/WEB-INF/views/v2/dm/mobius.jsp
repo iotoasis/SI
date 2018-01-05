@@ -331,8 +331,6 @@
                         <div class="ibox-content" style="height: 600px; overflow: auto; ">
 							<span id="span_help_guide" style="position: relative; top: 200px; left: 34%; font-size: 20px;">왼쪽 디바이스 목록에서 NodeID를 선택하세요.</span>
 							<div class="sortable">
-							
-									  
 										
 									 <div id="div_sensor" class="portlet ui-widget ui-widget-content ui-corner-all" style="display:none;">
 										 <div class="portlet-header ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick"></span>제실 감지 센서</div>
@@ -358,8 +356,7 @@
 										 </div>
 									  </div>
 										
-								   </div>
-								</div>
+								   
 							</div>
                         </div>
                     </div>
@@ -464,22 +461,7 @@
                 + device.ct + '</td></tr>';
            
 			$('#tbl-main-res > tbody:last').append(template);
-		/*	
-			node = device.node["m2m:nod"];
-			
-			nodeLink = "<a class='node_link' id='" + node.rn + "'>" + node.ni + "</a>";
-
-			console.log(node);
-
-			template = '<tr><td>'
-                + i + '</td><td>'
-                + device.ae_rn + '</td><td>'
-                + nodeLink + '</td></tr>';
-           
-			$('#tbl-main-res > tbody:last').append(template);
-			
-			mgmtObjMap[node.ni] = node.ch;
-		*/
+		
 		}
 		
 		$("a.ae_link").bind('click', function(e) {
@@ -501,19 +483,19 @@
 						for(var i = 0; i < containerList.length; i++) {
 								cont = containerList[i];
 								rn = cont.cnt_rn;
-		
+								
 								$("div#div_" + rn.substring(4)).css("display", "");
 						}
 						
 						$("div#g1").empty();
-
+				
 						g1 = new JustGage({
 							id: "g1",
-							value: getRandomInt(1, 100),
+							value: 0,
 							min: 0,
-							max: 100
+							max: 10
 						});
-
+				
 						(function poll_sensor() {
 							timeoutId = setTimeout(function() {
 								$.ajax({
@@ -521,7 +503,7 @@
 									url: './getCurrentNotification.do',
 									dataType: 'json',
 									success: function(result) {	
-										//console.log(result);
+										console.log(result);
 										if(result.result == 0) {
 											var content = $.parseJSON(result.content);
 											var total = 10;
@@ -538,28 +520,42 @@
 
 											if(current > 0) {
 												
+												rn = "/${remote_cse_id}/${remote_cse_base}/" + resourceName + "/cnt-led/Execute";
+
+												$.ajax({
+													type: 'GET',
+													url: './postExecuteMessage.do',
+													data: {'uri': rn, 'value': "1"},
+													dataType: 'json',
+													success: function(result) {	
+														if (!$('.cube-switch').hasClass('active')) {
+															$('.cube-switch').addClass('active');
+															$('#light-bulb2').css({'opacity': '1'});
+														}			
+													}
+												});
+
+											} else {
+												if ($('.cube-switch').hasClass('active')) {
+													$('.cube-switch').removeClass('active');
+													$('#light-bulb2').css({'opacity': '0'});
+												} else {
+													$('#light-bulb2').css({'opacity': '0'});
+												}
 											}
 											
 										}
-									}, complete: poll_memory
+									}, complete: poll_sensor
 								});
-							}, 5000);
+							}, 10000);
 						})();
 
 						console.log(result.content);
+						$('.sortable').sortable().disableSelection();
 					}
 			});
 
-/*			$.ajax({
-					type: 'GET',
-					url: './getCurrentNotification.do',
-					dataType: 'json',
-					success: function(result) {	
-						
-						console.log(result.content);
-					}
-			});
-*/
+
 		});
 
 		
@@ -575,9 +571,6 @@
 		});
 
 
-		$('.cube-switch .switch').trigger("click");
-		
-		
 	});
 </script>
 

@@ -469,6 +469,7 @@
 		var subscriptionList = ${sub_list};
 		var entity, subscription, entityLink, timeInstant, createDate;
 		var timeoutId;
+		var g_entityId;
 		
 		for(var i = 0; i < entityList.length; i++) {
 			entity = entityList[i];
@@ -515,6 +516,8 @@
 			var subscriptionId = e.target.id;
 			var actuateLedValue = -1;
 			
+			g_entityId = entityId;
+			
 			$("div#div-sensor-item").empty();
 
 			clearTimeout(timeoutId);
@@ -524,6 +527,7 @@
 			
 			(function poll() {
 				timeoutId = setTimeout(function() {
+					console.log("g_entityId = " + g_entityId + ", entityId = " + entityId);
 					$.ajax({
 						type: 'GET',
 						url: './entities.do',
@@ -766,6 +770,11 @@
 						}, complete: poll
 					});
 				}, 2000);
+				
+				if(g_entityId != entityId) {
+					console.log("##################### g_entityId != entityId ###############\n");
+					clearTimeout(timeoutId);
+				}
 			})();
 					
 			

@@ -58,10 +58,10 @@ public class NotificationVO implements Serializable {
 	
 	public String toJsonString() {
 		String retStr = "{"
-				  + "\"sur\":" + this.getSur()
-				  + "\"con\":" + this.getCon()
-				  + "\"cnf\":" + this.getCnf()
-				  + "\"createTime\":" + this.getCreateTime()
+				  + "\"sur\": \"" + this.getSur() + "\", "
+				  + "\"con\": \"" + this.getCon() + "\", "
+				  + "\"cnf\": \"" + this.getCnf() + "\", "
+				  + "\"createTime\": \"" + this.getCreateTime() + "\""
 				  + "}";
 		
 		return retStr;
