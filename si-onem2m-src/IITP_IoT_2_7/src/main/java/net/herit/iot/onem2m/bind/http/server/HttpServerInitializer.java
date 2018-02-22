@@ -54,7 +54,7 @@ public class HttpServerInitializer extends ChannelInitializer<SocketChannel> {
 		@Override
 		public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 			if(cause instanceof ReadTimeoutException) {
-				System.out.println("## Read Timeout. ## [Message : " + cause.getMessage() + "]");
+				//System.out.println("## Read Timeout. ## [Message : " + cause.getMessage() + "]");
 			} else {
 				super.exceptionCaught(ctx, cause);
 			}

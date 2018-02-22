@@ -172,7 +172,7 @@ public final class HttpClientBasic {
 		
 		FullHttpResponse httpResponse = client.process(mefAddr, httpRequest);
 		
-		System.out.println(httpResponse.toString());
+		//System.out.println(httpResponse.toString());
 		
 	}
 }

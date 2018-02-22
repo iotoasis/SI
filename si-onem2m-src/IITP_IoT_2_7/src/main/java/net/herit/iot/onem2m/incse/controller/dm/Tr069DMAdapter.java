@@ -252,13 +252,13 @@ HashMap<String, Object> resMap = new HashMap<String, Object>();
 			throw new HitDMException(5002, "Dm server does not respond:"+dmAddr+target);
 		}
 		
-		System.out.println("####### readFileInfo, resMessage.getHttpStatusCode() = " + resMessage.getHttpStatusCode());
+		//System.out.println("####### readFileInfo, resMessage.getHttpStatusCode() = " + resMessage.getHttpStatusCode());
 
 		if (resMessage.getHttpStatusCode() != 200) {
 			String debugStr = "DM Server return:"+resMessage.getHttpStatusCode();
 			byte[] body;
 			try {
-				System.out.println("####### readFileInfo, resMessage.getContent() = " + new String(resMessage.getContent()));
+				//System.out.println("####### readFileInfo, resMessage.getContent() = " + new String(resMessage.getContent()));
 				body = resMessage.getContent();
 				if (body != null) {
 					debugStr += "\r\nBody:"+new String(body);
@@ -275,7 +275,7 @@ HashMap<String, Object> resMap = new HashMap<String, Object>();
 			List<Document> resultList = new ArrayList<Document>();
 			
 			resJson = new String(resMessage.getContent());
-			System.out.println("########### readFileInfo ==> " + resJson);
+			//System.out.println("########### readFileInfo ==> " + resJson);
 			JSONParser parser = new JSONParser();
 			JSONArray jsonArray = (JSONArray)parser.parse(resJson);
 			JSONObject jsonObj = null, metadata = null;
@@ -339,13 +339,13 @@ HashMap<String, Object> resMap = new HashMap<String, Object>();
 			throw new HitDMException(5002, "Dm server does not respond:"+dmAddr+target);
 		}
 		
-		System.out.println("####### readFirmware, resMessage.getHttpStatusCode() = " + resMessage.getHttpStatusCode());
+		//System.out.println("####### readFirmware, resMessage.getHttpStatusCode() = " + resMessage.getHttpStatusCode());
 
 		if (resMessage.getHttpStatusCode() != 200) {
 			String debugStr = "DM Server return:"+resMessage.getHttpStatusCode();
 			byte[] body;
 			try {
-				System.out.println("####### readFirmware, resMessage.getContent() = " + new String(resMessage.getContent()));
+				//System.out.println("####### readFirmware, resMessage.getContent() = " + new String(resMessage.getContent()));
 				body = resMessage.getContent();
 				if (body != null) {
 					debugStr += "\r\nBody:"+new String(body);
@@ -362,7 +362,7 @@ HashMap<String, Object> resMap = new HashMap<String, Object>();
 			List<Document> resultList = new ArrayList<Document>();
 			
 			resJson = new String(resMessage.getContent());
-			System.out.println("########### readFirmware ==> " + resJson);
+			//System.out.println("########### readFirmware ==> " + resJson);
 			JSONParser parser = new JSONParser();
 			JSONArray jsonArray = (JSONArray)parser.parse(resJson);
 			JSONObject jsonObj = null, metadata = null;
@@ -395,7 +395,7 @@ HashMap<String, Object> resMap = new HashMap<String, Object>();
 	}
 	
 	protected HashMap<String, Object> read(String deviceId, List<String> moIds) throws HitDMException {
-		System.out.println("*************** trace-0");
+		//System.out.println("*************** trace-0");
 		if(timeout < 0) {
 			timeout = 3000;
 		}
@@ -410,16 +410,16 @@ HashMap<String, Object> resMap = new HashMap<String, Object>();
 		} else {
 			content.put("parameterNames", new ArrayList<String>());
 		}		
-		System.out.println("*************** trace-1");
+		//System.out.println("*************** trace-1");
 		Document resultDoc = callPostApi(to, content);
-		System.out.println("*************** trace-2");
+		//System.out.println("*************** trace-2");
 		Document paramDoc = new Document();
 		paramDoc.put("_id", deviceId);
 		
 		to = "/devices/?query=";
-		System.out.println("*************** trace-3");
+		//System.out.println("*************** trace-3");
 		JSONArray jsonArray = callGetApi(to, paramDoc);
-		System.out.println("*************** trace-4");
+		//System.out.println("*************** trace-4");
 		HashMap<String, Object> resMap = new HashMap<String, Object>();
 		
 		JSONObject jsonObj = (JSONObject)jsonArray.get(0);
@@ -442,19 +442,19 @@ HashMap<String, Object> resMap = new HashMap<String, Object>();
 							if(subKey.equals(subItem)) {
 								JSONObject valueObject = (JSONObject)selObject.get(subKey);
 								
-								System.out.println("valueObject===>" + valueObject.toJSONString());
+								//System.out.println("valueObject===>" + valueObject.toJSONString());
 								resMap.put(moId, this.getValue(valueObject));
 								
 							}
 						}
 					} else if(moId.split("\\.").length == 6) {
-						System.out.println("############## length == 6 ===>" + selObject.toJSONString());
+						//System.out.println("############## length == 6 ===>" + selObject.toJSONString());
 						String subItem = moId.split("\\.")[3];
 						selObject = (JSONObject)selObject.get(subItem);
 						subItem = moId.split("\\.")[4];
 						selObject = (JSONObject)selObject.get(subItem);
 						//selObject = (JSONObject)selObject.get("0");
-						System.out.println("############## selObject = " + selObject.toJSONString());
+						//System.out.println("############## selObject = " + selObject.toJSONString());
 						for(Iterator its = selObject.keySet().iterator(); its.hasNext();) {
 							String subKey = (String) its.next();
 							subItem = moId.split("\\.")[5];
@@ -462,7 +462,7 @@ HashMap<String, Object> resMap = new HashMap<String, Object>();
 							if(subKey.equals(subItem)) {
 								JSONObject valueObject = (JSONObject)selObject.get(subKey);
 								
-								System.out.println("valueObject===>" + valueObject.toJSONString());
+								//System.out.println("valueObject===>" + valueObject.toJSONString());
 								resMap.put(moId, this.getValue(valueObject));
 								
 							}
@@ -475,10 +475,10 @@ HashMap<String, Object> resMap = new HashMap<String, Object>();
 					
 				}
 			} 
-			//System.out.println(key + "=>" + deviceInfo.get(key).toString());
+			////System.out.println(key + "=>" + deviceInfo.get(key).toString());
 		}
 		
-		System.out.println(resMap.toString());
+		//System.out.println(resMap.toString());
 		
 		return resMap;
 	}
@@ -655,7 +655,7 @@ HashMap<String, Object> resMap = new HashMap<String, Object>();
 			
 			Document resultDoc = adaptor.write(deviceId, paramMap);
 			
-			System.out.println("###### result = " + resultDoc.toString());
+			//System.out.println("###### result = " + resultDoc.toString());
 			
 		} catch(Exception ex) {
 			ex.printStackTrace();

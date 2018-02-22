@@ -26,7 +26,7 @@ public class MqttAeEmulator implements ResponseListener {
 
 	public static void main(String[] args) {
 
-		System.out.println("== START ==");
+		//System.out.println("== START ==");
 
 		MqttAeEmulator s = new MqttAeEmulator();
 		s.init();
@@ -117,7 +117,7 @@ public class MqttAeEmulator implements ResponseListener {
 		req.setPrimitiveContent(pCont);
 */		
 		int msgId = mqttClient.sendReqMessage(CSE_ID, req);
-		System.out.println("mqtt msgId: " + msgId);
+		//System.out.println("mqtt msgId: " + msgId);
 	}
 	
 
@@ -125,8 +125,8 @@ public class MqttAeEmulator implements ResponseListener {
 	public void receiveResponse(OneM2mResponse response) {
 		// TODO Auto-generated method stub
 		
-		System.out.println(response);
-		//System.out.println(((AE)response.getPrimitiveContent().getAnyOrAny().get(0)).toString());
+		//System.out.println(response);
+		////System.out.println(((AE)response.getPrimitiveContent().getAnyOrAny().get(0)).toString());
 
 	}
 

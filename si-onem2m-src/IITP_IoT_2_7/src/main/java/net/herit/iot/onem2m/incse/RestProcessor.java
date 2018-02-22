@@ -341,7 +341,7 @@ public class RestProcessor {
 						paramName = ((JSONObject)paramObject).get("Name").toString();
 						paramValue = ((JSONObject)paramObject).get("Value");
 						paramMap.put(paramName, paramValue);
-						System.out.println("Name : " + paramName + ", Value : " + paramValue  );
+						//System.out.println("Name : " + paramName + ", Value : " + paramValue  );
 					}
 				}
 				
@@ -352,7 +352,7 @@ public class RestProcessor {
 		
 				OneM2mResponse response = RestCommandController.getInstance().addTr69DMResource(paramMap);
 				
-			//	System.out.println("device Id : " + deviceId  );
+			//	//System.out.println("device Id : " + deviceId  );
 				
 				
 			} else if(uri.startsWith("/dm/tr69/noti/passive") || uri.startsWith("/dm/tr69/noti/active")) {

@@ -78,18 +78,18 @@ private final static String HTTP_HEADER_SEC_WEBSOCKET_ACCEPT 		= "Sec-WebSocket-
 				jsonCborContents.put(ONEM2M_CONTENT, jsonContentObject);
 			}
 			
-			//System.out.println("##### CBOR jsonCborContents.toString()=" + jsonCborContents.toString());
+			////System.out.println("##### CBOR jsonCborContents.toString()=" + jsonCborContents.toString());
 			
 			byte[] cbor = net.herit.iot.onem2m.core.util.Utils.encodeCBOR(jsonCborContents.toString());
-			System.out.println("##### cbor=" + new String(cbor, "UTF-8"));
+			//System.out.println("##### cbor=" + new String(cbor, "UTF-8"));
 			
-			System.out.println("### CBOR trace-2");
+			//System.out.println("### CBOR trace-2");
 			strContents = new String(cbor, "UTF-8");
 			strContents = strContents.toUpperCase();
 /**	blocked in 2017-12-08 		
 			byte[] content = resMessage.getContent();
 			String strContent = new String(content, "UTF-8");
-			System.out.println("CBOR strContent = " + strContent);
+			//System.out.println("CBOR strContent = " + strContent);
 			byte[] cbor = net.herit.iot.onem2m.core.util.Utils.encodeCBOR(strContent);
 			
 			StringBuffer sb = new StringBuffer();
@@ -158,7 +158,7 @@ private final static String HTTP_HEADER_SEC_WEBSOCKET_ACCEPT 		= "Sec-WebSocket-
 			strContents = strContents.replaceAll("rsp", ONEM2M_RESPONSE_MESSAGE);		// added in 2017-09-01 to add prefix "m2m:"
 			
 			if(strContents.indexOf("oneM2MResponse") > 0) {
-				System.out.println("===============================> xsi:type=oneM2MResponse is in the current message yet..... ");
+				//System.out.println("===============================> xsi:type=oneM2MResponse is in the current message yet..... ");
 				int nFirst = strContents.indexOf("xsi:type");
 				int nLast = strContents.indexOf("oneM2MResponse");
 				String firstStr = strContents.substring(0, nFirst-1);
@@ -166,7 +166,7 @@ private final static String HTTP_HEADER_SEC_WEBSOCKET_ACCEPT 		= "Sec-WebSocket-
 				strContents = firstStr + lastStr;
 				
 			} else {
-				System.out.println("==================================> NOOOOO oneM2MResponse in xsi:type");
+				//System.out.println("==================================> NOOOOO oneM2MResponse in xsi:type");
 			}
 			strContents = strContents.replaceAll("[\n\r\t]", "");   // added in 2017-11-02 to support TTA
 			strContents = strContents.replaceAll(">\\s+<", "><");
@@ -206,7 +206,7 @@ private final static String HTTP_HEADER_SEC_WEBSOCKET_ACCEPT 		= "Sec-WebSocket-
 				resMessage.setContentObject(contObject);*/
 				resMessage = new OneM2mResponse();
 				resPrimitive = (ResponsePrimitive)xmlConvertor.unmarshal(strContents);
-				//System.out.println("[MQTT]====>reqPrimitive.getPrimitiveContent().getAnyOrAny().size() =" + reqPrimitive.getPrimitiveContent().getAnyOrAny().size());
+				////System.out.println("[MQTT]====>reqPrimitive.getPrimitiveContent().getAnyOrAny().size() =" + reqPrimitive.getPrimitiveContent().getAnyOrAny().size());
 				if(resPrimitive.getFrom() != null) {
 					resMessage.setFrom(resPrimitive.getFrom());
 				}

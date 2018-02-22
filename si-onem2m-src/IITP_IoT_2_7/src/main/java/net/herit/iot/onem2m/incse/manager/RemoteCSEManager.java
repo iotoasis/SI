@@ -293,7 +293,7 @@ public class RemoteCSEManager extends AbsManager {
 				//String resName = this.createResourceName(RES_TYPE.REMOTE_CSE, CfgManager.getInstance().getCSEBaseName());
 				//String resName = remoteCseId.substring(1);  //blocked in 2017-11-30
 				String resName = remoteCseName.substring(1);  //added in 2017-11-30
-				System.out.println("############ resName =" + resName);
+				//System.out.println("############ resName =" + resName);
 				//remoteCse.setCSEID(remoteCseName);	// blocked in 2017-11-30
 				remoteCse.setCSEID(remoteCseId);		// added in 2017-11-30
 				//remoteCse.setCSEBase(remoteCseName);		// blocked in 2017-11-30

@@ -335,7 +335,7 @@ public class OneM2mResponse extends ResponsePrimitive { // extends AbsMessage {
 		CONTENT_TYPE cntType = this.getContentType();
 //		if (request != null) {
 //			List<CONTENT_TYPE> format = request.getAcceptTypes();
-////			System.out.println("format is " + format);
+////			//System.out.println("format is " + format);
 //			if (format != null && format.size() > 0) {
 //				cntType = format.get(0);
 //			}

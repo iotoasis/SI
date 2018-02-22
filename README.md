@@ -10,7 +10,7 @@ This is IoT core infrastructure for various application services through the con
 
 
  - Feature
-   - IN-CSE functions based on oneM2M Release 2.0
+   -	IN-CSE functions based on oneM2M Release 2.0
    -	Resource processing based on Release 2.0(TS-0004 2.7)
    -	Supports Mca, Mcc, Mca' reference points
    -	IN-CSE functions : Registration, Data Management Repository, Sub. & Notification, Discovery etc.

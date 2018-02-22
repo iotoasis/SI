@@ -296,7 +296,7 @@ public class OperationProcessor {
 			log.debug("to={}", to);
 			String cseId = OneM2mUtil.extractCseIdFromSPResId(to);
 			
-			//System.out.println("##################################### cseId = " + cseId + ", CfgManager.getInstance().getCSEBaseCid() = " + CfgManager.getInstance().getCSEBaseCid());
+			////System.out.println("##################################### cseId = " + cseId + ", CfgManager.getInstance().getCSEBaseCid() = " + CfgManager.getInstance().getCSEBaseCid());
 			
 			if (cseId.equals(CfgManager.getInstance().getCSEBaseCid()) || cseId.equals("/"+CfgManager.getInstance().getCSEBaseName())) {
 				return null;

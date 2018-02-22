@@ -148,7 +148,7 @@ public class CoapResponseCodec extends CoapAbsCodec {
 		
 		if (resMessage.getContentType() != null && resMessage.getContentType() != CONTENT_TYPE.NONE  &&
 				resMessage.getContent() != null && resMessage.getContent().length > 0) {
-//			System.out.println("RES>> Content-Type: " + resMessage.getContentType());
+//			//System.out.println("RES>> Content-Type: " + resMessage.getContentType());
 			COAP_CONTENT_TYPE contentType = COAP_CONTENT_TYPE.getCoapContentType(resMessage.getContentType());
 			resCoap.getOptions().setContentFormat(contentType.Value());
 		}

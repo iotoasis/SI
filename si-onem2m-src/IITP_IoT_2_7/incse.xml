@@ -7,7 +7,7 @@
                 <user>herit</user>
                 <password>qrwe1423</password> -->
                   <port>27017</port>
-                <dbname>IITP-IOT-IOP-TEST-42</dbname>
+                <dbname>IITP-IOT-4Test-180129</dbname>
                 <user></user>
                 <password></password>  
        </database>
@@ -26,7 +26,7 @@
 			</http>
 
 			<mqtt>
-				<supported>yes</supported>  <!-- yes or no -->
+				<supported>no</supported>  <!-- yes or no -->
 				<keepalive>1200</keepalive>  <!-- seconds -->
 				<!-- 
 				<broker>tcp://iot.eclipse.org:1883</broker>
@@ -39,23 +39,23 @@
 			</mqtt>
 
 			<coap>
-				<supported>yes</supported>  <!-- yes or no -->
+				<supported>no</supported>  <!-- yes or no -->
 				<port>5683</port>
 				<sec-port>4433</sec-port>   <!-- dtls port -->
 				<cse-unstruct>false</cse-unstruct> <!-- cse-relative unstructured addressing -->
 			</coap>
 			
 			<websocket>
-				<supported>yes</supported>
+				<supported>no</supported>
 				<port>8887</port>
 			</websocket>
        </binding>
 
 		<cse>
-			<host>10.10.202.146</host>
+			<host>10.10.0.23</host>
 			<baseName>herit-cse</baseName>
 			<resourceId>herit-in</resourceId>
-			<poa>ws://10.10.202.146:8887</poa>
+			<poa>http://10.10.0.23:8080</poa>
 
 			<default-resource-expiration-time>3</default-resource-expiration-time>	<!-- days -->
  			<allowed-subgroup-depth>3</allowed-subgroup-depth>
@@ -127,7 +127,7 @@
 				<address>http://10.101.101.107:8888</address>
 			</hitdm>
 			<tr69dm>
-				<address>http://192.168.123.169:7557</address>
+				<address>http://10.10.0.82:7557</address>
 				<timeout>3000</timeout>
 			</tr69dm>
 			<onem2mAgent>

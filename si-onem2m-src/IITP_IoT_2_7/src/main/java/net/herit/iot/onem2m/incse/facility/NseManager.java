@@ -36,7 +36,7 @@ public class NseManager {
 	
 	public OneM2mResponse sendRequestMessage(String url, OneM2mRequest reqMessage) {
 		log.debug("url: {} \nmessage: {}", url, reqMessage);
-		System.out.println("########### URL ==> " + url);
+		//System.out.println("########### URL ==> " + url);
 	
 //		if (!url.startsWith("http:")) url = "http:"+url;
 		

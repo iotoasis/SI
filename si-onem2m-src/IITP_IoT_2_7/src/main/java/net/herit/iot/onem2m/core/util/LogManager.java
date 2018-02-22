@@ -33,7 +33,7 @@ public class LogManager {
 	public void debug(String debug) {
 		
 		if(log == null) {
-			System.out.println("DEBUG] " + debug);
+			//System.out.println("DEBUG] " + debug);
 			return;
 		}
 		
@@ -45,7 +45,7 @@ public class LogManager {
 	public void info(String info) {
 		
 		if(log == null) {
-			System.out.println("INFO] " + info);
+			//System.out.println("INFO] " + info);
 			return;
 		}
 		
@@ -57,7 +57,7 @@ public class LogManager {
 	public void warn(String warn) {
 		
 		if(log == null) {
-			System.out.println("WARN] " + warn);
+			//System.out.println("WARN] " + warn);
 			return;
 		}
 		
@@ -69,7 +69,7 @@ public class LogManager {
 	public void error(String error) {
 		
 		if(log == null) {
-			System.out.println("ERROR] " + error);
+			//System.out.println("ERROR] " + error);
 			return;
 		}
 		

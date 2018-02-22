@@ -30,7 +30,7 @@ public class CocoaStrong extends Cocoa{
 	
 	@Override
 	public void processRTTmeasurement(long measuredRTT, Exchange exchange, int retransmissionCount){		
-		//System.out.println("Measured an RTT of " + measuredRTT + " after using " + retransmissionCount + " retries." );	
+		////System.out.println("Measured an RTT of " + measuredRTT + " after using " + retransmissionCount + " retries." );	
 		RemoteEndpoint endpoint = getRemoteEndpoint(exchange);
 		int rtoType = endpoint.getExchangeEstimatorState(exchange);				
 		
@@ -38,9 +38,9 @@ public class CocoaStrong extends Cocoa{
 			return;
 		endpoint.matchCurrentRTO();
 	
-		//System.out.println("Measured RTT:" + measuredRTT);
+		////System.out.println("Measured RTT:" + measuredRTT);
 		
-		// System.out.println("Endpoint status: blindweak/blindstrong/state : " + endpoint.isBlindWeak() + "/" + endpoint.isBlindStrong() + "/" + endpoint.getExchangeEstimatorState(exchange));
+		// //System.out.println("Endpoint status: blindweak/blindstrong/state : " + endpoint.isBlindWeak() + "/" + endpoint.isBlindStrong() + "/" + endpoint.getExchangeEstimatorState(exchange));
 		if (endpoint.isBlindStrong() && rtoType == STRONGRTOTYPE) {
 			// Received a strong RTT measurement for the first time, apply
 			// strong RTO update

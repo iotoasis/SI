@@ -141,7 +141,7 @@ public class DaoJSONConvertor<T> {
 			Writer writer = new StringWriter();
 			m.marshal(obj, writer);
 			String json = writer.toString();
-	//		System.out.println(out);
+	//		//System.out.println(out);
 			
 			return json;
 		}
@@ -1460,7 +1460,7 @@ public class DaoJSONConvertor<T> {
 			String json;
 //			JSONConvertor<AE> JC = new JSONConvertor<AE>(AE.class);
 //			AE ae = (AE)JC.unmarshal(AE_json);
-//			System.out.println("resourceName: " + ae.getResourceName());
+//			//System.out.println("resourceName: " + ae.getResourceName());
 //			
 //			List<Resource> resources = ae.getContainerOrGroupOrAccessControlPolicy();
 //			Container container = new Container();
@@ -1471,7 +1471,7 @@ public class DaoJSONConvertor<T> {
 //			resources.add(group);
 //
 //			json = JC.marshal(ae);
-//			System.out.println("json: " + json);
+//			//System.out.println("json: " + json);
 
 			
 			//-----------------------------------------------------------------------------------------
@@ -1485,82 +1485,82 @@ public class DaoJSONConvertor<T> {
 
 			DaoJSONConvertor<AE> JC2 = new DaoJSONConvertor<AE>(AE.class);
 			AE resource = (AE)JC2.unmarshal(AE_json);
-			System.out.println("resourceName: " + resource.getResourceName());
+			//System.out.println("resourceName: " + resource.getResourceName());
 			json = JC2.marshal(resource);
-			System.out.println(json);
+			//System.out.println(json);
 			
 			DaoJSONConvertor<AE> JC3 = new DaoJSONConvertor<AE>(AE.class);
 			json = JC3.marshal(resource);
-			System.out.println(json);
+			//System.out.println(json);
 			
 			AE resource2 = (AE)JC3.unmarshal(json);
 			json = JC2.marshal(resource2);
-			System.out.println(json);
+			//System.out.println(json);
 			
 			
 			
-//			System.out.println("AE_json");
-//			System.out.println(AE_json);
-//			System.out.println("Container_json");
-//			System.out.println(Container_json);
-//			System.out.println("ContentInstance_json		");
-//			System.out.println(ContentInstance_json		);
-//			System.out.println("RemoteCSE_json");
-//			System.out.println(RemoteCSE_json);
-//			System.out.println("AccessControlPolicy_json ");
-//			System.out.println(AccessControlPolicy_json );
-//			System.out.println("CSEBase_json"); 
-//			System.out.println(CSEBase_json); 
-//			System.out.println("Group_json");
-//			System.out.println(Group_json);
-//			System.out.println("PollingChannel_json ");
-//			System.out.println(PollingChannel_json );
-//			System.out.println("Subscription_json ");
-//			System.out.println(Subscription_json );
-//			System.out.println("AEAnnc_json ");
-//			System.out.println(AEAnnc_json );
-//			System.out.println("AccessControlPolicyAnnc_json ");
-//			System.out.println(AccessControlPolicyAnnc_json );
-//			System.out.println("ContainerAnnc_json ");
-//			System.out.println(ContainerAnnc_json );
-//			System.out.println("ContentInstanceAnnc_json");
-//			System.out.println(ContentInstanceAnnc_json);
-//			System.out.println("Delivery_json 	");		
-//			System.out.println(Delivery_json 	);		
-//			System.out.println("EventConfig_json ");			
-//			System.out.println(EventConfig_json );			
-//			System.out.println("ExecInstance_json");
-//			System.out.println(ExecInstance_json);
-//			System.out.println("GroupAnnc_json ");
-//			System.out.println(GroupAnnc_json );
-//			System.out.println("LocationPolicy_json 		");	
-//			System.out.println(LocationPolicy_json 		);	
-//			System.out.println("LocationPolicyAnnc_json ");
-//			System.out.println(LocationPolicyAnnc_json );
-//			System.out.println("M2MServiceSubscriptionProfile_json ");
-//			System.out.println(M2MServiceSubscriptionProfile_json );
-//			System.out.println("MgmtCmd_json"); 
-//			System.out.println(MgmtCmd_json); 
-//			System.out.println("Node_json ");
-//			System.out.println(Node_json );
-//			System.out.println("NodeAnnc_json ");
-//			System.out.println(NodeAnnc_json );
-//			System.out.println("RemoteCSEAnnc_json ");
-//			System.out.println(RemoteCSEAnnc_json );
-//			System.out.println("Request_json ");
-//			System.out.println(Request_json );
-//			System.out.println("Schedule_json");
-//			System.out.println(Schedule_json);
-//			System.out.println("ScheduleAnnc_json");
-//			System.out.println(ScheduleAnnc_json);
-//			System.out.println("ServiceSubscribedAppRule_json");
-//			System.out.println(ServiceSubscribedAppRule_json);
-//			System.out.println("ServiceSubscribedNode_json");
-//			System.out.println(ServiceSubscribedNode_json);
-//			System.out.println("StatsCollect_json ");
-//			System.out.println(StatsCollect_json );
-//			System.out.println("StatsCollect_json ");
-//			System.out.println(StatsCollect_json );
+//			//System.out.println("AE_json");
+//			//System.out.println(AE_json);
+//			//System.out.println("Container_json");
+//			//System.out.println(Container_json);
+//			//System.out.println("ContentInstance_json		");
+//			//System.out.println(ContentInstance_json		);
+//			//System.out.println("RemoteCSE_json");
+//			//System.out.println(RemoteCSE_json);
+//			//System.out.println("AccessControlPolicy_json ");
+//			//System.out.println(AccessControlPolicy_json );
+//			//System.out.println("CSEBase_json"); 
+//			//System.out.println(CSEBase_json); 
+//			//System.out.println("Group_json");
+//			//System.out.println(Group_json);
+//			//System.out.println("PollingChannel_json ");
+//			//System.out.println(PollingChannel_json );
+//			//System.out.println("Subscription_json ");
+//			//System.out.println(Subscription_json );
+//			//System.out.println("AEAnnc_json ");
+//			//System.out.println(AEAnnc_json );
+//			//System.out.println("AccessControlPolicyAnnc_json ");
+//			//System.out.println(AccessControlPolicyAnnc_json );
+//			//System.out.println("ContainerAnnc_json ");
+//			//System.out.println(ContainerAnnc_json );
+//			//System.out.println("ContentInstanceAnnc_json");
+//			//System.out.println(ContentInstanceAnnc_json);
+//			//System.out.println("Delivery_json 	");		
+//			//System.out.println(Delivery_json 	);		
+//			//System.out.println("EventConfig_json ");			
+//			//System.out.println(EventConfig_json );			
+//			//System.out.println("ExecInstance_json");
+//			//System.out.println(ExecInstance_json);
+//			//System.out.println("GroupAnnc_json ");
+//			//System.out.println(GroupAnnc_json );
+//			//System.out.println("LocationPolicy_json 		");	
+//			//System.out.println(LocationPolicy_json 		);	
+//			//System.out.println("LocationPolicyAnnc_json ");
+//			//System.out.println(LocationPolicyAnnc_json );
+//			//System.out.println("M2MServiceSubscriptionProfile_json ");
+//			//System.out.println(M2MServiceSubscriptionProfile_json );
+//			//System.out.println("MgmtCmd_json"); 
+//			//System.out.println(MgmtCmd_json); 
+//			//System.out.println("Node_json ");
+//			//System.out.println(Node_json );
+//			//System.out.println("NodeAnnc_json ");
+//			//System.out.println(NodeAnnc_json );
+//			//System.out.println("RemoteCSEAnnc_json ");
+//			//System.out.println(RemoteCSEAnnc_json );
+//			//System.out.println("Request_json ");
+//			//System.out.println(Request_json );
+//			//System.out.println("Schedule_json");
+//			//System.out.println(Schedule_json);
+//			//System.out.println("ScheduleAnnc_json");
+//			//System.out.println(ScheduleAnnc_json);
+//			//System.out.println("ServiceSubscribedAppRule_json");
+//			//System.out.println(ServiceSubscribedAppRule_json);
+//			//System.out.println("ServiceSubscribedNode_json");
+//			//System.out.println(ServiceSubscribedNode_json);
+//			//System.out.println("StatsCollect_json ");
+//			//System.out.println(StatsCollect_json );
+//			//System.out.println("StatsCollect_json ");
+//			//System.out.println(StatsCollect_json );
 
 
 			

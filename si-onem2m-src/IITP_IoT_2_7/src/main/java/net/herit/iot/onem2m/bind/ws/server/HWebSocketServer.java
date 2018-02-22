@@ -54,7 +54,7 @@ public class HWebSocketServer extends WebSocketServer {
 	
 	@Override
 	public void onOpen( WebSocket conn, ClientHandshake handshake ) {
-		//System.out.println("========================>" + handshake.getFieldValue("Sec-WebSocket-Protocol"));
+		////System.out.println("========================>" + handshake.getFieldValue("Sec-WebSocket-Protocol"));
 		
 		//this.sendToAll( "new connection: " + handshake.getResourceDescriptor() );
 		conn.send("new connection: " + handshake.getResourceDescriptor());
@@ -70,24 +70,24 @@ public class HWebSocketServer extends WebSocketServer {
 	
 	@Override
 	public void onMessage( WebSocket conn, String message ) {
-		//System.out.println("onMessage==================>" + conn + ": " + message );
+		////System.out.println("onMessage==================>" + conn + ": " + message );
 		//this.sendToAll( message );
 		if(listener != null) {
 			listener.receiveWebSocketRequest(message.getBytes(), conn);
 		} else {
 			conn.send("Not found listener");
 		}
-		//System.out.println( conn + ": " + message );
+		////System.out.println( conn + ": " + message );
 	}
 	
 	@Override
 	public void onMessage( WebSocket conn, ByteBuffer message ) {
 		byte[] msg = message.array();
 		try {
-			//System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!![" + new String(msg, "UTF-8"));
+			////System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!![" + new String(msg, "UTF-8"));
 			//String recvMessage = new String(msg, "UTF-8").trim();
 			if(listener != null) {
-				//System.out.println("##################### listener ##################");
+				////System.out.println("##################### listener ##################");
 				listener.receiveWebSocketRequest(msg, conn);
 			} else {
 				conn.send("Not found listener");
@@ -104,7 +104,7 @@ public class HWebSocketServer extends WebSocketServer {
 	
 
 	public void onFragment( WebSocket conn, Framedata fragment ) {
-		System.out.println( "received fragment: " + fragment );
+		//System.out.println( "received fragment: " + fragment );
 	}
 	
 	@Override
@@ -128,7 +128,7 @@ public class HWebSocketServer extends WebSocketServer {
 		synchronized ( con ) {
 			for( WebSocket c : con ) {
 				
-				//System.out.println("%%%%%%%%%% WebSocket %%%%%%%%%%%% " + c);
+				////System.out.println("%%%%%%%%%% WebSocket %%%%%%%%%%%% " + c);
 				c.send( text );
 			}
 		}
@@ -147,7 +147,7 @@ public class HWebSocketServer extends WebSocketServer {
 		
 		
 		
-		System.out.println( "demoServer started on port: " + s.getPort() );
+		//System.out.println( "demoServer started on port: " + s.getPort() );
 
 		BufferedReader sysin = new BufferedReader( new InputStreamReader( System.in ) );
 		while ( true ) {

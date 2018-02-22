@@ -481,7 +481,7 @@ public class ResourceDAO {
 		List<String> fcKeys = fc.getFilterKeys();
 		if(fcKeys != null && fcKeys.size() > 0) {
 			for(String fcKey : fcKeys) {
-				System.out.println("[ResourceDAO], fcKey=" + fcKey);
+				////System.out.println("[ResourceDAO], fcKey=" + fcKey);
 				switch(fcKey) {
 				case "lim":
 					if(limit != null && limit <= resources.size()) {
@@ -500,7 +500,7 @@ public class ResourceDAO {
 					for(Resource res : resources) {
 						String tmpUri = res.getUri();
 						childLevel = StringUtils.countMatches(tmpUri, "/");
-						//System.out.println(String.format("rootLevel = %d, childLevel= %d", rootLevel, childLevel));
+						//////System.out.println(String.format("rootLevel = %d, childLevel= %d", rootLevel, childLevel));
 						childLevel = childLevel - rootLevel;			// set actual level from csebase
 						
 						if(childLevel <= level) {
@@ -526,7 +526,7 @@ public class ResourceDAO {
 				String tmpUri = doc.getString(URI_KEY);
 				childLevel = StringUtils.countMatches(tmpUri, "/");
 				childLevel = childLevel - rootLevel;			// set actual level from csebase
-				//System.out.println("childLevel ========> " + childLevel);
+				//////System.out.println("childLevel ========> " + childLevel);
 				
 				if(childLevel <= level) {
 					Resource res = new Resource();

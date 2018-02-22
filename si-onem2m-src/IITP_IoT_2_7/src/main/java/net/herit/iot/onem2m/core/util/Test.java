@@ -46,12 +46,12 @@ public class Test {
 //			Object a = null;
 //			key = (String)a;
 			
-			System.out.println("key=" + key);
+			//System.out.println("key=" + key);
 			Timer timer = timerMap.remove(key);
 			if(timer != null) {
-				System.out.println("timer is not null");
+				//System.out.println("timer is not null");
 			}
-			System.out.println("timeMap size=" + timerMap.size());
+			//System.out.println("timeMap size=" + timerMap.size());
 		}
 		
 	}

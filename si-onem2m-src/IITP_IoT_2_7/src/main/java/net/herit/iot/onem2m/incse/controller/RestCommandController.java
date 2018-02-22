@@ -902,12 +902,12 @@ public class RestCommandController {
 		String json1 = doc.toJson();
 		String json2 = "{ \"exec_id\": \"commandid\", \"data\": \"{\"actionType\":\"testAlarm\",\"user_id\":\"u00002\",\"alarm_id\":\"1\"}\"}";
 		String json3 = "{ \"exec_id\": \"commandid\", \"data\": \"{\\\"actionType\\\":\\\"testAlarm\\\",\\\"user_id\\\":\\\"u00002\\\",\\\"alarm_id\\\":\\\"1\\\"}\"}";
-		System.out.println(json1);
-		System.out.println(Base64.encode(json1.getBytes()));
-		System.out.println(json2);
-		System.out.println(Base64.encode(json2.getBytes()));
-		System.out.println(json3);
-		System.out.println(Base64.encode(json3.getBytes()));
+		//System.out.println(json1);
+		//System.out.println(Base64.encode(json1.getBytes()));
+		//System.out.println(json2);
+		//System.out.println(Base64.encode(json2.getBytes()));
+		//System.out.println(json3);
+		//System.out.println(Base64.encode(json3.getBytes()));
 		
 	}
 

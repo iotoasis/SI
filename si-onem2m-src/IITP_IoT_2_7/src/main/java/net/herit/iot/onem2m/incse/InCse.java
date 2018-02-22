@@ -178,7 +178,7 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 					while(cursor.hasNext()) {
 						Document doc = cursor.next();
 						resList.add(doc.get(Naming.RESOURCEID_SN).toString());
-						//System.out.println("##################### doc.get(Naming.RESOURCEID_SN) = " + doc.get(Naming.RESOURCEID_SN));
+						////System.out.println("##################### doc.get(Naming.RESOURCEID_SN) = " + doc.get(Naming.RESOURCEID_SN));
 					}
 					
 					coapServer.addEndPointsbyResId(resList,cfgManager.getCSEBaseName() );
@@ -539,7 +539,7 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 		
 		OneM2mRequest reqMessage = null;
 		try {
-			//System.out.println("[COAP DEBUG]====> exchange.getSourceAddress().getHostAddress().toString()=" + exchange.getSourceAddress().getHostAddress());
+			////System.out.println("[COAP DEBUG]====> exchange.getSourceAddress().getHostAddress().toString()=" + exchange.getSourceAddress().getHostAddress());
 			reqMessage = CoapRequestCodec.decode(exchange);
 			String clientAddress = exchange.getSourceAddress().getHostAddress();	// added in 2017-08-25
 			coapMap.put(reqMessage.getRequestIdentifier(), exchange);
@@ -591,9 +591,9 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 			log.debug(response.getPayloadString());
 			exchange.respond(response);
 			// added in 2017-10-31 to support CSE-relative Unstructured addressing 
-			System.out.println("############### uripath-size=" + exchange.getRequestOptions().getUriPath().size());
-			//System.out.println("############### resMessage.getResponseStatusCode()=" + resMessage.getResponseStatusCode());
-			///System.out.println("############### resourceId=" + ((Resource)resMessage.getContentObject()).getResourceID());
+			//System.out.println("############### uripath-size=" + exchange.getRequestOptions().getUriPath().size());
+			////System.out.println("############### resMessage.getResponseStatusCode()=" + resMessage.getResponseStatusCode());
+			/////System.out.println("############### resourceId=" + ((Resource)resMessage.getContentObject()).getResourceID());
 			
 			int len = exchange.getRequestOptions().getUriPath().size();
 			int resCode = resMessage.getResponseStatusCode();
@@ -675,7 +675,7 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 		
 		try {
 			String response = WSResponseCodec.encode(resMessage);
-			System.out.println("######## CBOR response = " + response);
+			//System.out.println("######## CBOR response = " + response);
 			ws.send(response);
 	//		exchange.respond(ResponseCode.INTERNAL_SERVER_ERROR, "Respose encoding failed");
 			

@@ -138,11 +138,11 @@ public class WSRequestCodec extends WSAbsCodec {
 				String to = reqMessage.getTo();
 				reqMessage.setOperation(net.herit.iot.onem2m.bind.mqtt.util.Utils.getMqttOperation(op, to));	// added in 2017-11-03 to comply with MQTT requestPrimitive operation.
 				strContents = xmlConvertor.marshal(reqMessage);
-				System.out.println("################# strContents(MqttRequestCodec:encode) = " + strContents);
+				//System.out.println("################# strContents(MqttRequestCodec:encode) = " + strContents);
 				strContents = strContents.replaceAll("rqp", ONEM2M_REQUEST_MESSAGE);		// added in 2017-09-01 to add prefix "m2m:"
 				
 				if(strContents.indexOf("oneM2MRequest") > 0) {
-					System.out.println("===============================> xsi:type=oneM2MRequest is in the current message yet..... ");
+					//System.out.println("===============================> xsi:type=oneM2MRequest is in the current message yet..... ");
 					int nFirst = strContents.indexOf("xsi:type");
 					int nLast = strContents.indexOf("oneM2MRequest");
 					String firstStr = strContents.substring(0, nFirst-1);
@@ -150,7 +150,7 @@ public class WSRequestCodec extends WSAbsCodec {
 					strContents = firstStr + lastStr;
 					
 				} else {
-					System.out.println("==================================> NOOOOO oneM2MRequest in xsi:type");
+					//System.out.println("==================================> NOOOOO oneM2MRequest in xsi:type");
 				}
 				strContents = strContents.replaceAll("[\n\r\t]", "");   // added in 2017-11-02 to support TTA
 				strContents = strContents.replaceAll(">\\s+<", "><");
@@ -269,7 +269,7 @@ public class WSRequestCodec extends WSAbsCodec {
 				}
 				reqMessage.setTo(to);
 				
-				//System.out.println("####### reqPrimitive.getOperation()=" + reqPrimitive.getOperation());
+				////System.out.println("####### reqPrimitive.getOperation()=" + reqPrimitive.getOperation());
 				int op = net.herit.iot.onem2m.bind.mqtt.util.Utils.getOneM2mOperation(reqPrimitive.getOperation(), to);	// added in 2017-11-03 for operation matching to OneM2mRequest.OPERATION
 				reqMessage.setOperation(op);   // added in 2017-11-03 due to the above reason.
 				//reqMessage.setOperation(reqPrimitive.getOperation());  // blocked in 2017-11-03 for that mqtt operation is not matching to OneM2mRequest.OPERATION
@@ -305,7 +305,7 @@ public class WSRequestCodec extends WSAbsCodec {
 			case NTFY_CBOR:
 			case RES_CBOR:
 				strContents = net.herit.iot.onem2m.core.util.Utils.decodeCBOR(message);		
-				System.out.println("### CBOR strContents=" + strContents);
+				//System.out.println("### CBOR strContents=" + strContents);
 			case JSON:
 			case ATTRS_JSON:
 			case NTFY_JSON:
@@ -362,7 +362,7 @@ public class WSRequestCodec extends WSAbsCodec {
 					if(!strContents.contains("m2m:rqp")) {
 						strContents = "{ \"m2m:rqp\" : " + strContents + "}";
 					}
-					System.out.println("##### strContents = " + strContents);
+					//System.out.println("##### strContents = " + strContents);
 					reqMessage = new OneM2mRequest();
 					reqPrimitive = (RequestPrimitive)decodeJsonConvertor.unmarshal(strContents);
 					
@@ -437,7 +437,7 @@ public class WSRequestCodec extends WSAbsCodec {
 					}
 					
 				}
-				System.out.println("#### reqMessage => " + reqMessage.toString());
+				//System.out.println("#### reqMessage => " + reqMessage.toString());
 				break;
 			default:
 				throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
@@ -456,10 +456,10 @@ public class WSRequestCodec extends WSAbsCodec {
 			reqMessage.setTo(tmpTo.substring(2));
 		}
 		if(reqMessage.getPrimitiveContent() != null) {
-		//	System.out.println(reqMessage.getPrimitiveContent().getAny().size());  updated as below due to CDT-2.7.0
-			System.out.println(reqMessage.getPrimitiveContent().getAnyOrAny().size());
+		//	//System.out.println(reqMessage.getPrimitiveContent().getAny().size());  updated as below due to CDT-2.7.0
+			//System.out.println(reqMessage.getPrimitiveContent().getAnyOrAny().size());
 		} else {
-			System.out.println("primitiveContent is null.");
+			//System.out.println("primitiveContent is null.");
 		}
 		
 		return reqMessage;

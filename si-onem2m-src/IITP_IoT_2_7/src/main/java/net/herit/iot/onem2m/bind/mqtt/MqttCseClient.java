@@ -34,7 +34,7 @@ public class MqttCseClient implements MqttServerListener {
 	public void receiveMqttMessage(OneM2mRequest request) {
 		// TODO Auto-generated method stub
 		
-		//System.out.println(request);
+		////System.out.println(request);
 
 		String from = request.getFrom();
 		String to = request.getTo();
@@ -52,7 +52,7 @@ public class MqttCseClient implements MqttServerListener {
 	@Override
 	public void completedMqttDelivery(int messageID) {
 		// TODO Auto-generated method stub
-		System.out.println("deliveryComplete : " + messageID);
+		//System.out.println("deliveryComplete : " + messageID);
 	}
 
 

@@ -208,7 +208,7 @@ public class OneM2MDmController implements DMControllerInterface {
 				String packageName = fwInDB.getFirmwareName();
 				String version = fwInDB.getVersion();
 				String url = fwInDB.getURL();
-				System.out.println("firmware update executed..");
+				//System.out.println("firmware update executed..");
 				adaptor.firmwareUpdate(deviceId, url, version, packageName);
 			}
 			
@@ -234,7 +234,7 @@ public class OneM2MDmController implements DMControllerInterface {
 				String packageName = swInDB.getSoftwareName();
 				String version = swInDB.getVersion();
 				String url = swInDB.getURL();
-				System.out.println("software install executed..");
+				//System.out.println("software install executed..");
 				adaptor.softwareInstall(deviceId, url, version, packageName);
 			}
 			
@@ -244,7 +244,7 @@ public class OneM2MDmController implements DMControllerInterface {
 				String packageName = swInDB.getSoftwareName();
 				String version = swInDB.getVersion();
 				String url = swInDB.getURL();
-				System.out.println("software uninstall executed..");
+				//System.out.println("software uninstall executed..");
 				adaptor.softwareUninstall(deviceId, url, packageName);
 			}
 			
@@ -323,7 +323,7 @@ public class OneM2MDmController implements DMControllerInterface {
 				resDoc = adaptor.readDeviceStatus(deviceId,"debug/stop");
 				evtLog.setLogData(resDoc.toJson());
 				evtLog.setLogStatus(2);  //stopped
-				System.out.println("############### resDoc = " + resDoc.toJson());
+				//System.out.println("############### resDoc = " + resDoc.toJson());
 			}		
 			
 			return evtLog;

@@ -266,8 +266,8 @@ public class CoapRequestCodec extends CoapAbsCodec {
 		}
 
 		if(reqMessage.getAcceptTypes() != null && reqMessage.getAcceptTypes().size() > 0) {
-//			System.out.println("AcceptType: " + reqMessage.getAcceptTypes().get(0));
-//			System.out.println(COAP_CONTENT_TYPE.getCoapContentType(reqMessage.getAcceptTypes().get(0)).Value());
+//			//System.out.println("AcceptType: " + reqMessage.getAcceptTypes().get(0));
+//			//System.out.println(COAP_CONTENT_TYPE.getCoapContentType(reqMessage.getAcceptTypes().get(0)).Value());
 			reqCoap.getOptions().setAccept(COAP_CONTENT_TYPE.getCoapContentType(
 					reqMessage.getAcceptTypes().get(0)).Value());
 		}

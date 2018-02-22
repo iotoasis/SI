@@ -111,7 +111,7 @@ public class ContentInstanceDAO extends ResourceDAO implements DAOInterface {
 		int deletedCount = 0, deletedSize = 0;
 		int maxNrOfInstance = cRes.getMaxNrOfInstances() != null ? cRes.getMaxNrOfInstances() : CfgManager.getInstance().getMaxCIPerContainer();
 		int overNrOfInstance = cRes.getCurrentNrOfInstances() - maxNrOfInstance; 
-		System.out.println("####### cRes.getCurrentNrOfInstances() = " + cRes.getCurrentNrOfInstances() + ", cRes.getMaxNrOfInstances() = " + cRes.getMaxNrOfInstances() + ", overNrOfInstance = " + overNrOfInstance);
+		//System.out.println("####### cRes.getCurrentNrOfInstances() = " + cRes.getCurrentNrOfInstances() + ", cRes.getMaxNrOfInstances() = " + cRes.getMaxNrOfInstances() + ", overNrOfInstance = " + overNrOfInstance);
 		if (overNrOfInstance >= 0) {
 			log.debug("MaxNrOfInstance exceeded:"+overNrOfInstance);
 			deletedCount = this.deleteOldestNExpired(cRes.getResourceID(), overNrOfInstance);

@@ -52,7 +52,7 @@ public class MqttRequestCodec {
 			String strContents = new String(contents, "UTF-8").trim();
 
 			contentType = Utils.getContentType(strContents);
-			//System.out.println("contentType =======> " + contentType.Name());
+			////System.out.println("contentType =======> " + contentType.Name());
 			switch (contentType) {
 			case XML:
 			case ATTRS_XML:
@@ -71,7 +71,7 @@ public class MqttRequestCodec {
 				}
 				reqMessage.setTo(to);
 				
-				//System.out.println("####### reqPrimitive.getOperation()=" + reqPrimitive.getOperation());
+				////System.out.println("####### reqPrimitive.getOperation()=" + reqPrimitive.getOperation());
 				int op = Utils.getOneM2mOperation(reqPrimitive.getOperation(), to);	// added in 2017-11-03 for operation matching to OneM2mRequest.OPERATION
 				reqMessage.setOperation(op);   // added in 2017-11-03 due to the above reason.
 				//reqMessage.setOperation(reqPrimitive.getOperation());  // blocked in 2017-11-03 for that mqtt operation is not matching to OneM2mRequest.OPERATION
@@ -123,7 +123,7 @@ public class MqttRequestCodec {
 					if(!strContents.contains("m2m:rqp")) {
 						strContents = "{ \"m2m:rqp\" : " + strContents + "}";
 					}
-					System.out.println("##### strContents = " + strContents);
+					//System.out.println("##### strContents = " + strContents);
 					reqMessage = new OneM2mRequest();
 					reqPrimitive = (RequestPrimitive)decodeJsonConvertor.unmarshal(strContents);
 					
@@ -198,7 +198,7 @@ public class MqttRequestCodec {
 					}
 					
 				}
-				System.out.println("#### reqMessage => " + reqMessage.toString());
+				//System.out.println("#### reqMessage => " + reqMessage.toString());
 				break;		
 			default:
 				throw new OneM2MException(OneM2mResponse.RESPONSE_STATUS.INVALID_ARGUMENTS, "Invalid format");
@@ -223,10 +223,10 @@ public class MqttRequestCodec {
 		reqMessage.setContentType(contentType);
 		
 		if(reqMessage.getPrimitiveContent() != null) {
-		//	System.out.println(reqMessage.getPrimitiveContent().getAny().size());  updated as below due to CDT-2.7.0
-			System.out.println(reqMessage.getPrimitiveContent().getAnyOrAny().size());
+		//	//System.out.println(reqMessage.getPrimitiveContent().getAny().size());  updated as below due to CDT-2.7.0
+			//System.out.println(reqMessage.getPrimitiveContent().getAnyOrAny().size());
 		} else {
-			System.out.println("primitiveContent is null.");
+			//System.out.println("primitiveContent is null.");
 		}
 		
 		return reqMessage;
@@ -251,11 +251,11 @@ public class MqttRequestCodec {
 				String to = reqMessage.getTo();
 				reqMessage.setOperation(Utils.getMqttOperation(op, to));	// added in 2017-11-03 to comply with MQTT requestPrimitive operation.
 				strContents = xmlConvertor.marshal(reqMessage);
-				System.out.println("################# strContents(MqttRequestCodec:encode) = " + strContents);
+				//System.out.println("################# strContents(MqttRequestCodec:encode) = " + strContents);
 				strContents = strContents.replaceAll("rqp", ONEM2M_REQUEST_MESSAGE);		// added in 2017-09-01 to add prefix "m2m:"
 				
 				if(strContents.indexOf("oneM2MRequest") > 0) {
-					System.out.println("===============================> xsi:type=oneM2MRequest is in the current message yet..... ");
+					//System.out.println("===============================> xsi:type=oneM2MRequest is in the current message yet..... ");
 					int nFirst = strContents.indexOf("xsi:type");
 					int nLast = strContents.indexOf("oneM2MRequest");
 					String firstStr = strContents.substring(0, nFirst-1);
@@ -263,7 +263,7 @@ public class MqttRequestCodec {
 					strContents = firstStr + lastStr;
 					
 				} else {
-					System.out.println("==================================> NOOOOO oneM2MRequest in xsi:type");
+					//System.out.println("==================================> NOOOOO oneM2MRequest in xsi:type");
 				}
 				strContents = strContents.replaceAll("[\n\r\t]", "");   // added in 2017-11-02 to support TTA
 				strContents = strContents.replaceAll(">\\s+<", "><");

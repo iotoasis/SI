@@ -201,7 +201,7 @@ public class Tr069DMController implements DMControllerInterface {
 			HashMap<String, Object> moMap;
 			try {
 				moMap = adaptor.read(deviceId, moIds);
-				System.out.println("################ " + moMap.toString());
+				//System.out.println("################ " + moMap.toString());
 			} catch (HitDMException e) {
 				
 				throw convertHitDMExToOneM2MEx(e);
@@ -389,7 +389,7 @@ public class Tr069DMController implements DMControllerInterface {
 					evtLog.setLogTypeId( Integer.parseInt( moMap.get(MOUri.DVC_EVT_LOG_TYPE_ID).toString() ) ); 
 					evtLog.setLogData(moMap.get(MOUri.DVC_EVT_LOG_DATA).toString());
 					
-					System.out.println("################ " + moMap.toString());
+					//System.out.println("################ " + moMap.toString());
 				} catch (HitDMException e) {
 					
 					throw convertHitDMExToOneM2MEx(e);

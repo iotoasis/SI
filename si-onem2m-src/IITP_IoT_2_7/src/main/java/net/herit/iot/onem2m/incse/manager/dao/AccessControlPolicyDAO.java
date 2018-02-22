@@ -61,7 +61,7 @@ public class AccessControlPolicyDAO extends ResourceDAO implements DAOInterface 
 	@Override
 	public void create(Resource resource) throws OneM2MException {
 		
-		System.out.println("################## >>>>" + ((AccessControlPolicy)resource).getPrivileges().getAccessControlRule().get(0).getAccessControlOriginators());
+		//System.out.println("################## >>>>" + ((AccessControlPolicy)resource).getPrivileges().getAccessControlRule().get(0).getAccessControlOriginators());
 		// added in 2017-10-25
 		if(((AccessControlPolicy)resource).getExpirationTime() == null) {
 			((AccessControlPolicy)resource).setExpirationTime(CfgManager.getInstance().getDefaultExpirationTime());

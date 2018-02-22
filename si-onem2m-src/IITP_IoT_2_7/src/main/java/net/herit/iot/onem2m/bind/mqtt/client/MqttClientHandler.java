@@ -384,11 +384,11 @@ public class MqttClientHandler implements MqttCallback {
 
 		String strTopic = REQUEST_TOPIC_BASE + "/" + clientID + "/" + targetID + "/json";
 		
-		System.out.println("#####[MQTT] strTopic = " + strTopic);
+		//System.out.println("#####[MQTT] strTopic = " + strTopic);
 		
 		byte[] byteContents = MqttRequestCodec.encode(reqMessage);
 		
-		System.out.println("#####[MQTT]sendReqMessage = " + byteContents.toString());
+		//System.out.println("#####[MQTT]sendReqMessage = " + byteContents.toString());
 
 		return publish(strTopic, byteContents);
 		

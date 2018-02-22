@@ -229,7 +229,7 @@ public class ManagerFactory {
 		
 		String targetAddress = reqMessage.getTo();
 		
-		//System.out.println("#######ManagerInterface.create(): reqMessage.getTo() = " + reqMessage.getTo());
+		////System.out.println("#######ManagerInterface.create(): reqMessage.getTo() = " + reqMessage.getTo());
 		
 		// added in 2017-04-21 to support shortcut in resource uri
 		if(targetAddress.startsWith("-")) {
@@ -244,7 +244,7 @@ public class ManagerFactory {
 			String unStructResourceId = arrUriItems[0];
 			Resource res = dao.getResourceWithID(unStructResourceId);
 			if(res != null) {
-				System.out.println("######### targetAddress = " + targetAddress + ", res.getUri()=" + res.getUri() );
+				//System.out.println("######### targetAddress = " + targetAddress + ", res.getUri()=" + res.getUri() );
 				if(arrUriItems.length > 1) {			// updated in 2017-09-13
 					targetAddress = res.getUri() + targetAddress.split(unStructResourceId)[1];
 				} else {

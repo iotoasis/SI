@@ -141,7 +141,7 @@ public abstract class CongestionControlLayer extends ReliabilityLayer {
 		} else {
 			// Check of if there's space to queue a NON
 			if (getRemoteEndpoint(exchange).getNonConfirmableQueue().size() == EXCHANGELIMIT) {
-				// System.out.println("Non-confirmable exchange queue limit reached!");
+				// //System.out.println("Non-confirmable exchange queue limit reached!");
 				// TODO: Drop packet -> Notify upper layers?
 			} else {
 				getRemoteEndpoint(exchange).getNonConfirmableQueue().add(
@@ -168,7 +168,7 @@ public abstract class CongestionControlLayer extends ReliabilityLayer {
 		getRemoteEndpoint(exchange).checkForDeletedExchanges();
 		if (getRemoteEndpoint(exchange).getNumberOfOngoingExchanges(exchange) < config
 				.getInt("NSTART")) {
-			// System.out.println("Processing exchange (NSTART OK!)");
+			// //System.out.println("Processing exchange (NSTART OK!)");
 
 			// NSTART allows to start the exchange, proceed normally
 			getRemoteEndpoint(exchange).registerExchange(exchange,
@@ -183,19 +183,19 @@ public abstract class CongestionControlLayer extends ReliabilityLayer {
 		} else {
 			// NSTART does not allow any further parallel exchanges towards the
 			// remote endpoint
-			// System.out.println("Nstart does not allow further exchanges with "
+			// //System.out.println("Nstart does not allow further exchanges with "
 			// + getRemoteEndpoint(exchange).getRemoteAddress().toString());
 
 			// Check if the queue limit for exchanges is already reached
 			if (getRemoteEndpoint(exchange).getConfirmableQueue().size() == EXCHANGELIMIT) {
 				// Request cannot be queued TODO: does this trigger some
 				// feedback for other layers?
-				// System.out.println("Confirmable exchange queue limit reached! Message dropped...");
+				// //System.out.println("Confirmable exchange queue limit reached! Message dropped...");
 
 			} else {
 				// Queue exchange in the CON-Queue
 				getRemoteEndpoint(exchange).getConfirmableQueue().add(exchange);
-				// System.out.println("Added exchange to the queue (NSTART limit reached)");
+				// //System.out.println("Added exchange to the queue (NSTART limit reached)");
 			}
 		}
 		return false;
@@ -330,28 +330,28 @@ public abstract class CongestionControlLayer extends ReliabilityLayer {
 	@Override
 	protected void prepareRetransmission(Exchange exchange, RetransmissionTask task) {
 		int timeout;
-		//System.out.println("TXCount: " + exchange.getFailedTransmissionCount());
+		////System.out.println("TXCount: " + exchange.getFailedTransmissionCount());
 		if (exchange.getFailedTransmissionCount() == 0) {
 			timeout = (int)getRemoteEndpoint(exchange).getRTO();	
 			if(appliesDithering()){
 				//TODO: Workaround to force CoCoA (-Strong) not to use the same RTO after backing off several times
-				//System.out.println("Applying dithering, matching RTO");
+				////System.out.println("Applying dithering, matching RTO");
 				getRemoteEndpoint(exchange).matchCurrentRTO();
 				timeout = (int)getRemoteEndpoint(exchange).getRTO();
 				// Apply dithering by randomly choosing RTO from [RTO, RTO * 1.5]
 				float ack_random_factor = config.getFloat(NetworkConfig.Keys.ACK_RANDOM_FACTOR);
 				timeout = getRandomTimeout(timeout, (int) (timeout*ack_random_factor));
 			}
-			//System.out.println("meanrto:" + timeout + ";" + System.currentTimeMillis());
+			////System.out.println("meanrto:" + timeout + ";" + System.currentTimeMillis());
 		} else {
 				int tempTimeout= (int)(getRemoteEndpoint(exchange).getExchangeVBF(exchange) * exchange.getCurrentTimeout());
 				timeout = (tempTimeout < MAX_RTO) ? tempTimeout : MAX_RTO;
 				getRemoteEndpoint(exchange).setCurrentRTO(timeout);
-				//System.out.println("RTX");
+				////System.out.println("RTX");
 		}
 		exchange.setCurrentTimeout(timeout);
 		//expectedmaxduration = calculateMaxTransactionDuration(exchange); //FIXME what was this for?
-		//System.out.println("Sending MSG (timeout;timestamp:" + timeout + ";" + System.currentTimeMillis() + ")");
+		////System.out.println("Sending MSG (timeout;timestamp:" + timeout + ";" + System.currentTimeMillis() + ")");
 		ScheduledFuture<?> f = executor.schedule(task , timeout, TimeUnit.MILLISECONDS);
 		exchange.setRetransmissionHandle(f);	
 	}

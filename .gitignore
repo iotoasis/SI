@@ -5,3 +5,4 @@ Servers
 .metadata
 .recommenders
 .classpath
+*.bak

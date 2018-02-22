@@ -140,10 +140,10 @@ public class Utils {
 		String cseID = "/herit-cse";
 		
 		String topic = topicBase + "/" + getTopicID(aeID) + "/" + getTopicID(cseID);
-		System.out.println("topic=" + topic);
+		//System.out.println("topic=" + topic);
 		
 		String[] oneM2mIDs = getOneM2mIDsFromTopic(topic, topicBase);
-		System.out.println(oneM2mIDs[0] + ", " + oneM2mIDs[1]);
+		//System.out.println(oneM2mIDs[0] + ", " + oneM2mIDs[1]);
 		
 	}
 	

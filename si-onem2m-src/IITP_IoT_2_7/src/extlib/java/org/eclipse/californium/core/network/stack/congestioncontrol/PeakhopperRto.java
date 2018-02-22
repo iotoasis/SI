@@ -83,7 +83,7 @@ public class PeakhopperRto extends CongestionControlLayer {
 			return;
 		}
 
-		//System.out.println("Measured RTT:" + measuredRTT);
+		////System.out.println("Measured RTT:" + measuredRTT);
 
 		endpoint.matchCurrentRTO();
 		if (endpoint.isBlindStrong() && rtoType == STRONGRTOTYPE) {

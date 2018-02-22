@@ -36,7 +36,7 @@ public class MongoPool {
 		if(serverAddr == null) serverAddr = "localhost";
 		
 		if(serverPort <= 0 || databaseName == null) {
-			System.out.println("Database Server port or database name invalid..");
+			//System.out.println("Database Server port or database name invalid..");
 			return false;
 		}
 		
