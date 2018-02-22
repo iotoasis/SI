@@ -3,15 +3,25 @@
 
 ## Oasis SI oneM2M Server
 
-SI oneM2M Server는  IoT 국제표준인 oneM2M 기반의 디바이스 및 애플리케이션 연동을 지원하는 서버 프레임워크(IN-CSE)입니다. SI oneM2M Server 소스를 활용하여 oneM2M 기반의 디바이스 및 애플리케이션 연동 서버를 구축할 수 있습니다. 또한 oneM2M 코어 소스를 활용하여 AE, MN-CSE 등 다양한 oneM2M 컴포넌트를 개발할 수 있습니다.
+SI oneM2M Server is a server framework (IN-CSE) that supports interworking of devices and applications based on oneM2M, IoT international standard. Using SI oneM2M Server source code, you can build oneM2M-based device and application interworking server, and you can develop various oneM2M components such as AE, MN-CSE using oneM2M core source code.
+
+This is IoT core infrastructure for various application services through the connection with SO & SDA platform as an IoT server platform supports various Bindings, IN-CSE Capability functions, DM server function for device management and interworking with heterogeneous IoT platform such as OIC/LWM2M/Fi-WARE based on oneM2M Release 2
+
+
 
  - Feature
-   - oneM2M IN-CSE 서비스 Capabilities 기능 지원
-   - HTTP, CoAP, MQTT 바인딩 기능 지원
-   - oneM2M Mca, Mcc, Mcc' 레퍼런스 포인트 지원
-   - SO, SDA 연동 기능 지원
-   - MongoDB 기반의 리소스 데이터 관리
-
+   - IN-CSE functions based on oneM2M Release 2.0
+   -	Resource processing based on Release 2.0(TS-0004 2.7)
+   -	Supports Mca, Mcc, Mca' reference points
+   -	IN-CSE functions : Registration, Data Management Repository, Sub. & Notification, Discovery etc.
+   -	Protocol Bindings : HTTP, MQTT, CoAP, WebSocket
+   -	Serialization : XML, JSON, CBOR
+   -	Address format : CSE-relative/SP-relative/Absolute  , Hierarchical/Non-Hierarchical Addressing
+   -	Semantic Descriptor support
+   -	Interworking IPE function : OIC(OCF), LWM2M
+   -	Device Management  : mgmtObj, mgmtCmd 
+   -	Security : TLS, Creator default ACP, Basic Authentication
+   -	Resource data management based on MongoDB
 
 
 
@@ -29,19 +39,19 @@ SI oneM2M Server는  IoT 국제표준인 oneM2M 기반의 디바이스 및 애�
 
 
 ## Modules
-SI oneM2M Server를 시험하기 위한 디바이스 및 애플리케이션 애뮬레이터를 이용하여 테스트 할 수 있습니다.
+Applications you can try to test for SI oneM2M Server.
 
-- **DM Web Server** : Device를 제어하기 위한 웹 모듈
+- **DM Web Server** : The web module for device control.
   - **Source Path** : /si-modules/DM_Web_Server
   - **User Guide** : /si-user-guide/DM_Web_Server
   - **DB query script** : /si-onem2m-res
   
-- **LWM2M DM/IPE** : LWM2M Device 관리 및 IPE Server를 통한 SI Server와 인터워킹이 가능한 모듈
+- **LWM2M DM/IPE** : The module support management of LwM2M devices and interworking with SI oneM2M Server through IPE Server.
   - **Source Path1** : /si-modules/LWM2M_IPE_Server
   - **Source Path2** : /si-modules/LWM2M_IPE_Client
   - **User Guide** : /si-user-guide/LWM2M_DM_IPE
   
-- **OIC IPE** : OIC 기반 Device Handling 및 IPE 를 통한 SI Server와 인터워킹이 가능한 모듈
+- **OIC IPE** : The module based on OIC that support Device Handling and interworking with SI oneM2M Server through IPE Server.
   - **Source Path1** : /si-modules/OIC-IPE
   - **Source Path2** : /si-modules/OIC-IPE-Client
   - **User Guide** : /si-user-guide/OIC_IPE
