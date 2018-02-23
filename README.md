@@ -32,8 +32,10 @@ This is IoT core infrastructure for various application services through the con
 
 
 ## Documents
- - SI Server User Guide
-     https://github.com/iotoasis/SI/tree/master/si-user-guide/SI_Server
+ - SI oneM2M Server User Guide(Eng)
+     https://github.com/iotoasis/SI/tree/master/si-user-guide/SI_oneM2M_Server/SI_oneM2M_Server_Manual_v1.0.docx
+ - SI oneM2M 서버 사용자 설명서(Kor)
+     https://github.com/iotoasis/SI/tree/master/si-user-guide/SI_oneM2M_Server/SI_oneM2M_서버_메뉴얼_v1.0.docx
 
 
 
@@ -60,7 +62,7 @@ Applications you can try to test for SI oneM2M Server.
 
 
 ## Q&A
- - [IoT Oasis Q&A -- Coming soon]
+ - [IoT Oasis Q&A]
 
 
 
