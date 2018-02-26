@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="LEDs off/on"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:textSize="18dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Red"
+        android:id="@+id/textView6"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20dp"
+        android:textColor="#FF0000" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="off"
+        android:id="@+id/switch_led_p_red"
+        android:layout_gravity="center_horizontal"
+        android:checked="false"
+        android:textSize="18dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Green"
+        android:id="@+id/textView7"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#00FF00"
+        android:textSize="20dp" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="off"
+        android:id="@+id/switch_led_p_green"
+        android:layout_gravity="center_horizontal"
+        android:checked="false"
+        android:textSize="18dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blue"
+        android:id="@+id/textView8"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20dp"
+        android:textColor="#0000FF" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="off"
+        android:id="@+id/switch_led_p_blue"
+        android:layout_gravity="center_horizontal"
+        android:checked="false"
+        android:textSize="18dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:id="@+id/button_led_p_back"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

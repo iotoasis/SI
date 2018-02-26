@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">OIC/IPE</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="buzzer_a_tone_array">
+        <item>1915</item>
+        <item>1700</item>
+        <item>1519</item>
+        <item>1432</item>
+        <item>1275</item>
+        <item>1136</item>
+        <item>1014</item>
+        <item>956</item>
+    </string-array>
+</resources>

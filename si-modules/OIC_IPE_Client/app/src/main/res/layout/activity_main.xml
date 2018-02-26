@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/bg">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width= "match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#666"
+            android:text="Service Application"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width= "match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="oneM2M"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:textStyle="bold|italic"/>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="0dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:gravity="bottom" >
+
+            <Button
+                android:id="@+id/main_btn_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Device Discovery"
+                android:background="@drawable/custom_btn_sorbus"
+                style="@style/btnStylesorbus"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="0dp"
+                android:onClick="onClick"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
