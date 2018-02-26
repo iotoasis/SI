@@ -33,9 +33,9 @@ This is IoT core infrastructure for various application services through the con
 
 ## Documents
  - SI oneM2M Server User Guide(Eng)
-     https://github.com/iotoasis/SI/tree/master/si-user-guide/SI_oneM2M_Server/SI_oneM2M_Server_Manual_v1.0.docx
+     https://github.com/iotoasis/SI/tree/master/si-user-guide/SI_oneM2M_Server/SI_oneM2M_Server_Manual_v1.0.pdf
  - SI oneM2M 서버 사용자 설명서(Kor)
-     https://github.com/iotoasis/SI/tree/master/si-user-guide/SI_oneM2M_Server/SI_oneM2M_서버_메뉴얼_v1.0.docx
+     https://github.com/iotoasis/SI/tree/master/si-user-guide/SI_oneM2M_Server/SI_oneM2M_서버_메뉴얼_v1.0.pdf
 
 
 
