@@ -30,10 +30,15 @@ public class Onem2mConnector implements Runnable{
 			Thread tSubscribe = new Thread(rSubscribe);
 			tSubscribe.start();
 
-			System.out.println("## Start report.");
-			Runnable rReport = new TReport(vo);
-			Thread tReport = new Thread(rReport);
-			tReport.start();
+			System.out.println("## Start report-slow.");
+			Runnable rReportSlow = new TReport(vo, "slow");
+			Thread tReportSlow = new Thread(rReportSlow);
+			tReportSlow.start();
+			
+			System.out.println("## Start report-fast.");
+			Runnable rReportFast = new TReport(vo, "fast");
+			Thread tReportFast = new Thread(rReportFast);
+			tReportFast.start();
         }
 		
 		

@@ -37,7 +37,8 @@ public class Lwm2mServerConfig {
 	private int ipePortNormal = 0;
 	private int ipePortSecure = 0;
 	private int ipePortWeb = 0;
-	private int reportInterval = 30;
+	private int reportIntervalShort = 1;
+	private int reportIntervalLong = 10;
 	
 	// debug log
 	private boolean debug = false;	
@@ -87,7 +88,8 @@ public class Lwm2mServerConfig {
 			ipePortNormal = xmlConfig.getInt("ipe.port.normal");
 			ipePortSecure = xmlConfig.getInt("ipe.port.secure");
 			ipePortWeb = xmlConfig.getInt("ipe.port.web");
-			reportInterval = xmlConfig.getInt("ipe.report.interval") * 1000;
+			reportIntervalShort = xmlConfig.getInt("ipe.report.interval-short") * 1000;
+			reportIntervalLong = xmlConfig.getInt("ipe.report.interval-long") * 1000;
 			
 			// debug log
 			debug = xmlConfig.getString("log.debug").equals("yes");
@@ -188,8 +190,12 @@ public class Lwm2mServerConfig {
 		return debug;
 	}
 
-	public int getReportInterval() {
-		return reportInterval;
+	public int getReportIntervalShort() {
+		return reportIntervalShort;
+	}
+
+	public int getReportIntervalLong() {
+		return reportIntervalLong;
 	}
 
 	public boolean isSiAuthUse() {

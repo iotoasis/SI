@@ -26,15 +26,15 @@
 	</si>
 
 	<dm>
-		<use>yes</use>									<!-- 'yes' or 'no' -->
+		<use>no</use>									<!-- 'yes' or 'no' -->
 		<web>
-			<ip>10.10.224.240</ip>
+			<ip>10.10.0.23</ip>
 			<port>8089</port>
 		</web>
 	</dm>
 	
 	<ipe>
-		<use>no</use>									<!-- 'yes' or 'no' -->
+		<use>yes</use>									<!-- 'yes' or 'no' -->
 		<ip>10.10.0.23</ip>
 		<port>
 			<normal>5683</normal>
@@ -42,7 +42,8 @@
 			<web>8085</web>
 		</port>
 		<report>
-			<interval>10</interval>						<!-- unit : seconds -->
+			<interval-short>1</interval-short>						<!-- unit : seconds -->
+			<interval-long>10</interval-long>						<!-- unit : seconds -->
 		</report>
 	</ipe>
 	

@@ -112,7 +112,7 @@ public class Util {
 	
 	
 	// pcu 결과 xml에서 con값 가져오기
-	public static String getValueFromXml( String xml, String path ) {
+	public static String getValue( String xml, String path ) {
         Node node = null;
         String make_xml = combineString(xml.substring(0,xml.indexOf(">")+1),"<root>",xml.substring(xml.indexOf(">")+1),"</root>");
         try {
@@ -160,7 +160,4 @@ public class Util {
 		}
 		return result;
 	}
-	
-	
-
 }

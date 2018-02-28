@@ -1,6 +1,7 @@
 package org.eclipse.leshan.server.extension.onem2m.handler;
 
 import java.net.HttpURLConnection;
+import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,9 +77,28 @@ public class Onem2mOperator {
 		
 		return result;
 	}
+	// Container 생성
+	public boolean createContainer(StringBuffer resUri, String[] resource){
+		
+		boolean result = false;
+		StringBuffer sbUri = new StringBuffer(Lwm2mServerConfig.getInstance().getSiUri()).append("/").append(Constants.BASIC_AE_NAME);
+		sbUri.append(resUri);
+		
+		Container cnt = new Container();
+		cnt.setRn(resource[1]);
+		cnt.addLbl(resource[3]);
+		
+		HttpURLConnection conn = httpOperator.sendPost(sbUri.toString(), cnt.getJSON(), headerMaker.getResourceCreationHeader(Constants.CONTAINER));
+		JSONObject response = httpOperator.getResponse(conn);
+		if( !response.has("RESPONSE-CODE") ){
+			result = true;
+		}
+		
+		return result;
+	}
 	
 	// contentInstance 생성
-	public boolean createContentInstance(String resourceName, JSONObject item) throws JSONException{
+	public boolean createContentInstance(String resourceName, JSONObject item) throws JSONException {
 		
 		boolean result = false;
 		StringBuffer sbUri = new StringBuffer(Lwm2mServerConfig.getInstance().getSiUri()).append("/").append(Constants.BASIC_AE_NAME);
@@ -130,6 +150,11 @@ public class Onem2mOperator {
 		Subscription sub = new Subscription();
 		sub.resetNu();
 		sub.setRn(resourceName);
+		// enc 설정
+		int[] netValue = {1,2,3,4};
+		HashMap<String, Object> net = new HashMap<String, Object>();
+		net.put("net", netValue);
+		sub.setEnc(net);
 		sub.addNu(Util.makeUrl(Lwm2mServerConfig.getInstance().getSiUri(), Constants.BASIC_AE_NAME, pchName, "pcu"));
 		
 		HttpURLConnection conn = httpOperator.sendPost(sbUri.toString(), sub.getJSON(), headerMaker.getResourceCreationHeader(Constants.SUBSCRIPTION));
@@ -185,13 +210,12 @@ public class Onem2mOperator {
 		for(int i=0; i<Constants.RESOURCE.length; i++){
 			
 			StringBuffer resUri = new StringBuffer();
-			createContainer(resUri, Constants.RESOURCE[i][1]);
+			createContainer(resUri, Constants.RESOURCE[i]);
 			
 			resUri.append("/").append(Constants.RESOURCE[i][1]);
 			StringBuffer sbUri = new StringBuffer();
 			
 			if(Constants.RESOURCE[i][0].equals("control")){
-				
 				createContainer(resUri, Constants.CONTAINER_NAME_CONTROL);
 				createContainer(resUri, Constants.CONTAINER_NAME_RESULT);
 
@@ -203,8 +227,7 @@ public class Onem2mOperator {
 				sbUri.append("/").append(Constants.CONTAINER_NAME_RESULT);
 				createSubscription(sbUri, "sub_"+Constants.RESOURCE[i][1]+"_"+Constants.CONTAINER_NAME_RESULT, "pch_svc");
 				
-			} else if(Constants.RESOURCE[i][0].equals("report")) {
-				
+			} else if(Constants.RESOURCE[i][0].startsWith("report")) {
 				createContainer(resUri, Constants.CONTAINER_NAME_STATUS);				
 				sbUri = new StringBuffer(resUri);
 				sbUri.append("/").append(Constants.CONTAINER_NAME_STATUS);

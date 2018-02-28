@@ -34,6 +34,7 @@ public class Subscription extends Resource {
 	            }
 	            body.put("nu", nu);
         	}
+        	body.put("enc", getEnc());
         	body.put("rn", getRn());
             body.put("et", getEt());
 

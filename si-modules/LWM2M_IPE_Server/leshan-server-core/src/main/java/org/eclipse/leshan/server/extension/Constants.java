@@ -40,14 +40,14 @@ public class Constants {
     
     // LWM2M Resource(new) 2017.11.03
     public static final String[][] RESOURCE = {
-    	{"info","Model_number","/3/0/1"},
-    	{"info","Package_uri","/5/0/1"},
-    	{"report","Humidity","/1024/10/1"},
-    	{"report","Temperature","/1024/10/3"},
-    	{"report","Distance","/1024/11/3"},
-    	{"control","Reboot","/3/0/4"},
-    	{"control","LEDPower","/1024/12/1"},
-    	{"control","SoundPower","/1024/12/3"}
+    	{"info",			"Model_number",		"/3/0/1",		"none"		},
+    	{"info",			"Package_uri",		"/5/0/1",		"none"		},
+    	{"report-slow",		"Humidity",			"/1024/10/1",	"support"	},
+    	{"report-slow",		"Temperature",		"/1024/10/3",	"support"	},
+    	{"report-fast",		"Distance",			"/1024/11/3",	"support"	},
+    	{"control",			"Reboot",			"/3/0/4",		"none"		},
+    	{"control",			"LEDPower",			"/1024/12/1",	"support"	},
+    	{"control",			"SoundPower",		"/1024/12/3",	"support"	}
     };
     
     

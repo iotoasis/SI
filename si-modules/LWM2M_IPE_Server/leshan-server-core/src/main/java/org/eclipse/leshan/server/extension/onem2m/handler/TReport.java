@@ -14,8 +14,10 @@ import org.json.JSONObject;
 public class TReport extends TimerTask implements Runnable{
 	
 	private Lwm2mVO vo = null;
-	public TReport(Lwm2mVO vo){
+	private String type = null;
+	public TReport(Lwm2mVO vo, String type){
 		this.vo = vo;
+		this.type = type;
 	}
 	
 	private HttpOperator httpOperator = new HttpOperator();
@@ -33,7 +35,7 @@ public class TReport extends TimerTask implements Runnable{
 		for(int i=0; i<Constants.RESOURCE.length; i++){
 			
 			try {
-				if(Constants.RESOURCE[i][0].equals("report")){
+				if(Constants.RESOURCE[i][0].equals("report-"+type)){
 					StringBuffer sbUri = new StringBuffer(baseUri);
 					sbUri.append(Constants.RESOURCE[i][2]);
 					
@@ -53,9 +55,9 @@ public class TReport extends TimerTask implements Runnable{
 			}
 		}
 		
-		TimerTask tReportTask = new TReport(vo);
+		TimerTask tReportTask = new TReport(vo, type);
 		Timer tReport = new Timer();
-		tReport.schedule(tReportTask, Lwm2mServerConfig.getInstance().getReportInterval());
+		tReport.schedule(tReportTask, type.equals("fast")?Lwm2mServerConfig.getInstance().getReportIntervalShort():Lwm2mServerConfig.getInstance().getReportIntervalLong());
 	}
 
 }

@@ -28,13 +28,13 @@ public class DmConnector implements Runnable{
 		// string url
 		StringBuffer strUrl = new StringBuffer("http://");
 		strUrl.append(Lwm2mServerConfig.getInstance().getDmIp()).append(":");
-		strUrl.append(Lwm2mServerConfig.getInstance().getDmPort()).append("/hdm/lwm2m/connect.do");
+		strUrl.append(Lwm2mServerConfig.getInstance().getDmPort()).append("/hdm/lwm2m/conn.do");
 		
 		// connect
 		try {
 			token = tokenization.makeDmToken(vo, "connect");
 			conn = httpOperator.sendPost(strUrl.toString(), token);
-			String response = httpOperator.getResponseString(conn);
+			JSONObject response = httpOperator.getResponse(conn);
 			System.out.println(response);
 			
 		} catch (JSONException e) {
