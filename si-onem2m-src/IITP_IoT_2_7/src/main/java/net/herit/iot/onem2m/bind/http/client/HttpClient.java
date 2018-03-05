@@ -87,7 +87,7 @@ public final class HttpClient {
 		if (group != null) {
 			group.shutdownGracefully();
 			
-			log.debug("========== shutdownGracefully =============");
+			log.debug("########### shutdownGracefully ###########");
 		} else {
 			log.error("group is null");
 		}
@@ -331,7 +331,7 @@ public final class HttpClient {
 		try {
 			ChannelFuture channelFuture = process(url, reqMessage);
 			
-			if (channelFuture == null) //System.out.println("dddchannelFuture is null..");
+			if (channelFuture == null) System.out.println("dddchannelFuture is null..");
 			
 			synchronized(channelFuture) {
 				log.debug("START: wait for channelFuture notification!!! {}", channelFuture);
@@ -436,11 +436,11 @@ public final class HttpClient {
 
 //		client.sendAsyncRequest(null, "http://116.124.171.107:8088/monitor.do", reqMessage);
 		OneM2mResponse response = client.sendRequest("http://166.104.112.34:8080", reqMessage);
-		//System.out.println(response.toString());
+		System.out.println(response.toString());
 		
 //		OneM2mResponse resMessage = client.process("http://10.101.101.107:8088/monitor.do", reqMessage);
 
 //		OneM2mResponse resMessage = client.processRequest(reqMessage);
-//		//System.out.println(resMessage.toString());
+//		System.out.println(resMessage.toString());
 	}
 }

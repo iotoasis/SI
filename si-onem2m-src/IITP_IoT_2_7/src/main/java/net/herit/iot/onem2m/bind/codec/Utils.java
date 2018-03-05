@@ -50,7 +50,7 @@ public class Utils {
 		
 		int indx = url.indexOf("?");
 		
-		////System.out.println("URL: " + url);
+		//System.out.println("URL: " + url);
 		if (indx == -1) {
 			if (url.startsWith("http:")) url = url.substring(5);
 			else if (url.startsWith("https:")) url = url.substring(6);
@@ -573,6 +573,6 @@ public class Utils {
 	
 	public static void main(String[] args) {
 		String m = "~herit-in";
-		//System.out.println(m.substring(1));
+		System.out.println(m.substring(1));
 	}
 }

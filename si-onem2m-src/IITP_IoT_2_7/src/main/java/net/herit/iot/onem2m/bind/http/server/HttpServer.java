@@ -56,7 +56,7 @@ public final class HttpServer {
 		}
 	}
 
-	private static int backLog = 1024;
+	private static int backLog = 2048;
 	private boolean ssl = false;
 	private int port = 8080;
 	private SslContext sslCtx = null; 
@@ -141,9 +141,10 @@ public final class HttpServer {
 				bootstrap.option(ChannelOption.SO_REUSEADDR, true);
 				// 2017.04.18
 				//bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
-				//bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 360 * 1000);
+				bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3 * 1000);
 				//bootstrap.option(ChannelOption.SO_RCVBUF, 1048576);
 				//bootstrap.option(ChannelOption.SO_SNDBUF, 1048576);
+				//bootstrap.option(ChannelOption.SO_TIMEOUT, 3 * 1000);	// added in 2018-02-12	
 				bootstrap.option(ChannelOption.TCP_NODELAY, true);
 				
 				// 2016.02.05 added..
@@ -181,11 +182,13 @@ public final class HttpServer {
 			bootstrap.option(ChannelOption.SO_REUSEADDR, true);
 			
 			// 2017.04.18
-			//bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 360 * 1000);
+			bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3 * 1000);
 			//bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
 			
 			//bootstrap.option(ChannelOption.SO_RCVBUF, 1048576);
 			//bootstrap.option(ChannelOption.SO_SNDBUF, 1048576);
+			//bootstrap.option(ChannelOption.SO_TIMEOUT, 3 * 1000);	// added in 2018-02-12
+			
 			bootstrap.option(ChannelOption.TCP_NODELAY, true);
 			
 			

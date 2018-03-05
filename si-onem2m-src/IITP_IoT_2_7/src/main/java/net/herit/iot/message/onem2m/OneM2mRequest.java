@@ -624,7 +624,7 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 //	}
 	
 	public List<CONTENT_TYPE> getAcceptTypes() {
-//		//System.out.println("Content-Type=" + this.contentType);
+//		System.out.println("Content-Type=" + this.contentType);
 		if(this.acceptTypes == null || this.acceptTypes.size() == 0) {
 			if(this.contentType != null && this.contentType != CONTENT_TYPE.NONE) {	 // 2015.09.14 added.
 //				this.acceptTypes.add(contentType);
@@ -880,7 +880,7 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 		protected String serviceProviderId;					// "//iot.herit.net"
 		protected String originIp;			// ipv4 or ipv6 added in 2017-08-25
 		public Originator(String structuredId, String unstructuredId, String serviceProviderId, String originIp) {
-		//	//System.out.println("structuredId=" + structuredId + ", unstructuredId=" + unstructuredId + ", serviceProviderId=" + serviceProviderId);
+		//	System.out.println("structuredId=" + structuredId + ", unstructuredId=" + unstructuredId + ", serviceProviderId=" + serviceProviderId);
 			this.structuredId = structuredId;
 			this.unstructuredId = unstructuredId;
 			this.serviceProviderId = serviceProviderId;
@@ -888,7 +888,7 @@ public class OneM2mRequest extends RequestPrimitive { //extends AbsMessage {
 		}
 		
 		public Originator(String structuredId, String unstructuredId, String serviceProviderId) {
-		//	//System.out.println("structuredId=" + structuredId + ", unstructuredId=" + unstructuredId + ", serviceProviderId=" + serviceProviderId);
+		//	System.out.println("structuredId=" + structuredId + ", unstructuredId=" + unstructuredId + ", serviceProviderId=" + serviceProviderId);
 			this.structuredId = structuredId;
 			this.unstructuredId = unstructuredId;
 			this.serviceProviderId = serviceProviderId;

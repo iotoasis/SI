@@ -121,10 +121,12 @@ public class RestCommandController {
 			doc.append("data", command.getContent());
 			String json = doc.toJson();
 			//String json = "{ \"exec_id\": \""+commandId+"\", \"data\": \""+command.getContent()+"\"}";
-
-			ci.setContent(Base64.encode(json.getBytes()));	// updated at 2017-05-12
-			//ci.setContent(command.getContent());			// updated at 2016-09-30
 			
+			String encodedStr = Base64.encode(json.getBytes());
+			encodedStr = encodedStr.replaceAll("(\r\n|\n)", "");
+			ci.setContent(encodedStr);		// added in 2017-12-12
+			//ci.setContent(Base64.encode(json.getBytes()));	// blocked at 2017-05-12
+			//ci.setContent(command.getContent());			// updated at 2016-09-30
 			AbsSerializer serializer = AbsSerializer.getSerializer(CONTENT_TYPE.JSON);			
 			byte[] content = serializer.serialize(ci).getBytes();
 			
@@ -186,7 +188,8 @@ public class RestCommandController {
 			AbsSerializer serializer = AbsSerializer.getSerializer(CONTENT_TYPE.JSON);			
 			byte[] content = serializer.serialize(ci).getBytes();
 			
-			reqMessage.setTo(command.getUri()+"/"+command.getCommand()+"/write");
+			//reqMessage.setTo(command.getUri()+"/"+command.getCommand()+"/write");		// blocked in 2018-01-15
+			reqMessage.setTo(command.getUri()+"/"+command.getCommand()+"/execute");		// added in 2018-01-15	
 			reqMessage.setFrom("C-AE-Internal");
 			reqMessage.setContent(content);
 			reqMessage.setOperation(OPERATION.CREATE);		
@@ -902,12 +905,12 @@ public class RestCommandController {
 		String json1 = doc.toJson();
 		String json2 = "{ \"exec_id\": \"commandid\", \"data\": \"{\"actionType\":\"testAlarm\",\"user_id\":\"u00002\",\"alarm_id\":\"1\"}\"}";
 		String json3 = "{ \"exec_id\": \"commandid\", \"data\": \"{\\\"actionType\\\":\\\"testAlarm\\\",\\\"user_id\\\":\\\"u00002\\\",\\\"alarm_id\\\":\\\"1\\\"}\"}";
-		//System.out.println(json1);
-		//System.out.println(Base64.encode(json1.getBytes()));
-		//System.out.println(json2);
-		//System.out.println(Base64.encode(json2.getBytes()));
-		//System.out.println(json3);
-		//System.out.println(Base64.encode(json3.getBytes()));
+		System.out.println(json1);
+		System.out.println(Base64.encode(json1.getBytes()));
+		System.out.println(json2);
+		System.out.println(Base64.encode(json2.getBytes()));
+		System.out.println(json3);
+		System.out.println(Base64.encode(json3.getBytes()));
 		
 	}
 

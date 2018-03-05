@@ -32,14 +32,14 @@ public class BasicRto extends CongestionControlLayer {
 	protected void updateEstimator(long measuredRTT, int estimatorType, RemoteEndpoint endpoint){
 		// Use last RTT measurement, which is then multiplied by a static factor (dithering)
 		long newRTO =  measuredRTT; //; (long) (measuredRTT * 1.5);
-		////System.out.println("Basic RTO: " + measuredRTT );
+		//System.out.println("Basic RTO: " + measuredRTT );
 			
 		endpoint.updateRTO(newRTO);
 	}	
 	
 	@Override
 	public void processRTTmeasurement(long measuredRTT, Exchange exchange, int retransmissionCount){		
-		////System.out.println("Measured an RTT of " + measuredRTT + " after using " + retransmissionCount + " retries." );
+		//System.out.println("Measured an RTT of " + measuredRTT + " after using " + retransmissionCount + " retries." );
 		RemoteEndpoint endpoint = getRemoteEndpoint(exchange);
 		int rtoType = endpoint.getExchangeEstimatorState(exchange);
 		

@@ -240,10 +240,10 @@ public class HCoapServer extends CoapServer {
 			// respond to the request
 			//try { Thread.sleep(2000); } catch(Exception e) {} 
 			
-//			//System.out.println("RequestCode=" + exchange.getRequestCode());
-//			//System.out.println("RequestPayload=" +exchange.getRequestPayload());
-//			//System.out.println("Options=" + exchange.getRequestOptions());
-//			//System.out.println("UriPath=" + exchange.getRequestOptions().getUriPathString());
+//			System.out.println("RequestCode=" + exchange.getRequestCode());
+//			System.out.println("RequestPayload=" +exchange.getRequestPayload());
+//			System.out.println("Options=" + exchange.getRequestOptions());
+//			System.out.println("UriPath=" + exchange.getRequestOptions().getUriPathString());
 			
 //			exchange.respond("Hello World!");
 			

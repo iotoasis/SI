@@ -64,7 +64,7 @@ import org.eclipse.californium.core.network.EndpointManager;
  * request.addMessageObserver(new MessageObserverAdapter() {
  *   public void responded(Response response) {
  *     if (response.getCode() == ResponseCode.CONTENT) {
- *       //System.out.println(&quot;Received &quot; + response.getPayloadString());
+ *       System.out.println(&quot;Received &quot; + response.getPayloadString());
  *     } else {
  *       // error handling
  *     }

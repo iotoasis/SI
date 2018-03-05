@@ -91,7 +91,7 @@ public class Utils {
 	
 	        StringBuilder sb = new StringBuilder();
 	        
-	        sb.append("==[ CoAP Request ]=============================================\n");
+	        sb.append("##[ CoAP Request ]##############################################\n");
 	        sb.append(String.format("MID    : %d\n", r.getMID()));
 	        sb.append(String.format("Token  : %s\n", r.getTokenString()));
 	        sb.append(String.format("Type   : %s\n", r.getType().toString()));
@@ -102,7 +102,7 @@ public class Utils {
 	        	sb.append("---------------------------------------------------------------");
 	        	sb.append(r.getPayloadString());
 	        }
-	        sb.append("===============================================================");
+	        sb.append("############################################################");
 	
 	        return sb.toString();
 	}
@@ -127,7 +127,7 @@ public class Utils {
 	
 	        StringBuilder sb = new StringBuilder();
 	        
-	        sb.append("==[ CoAP Response ]============================================\n");
+	        sb.append("##[ CoAP Response ]##############################################\n");
 	        sb.append(String.format("MID    : %d\n", r.getMID()));
 	        sb.append(String.format("Token  : %s\n", r.getTokenString()));
 	        sb.append(String.format("Type   : %s\n", r.getType().toString()));
@@ -139,7 +139,7 @@ public class Utils {
 	        	sb.append(r.getPayloadString());
 	        	sb.append("\n");
 	        }
-	        sb.append("===============================================================");
+	        sb.append("#################################################################");
 	
 	        return sb.toString();
 	}

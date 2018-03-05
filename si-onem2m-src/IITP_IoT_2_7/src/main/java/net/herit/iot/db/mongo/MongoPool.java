@@ -2,6 +2,7 @@ package net.herit.iot.db.mongo;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
@@ -14,6 +15,8 @@ import com.mongodb.client.MongoDatabase;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.bson.Document;
 
 public class MongoPool {
 	private final static MongoPool INSTANCE = new MongoPool();
@@ -36,7 +39,7 @@ public class MongoPool {
 		if(serverAddr == null) serverAddr = "localhost";
 		
 		if(serverPort <= 0 || databaseName == null) {
-			//System.out.println("Database Server port or database name invalid..");
+			System.out.println("Database Server port or database name invalid..");
 			return false;
 		}
 		
@@ -53,17 +56,19 @@ public class MongoPool {
 			mongoClient = new MongoClient(new ServerAddress(serverAddr, serverPort), Arrays.asList(credential));
 			
 		} else {
-			///mongoClient = new MongoClient(serverAddr, serverPort);
+		//	mongoClient = new MongoClient(serverAddr, serverPort);
 			MongoClientOptions options = new MongoClientOptions.Builder()
-			.connectionsPerHost(128)
-			.minConnectionsPerHost(64)
-			.maxWaitTime(1500)
+			.threadsAllowedToBlockForConnectionMultiplier(20)
+			.maxConnectionIdleTime(60000)
+			.connectionsPerHost(512)
+		//	.minConnectionsPerHost(64)
+			.build();
 		//	.socketTimeout(180000)
 		//	.socketKeepAlive(true)
 			//.writeConcern(WriteConcern.SAFE)
-			.connectTimeout(1000).build();	
+			//.connectTimeout(1000).build();	
 			
-			mongoClient = new MongoClient(serverAddr + ":" + serverPort, options);
+			mongoClient = new MongoClient(serverAddr + ":" + serverPort, options); 
 	
 			//MongoClientURI  uri = new MongoClientURI("mongodb://" + serverAddr + ":" + serverPort + "/?minPoolSize=100&maxPoolSize=200");
 			//mongoClient = new MongoClient(uri);
@@ -78,6 +83,14 @@ public class MongoPool {
 
 	public MongoDatabase getDatabase() {
 		return mongoClient.getDatabase(databaseName);
+	}
+	
+	public int getCurrConnection() {
+		MongoDatabase db = mongoClient.getDatabase("admin");
+		Document serverStatus = db.runCommand(new Document("serverStatus", 1));
+		Map connMap = (Map)serverStatus.get("connections");
+		
+		return (Integer)connMap.get("current");
 	}
 	
 }

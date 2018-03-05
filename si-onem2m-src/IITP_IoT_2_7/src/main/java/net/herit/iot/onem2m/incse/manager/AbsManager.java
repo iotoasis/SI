@@ -13,6 +13,7 @@ import net.herit.iot.message.onem2m.OneM2mRequest.OPERATION;
 import net.herit.iot.message.onem2m.OneM2mRequest.RESOURCE_TYPE;
 import net.herit.iot.message.onem2m.OneM2mResponse.RESPONSE_STATUS;
 import net.herit.iot.onem2m.core.util.OneM2MException;
+import net.herit.iot.onem2m.incse.facility.CfgManager;
 import net.herit.iot.onem2m.incse.facility.OneM2mUtil;
 import net.herit.iot.onem2m.incse.manager.dao.AccessControlPolicyDAO;
 import net.herit.iot.onem2m.resource.ChildResourceRef;
@@ -72,6 +73,9 @@ public abstract class AbsManager extends Manager implements ManagerInterface {
 	
 	@Override
 	public boolean checkAccessControlPolicy(OneM2mRequest req, OPERATION op, Resource res, Resource parent) throws OneM2MException {
+		
+		if(!CfgManager.getInstance().getOptionsTTA()) return true;		// added in 2018-02-07 
+		
 		if (op == OPERATION.CREATE) {
 			return OneM2mUtil.checkAccessControlPolicy(req, op, OneM2mUtil.extractAccessControlPolicies(parent,context));
 		} else {

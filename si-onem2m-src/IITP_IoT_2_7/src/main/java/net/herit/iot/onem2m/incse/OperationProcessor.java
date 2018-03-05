@@ -296,7 +296,7 @@ public class OperationProcessor {
 			log.debug("to={}", to);
 			String cseId = OneM2mUtil.extractCseIdFromSPResId(to);
 			
-			////System.out.println("##################################### cseId = " + cseId + ", CfgManager.getInstance().getCSEBaseCid() = " + CfgManager.getInstance().getCSEBaseCid());
+			//System.out.println("##################################### cseId = " + cseId + ", CfgManager.getInstance().getCSEBaseCid() = " + CfgManager.getInstance().getCSEBaseCid());
 			
 			if (cseId.equals(CfgManager.getInstance().getCSEBaseCid()) || cseId.equals("/"+CfgManager.getInstance().getCSEBaseName())) {
 				return null;
@@ -310,7 +310,6 @@ public class OperationProcessor {
 				}
 				
 				String poa = cse.getPointOfAccess().get(0);
-				//if (poa.substring(poa.length()-1, poa.length()-1) == "/") {
 				if (poa.substring(poa.length()-1, poa.length()-1).equals("/")) {
 					poa = poa.substring(0, poa.length()-2);
 				}

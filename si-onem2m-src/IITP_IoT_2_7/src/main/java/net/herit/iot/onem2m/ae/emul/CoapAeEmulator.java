@@ -51,11 +51,11 @@ public class CoapAeEmulator {
 			req.setPrimitiveContent(pCont);
 */			
 			OneM2mResponse resMessage = client.process(req);
-			//System.out.println("ResponseCode=" + resMessage.getResponseStatusCode());
-			//System.out.println(resMessage.toString());
+			System.out.println("ResponseCode=" + resMessage.getResponseStatusCode());
+			System.out.println(resMessage.toString());
 			
 		} catch (Exception e) {
-			//System.out.println(e);
+			System.out.println(e);
 		}
 		
 	}

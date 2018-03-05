@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <incse>
         <database>
-                <host>localhost</host>
-          <!--      <port>28007</port>
+                <host>10.10.0.22</host>
+                <port>27017</port>
                 <dbname>IITP-IOT</dbname>
-                <user>herit</user>
-                <password>qrwe1423</password> -->
-                  <port>27017</port>
-                <dbname>IITP-IOT-4Test-180129</dbname>
                 <user></user>
                 <password></password>  
        </database>
@@ -52,10 +48,10 @@
        </binding>
 
 		<cse>
-			<host>10.10.0.23</host>
+			<host>10.10.0.22</host>
 			<baseName>herit-cse</baseName>
 			<resourceId>herit-in</resourceId>
-			<poa>http://10.10.0.23:8080</poa>
+			<poa>http://10.10.0.22:8080</poa>
 
 			<default-resource-expiration-time>3</default-resource-expiration-time>	<!-- days -->
  			<allowed-subgroup-depth>3</allowed-subgroup-depth>
@@ -77,14 +73,7 @@
 		</semanticEngine>
 
 		<remoteCSEs>
-<!--    	<remoteCSE>
-				<cseId>/INCSE_cb</cseId>
-				<cseName>cseBase</cseName>
-				<cseHost>10.10.202.145</cseHost>
-				<poa>http://10.10.202.145:8080</poa>
-				<maxTPS>1</maxTPS>
-			</remoteCSE>
-   		
+			<!--    	     		
 			<remoteCSE>
 				<cseId>herit-cse</cseId>
 				<cseName>herit-in</cseName>
@@ -92,35 +81,7 @@
 				<maxTPS>1</maxTPS>
 				<poa>http://10.10.0.18:8080</poa>
 			</remoteCSE>
-		    
-		    <remoteCSE>
-				<cseId>/inEtri</cseId>
-				<cseName>base</cseName>
-				<cseHost>129.254.85.251</cseHost>
-				<maxTPS>1</maxTPS>
-				<poa>http://129.254.85.251:18080</poa>
-			</remoteCSE>
-					
-			
-			<remoteCSE>
-				<cseId>herit-mn1</cseId>
-				<cseName>herit-cse</cseName>
-				<cseHost>mn1.onem2m.herit.net</cseHost>
-				<maxTPS>1</maxTPS>
-			</remoteCSE>
-			<remoteCSE>
-				<cseId>herit-mn2</cseId>
-				<cseName>herit-cse</cseName>
-				<cseHost>mn1.onem2m.herit.net</cseHost>
-				<maxTPS>1</maxTPS>
-			</remoteCSE>
-			<remoteCSE>
-				<cseId>herit-mn3</cseId>
-				<cseName>herit-cse</cseName>
-				<cseHost>mn1.onem2m.herit.net</cseHost>
-				<maxTPS>1</maxTPS>
-			</remoteCSE>
-			 -->
+			-->
 		</remoteCSEs>
 		<dms>
 			<hitdm>
@@ -136,8 +97,9 @@
 		</dms>
 		<qos>
 			<maxPollingSessionNo>-1</maxPollingSessionNo>
-			<maxAENo>1024</maxAENo>
+			<maxAENo>10240</maxAENo>
 			<maxCSENo>300</maxCSENo>
+			<limitDBPools>300</limitDBPools>
 		</qos>
 		
 		<resourcePolicy>

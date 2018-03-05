@@ -103,7 +103,7 @@ public class OneM2mUtil {
 		
 		OneM2mRequest.Originator ori = req.getOriginator();
 		
-	//	//System.out.println("[ACP]====> ori=" + ori.getSPRelativeStructuredId() + ", from=" + from + ", req.getOriginator()=" + ori.toString());
+	//	System.out.println("[ACP]====> ori=" + ori.getSPRelativeStructuredId() + ", from=" + from + ", req.getOriginator()=" + ori.toString());
 		
 		if (acps == null || acps.size() == 0) {
 			return true;
@@ -114,7 +114,7 @@ public class OneM2mUtil {
 			
 			while (it.hasNext()) {
 				AccessControlPolicy acp = it.next();
-				//System.out.println("[ACP] acp========>" + acp.toString());
+				
 				if (checkAcessControlRule(acp.getPrivileges().getAccessControlRule(), op, ori, from)) {
 					return true;
 				}
@@ -132,13 +132,11 @@ public class OneM2mUtil {
 		
 		Iterator<AccessControlRule> acrIt = acrList.iterator();
 		while (acrIt.hasNext()) {
-			//System.out.println("[ACP]checkAcessControlRule.............");	
+				
 			if (checkAcessControlRule(acrIt.next(), op, ori, from)) {
 				return true;
 			}
 		}
-		
-		//System.out.println("checkAcessControlRule] return false..");
 		
 		return false;
 	}
@@ -163,7 +161,7 @@ public class OneM2mUtil {
 			return true;
 		}
 		
-	//	//System.out.println("checckAccessControlPolicy] return false..");
+	//	System.out.println("checckAccessControlPolicy] return false..");
 		
 		return false;
 		
@@ -172,7 +170,7 @@ public class OneM2mUtil {
 	public static boolean checkAcessControlRule(AccessControlRule acr, OPERATION op, Originator ori, String from) {
 		
 		if ((acr.getAccessControlOperations() & op.Value()) != op.Value()) {
-			//System.out.println("return false ..1");
+			System.out.println("return false ..1");
 			return false;
 		}
 
@@ -181,7 +179,7 @@ public class OneM2mUtil {
 		Iterator<String> idIt = acr.getAccessControlOriginators().iterator();
 		while (idIt.hasNext()) {
 			String aOri = idIt.next();
-			////System.out.println("[ACP]=====> aOri=" + aOri + ", ori.getSPRelativeStructuredId()=" + ori.getSPRelativeStructuredId());
+			//System.out.println("[ACP]=====> aOri=" + aOri + ", ori.getSPRelativeStructuredId()=" + ori.getSPRelativeStructuredId());
 			
 			if (ori != null) {
 				if (aOri.equalsIgnoreCase("all") || 
@@ -235,7 +233,7 @@ public class OneM2mUtil {
 			}
 		}
 		
-//		//System.out.println("return false ..2");
+//		System.out.println("return false ..2");
 		return false;
 	}
 */
@@ -258,7 +256,7 @@ public class OneM2mUtil {
 	public static boolean checkAcessControlRule(AccessControlRule acr, OPERATION op, Originator ori, String from) {
 		
 		if ((acr.getAccessControlOperations() & op.Value()) != op.Value()) {
-			//System.out.println("return false ..1");
+			
 			return false;
 		}
 		
@@ -389,7 +387,7 @@ public class OneM2mUtil {
 			return true;
 		} 
 		
-//		//System.out.println("return false ..2");
+//		System.out.println("return false ..2");
 		return false;
 	}
 	
@@ -423,7 +421,7 @@ public class OneM2mUtil {
 				}
 			}
 		}
-		////System.out.println("[ACP]===========> acps.size()=" + acps.size());
+		//System.out.println("[ACP]===========> acps.size()=" + acps.size());
 		return acps;
 	}
 
@@ -610,18 +608,18 @@ public class OneM2mUtil {
 //		boolean b = m.find();
 //		if (b) {
 //			String matched = m.group();
-//			//System.out.println("Matched:"+matched);
+//			System.out.println("Matched:"+matched);
 //		} else {
-//			//System.out.println("No matched string found:"+re);
-//			//System.out.println(pc);
+//			System.out.println("No matched string found:"+re);
+//			System.out.println(pc);
 //		}
 		
 //		String id = "/herit-in/herit-cse/test";
-//		//System.out.println(toUriOrResourceId(id));
+//		System.out.println(toUriOrResourceId(id));
 	
 		String from = "//herit-cse";
 		
-		//System.out.println("eod=" + OneM2mUtil.extractServiceProviderId(from));
+		System.out.println("eod=" + OneM2mUtil.extractServiceProviderId(from));
 	}
 
 	public static String extractCseIdFromSPResId(String spResId) {

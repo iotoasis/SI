@@ -62,7 +62,7 @@ public class OriginTracer implements MessageInterceptor {
 					}
 				}));
 	    } catch (IOException e) {  
-	        //System.out.println("origin-tracer directory does not exist. Skipping origin traces...");
+	        System.out.println("origin-tracer directory does not exist. Skipping origin traces...");
 	    }
 	}
 	

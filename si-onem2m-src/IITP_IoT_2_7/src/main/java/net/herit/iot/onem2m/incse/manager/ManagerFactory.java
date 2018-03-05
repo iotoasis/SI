@@ -229,7 +229,7 @@ public class ManagerFactory {
 		
 		String targetAddress = reqMessage.getTo();
 		
-		////System.out.println("#######ManagerInterface.create(): reqMessage.getTo() = " + reqMessage.getTo());
+		//System.out.println("#######ManagerInterface.create(): reqMessage.getTo() = " + reqMessage.getTo());
 		
 		// added in 2017-04-21 to support shortcut in resource uri
 		if(targetAddress.startsWith("-")) {

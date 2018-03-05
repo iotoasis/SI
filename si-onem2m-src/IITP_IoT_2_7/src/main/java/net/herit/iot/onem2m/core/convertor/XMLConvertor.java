@@ -140,7 +140,7 @@ public class XMLConvertor<T> {
 //			context = JAXBContext.newInstance(t);//AE.class);
 //			schemaLocation = AE.SCHEMA_LOCATION;
 //			resourceName = "AE";
-//			//System.out.println("AE name=" + t.getSimpleName() );
+//			System.out.println("AE name=" + t.getSimpleName() );
 //			break;
 //			
 //		case CONTAINER:
@@ -185,7 +185,7 @@ public class XMLConvertor<T> {
 		Writer writer = new StringWriter();
 		m.marshal(obj, writer);
 		String xml = writer.toString();
-//		//System.out.println(out);
+//		System.out.println(out);
 		
 		return xml;
 	}
@@ -1402,7 +1402,7 @@ public class XMLConvertor<T> {
 			String xml2;
 //			XMLConvertor<AE> XC = new XMLConvertor<AE>(AE.class);
 //			AE ae = (AE)XC.unmarshal(AE_xml);
-//			//System.out.println("resourceName: " + ae.getResourceName());
+//			System.out.println("resourceName: " + ae.getResourceName());
 //			
 //			List<Resource> resources = ae.getContainerOrGroupOrAccessControlPolicy();
 //			Container container = new Container();
@@ -1413,7 +1413,7 @@ public class XMLConvertor<T> {
 //			resources.add(group);
 //
 //			xml2 = XC.marshal(ae, AE.SCHEMA_LOCATION);
-//			//System.out.println("xml2: " + xml2);
+//			System.out.println("xml2: " + xml2);
 
 			
 			//-----------------------------------------------------------------------------------------
@@ -1426,34 +1426,34 @@ public class XMLConvertor<T> {
 			
 			String a = "Abced\n"
 					+ "<fefed>agag";
-			//System.out.println(a.replace("<fefed>", "<AAAA>"));
+			System.out.println(a.replace("<fefed>", "<AAAA>"));
 			
-			//System.out.println(RequestPrimitive_xml.indexOf("<m2m:rqp"));
-			//System.out.println(RequestPrimitive_xml.indexOf("</m2m:rqp>"));
+			System.out.println(RequestPrimitive_xml.indexOf("<m2m:rqp"));
+			System.out.println(RequestPrimitive_xml.indexOf("</m2m:rqp>"));
 			if(RequestPrimitive_xml.indexOf("<m2m:rqp") > 0 && RequestPrimitive_xml.indexOf("</m2m:rqp>") > 0) {
 				RequestPrimitive_xml = RequestPrimitive_xml.replace("m2m:rqp", "rqp");
 				RequestPrimitive_xml = RequestPrimitive_xml.replace("/m2m:rqp", "/rqp");
-				//System.out.println(RequestPrimitive_xml);
+				System.out.println(RequestPrimitive_xml);
 			}
 			
 			XMLConvertor<AE> XC2 = 
 					new XMLConvertor<AE>(AE.class, AE.SCHEMA_LOCATION);
 			AE resource = (AE)XC2.unmarshal(AE_xml);
 //			if(resource.getPointOfAccess() == null)
-//				//System.out.println("PointOfAccess is null: " + resource.getPointOfAccess());
-//			else //System.out.println("PointOfAccess is " + resource.getPointOfAccess());
+//				System.out.println("PointOfAccess is null: " + resource.getPointOfAccess());
+//			else System.out.println("PointOfAccess is " + resource.getPointOfAccess());
 //			
-//			//System.out.println("resourceName: " + resource.getResourceName());
+//			System.out.println("resourceName: " + resource.getResourceName());
 			xml2 = XC2.marshal(resource);
-			//System.out.println(xml2);
+			System.out.println(xml2);
 
-//			////System.out.println(resource.getChildResource().get(0).getValue());
+//			//System.out.println(resource.getChildResource().get(0).getValue());
 //			
 //			JSONConvertor<AE> JC = new JSONConvertor<AE>(AE.class);
 //			String json = JC.marshal(resource);
-//			//System.out.println(json);
+//			System.out.println(json);
 //	
-//			//System.out.println(Double.valueOf((Double)3.1415923332233335));
+//			System.out.println(Double.valueOf((Double)3.1415923332233335));
 						
 		} catch (Exception e) {
 			log.debug("Handled exception", e);

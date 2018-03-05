@@ -44,7 +44,7 @@ public class LinuxRto extends CongestionControlLayer{
 	
 	@Override
 	protected void updateEstimator(long measuredRTT, int estimatorType, RemoteEndpoint endpoint){
-		////System.out.println("Measured RTT:" + measuredRTT);
+		//System.out.println("Measured RTT:" + measuredRTT);
 		long RTT = measuredRTT;		
 		
 		endpoint.SRTT = endpoint.SRTT + Math.round((double)(0.125 * (RTT - endpoint.SRTT)));
@@ -79,7 +79,7 @@ public class LinuxRto extends CongestionControlLayer{
 		if(rtoType == NOESTIMATOR || rtoType == WEAKRTOTYPE )
 			return;
 		
-		// //System.out.println("Measured RTT:" + measuredRTT);
+		// System.out.println("Measured RTT:" + measuredRTT);
 		endpoint.matchCurrentRTO();
 		if (endpoint.isBlindStrong() && rtoType == STRONGRTOTYPE) {
 			// Received a strong RTT measurement for the first time, apply

@@ -22,8 +22,7 @@ public class DatabaseManager {
 	public void initialize(MongoPool mongoPool) {
 		this.mongoPool = mongoPool;
 	}
-
-
+	
 	public MongoDatabase getMongoDB() {
 		return mongoPool.getDatabase();
 	}
@@ -31,4 +30,10 @@ public class DatabaseManager {
 	public MongoCollection<Document> getCollection(String collectionName) {
 		return getMongoDB().getCollection(collectionName);
 	}
+	
+	// added in 2018-02-09
+	public MongoPool getMongoPool() {
+		return this.mongoPool;
+	}
+	
 }

@@ -178,7 +178,7 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 					while(cursor.hasNext()) {
 						Document doc = cursor.next();
 						resList.add(doc.get(Naming.RESOURCEID_SN).toString());
-						////System.out.println("##################### doc.get(Naming.RESOURCEID_SN) = " + doc.get(Naming.RESOURCEID_SN));
+						//System.out.println("##################### doc.get(Naming.RESOURCEID_SN) = " + doc.get(Naming.RESOURCEID_SN));
 					}
 					
 					coapServer.addEndPointsbyResId(resList,cfgManager.getCSEBaseName() );
@@ -312,7 +312,21 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 				
 			} 
 			
-
+			int limitDbPools = CfgManager.getInstance().getLimitDbPoolNo();
+			if(limitDbPools < 0) {
+				limitDbPools = 400;
+			}
+			
+			if(dbManager.getInstance().getMongoPool().getCurrConnection() > limitDbPools) {
+				DefaultFullHttpResponse response = 
+						new DefaultFullHttpResponse(CfgManager.getInstance().getHttpVersion(), HttpResponseStatus.TOO_MANY_REQUESTS);
+				HttpServerHandler.sendHttpMessage(response, ctx.channel()).
+										addListener(ChannelFutureListener.CLOSE).
+										addListener(new FilnalEventListener(ctx, true));
+				
+				return;
+			}
+			
 			reqMessage = HttpRequestCodec.decode(request, ((InetSocketAddress)ctx.channel().remoteAddress()).getHostString());
 			
 			String clientAddress = ctx.channel().remoteAddress().toString();			// added in 2017-08-25 
@@ -539,7 +553,7 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 		
 		OneM2mRequest reqMessage = null;
 		try {
-			////System.out.println("[COAP DEBUG]====> exchange.getSourceAddress().getHostAddress().toString()=" + exchange.getSourceAddress().getHostAddress());
+			//System.out.println("[COAP DEBUG]====> exchange.getSourceAddress().getHostAddress().toString()=" + exchange.getSourceAddress().getHostAddress());
 			reqMessage = CoapRequestCodec.decode(exchange);
 			String clientAddress = exchange.getSourceAddress().getHostAddress();	// added in 2017-08-25
 			coapMap.put(reqMessage.getRequestIdentifier(), exchange);
@@ -592,8 +606,8 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 			exchange.respond(response);
 			// added in 2017-10-31 to support CSE-relative Unstructured addressing 
 			//System.out.println("############### uripath-size=" + exchange.getRequestOptions().getUriPath().size());
-			////System.out.println("############### resMessage.getResponseStatusCode()=" + resMessage.getResponseStatusCode());
-			/////System.out.println("############### resourceId=" + ((Resource)resMessage.getContentObject()).getResourceID());
+			//System.out.println("############### resMessage.getResponseStatusCode()=" + resMessage.getResponseStatusCode());
+			///System.out.println("############### resourceId=" + ((Resource)resMessage.getContentObject()).getResourceID());
 			
 			int len = exchange.getRequestOptions().getUriPath().size();
 			int resCode = resMessage.getResponseStatusCode();
@@ -675,7 +689,7 @@ public class InCse implements HttpServerListener, MqttServerListener, CoapServer
 		
 		try {
 			String response = WSResponseCodec.encode(resMessage);
-			//System.out.println("######## CBOR response = " + response);
+			
 			ws.send(response);
 	//		exchange.respond(ResponseCode.INTERNAL_SERVER_ERROR, "Respose encoding failed");
 			

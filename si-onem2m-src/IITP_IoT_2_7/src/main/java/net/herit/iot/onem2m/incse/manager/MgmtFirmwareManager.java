@@ -67,7 +67,7 @@ public class MgmtFirmwareManager extends AbsManager {
 		}
 		
 		Firmware firmware = (Firmware)getContentResource(reqMessage, this);
-		//System.out.println("###### firmware =" + firmware.isUpdate());
+		
 		//DMControllerFactory.getController(firmware).executeMgmtObj(resInDB, firmware);
 		//DMControllerFactory.getController(firmware, context).executeMgmtObj(resInDB, firmware);	// updated in 2017-08-23
 		DMControllerFactory.getController(resInDB, context).executeMgmtObj(resInDB, firmware);	// updated in 2017-09-16

@@ -60,7 +60,7 @@ public class CBORTest {
 		while(itr.hasNext()) {
 			
 			DataItem key = itr.next();
-			////System.out.println(map.get(key).getMajorType().toString());
+			//System.out.println(map.get(key).getMajorType().toString());
 			if(map.get(key).getMajorType().toString().equals("MAP")) {
 				
 				hMap.put(key.toString(), getHashMap(map.get(key)));
@@ -112,7 +112,7 @@ public class CBORTest {
             
             DataItem diKey = new co.nstant.in.cbor.model.UnicodeString(entry.getKey().toString());
             DataItem diValue = null;
-            //System.out.println("#### valueClassType = " + valueClassType);
+            System.out.println("#### valueClassType = " + valueClassType);
             if(valueClassType.equals("LinkedHashMap")) {
             	HashMap<String, Object> subMap = (HashMap<String, Object>)entry.getValue();
             	diValue = getDataItem(subMap);
@@ -161,7 +161,7 @@ public class CBORTest {
 			//String hexText = "bf6346756ef563416d7421ff";
 			byte[] bytes = new BigInteger(hexText, 16).toByteArray();
 			
-			//System.out.println("CBOR::" + new String(bytes, "UTF-8"));
+			System.out.println("CBOR::" + new String(bytes, "UTF-8"));
 			
 			InputStream inputStream = new ByteArrayInputStream(bytes);
 			CborDecoder decoder = new CborDecoder(inputStream);
@@ -175,7 +175,7 @@ public class CBORTest {
 			
 			jsonObject = (JSONObject)jsonObject.get("__message__");
 			
-			//System.out.println(jsonObject.toString());
+			System.out.println(jsonObject.toString());
 			
 			
 			//String jsonStr = "{\"m2m:rqp\": {\"op\": 1, \"to\": \"//example.net/mncse1234\", \"rqi\": \"A1000\", \"rcn\": 7, \"pc\": {\"m2m:ae\": {\"rn\": \"SmartHomeApplication\", \"api\": \"Na56\", \"apn\": \"app1234\"}}, \"ty\": 2}}";
@@ -192,7 +192,7 @@ public class CBORTest {
 			
 			jsonObject = (JSONObject)jsonObject.get("__message__");
 			
-			//System.out.println(jsonObject.toString());
+			System.out.println(jsonObject.toString());
 			
 		
 			ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
@@ -209,7 +209,7 @@ public class CBORTest {
 
 			}
 			
-			//System.out.println(sb.toString());
+			System.out.println(sb.toString());
 	/**		
 			CfgManager cfgManager = CfgManager.getInstance();
 			
@@ -234,12 +234,12 @@ public class CBORTest {
 			try {
 				exp = new CronExpression(a);
 				date = exp.getNextValidTimeAfter(new Date());
-				//System.out.println("####### cron expression ######## ");
+				System.out.println("####### cron expression ######## ");
 				
 				if(date == null) {
-					//System.out.println("XXXXXXXXXXXX");
+					System.out.println("XXXXXXXXXXXX");
 				}
-				//System.out.println(date);
+				System.out.println(date);
 			
 			}catch(ParseException e) {
 				e.printStackTrace();
@@ -266,10 +266,10 @@ public class CBORTest {
 		        // make sure the pattern matches the path
 		        if(pathMatcher.match(pattern, path)) {
 		            // check if we already have a match
-		            //System.out.println("=====> pattern=" + pattern);
+		            System.out.println("=====> pattern=" + pattern);
 		        }
 		    }
-		    //System.out.println(bestMatch);	
+		    System.out.println(bestMatch);	
 			
 			
 		} catch(Exception e) {

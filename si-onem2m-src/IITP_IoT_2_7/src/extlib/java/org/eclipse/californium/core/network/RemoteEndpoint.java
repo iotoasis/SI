@@ -240,13 +240,13 @@ public class RemoteEndpoint {
 		if (usesBlindEstimator && isBlindStrong && isBlindWeak && exchangeInfoMap.size() > 1) {
 			// No RTT measurements have been possible so far => apply blind
 			// estimator rule
-			// //System.out.println("Blind Rule applying, RTO: "+(exchangeInfoMap.size())*2000);
+			// System.out.println("Blind Rule applying, RTO: "+(exchangeInfoMap.size())*2000);
 			rto = (long) (exchangeInfoMap.size()) * 2000;
 		} else {
 			if (meanOverallRTO != currentRTO) {
 				// If current RTO was not updated, there was no successful RTO
 				// update, use the one that has backed offs
-				// //System.out.println("Old RTO! (mean/current) = (" +meanOverallRTO+ "/" + currentRTO +")");
+				// System.out.println("Old RTO! (mean/current) = (" +meanOverallRTO+ "/" + currentRTO +")");
 				rto = currentRTO;
 			} else {
 				rto = meanOverallRTO;
@@ -300,11 +300,11 @@ public class RemoteEndpoint {
 		}*/
 		if(exchange.getFailedTransmissionCount() == 1 || exchange.getFailedTransmissionCount() == 2){
 			//Only allow weak estimator updates from the first or second retransmission
-			////System.out.println("Remote Enpdoint: WEAK");
+			//System.out.println("Remote Enpdoint: WEAK");
 			exchangeInfoMap.get(exchange).setTypeWeakEstimator();
 		}else{
 			//If more than 1 retransmission was applied to the exchange, mark this entry as not updatable
-			////System.out.println("Remote Enpdoint: NO");
+			//System.out.println("Remote Enpdoint: NO");
 			exchangeInfoMap.get(exchange).setTypeNoEstimator();
 		}
 	}
@@ -360,7 +360,7 @@ public class RemoteEndpoint {
 	 */
 	public int getExchangeEstimatorState(Exchange exchange){	
 		if(exchangeInfoMap.isEmpty()){
-			////System.out.println("No exchanges stored (estimator state request)");
+			//System.out.println("No exchanges stored (estimator state request)");
 		}
 		
 		if(exchangeInfoMap.get(exchange) != null){
@@ -386,10 +386,10 @@ public class RemoteEndpoint {
 	 * Checks if an exchange in the list was was deleted
 	 */
 	public void checkForDeletedExchanges(){
-		////System.out.println("Checking for old exchanges in remote Endpoints.");
+		//System.out.println("Checking for old exchanges in remote Endpoints.");
 	    for (Object o : exchangeInfoMap.entrySet()){
 	    	if(o == null){
-	    		////System.out.println("Deleting old entry (null-entry).");
+	    		//System.out.println("Deleting old entry (null-entry).");
 	    		exchangeInfoMap.remove(o);
 	    	}
 	    }
@@ -401,16 +401,16 @@ public class RemoteEndpoint {
 	 * @return the count
 	 */
 	public int getNumberOfOngoingExchanges(Exchange exchange){	
-		////System.out.println("Amount of exchanges: " + exchangeInfoMap.size() );
+		//System.out.println("Amount of exchanges: " + exchangeInfoMap.size() );
 		return exchangeInfoMap.size();
 	}
 	
 	public void printLinuxStats(){
-		//System.out.println("SRTT: " + SRTT + " RTTVAR: " + RTTVAR + " mdev: " + mdev + " mdev_max: " + mdev_max);
+		System.out.println("SRTT: " + SRTT + " RTTVAR: " + RTTVAR + " mdev: " + mdev + " mdev_max: " + mdev_max);
 	}
 	
 	public void printPeakhopperStats(){
-	    //System.out.println("Delta: " + delta + " D: " + D_value + " B: " + B_value + " RTT_max: " + RTT_max);
+	    System.out.println("Delta: " + delta + " D: " + D_value + " B: " + B_value + " RTT_max: " + RTT_max);
 	}
 	
 	/**
@@ -429,7 +429,7 @@ public class RemoteEndpoint {
 			this.timestamp = timestamp;
 			this.vbf = vbf;
 			estimatorType = STRONGRTOTYPE;
-			////System.out.println("Exchange stored in remote Endpoint (" + System.currentTimeMillis() + ")");
+			//System.out.println("Exchange stored in remote Endpoint (" + System.currentTimeMillis() + ")");
 		}
 		
 		public void setTypeWeakEstimator(){

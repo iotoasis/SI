@@ -92,7 +92,7 @@ public class Manager {
 					try {
 						xmlCvt = manager.getXMLConveter();
 						res = (Resource)xmlCvt.unmarshal(str);
-						////System.out.println("resourceName: " + res.getResourceName());
+						//System.out.println("resourceName: " + res.getResourceName());
 						return res;
 					} catch(Exception e) {
 						log.debug("Handled exception", e);
@@ -130,7 +130,7 @@ public class Manager {
 		try {
 			String xml = new String(req.getContent(), "UTF-8");
 			res = (Resource)cvt.unmarshal(xml);
-			////System.out.println("resourceName: " + res.getResourceName());
+			//System.out.println("resourceName: " + res.getResourceName());
 			return res;
 		} catch (Exception e) {
 			log.debug("Handled exception", e);
@@ -205,7 +205,7 @@ public class Manager {
 			AE res;
 			try {
 				res = (AE)XC.unmarshal(RESOURCE_TYPE.AE, req.getContent().toString());
-				//System.out.println("resourceName: " + res.getResourceName());
+				System.out.println("resourceName: " + res.getResourceName());
 				return res;
 			} catch (Exception e) {
 				log.debug("Handled exception", e);
@@ -221,7 +221,7 @@ public class Manager {
 			Container res;
 			try {
 				res = (Container)XC.unmarshal(RESOURCE_TYPE.CONTAINER, req.getContent().toString());
-				//System.out.println("resourceName: " + res.getResourceName());
+				System.out.println("resourceName: " + res.getResourceName());
 				return res;
 			} catch (Exception e) {
 				log.debug("Handled exception", e);
@@ -235,7 +235,7 @@ public class Manager {
 			Container res;
 			try {
 				res = (Container)XC.unmarshal(RESOURCE_TYPE.CONTENT_INST, req.getContent().toString());
-				//System.out.println("resourceName: " + res.getResourceName());
+				System.out.println("resourceName: " + res.getResourceName());
 				return res;
 			} catch (Exception e) {
 				log.debug("Handled exception", e);

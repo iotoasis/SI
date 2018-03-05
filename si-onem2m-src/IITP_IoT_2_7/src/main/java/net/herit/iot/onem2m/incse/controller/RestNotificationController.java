@@ -72,14 +72,10 @@ public class RestNotificationController extends AbsController implements AsyncRe
 			RestSubscriptionDAO dao = new RestSubscriptionDAO(this.ctx.getDatabaseManager());
 			String notiUri = dao.getNotificationUri(parentRes.getUri());
 			String commandId = dao.getCommandId(parentRes.getUri());		// added in 2016-12-07
-			
+
 			if (notiUri != null) {
 				OneM2mRequest reqMessage = new OneM2mRequest();
 				//JSONConvertor<?> jsonCvt = ConvertorFactory.getJSONConvertor(RestSubscription.class, RestSubscription.SCHEMA_LOCATION);
-				if(reqRes.getLabels().size() > 0) {		// added in 2017-04-26, to send commandId in the label attribute.
-					String[] arrTemp = reqRes.getLabels().get(0).split(":");
-					commandId = arrTemp[1];
-				}
 				
 				reqDoc.put("_uri", reqRes.getUri());
 				reqDoc.put("_commandId", commandId);		// added in 2016-12-07

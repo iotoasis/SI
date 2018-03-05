@@ -107,7 +107,7 @@ public class Utils {
 	}
 	
 	public static String extractBaseurlFromUrl(String fullUrl) throws MalformedURLException {
-//		//System.out.println("fullUrl: " + fullUrl);
+//		System.out.println("fullUrl: " + fullUrl);
 //		if (!fullUrl.substring(0, 5).equalsIgnoreCase("http:"))
 		if (!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("http") && 
 				!fullUrl.toLowerCase().substring(0, 4).equalsIgnoreCase("coap") &&
@@ -117,7 +117,7 @@ public class Utils {
 		
 		try {
 			String url1 = fullUrl.substring(fullUrl.indexOf("//")+2);
-//			//System.out.println(url1);
+//			System.out.println(url1);
 			String host;
 			if(url1.indexOf("/") > 0) {
 				host = url1.substring(0, url1.indexOf("/"));
@@ -125,8 +125,8 @@ public class Utils {
 				host = url1;
 			}
 			String path = url1.substring(url1.indexOf("/"), url1.length());
-//			//System.out.println(host);
-//			//System.out.println(path);
+//			System.out.println(host);
+//			System.out.println(path);
 			
 			
 			String baseUri = fullUrl;
@@ -172,7 +172,7 @@ public class Utils {
 		
 		try {
 			String url1 = fullUrl.substring(fullUrl.indexOf("//")+2);
-//			//System.out.println(url1);
+//			System.out.println(url1);
 			String host;
 			if(url1.indexOf("/") > 0) {
 				host = url1.substring(0, url1.indexOf("/"));
@@ -180,8 +180,8 @@ public class Utils {
 				host = url1;
 			}
 			String path = url1.substring(url1.indexOf("/"), url1.length());
-//			//System.out.println(host);
-//			//System.out.println(path);
+//			System.out.println(host);
+//			System.out.println(path);
 			
 			return path;
 		} catch(Exception e) {
@@ -292,26 +292,26 @@ public class Utils {
 //		boolean b = m.find();
 //		if (b) {
 //			String matched = m.group();
-//			//System.out.println("Matched:"+matched);
+//			System.out.println("Matched:"+matched);
 //		} else {
-//			//System.out.println("No matched string found:"+re);
-//			//System.out.println(pc);
+//			System.out.println("No matched string found:"+re);
+//			System.out.println(pc);
 //		}
 		
 		String addr = "http://10.101.101.33:8080/dkdkd/asdkd/dkdk";
 		URL url = new URL(addr);
 		
 		String url1 = addr.substring(addr.indexOf("//")+2);
-		//System.out.println(url1);
+		System.out.println(url1);
 		String host = url1.substring(0, url1.indexOf("/"));
 		String path = url1.substring(url1.indexOf("/"), url1.length());
-		//System.out.println(host);
-		//System.out.println(path);
+		System.out.println(host);
+		System.out.println(path);
 		
 		String file = url.getFile();
-		//System.out.println(file);
+		System.out.println(file);
 		
-		//System.out.println(url.getHost());
+		System.out.println(url.getHost());
 	}
 
 	public static String extractCseIdFromSPResId(String spResId) {
@@ -487,7 +487,7 @@ public class Utils {
 			
 			// added and test, then blocked in 2017-12-08 to test with NTELS, it should be deleted after that.
 			//DataItem dt = dataItems.get(0);
-			////System.out.println("######### dt===>" + dt.toString());
+			//System.out.println("######### dt===>" + dt.toString());
 			//return dt.toString();
 		
 			HashMap hashMap = new HashMap();

@@ -269,7 +269,12 @@ public class RemoteCSEManager extends AbsManager {
 		req.setResourceType(RESOURCE_TYPE.REMOTE_CSE);
 //		req.setRemoteHost(url.getHost());
 		req.setRemoteHost(host);
-		req.setTo("/~" + remoteCseId);	// changed in 2017-12-07
+		String remoteCseTo = "~/" + remoteCseId;
+		if(remoteCseName != null && !remoteCseName.equals("")) {
+			remoteCseTo += remoteCseName;
+		}
+		//req.setTo("/~" + remoteCseId);	// changed in 2017-12-07, blocked in 2017-12-21
+		req.setTo(remoteCseTo);// added in 2017-12-21
 		
 		RemoteCSE rc = new RemoteCSE();
 		rc.setCSEID(lcId);
@@ -293,9 +298,10 @@ public class RemoteCSEManager extends AbsManager {
 				//String resName = this.createResourceName(RES_TYPE.REMOTE_CSE, CfgManager.getInstance().getCSEBaseName());
 				//String resName = remoteCseId.substring(1);  //blocked in 2017-11-30
 				String resName = remoteCseName.substring(1);  //added in 2017-11-30
-				//System.out.println("############ resName =" + resName);
+				
 				//remoteCse.setCSEID(remoteCseName);	// blocked in 2017-11-30
-				remoteCse.setCSEID(remoteCseId);		// added in 2017-11-30
+				String remoteCseIdNew = (remoteCseId != null && remoteCseId.startsWith("/") )? remoteCseId : "/" + remoteCseId; 
+				remoteCse.setCSEID(remoteCseIdNew);		// added in 2017-11-30
 				//remoteCse.setCSEBase(remoteCseName);		// blocked in 2017-11-30
 				remoteCse.setCSEBase(resName);				// added in 2017-11-30	
 				remoteCse.setCseType(CSE_TYPE.IN_CSE.Value());

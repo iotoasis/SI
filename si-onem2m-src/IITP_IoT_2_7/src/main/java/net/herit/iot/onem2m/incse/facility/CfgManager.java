@@ -408,6 +408,14 @@ public class CfgManager {
 		}
 	}
 	
+	public int getLimitDbPoolNo() {
+		try {
+			return xmlConfig.getInt("qos.limitDBPools");
+		} catch (Exception e) {
+			return -1;	// default value
+		}
+	}
+	
 	public Map<String, CSEQoSConfig> getCSEQoSConfigMap() {
 		return cseQoSMap; 
 	}
@@ -463,7 +471,7 @@ public class CfgManager {
 	public static void main(String[] args) {
 		long currT = System.currentTimeMillis() + (3 * 24 * 60 * 60 * 1000);
 		String strTime = new SimpleDateFormat(Naming.DATE_FORMAT).format(new java.util.Date(currT));
-		//System.out.println(strTime);
+		System.out.println(strTime);
 	}
 	
 }

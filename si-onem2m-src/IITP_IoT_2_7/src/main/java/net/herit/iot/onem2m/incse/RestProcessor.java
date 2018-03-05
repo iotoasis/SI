@@ -198,10 +198,16 @@ public class RestProcessor {
 					log.debug(cmd.toString());
 					
 					// for demo
-					this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "200", 
-									"{\"code\":\"2000\",\"_commandId\":\""+cmd.getCommandId()+"\"}");	
+					// blocked in 2017-12-12
+					//this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "200", 
+					//				"{\"code\":\"2000\",\"_commandId\":\""+cmd.getCommandId()+"\"}");	
 					
 					OneM2mResponse response = RestCommandController.getInstance().processControl(cmd);
+					
+					// added in 2017-12-12
+					this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "200", 
+							"{\"code\":\"" + response.getResponseStatusCode() + "\",\"_commandId\":\""+cmd.getCommandId()+"\"}");
+					
 				}
 				
 			} else if (uri.startsWith("/si/ipe/lwm2m")) { 	// 2017-02-08
@@ -213,10 +219,14 @@ public class RestProcessor {
 				log.debug(cmd.toString());
 				
 				// for demo
-				this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "200", 
-								"{\"code\":\"2000\",\"_commandId\":\""+cmd.getCommandId()+"\"}");	
+				// blocked in 2018-01-15
+				//this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "200", 
+				//				"{\"code\":\"2000\",\"_commandId\":\""+cmd.getCommandId()+"\"}");	
 				
 				OneM2mResponse response = RestCommandController.getInstance().processIpeLwm2m(cmd);
+				
+				this.context.getRestHandler().sendResponseMessage(reqMessage.getRequestIdentifier(), "200", 
+						"{\"code\":\"" + response.getResponseStatusCode() + "\",\"_commandId\":\""+cmd.getCommandId()+"\"}");
 				
 			} else if(uri.startsWith("/si/dev_t1_reg") || uri.startsWith("/si/dev_upd")) {
 			
@@ -341,7 +351,6 @@ public class RestProcessor {
 						paramName = ((JSONObject)paramObject).get("Name").toString();
 						paramValue = ((JSONObject)paramObject).get("Value");
 						paramMap.put(paramName, paramValue);
-						//System.out.println("Name : " + paramName + ", Value : " + paramValue  );
 					}
 				}
 				
@@ -352,7 +361,7 @@ public class RestProcessor {
 		
 				OneM2mResponse response = RestCommandController.getInstance().addTr69DMResource(paramMap);
 				
-			//	//System.out.println("device Id : " + deviceId  );
+			//	System.out.println("device Id : " + deviceId  );
 				
 				
 			} else if(uri.startsWith("/dm/tr69/noti/passive") || uri.startsWith("/dm/tr69/noti/active")) {

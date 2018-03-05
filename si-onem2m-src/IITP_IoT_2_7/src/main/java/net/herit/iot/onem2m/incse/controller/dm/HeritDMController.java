@@ -284,7 +284,7 @@ public class HeritDMController implements DMControllerInterface {
 			
 			ActionStatus as = new ActionStatus();
 			as.setAction(MOUri.FW_UPDATE);
-			if (updateResult == "0") {	// default
+			if (updateResult.equals("0")) {	// default
 				as.setStatus(3);	// in process
 			} else if (updateResult.equals("10")) {
 				as.setStatus(2);	// successful

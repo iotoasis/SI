@@ -62,7 +62,7 @@ public class MqttResponseCodec {
 				//resMessage = (OneM2mResponse)xmlConvertor.unmarshal(strContents); // blocked in 2017-10-26
 				resMessage = new OneM2mResponse();
 				resPrimitive = (ResponsePrimitive)xmlConvertor.unmarshal(strContents);
-				////System.out.println("[MQTT]====>reqPrimitive.getPrimitiveContent().getAnyOrAny().size() =" + reqPrimitive.getPrimitiveContent().getAnyOrAny().size());
+				
 				if(resPrimitive.getFrom() != null) {
 					resMessage.setFrom(resPrimitive.getFrom());
 				}
@@ -195,16 +195,14 @@ public class MqttResponseCodec {
 				strContents = strContents.replaceAll("rsp", ONEM2M_RESPONSE_MESSAGE);		// added in 2017-09-01 to add prefix "m2m:"
 				
 				if(strContents.indexOf("oneM2MResponse") > 0) {
-					//System.out.println("===============================> xsi:type=oneM2MResponse is in the current message yet..... ");
+					
 					int nFirst = strContents.indexOf("xsi:type");
 					int nLast = strContents.indexOf("oneM2MResponse");
 					String firstStr = strContents.substring(0, nFirst-1);
 					String lastStr = strContents.substring(nLast + 15);
 					strContents = firstStr + lastStr;
 					
-				} else {
-					//System.out.println("==================================> NOOOOO oneM2MResponse in xsi:type");
-				}
+				} 
 				strContents = strContents.replaceAll("[\n\r\t]", "");   // added in 2017-11-02 to support TTA
 				strContents = strContents.replaceAll(">\\s+<", "><");
 				break;

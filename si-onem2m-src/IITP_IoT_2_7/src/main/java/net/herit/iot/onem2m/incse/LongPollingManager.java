@@ -26,7 +26,7 @@ import net.herit.iot.onem2m.resource.RequestPrimitive;
 public class LongPollingManager {
 
 //	private static final String DATE_FORMAT = "yyyyMMdd'T'HHmmss";
-	private static final long REQUEST_EXPIRATION_DURATION_TIME = 10000;	// 90 seconds
+	private static final long REQUEST_EXPIRATION_DURATION_TIME = 90000;	// 90 seconds
 	
 	private static final LongPollingManager INSTANCE = new LongPollingManager();
 	
@@ -316,6 +316,6 @@ public class LongPollingManager {
 		long time = new SimpleDateFormat("yyyyMMdd'T'HHmmss").parse(strDate).getTime();
 
 		Date date = new Date(time);
-		//System.out.println(date.toString());
+		System.out.println(date.toString());
 	}
 }

@@ -152,9 +152,9 @@ public class ResourceManager {
 		
 		collection.insertOne(doc);
 		
-		//System.out.println("collection count: " + collection.count());
+		System.out.println("collection count: " + collection.count());
 		Document doc2 = collection.find().first();
-		//System.out.println(doc2);
+		System.out.println(doc2);
 		
 		
 		context.getNseManager().sendResponseMessage(createResponse(reqMessage, RESPONSE_STATUS.ACCEPTED));
@@ -290,7 +290,7 @@ public class ResourceManager {
 			String xml = new String(req.getContent(), "UTF-8");
 			res = (Resource)cvt.unmarshal(xml);
 			log.debug("resourceName: {}", res.getResourceName());
-			////System.out.println("resourceName: " + res.getResourceName());
+			//System.out.println("resourceName: " + res.getResourceName());
 			return res;
 		} catch (Exception e) {
 			log.debug("Handled exception", e);

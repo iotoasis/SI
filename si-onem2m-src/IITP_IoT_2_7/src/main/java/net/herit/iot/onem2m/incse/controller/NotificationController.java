@@ -604,9 +604,9 @@ public class NotificationController extends AbsController implements AsyncRespon
 //		URI uri = new URI(url);
 //		
 //		if(uri.getPath().length() > 1) {
-//			//System.out.println(url.substring(url.indexOf(uri.getPath())));
+//			System.out.println(url.substring(url.indexOf(uri.getPath())));
 //		} else {
-//			//System.out.println("/");
+//			System.out.println("/");
 //		}
 //	}
 }
