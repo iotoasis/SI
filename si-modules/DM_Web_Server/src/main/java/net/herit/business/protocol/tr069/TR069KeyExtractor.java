@@ -101,7 +101,7 @@ public class TR069KeyExtractor {
 			
 			expression = "//*/EventCode";
 			String command = xpath.compile(expression).evaluate(document);
-			//System.out.println("Command................"+command);
+			////System.out.println("Command................"+command);
 			
 			result.put("command", command);
 			
@@ -109,13 +109,13 @@ public class TR069KeyExtractor {
 				
 				expression = "//ParameterList/ParameterValueStruct["+idx+"]/Name";
 				String name = xpath.compile(expression).evaluate(document);
-				//System.out.println("Name................"+name);
+				////System.out.println("Name................"+name);
 	
 				expression = "//ParameterList/ParameterValueStruct["+idx+"]/Value";
 				String value = xpath.compile(expression).evaluate(document);
-				//System.out.println("Value................"+value);
+				////System.out.println("Value................"+value);
 				
-				System.out.println("["+idx+"] name : " + name + " / value : " + value);
+				//System.out.println("["+idx+"] name : " + name + " / value : " + value);
 				if(!name.equals("")){
 					result.put(name, value);
 				}

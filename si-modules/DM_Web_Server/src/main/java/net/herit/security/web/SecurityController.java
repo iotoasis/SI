@@ -43,7 +43,7 @@ public class SecurityController {
 		String GContextPath = HeritProperties.getProperty("Globals.contextPath");
 		
 		String contextPath = request.getContextPath();
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>contextPath " + contextPath);
+		////////////////////////////System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>contextPath " + contextPath);
 		String indexControllerURI = null;
 		String loginPageViewName = null;
 		String returnView = null;
@@ -69,7 +69,7 @@ public class SecurityController {
 		String superAdminUserId = HeritProperties.getProperty("Globals.SuperAdminUserId");
 		String loginId = account.getLoginId();
 		// 1. 입력한 비밀번호를 암호화한다.
-		String enpassword = SecurityUtil.encryptPassword(account.getLoginPassword());
+		String enwordpass = SecurityUtil.encryptWordpass(account.getLoginWordpass());
 		
 		Account loginAccount = securityService.authenticate(account);
 
@@ -78,7 +78,7 @@ public class SecurityController {
 			if (loginAccount != null) {
 
 				String clientIp = request.getRemoteAddr();
-				//System.out.println("clientIp = " + clientIp);
+				//////////////////////////////System.out.println("clientIp = " + clientIp);
 				// remote IP 셋팅
 				account.setIp(clientIp);
 
@@ -97,7 +97,7 @@ public class SecurityController {
 						if (!loginAccount.getDisabled().equals("1")) {
 							modelMap.addAttribute("error_txt", "사용할수 없는 계정입니다.<br>관리자에게 문의하여 주십시오.");
 							returnView = loginPageViewName;
-						} else if (!loginAccount.passwordMatches(enpassword)) {
+						} else if (!loginAccount.wordpassMatches(enwordpass)) {
 							ProcessResult result = securityService.updateLoginFailCount(account);
 							modelMap.addAttribute("error_txt", "비밀번호가 올바르지 않습니다. 로그인 실패 : " + (loginAccount.getFailCount() + 1) + "회");
 							returnView = loginPageViewName;
@@ -143,7 +143,7 @@ public class SecurityController {
 							if (!loginAccount.getDisabled().equals("1")) {
 								modelMap.addAttribute("error_txt", "사용할수 없는 계정입니다.<br>관리자에게 문의하여 주십시오.");
 								returnView = loginPageViewName;
-							} else if (!loginAccount.passwordMatches(enpassword)) {
+							} else if (!loginAccount.wordpassMatches(enwordpass)) {
 								ProcessResult result = securityService.updateLoginFailCount(account);
 								modelMap.addAttribute("error_txt", "비밀번호가 올바르지 않습니다. 로그인 실패 : " + (loginAccount.getFailCount() + 1) + "회");
 								returnView = loginPageViewName;
@@ -214,7 +214,7 @@ public class SecurityController {
 		 * = loginPageViewName; } }else{ returnView = loginPageViewName; }
 		 */
 
-		System.out.println("authenticate.do : returnView = " + returnView);
+		////////////////////////////System.out.println("authenticate.do : returnView = " + returnView);
 
 		return returnView;
 	}

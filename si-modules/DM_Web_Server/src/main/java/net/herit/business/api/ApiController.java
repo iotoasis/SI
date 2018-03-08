@@ -136,7 +136,7 @@ public class ApiController {
 			@PathVariable("operation") String operation,
 			HttpServletRequest request) throws Exception {
 
-		System.out.println("##### get in! "+system+"/"+domain+"/"+data+"/"+operation);
+		//System.out.println("##### get in! "+system+"/"+domain+"/"+data+"/"+operation);
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		HashMap<String, Object> param = new HashMap<String, Object>();
@@ -160,13 +160,13 @@ public class ApiController {
 			String value = request.getParameter(name);
 			param.put(name, value);
 		}
-		System.out.println(param);
+		//System.out.println(param);
 
 		try {
 
 			Map<String, Object> content = databaseService.execute(system,
 					domain, data, operation, param);
-			System.out.println(content);
+			//System.out.println(content);
 
 			response.put("result", 0);
 			response.put("errorCode", 0);
@@ -203,7 +203,7 @@ public class ApiController {
 			@PathVariable("operation") String operation,
 			HttpServletRequest request) throws Exception {
 		
-		System.out.println("##### get in222! "+system+"/"+domain+"/"+operation);
+		//System.out.println("##### get in222! "+system+"/"+domain+"/"+operation);
 
 		Map<String, Object> response = new HashMap<String, Object>();
 		HashMap<String, String> param = new HashMap<String, String>();
@@ -247,30 +247,30 @@ public class ApiController {
 				
 				response.put("result", 0);
 				response.put("content", snContent);
-				System.out.println("response (discovery) : " + response.toString());
+				//System.out.println("response (discovery) : " + response.toString());
 				return response;
 			}
 		}
 		
-		System.out.println("deviceId:" + deviceId);
-		System.out.println("WHY");
+		//System.out.println("deviceId:" + deviceId);
+		//System.out.println("WHY");
 		DeviceVO deviceInfo = hdmDAO.getDeviceInfo(deviceId);
 		
-		System.out.println("deviceInfo is null? : " + deviceInfo == null);
+		//System.out.println("deviceInfo is null? : " + deviceInfo == null);
 
 		int dmType = deviceInfo.getDmType();
 		String extDeviceId = deviceInfo.getExtDeviceId();
 		String modelName = deviceInfo.getModelName();
 		DeviceModelVO deviceModelInfo = hdpDAO.getDeviceModelId(modelName);
 		String deviceModelId = deviceModelInfo.getId();
-		System.out.println("dmType : " + dmType);
-		System.out.println("extDeviceId : " + extDeviceId);
-		System.out.println("modelName : " + modelName);
-		System.out.println("deviceModelId : " + deviceModelId);
+		//System.out.println("dmType : " + dmType);
+		//System.out.println("extDeviceId : " + extDeviceId);
+		//System.out.println("modelName : " + modelName);
+		//System.out.println("deviceModelId : " + deviceModelId);
 		
-		System.err.println("#########################################");
-		System.err.println("   TEST :: dmType :: "+dmType);
-		System.err.println("#########################################");
+		//System.err.println("#########################################");
+		//System.err.println("   TEST :: dmType :: "+dmType);
+		//System.err.println("#########################################");
 		
 		String body = null;
 		if (dmType == 0) {
@@ -279,7 +279,7 @@ public class ApiController {
 				// body = getBody(request);
 				HashMap<String, Object> content = openApiService.execute(operation, bodyString);
 
-				System.err.println(content.toString());
+				//System.err.println(content.toString());
 				if (content.get("exception") == null
 						&& (Integer) content.get("status") == 200) {
 					response.put("result", 0);
@@ -323,35 +323,35 @@ public class ApiController {
 				if (resourceList == null || resourceList.isEmpty()) {
 					// 예외처리
 				}
-				System.out.println("e:" + resourceList.toString());
+				//System.out.println("e:" + resourceList.toString());
 				
 				ArrayList<String> resUris = new ArrayList<String>();
 				String executeCont = null;
 				for (int i=0; i < resourceList.size(); i++) {
-					System.out.println("contentList:" + resourceList.get(i));
+					//System.out.println("contentList:" + resourceList.get(i));
 					
 					HashMap<String, String> resUri = resourceList.get(i);
 					String resource = resUri.get("n");
-					System.out.println("resource:" + resource);
+					//System.out.println("resource:" + resource);
 					
 					//execute 명령에 대한 웹 제어 데이터
 					executeCont = resUri.get("sv");
-					System.out.println("executeCont:" + executeCont);
+					//System.out.println("executeCont:" + executeCont);
 					
 					MoProfileVO moProfileInfo = hdpDAO.getMoProfileId(deviceModelId, resource);
 					String moProfileId = moProfileInfo.getId();
-					System.out.println("moProfileId : " + moProfileId);
+					//System.out.println("moProfileId : " + moProfileId);
 					
 					ExtMoProfileVO extInfo = hdpDAO.getResUriNameInfo(moProfileId);
-					System.out.println("extInfo:" + extInfo.getExtResourceUri());
+					//System.out.println("extInfo:" + extInfo.getExtResourceUri());
 					
 					String resourceUri = extDeviceId +"/"+ extInfo.getExtResourceUri();
-					System.out.println("resourceUri:" + resourceUri);
+					//System.out.println("resourceUri:" + resourceUri);
 					
 					resUris.add(resourceUri);
 				}
 				
-				System.out.println("resUris:" + resUris.toString());
+				//System.out.println("resUris:" + resUris.toString());
 				
 				//oneM2M 서버
 				OneM2MApiService oneM2MSvc = OneM2MApiService.getInstance();
@@ -363,8 +363,8 @@ public class ApiController {
  				for(int j=0; j < resUris.size(); j++) {
 					to.add((String) content.get(resUris.get(j)));
 					ct.add((String) content.get(resUris.get(j)+"_"+j));
-					System.out.println(resUris.get(j) + content.get(resUris.get(j)));
-					System.out.println(resUris.get(j)+"_"+j + content.get(resUris.get(j)+"_"+j));
+					//System.out.println(resUris.get(j) + content.get(resUris.get(j)));
+					//System.out.println(resUris.get(j)+"_"+j + content.get(resUris.get(j)+"_"+j));
 				}
 				
 				ArrayList<HashMap<String, String>> eList = new ArrayList<HashMap<String,String>>();
@@ -391,10 +391,10 @@ public class ApiController {
 				response.put("content", resContent);
 				
 				
-				//System.out.println("=================" + response.toString());
+				////System.out.println("=================" + response.toString());
 
 			} catch (Exception ex) {
-				System.out.println("ex :" + ex);
+				//System.out.println("ex :" + ex);
 			}
 		} else if (dmType == 2) { // LWM2M Server
 			try {
@@ -430,8 +430,8 @@ public class ApiController {
 					response.put("responseBody", content.get("body"));
 				}//*/
 				
-				System.out.println("CONTENT : " + content.toString());
-				System.out.println("RESPONSE : " + response);
+				//System.out.println("CONTENT : " + content.toString());
+				//System.out.println("RESPONSE : " + response);
 
 			} catch (UserSysException ex) {
 				ex.printStackTrace();
@@ -454,16 +454,16 @@ public class ApiController {
 			
 		} else if (dmType == 3) { // TR-069 Server
 			
-			System.out.println("##### operation : "+operation);
-			System.out.println("##### bodyString : "+bodyString);
-			System.out.println("##### contentMap : "+contentMap);
+			//System.out.println("##### operation : "+operation);
+			//System.out.println("##### bodyString : "+bodyString);
+			//System.out.println("##### contentMap : "+contentMap);
 			
 			HashMap<String, Object> content = null;
 			
 			try{
-				content = tr069ApiService.execute2(operation, new JSONObject(bodyString));
-				System.out.println("::::::::::::::::::::::::::::::::::");
-				System.out.println(content);
+				content = tr069ApiService.execute(operation, new JSONObject(bodyString));
+				//System.out.println("::::::::::::::::::::::::::::::::::");
+				//System.out.println(content);
 				if (content.get("exception") == null && (Integer) content.get("status") == 200) {
 					
 					response.put("result", 0);
@@ -484,7 +484,7 @@ public class ApiController {
 				}
 			} /*catch (UserSysException ex) {
 				ex.printStackTrace();
-				System.out.println(ex);
+				//System.out.println(ex);
 				ErrorVO err = ex.getErrorVO();
 				response.put("result", 1);
 				response.put("errorCode", err.getErrorCode());
@@ -493,7 +493,7 @@ public class ApiController {
 
 			}*/ catch (Exception ex) {
 				ex.printStackTrace();
-				System.out.println(ex);
+				//System.out.println(ex);
 				response.put("result", 1);
 				response.put("errorCode", -1);
 				response.put("content", ex.toString());
@@ -501,8 +501,8 @@ public class ApiController {
 				response.put("requestBody", body);
 			}
 			
-			System.out.println("[ CONTENT_OUT ] : "+content);
-			System.out.println("[ RESPONSE_OUT ] : "+response);
+			//System.out.println("[ CONTENT_OUT ] : "+content);
+			//System.out.println("[ RESPONSE_OUT ] : "+response);
 			
 		}
 		
@@ -522,16 +522,16 @@ public class ApiController {
 		Map<String, Object> response = new HashMap<String, Object>();
 		
 		try{
-			System.out.println("##### get in444! "+system+"/"+domain);
+			//System.out.println("##### get in444! "+system+"/"+domain);
 			
 			String savePath = "";
-			System.out.println(firmwareDir);
-			System.out.println(tomcatDir+uploadDir);
-			System.out.println("ddddddddd3333");
+			//System.out.println(firmwareDir);
+			//System.out.println(tomcatDir+uploadDir);
+			//System.out.println("ddddddddd3333");
 			
 			MultipartHttpServletRequest mptRequest = (MultipartHttpServletRequest)request;
 			String originalFileName = mptRequest.getFile("packageName").getOriginalFilename();
-			System.out.println(originalFileName);
+			//System.out.println(originalFileName);
 			File dir = new File(originalFileName);
 			
 			if (!dir.exists()) {
@@ -546,14 +546,14 @@ public class ApiController {
 				directory = tomcatDir+uploadDir;
 			}
 				
-			System.out.println("middle test : " +dir);
+			//System.out.println("middle test : " +dir);
 			List<HeritFormBasedFileVO> result = HeritFileUploadUtil.filesUpload(request, directory, maxFileSize);
-			System.out.println(result.size());
+			//System.out.println(result.size());
 			
 			String res = null;
 			HttpConnector hc = new HttpConnector();
 			res = hc.sendFile(mptRequest);
-			System.out.println("---- res : "+res);
+			//System.out.println("---- res : "+res);
 			/*
 			hc.sendFileWithCurl();
 	
@@ -572,15 +572,15 @@ public class ApiController {
 				params[2] = firmwareDir+dir.getName();
 				
 				res = co.send("file upload", params);
-				System.out.println(res);				
+				//System.out.println(res);				
 			}*/
 			
 			if(res != null && res.indexOf("201") > -1){
 				int deviceModelId = Integer.parseInt(mptRequest.getParameter("deviceModel"));
 				//long fileSize = dir.length();
 				long fileSize = result.get(0).getSize();
-				System.out.println("######################## file size ");
-				System.out.println(fileSize);
+				//System.out.println("######################## file size ");
+				//System.out.println(fileSize);
 				int fwId = 0;
 				String fileName = originalFileName;
 				String version = mptRequest.getParameter("version");
@@ -616,7 +616,7 @@ public class ApiController {
 			@PathVariable("data") String data, HttpServletRequest request)
 			throws Exception {
 
-		System.out.println("##### get in333! "+system+"/"+domain+"/"+data);
+		//System.out.println("##### get in333! "+system+"/"+domain+"/"+data);
 		
 		Map<String, Object> response = new HashMap<String, Object>();
 		HashMap<String, Object> param = new HashMap<String, Object>();
@@ -626,7 +626,7 @@ public class ApiController {
 		while (names.hasMoreElements()) {
 			String name = (String) names.nextElement();
 			String value = request.getParameter(name);
-			System.out.println("name value : " + name + " , " + value);
+			//System.out.println("name value : " + name + " , " + value);
 			param.put(name, value);
 		}
 
@@ -642,7 +642,7 @@ public class ApiController {
 		if (domain.equalsIgnoreCase("firmware")) {
 
 			String dirPackageName = (String) param.get("packageName");
-			System.out.println("dirPackageName : " + dirPackageName);
+			//System.out.println("dirPackageName : " + dirPackageName);
 			File dir = new File(dirPackageName);
 
 			if (!dir.exists()) {
@@ -650,7 +650,7 @@ public class ApiController {
 			}
 
 			String fileDir = firmwareDir + dir;
-			System.out.println("fileDir " + fileDir);
+			//System.out.println("fileDir " + fileDir);
 
 			fileUploadDir = firmwareDir;
 			list = HeritFileUploadUtil.filesUpload(request, fileDir,
@@ -752,7 +752,7 @@ public class ApiController {
 		ObjectMapper mapper = new ObjectMapper();
 		Object json = mapper.writeValueAsString(map);
 		
-		System.out.println("json: " + json.toString());
+		//System.out.println("json: " + json.toString());
 	}*/
 	
 	/*
@@ -785,16 +785,16 @@ public class ApiController {
 	@RequestMapping(value = "/firmware/list.do")
 	//public Map<String, Object> getFirmwareList(ParameterVO po, HttpServletRequest request) throws Exception {
 	public Map<String, Object> getFirmwareList(@RequestBody String bodyString, HttpServletRequest request) throws Exception {
-		System.out.println("값 체크");
+		//System.out.println("값 체크");
 		Map<String, Object> response = new HashMap<String, Object>();
 
 		
 
 		//*
 		JSONObject param = new JSONObject(bodyString);
-		System.out.println(bodyString);
-		System.out.println(param);
-		System.out.println("@@@@@@@@@@@@@@@@@@@");
+		//System.out.println(bodyString);
+		//System.out.println(param);
+		//System.out.println("@@@@@@@@@@@@@@@@@@@");
 		ParameterVO po = new ParameterVO();
 		try{
 			po.setSn(param.getString("sn"));
@@ -805,7 +805,7 @@ public class ApiController {
 			Method[] methods = po.getClass().getMethods();
 			for(int i=0; i<methods.length; i++){
 				if( methods[i].getName().startsWith("get") && methods[i].invoke(po) != null ){
-					System.out.println("[PO - "+methods[i].getName()+"] : "+methods[i].invoke(po));
+					//System.out.println("[PO - "+methods[i].getName()+"] : "+methods[i].invoke(po));
 				}
 			}
 		} catch (Exception ex) {
@@ -841,14 +841,76 @@ public class ApiController {
 	 * @throws Exception
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/{system}/onem2m/noti")
+	@RequestMapping(value = "/onem2m/noti")
 	public String getConFromNotification(HttpServletRequest request, ModelMap model) {
+		
+		// map
+		HashMap<String, String> headers = new HashMap<String, String>();
+		HashMap<String, String> notification = new HashMap<String, String>();
+		
+		// headers
+		Enumeration headerName = request.getHeaderNames();
+		while( headerName.hasMoreElements() ){
+			String name = (String)headerName.nextElement();
+			String value = request.getHeader(name);
+			headers.put(name, value);
+		}
+		Util.getInstance().printMap(headers);
+		
+		// 
+		String contentType = "json";
+		String cnf = "text/plain:0";
+		try(InputStream is = request.getInputStream()){
+			byte[] buffer = IOUtils.toByteArray(is);
+			String body = new String(buffer);
+			//System.out.println(body);
+			
+			if( (headers.containsKey("Accept") && headers.get("Accept").indexOf("xml") > -1) || body.startsWith("<?xml") ){
+				contentType = "xml";
+			}
+			
+			switch( contentType ){
+			case "json" :
+				JSONObject jbody = new JSONObject(body);
+				notification.put("sur", jbody.getJSONObject("m2m:sgn").getString("sur"));
+				notification.put("con", jbody.getJSONObject("m2m:sgn").getJSONObject("nev").getJSONObject("rep").getJSONObject("m2m:cin").getString("con"));
+				if( jbody.getJSONObject("m2m:sgn").getJSONObject("nev").getJSONObject("rep").getJSONObject("m2m:cin").has("cnf") ){
+					cnf = jbody.getJSONObject("m2m:sgn").getJSONObject("nev").getJSONObject("rep").getJSONObject("m2m:cin").getString("cnf");
+				}
+				break;
+			case "xml" :
+				notification.put("sur", Util.getValueFromXml(body, "sur"));
+				notification.put("con", Util.getValueFromXml(body, "con"));
+				if( Util.getValueFromXml(body, "cnf") != null ){
+					cnf = Util.getValueFromXml(body, "cnf");
+				}
+				break;
+			default :
+				//System.out.println("type exception");
+				return null;
+			}
+			
+			notification.put("cnf", cnf);
+			Util.getInstance().printMap(notification);
+			boolean isSuccess = hdmDAO.insertNotificationResource(notification);
+			if( isSuccess ){
+				//System.out.println(contentType+" - saved");
+			} else {
+				//System.out.println(contentType+" - fail to save");
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 		String result = null;
 		
+		/*
 		try(InputStream is = request.getInputStream()){	
 			byte[] buffer = IOUtils.toByteArray(is);
 			String xml = new String(buffer);
+			//System.out.println(xml);
 			HashMap<String, String> notification = new HashMap<String, String>();
 			notification.put("con", Util.getValueFromXml(xml, "con"));
 			notification.put("cnf", Util.getValueFromXml(xml, "cnf"));
@@ -867,9 +929,61 @@ public class ApiController {
 		} finally {
 			
 		}
+		*/
 		
 		return result;
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/device/type")
+	public int getDeviceType(HttpServletRequest request, ModelMap model) {
+		
+		int dmType = 0;
+		
+		try(InputStream is = request.getInputStream()){
+			byte[] buffer = IOUtils.toByteArray(is);
+			//System.out.println(new String(buffer));
+			JSONObject body = new JSONObject(new String(buffer));
+			//System.out.println(body);
+			
+			String deviceId = body.getString("deviceId");
+			dmType = hdmDAO.getDeviceType(deviceId);
+			
+			//System.out.println(dmType);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dmType;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/device/model")
+	public int getDeviceModel(HttpServletRequest request, ModelMap model) {
+		
+		int dmModelId = 0;
+		
+		try(InputStream is = request.getInputStream()){
+			byte[] buffer = IOUtils.toByteArray(is);
+			//System.out.println(new String(buffer));
+			JSONObject body = new JSONObject(new String(buffer));
+			//System.out.println(body);
+			
+			//
+			String deviceId = body.getString("deviceId");
+			dmModelId = hdpDAO.getDeviceModel(deviceId);
+			
+			//System.out.println(dmModelId);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dmModelId;
+	}
+	
 	// MSH-END
 	
 }

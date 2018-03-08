@@ -9,9 +9,9 @@
 	<%@ include file="/WEB-INF/views/v2/common/common_head.jsp"%>
     <title>OASIS SI Admin</title>
 	<%@ include file="/WEB-INF/views/v2/common/common_js.jsp"%>
-	<script src="<c:url value="/v2/js/herit/hdb.js" />"></script>
-	<script src="<c:url value="/v2/js/herit/firmware.js" />"></script>
-	<script src="<c:url value="/v2/js/herit/firmwareStatus.js" />"></script>
+	<script language="javascript" src="<c:url value="/v2/js/herit/hdb.js" />"></script>
+	<script language="javascript" src="<c:url value="/v2/js/herit/firmware.js" />"></script>
+	<script language="javascript" src="<c:url value="/v2/js/herit/firmwareStatus.js" />"></script>
 	
     <script type="text/javaScript" language="javascript">
 	    var param = ${paramJson};
@@ -43,7 +43,7 @@
 		function initUI() {
 			$("#side-menu_firmware").addClass("active");
 			$("#side-menu_firmware ul").addClass("in");
-			$("#side-menu_firmware ul li:eq(4)").addClass("active");
+			$("#side-menu_firmware ul li:eq(3)").addClass("active");
 		}
     </script>
 </head>

@@ -42,7 +42,9 @@
         <a href="#"><i class="fa fa-download"></i> <span class="nav-label">펌웨어 관리</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level">
             <li><a href="<c:url value="/firmware/list.do" />">펌웨어 목록 조회</a></li>
+			<!--
         	<li><a href="<c:url value="/firmware/upload.do" />">펌웨어 업로드</a></li>
+			-->
             <li><a href="<c:url value="/firmware/device/upgrade.do" />">펌웨어 업그레이드</a></li>
             <li><a href="<c:url value="/firmware/device/schedule.do" />">스케줄링</a></li>
             <li><a href="<c:url value="/firmware/device/status.do" />">상태조회</a></li>

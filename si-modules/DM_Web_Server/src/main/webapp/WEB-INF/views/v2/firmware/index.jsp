@@ -82,8 +82,8 @@
 <%@ include file="/WEB-INF/views/v2/common/common_js.jsp"%>
 
 <!-- Custom and plugin javascript -->
-<script src="/hdm/v2/js/inspinia.js"></script>
-<script src="/hdm/v2/js/plugins/pace/pace.min.js"></script>
+<script language="javascript" src="/hdm/v2/js/inspinia.js"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/pace/pace.min.js"></script>
 
 </body>
 

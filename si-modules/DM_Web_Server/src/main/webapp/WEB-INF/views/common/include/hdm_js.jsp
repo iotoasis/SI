@@ -7,8 +7,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/hitdm/style.css?v=1" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/hitdm/margin.css" />
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script language="javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	
 	<script type="text/javascript">
 	var open_selectbox = function($select) {

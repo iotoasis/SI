@@ -16,7 +16,7 @@ public class OneM2MHeaderMaker {
         while(it.hasNext()){
             String key = it.next();
             String value = header.get(key);
-            System.out.println("########### "+ key+" : "+value);
+            //System.out.println("########### "+ key+" : "+value);
         }
 
         return header;

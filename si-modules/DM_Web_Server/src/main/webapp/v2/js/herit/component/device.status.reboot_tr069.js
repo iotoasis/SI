@@ -114,10 +114,12 @@ var dsr_tr069 = {
 						"deviceId":_ucc.getDeviceInfo().deviceId,
 						"deviceModelId":_ucc.getDeviceModelInfo().id,
 						"fileName":target.find('td:eq(1)').text(),
+						"version":target.find('td:eq(2)').text(),
 						"handler": dsr_tr069.executeResultHandler
-					};		
+					};
 					dsr_tr069.isProcessing = true;
 					$('button').prop('disabled',true);
+					//console.log(context);
 					dm_firmware_download_tr069(context, false);
 				}
 			}); 
@@ -126,7 +128,6 @@ var dsr_tr069 = {
 	},
 	onFirmwareDownloadClick: function(target){
 		alert(target[0]);
-		
 	},
 	executeResultHandler: function(msg, context) {
 		console.log("dsr_tr069.executeResultHandler called ");

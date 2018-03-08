@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert title here</title>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/herit/common/common.js"></script>
+	<script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/js/herit/common/common.js"></script>
 </head>
 <body>
 

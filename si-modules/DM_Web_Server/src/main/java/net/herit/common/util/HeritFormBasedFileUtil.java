@@ -137,10 +137,10 @@ public class HeritFormBasedFileUtil {
 	        String name = item.getFieldName();
 	        InputStream stream = item.openStream();
 	        if (item.isFormField()) {
-	            //System.out.println("Form field '" + name + "' with value '" + Streams.asString(stream) + "' detected.");
+	            ////System.out.println("Form field '" + name + "' with value '" + Streams.asString(stream) + "' detected.");
 	            Logger.getLogger(HeritFormBasedFileUtil.class).info("Form field '" + name + "' with value '" + Streams.asString(stream) + "' detected.");
 	        } else {
-	            //System.out.println("File field '" + name + "' with file name '" + item.getName() + "' detected.");
+	            ////System.out.println("File field '" + name + "' with file name '" + item.getName() + "' detected.");
 	            Logger.getLogger(HeritFormBasedFileUtil.class).info("File field '" + name + "' with file name '" + item.getName() + "' detected.");
 
 	            if ("".equals(item.getName())) {
@@ -296,14 +296,14 @@ public class HeritFormBasedFileUtil {
 			try {
 			    outs.close();
 			} catch (Exception ignore) {
-			    System.out.println("IGNORE: " + ignore);
+			    //System.out.println("IGNORE: " + ignore);
 			}
 		    }
 		    if (fin != null) {
 			try {
 			    fin.close();
 			} catch (Exception ignore) {
-			    System.out.println("IGNORE: " + ignore);
+			    //System.out.println("IGNORE: " + ignore);
 			}
 		    }
 		}

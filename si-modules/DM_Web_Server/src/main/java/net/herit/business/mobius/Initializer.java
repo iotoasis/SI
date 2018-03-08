@@ -18,13 +18,13 @@ public class Initializer implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent sce) {
 		
 		// ae 존재 체크
-		System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+		//System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
 		// ae 생성
 		
 		AE ae = new AE();
 		JSONConverter jcvt = new JSONConverter(ae);
 		JSONObject resourceJson = jcvt.convert();
-		System.out.println(resourceJson);
+		//System.out.println(resourceJson);
 		
 		
 	}

@@ -15,7 +15,7 @@ public class IndexController {
 
 	@RequestMapping(value="/index.do")
 	public String goIndexView(HttpServletRequest request, ModelMap modelMap) {
-		System.out.println("/index.do : first");
+		//System.out.println("/index.do : first");
 		
 		String returnView = null;
 		String indexPageView = HeritProperties.getProperty("Globals.MainPage");
@@ -28,7 +28,7 @@ public class IndexController {
 		//본 컨트롤러에 url 요청이 들어왔을 경우 세션 체크를 통해 dispatch 할 index View(index.jsp 혹은 login.jsp) 를 결정한다.
 		HttpSession session = request.getSession(false);
 		String contextPath = request.getContextPath();
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>> contextPath " + contextPath);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>> contextPath " + contextPath);
 	
 		if (session != null) {
 			Account loginAccount = (Account) session.getAttribute("account");
@@ -46,7 +46,7 @@ public class IndexController {
 		}
 
 
-		System.out.println("/index.do : returnView = " + returnView);
+		//System.out.println("/index.do : returnView = " + returnView);
 		modelMap.addAttribute("error_txt", "");
 		return "redirect:" + returnView +".do";
 	}

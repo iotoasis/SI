@@ -634,6 +634,14 @@
 			AND resource_uri = #resourceUri#
 	</select>
 	
+	<select id="DeviceDAO.device.type" resultClass="Integer">
+		SELECT
+			A.DM_TYPE
+		FROM 
+			HDM_DEVICE A 
+		WHERE 1=1
+			AND A.DEVICE_ID = #deviceId#
+	</select>
 	
 	<!-- ****************************************************** -->
 	<!-- 		oneM2M	 -->

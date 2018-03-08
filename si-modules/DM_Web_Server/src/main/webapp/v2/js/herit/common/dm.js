@@ -24,6 +24,12 @@
 	function dm_firmware_download_tr069(context, loading)
 	{
 		console.log("dm_firmware_download_tr069 called context:");
+		console.log("::::::::::::::::::::::::::");
+		console.log("::::::::::::::::::::::::::");
+		console.log("::::::::::::::::::::::::::");
+		console.log("::::::::::::::::::::::::::");
+		console.log("::::::::::::::::::::::::::");
+		console.log("::::::::::::::::::::::::::");
 		console.log(context);
 		
 		if (loading == true)
@@ -33,18 +39,18 @@
 		
 		var deviceId = context.deviceId;
 		var fileName = context.fileName;
-		//var version = context.version;
+		var version = context.version;
 		
 		$.ajax({
 		  type: "POST",
 		  dataType: "json",
 		  url: "/hdm/api/gw/device/firmware_update.do",
 		  contentType: "application/json",
-		  data: JSON.stringify({"d":deviceId, "fn": fileName}),
+		  data: JSON.stringify({"d":deviceId, "fn": fileName, "v": version}),
 		  context: context,
 		  success: function(response){
 			  console.log(response);
-			  alert("success");
+			  //alert("success");
 		  }
 		})
 		.done(function(msg) {

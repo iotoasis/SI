@@ -66,14 +66,14 @@ public class ExcelUtil {
 
 				int sheetNum = work.getNumberOfSheets();
 
-				System.out.println("\n# sheet num : " + sheetNum);
+				//System.out.println("\n# sheet num : " + sheetNum);
 
 				for (int loop = 0; loop < sheetNum; loop++) {
 					XSSFSheet sheet = work.getSheetAt(loop);
 
 					int rows = sheet.getPhysicalNumberOfRows();
 
-					System.out.println("\n# sheet rows num : " + rows);
+					//System.out.println("\n# sheet rows num : " + rows);
 
 					for (int rownum = 0; rownum < rows; rownum++) {
 						XSSFRow row = sheet.getRow(rownum);
@@ -81,8 +81,7 @@ public class ExcelUtil {
 						if (row != null) {
 							int cells = row.getPhysicalNumberOfCells();
 
-							System.out.println("\n# row = " + row.getRowNum()
-									+ " / cells = " + cells);
+							//System.out.println("\n# row = " + row.getRowNum()+ " / cells = " + cells);
 
 							String[] excelRow = new String[cells];
 							for (int cellnum = 0; cellnum < cells; cellnum++) {
@@ -135,7 +134,7 @@ public class ExcelUtil {
 
 					int rows = sheet.getPhysicalNumberOfRows();
 
-					System.out.println("\n# sheet rows num : " + rows);
+					//System.out.println("\n# sheet rows num : " + rows);
 
 					for (int rownum = 0; rownum < rows; rownum++) {
 						HSSFRow row = sheet.getRow(rownum);
@@ -143,8 +142,7 @@ public class ExcelUtil {
 						if (row != null) {
 							int cells = row.getPhysicalNumberOfCells();
 
-							System.out.println("\n# row = " + row.getRowNum()
-									+ " / cells = " + cells);
+							//System.out.println("\n# row = " + row.getRowNum()+ " / cells = " + cells);
 
 							String[] excelRow = new String[cells];
 							for (int cellnum = 0; cellnum < cells; cellnum++) {

@@ -91,9 +91,9 @@ public class TR069Controller implements EtcProtocol{
 	public String connect(HttpServletRequest request){
 		String response = null;
 		try{
-			System.out.println("----------------------------------- TR-069 Connect Start!!");
+			//System.out.println("----------------------------------- TR-069 Connect Start!!");
 			JSONObject token = httpOperator.getParamFromRequest(request);
-			System.out.println(token);
+			//System.out.println(token);
 			
 			// 초기화
 			DmVO vo = connectInitialize(token);
@@ -102,7 +102,7 @@ public class TR069Controller implements EtcProtocol{
 			DeviceModelVO deviceModel = checkDeviceModelRegist(vo.getModelName());			// 등록 조회 : hdp_device_model
 			checkDeviceModelProfileRegist(deviceModel);									// 등록 조회 : hdp_mo_profile
 			checkDeviceRegist(vo);															// 등록 조회 : hdm_device 
-			System.out.println("----------------------------------- TR-069 Device has connected.");
+			//System.out.println("----------------------------------- TR-069 Device has connected.");
 			response = "200 OK";
 			
 			// DB에 데이터 업데이트
@@ -121,9 +121,9 @@ public class TR069Controller implements EtcProtocol{
 	public String report(HttpServletRequest request){
 		String response = null;
 		try{
-			System.out.println("----------------------------------- TR-069 Report Start!!");
+			//System.out.println("----------------------------------- TR-069 Report Start!!");
 			JSONObject token = httpOperator.getParamFromRequest(request);
-			System.out.println(token);
+			//System.out.println(token);
 			
 			// 초기화
 			DmVO vo = reportInitialize(token);
@@ -205,7 +205,7 @@ public class TR069Controller implements EtcProtocol{
 		}
 		
 		if(isConnected){
-			System.out.println("----------------------------------- Process done.");
+			//System.out.println("----------------------------------- Process done.");
 		} else {
 			throw new Exception(Errors.ERR_500.getMsg());
 		}
@@ -221,7 +221,7 @@ public class TR069Controller implements EtcProtocol{
 		if(resourceCount == 0){
 			// resource 등록
 			hdmDAO.insertDeviceResources(vo.getDeviceId(), vo.getUriList());
-			System.out.println("Resource has registered.");
+			//System.out.println("Resource has registered.");
 		}
 	}
 	
@@ -259,7 +259,7 @@ public class TR069Controller implements EtcProtocol{
 	@RequestMapping(value="/connect2.do", produces="application/json; charset=utf8")
 	@ResponseBody
 	public String connectHandler(HttpServletRequest request){
-		System.out.println("----------------------------------- connect");
+		//System.out.println("----------------------------------- connect");
 		JSONObject response = null;
 		try{
 			
@@ -284,10 +284,10 @@ public class TR069Controller implements EtcProtocol{
 			//	hdhDAO.insertControlHistory(UtilT.jsonToMap(token));
 			//}
 			
-			System.out.println("CONNECT !!!!!!!!!!!!!!!!!!!!!!!!");
-			System.out.println(token);
-			System.out.println("CONNECT2 !!!!!!!!!!!!!!!!!!!!!!!!");
-			System.out.println(inform);
+			//System.out.println("CONNECT !!!!!!!!!!!!!!!!!!!!!!!!");
+			//System.out.println(token);
+			//System.out.println("CONNECT2 !!!!!!!!!!!!!!!!!!!!!!!!");
+			//System.out.println(inform);
 			
 			
 			
@@ -302,7 +302,7 @@ public class TR069Controller implements EtcProtocol{
 	@RequestMapping(value="/report2.do", produces="application/json; charset=utf8")
 	@ResponseBody
 	public String reportHandler(HttpServletRequest request){
-		System.out.println("----------------------------------- report");
+		//System.out.println("----------------------------------- report");
 		JSONObject response = null;
 		try{
 			token = msgHandler.jsonReceiver(request);
@@ -310,13 +310,13 @@ public class TR069Controller implements EtcProtocol{
 			String api = token.getString("api");
 			String headUri = "/dm/tr69";
 			if(api.startsWith(headUri)){
-				System.out.println(api);
+				//System.out.println(api);
 				api = api.substring(headUri.length());
 				hdmDAO.updateDeviceResourcesData(Formatter.getInstance().getTR069DeviceIdToDm(token.getString("deviceId")), token.getJSONObject("param"));
 				
 				
-				System.out.println("REPORT !!!!!!!!!!!!!!!!!!!!!!!!");
-				System.out.println(token);
+				//System.out.println("REPORT !!!!!!!!!!!!!!!!!!!!!!!!");
+				//System.out.println(token);
 			}
 		} catch(Exception e) {
 			response = msgHandler.setResponse(Errors.ERR_500, e.getMessage());
@@ -358,7 +358,7 @@ public class TR069Controller implements EtcProtocol{
 			e.printStackTrace();
 			result = msgHandler.setResponse(Errors.ERR_500, e.getMessage());
 		} finally {	
-			System.out.println("disconnected : " + hasDisconnected);
+			//System.out.println("disconnected : " + hasDisconnected);
 		}
 		return result;
 	}

@@ -102,8 +102,8 @@ public class Util {
 		} else {
 			elseTxt = txt;
 		}
-		System.out.println(result);
-		System.out.println(elseTxt);
+		//System.out.println(result);
+		//System.out.println(elseTxt);
 		
 		return result;
 	}

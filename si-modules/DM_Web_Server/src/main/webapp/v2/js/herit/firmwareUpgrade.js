@@ -122,6 +122,13 @@ function getPackageNameWithFirmwareId(firmwareId) {
 }
 
 var firmwareUpgradeStatus = [];
+
+var executeResultHandler = function(msg, context) {
+	console.log("dsr_tr069.executeResultHandler called ");
+	//console.log("msg: "+JSON.stringify(msg));
+	
+}
+
 function executeUpgrade() {
 	console.log("executeUpgrade called");
 	var version = $("#search_firmwareVersion").val();
@@ -134,21 +141,58 @@ function executeUpgrade() {
 		return false;
 	}
 	
+	
 	$(".upgradeCheckbox").each(function(idx) {
 		if ($(this).prop("checked")) {
-			var deviceId = $(this).attr("id").substring(3);	// cb_[deviceId]에서 "cb_" 삭제
-			firmwareUpgradeStatus[firmwareUpgradeStatus.length] = {"deviceId": deviceId, "packageName": packageName, 
-														"version": version, "result": null};	
+			var deviceId = $(this).attr("id").substring(3);	// cb_[deviceId]에서 "cb_" 삭제			
+			firmwareUpgradeStatus[firmwareUpgradeStatus.length] = {"deviceId": deviceId, "packageName": packageName, "version": version, "result": null};	
 		}
 	});
+	
 	console.log("  firmwareUpgradeStatus:"+JSON.stringify(firmwareUpgradeStatus));
 	
 	$(".upgradeCheckbox").each(function(idx) {
 		if ($(this).prop("checked")) {
 			var deviceId = $(this).attr("id").substring(3);	// cb_[deviceId]에서 "cb_" 삭제
-			executeUpgradeDevice(deviceId, packageName, version, firmwareUpgradeStatus);	
+			//*
+			$.post('/hdm/api/device/type.do',
+				JSON.stringify({deviceId:deviceId}),
+				"json"
+			).done(function(data){
+				var dmType = data;
+				if( dmType == 3 ){
+					var deviceModelId = 0;
+					$.post('/hdm/api/device/model.do',
+						JSON.stringify({deviceId:deviceId}),
+						"json"
+					).done(function(data){
+						deviceModelId = data;
+					});
+					
+					//*
+					var context = {
+						"deviceId":deviceId,
+						"deviceModelId":deviceModelId,
+						"fileName":packageName,
+						"version":version,
+						"handler": executeResultHandler
+					};		
+					//dsr_tr069.isProcessing = true;
+					//$('button').prop('disabled',true);
+					dm_firmware_download_tr069(context, false);
+					//*/
+					console.log(version);
+					console.log(firmwareId);
+					console.log(packageName);
+				} else {
+					executeUpgradeDevice(deviceId, packageName, version, firmwareUpgradeStatus);
+				}
+			});
+			//*/
+			//executeUpgradeDevice(deviceId, packageName, version, firmwareUpgradeStatus);	
 		}
 	});
+	//*/
 	return true;
 }
 

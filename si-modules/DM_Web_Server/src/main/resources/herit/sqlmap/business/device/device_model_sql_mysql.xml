@@ -441,5 +441,13 @@
 			AND operation = 'R'
 			AND is_historical = 'Y'
 	</select>
+	
+	<select id="deviceModel.device.model" resultClass="String">
+		SELECT id
+		FROM hdp_device_model
+		WHERE oui = #oui#
+			AND model_name = #model_name#
+	</select>
+	
    	
 </sqlMap>

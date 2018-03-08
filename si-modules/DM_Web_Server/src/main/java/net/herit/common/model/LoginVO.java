@@ -11,7 +11,7 @@ public class LoginVO extends Account implements Serializable{
 	private String name;
 	private String ihidNum;
 	private String email;
-	private String password;	
+	private String wordpass;	
 
 	private String companyId;
 	private String loginid;
@@ -61,11 +61,11 @@ public class LoginVO extends Account implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPassword() {
-		return password;
+	public String getWordpass() {
+		return wordpass;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setWordpass(String wordpass) {
+		this.wordpass = wordpass;
 	}
 	public String getCompanyId() {
 		return companyId;

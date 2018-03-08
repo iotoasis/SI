@@ -46,20 +46,20 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 			//로그인한 유저 정보
 			String loginId = "test login user id";
 			
-//			System.out.println("loginId = " +  loginId);				
-//			System.out.println();
-//			System.out.println();
-//			System.out.println("[Error][" + todayDateString + "]===============================================================================================================================");
+//			//System.out.println("loginId = " +  loginId);				
+//			//System.out.println();
+//			//System.out.println();
+//			//System.out.println("[Error][" + todayDateString + "]===============================================================================================================================");
 //			
-//			System.out.println("	occurDate: " + todayDateString);
-//			System.out.println("	requestURI: " + request.getRequestURI());
-//			System.out.println("	servletPath: " + request.getServletPath());
-//			System.out.println("	remoteHost: " + request.getRemoteHost());
-//			System.out.println("	remoteAddr: " + request.getRemoteAddr());
-//			System.out.println("getStackTrace(): " + ExceptionUtils.getStackTrace(exception));
-//			System.out.println("===============================================================================================================================================");
-//			System.out.println();
-//			System.out.println();
+//			//System.out.println("	occurDate: " + todayDateString);
+//			//System.out.println("	requestURI: " + request.getRequestURI());
+//			//System.out.println("	servletPath: " + request.getServletPath());
+//			//System.out.println("	remoteHost: " + request.getRemoteHost());
+//			//System.out.println("	remoteAddr: " + request.getRemoteAddr());
+//			//System.out.println("getStackTrace(): " + ExceptionUtils.getStackTrace(exception));
+//			//System.out.println("===============================================================================================================================================");
+//			//System.out.println();
+//			//System.out.println();
 				
 				
 			String filePath = errorFilePath;
@@ -97,15 +97,15 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 						print_writer.println(content);
 
 						if(print_writer.checkError()){
-							System.out.println("print_writer error!!");
+							//System.out.println("print_writer error!!");
 						}
 
 						file.createNewFile();
 
-						// System.out.println("파일 생성 성공");
+						// //System.out.println("파일 생성 성공");
 					}catch(Exception e){
 						// TODO: handle exception
-						System.out.println("IO Exceiption!");
+						//System.out.println("IO Exceiption!");
 						e.printStackTrace();
 					}
 				}else{
@@ -114,9 +114,9 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 					print_writer.println(content);
 
 					if(print_writer.checkError()){
-						System.out.println("print_writer error!!");
+						//System.out.println("print_writer error!!");
 					}
-					// System.out.println("이어쓰기 성공");
+					// //System.out.println("이어쓰기 성공");
 				}
 
 			}catch(IOException e){

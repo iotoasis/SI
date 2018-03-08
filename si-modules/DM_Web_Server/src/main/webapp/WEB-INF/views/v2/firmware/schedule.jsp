@@ -11,9 +11,9 @@
 	<%@ include file="/WEB-INF/views/v2/common/common_js.jsp"%>
 	
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-	<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-	<script src="<c:url value="/v2/js/herit/hdb.js" />"></script>
-	<script src="<c:url value="/v2/js/herit/firmwareSchedule.js" />"></script>
+	<script language="javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<script language="javascript" src="<c:url value="/v2/js/herit/hdb.js" />"></script>
+	<script language="javascript" src="<c:url value="/v2/js/herit/firmwareSchedule.js" />"></script>
 	
     <script type="text/javaScript" language="javascript">
 		var contextPath = "${pageContext.request.contextPath}";
@@ -26,7 +26,7 @@
 		function initUI() {
 			$("#side-menu_firmware").addClass("active");
 			$("#side-menu_firmware ul").addClass("in");
-			$("#side-menu_firmware ul li:eq(3)").addClass("active");
+			$("#side-menu_firmware ul li:eq(2)").addClass("active");
 		}
     </script>
 </head>

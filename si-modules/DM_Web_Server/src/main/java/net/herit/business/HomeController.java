@@ -69,7 +69,7 @@ public class HomeController {
 			@PathVariable("page") String page, HttpServletRequest request,
 			ModelMap model)
             throws Exception {
-		System.out.println("commonControllerV2");
+		//System.out.println("commonControllerV2");
 		
 		HttpSession session = request.getSession(false);
 		
@@ -92,7 +92,7 @@ public class HomeController {
 	public String loginFormV2(@PathVariable("page") String page, HttpServletRequest request,
 			ModelMap model)
             throws Exception {
-		System.out.println("loginFormV2");
+		//System.out.println("loginFormV2");
 		HttpSession session = request.getSession(false);
 		String contextPath = request.getContextPath();
 		
@@ -116,7 +116,7 @@ public class HomeController {
 	public String loginFormV2(@PathVariable("page") String page, HttpServletRequest request,
 			ModelMap model)
             throws Exception {
-		System.out.println("loginFormV2");
+		//System.out.println("loginFormV2");
 		HttpSession session = request.getSession(false);
 		String contextPath = request.getContextPath();
 		
@@ -148,7 +148,7 @@ public class HomeController {
 							  HttpServletRequest request,
 							  ModelMap model)
             throws Exception {
-		System.out.println("mobileLogin");
+		//System.out.println("mobileLogin");
 		HttpSession session = request.getSession(false);
 		String contextPath = request.getContextPath();
 		
@@ -172,7 +172,7 @@ public class HomeController {
 									 HttpServletRequest request, 
 									 ModelMap model)
             throws Exception {
-		System.out.println("mobileController");
+		//System.out.println("mobileController");
 		HttpSession session = request.getSession(false);
 		
 		if(session != null){

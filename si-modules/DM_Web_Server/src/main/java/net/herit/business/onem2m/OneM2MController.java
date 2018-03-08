@@ -71,18 +71,18 @@ public class OneM2MController {
 			OneM2MApiService onem2mService = OneM2MApiService.getInstance();
 			String from = onem2mService.getAppName();
 			String response = onem2mService.getResourceString(resourceUri, from); 
-			System.out.println(response);
+			//System.out.println(response);
 			
 	/*		OneM2MApiService onem2mService = OneM2MApiService.getInstance();
 			String content = onem2mService.getResource(resourceUri, "/testOrigin");
-			System.out.println("=====>" + content);
+			//System.out.println("=====>" + content);
 */			
 			model.addAttribute("cse_addr", onem2mService.getCseAddr());
 			model.addAttribute("content", response);
 			
 			
 		} catch(Exception ex) {
-			System.out.println("ex :" + ex);
+			//System.out.println("ex :" + ex);
 		}
 		
 		
@@ -130,7 +130,7 @@ public class OneM2MController {
 					response.put("content", strResult);
 					
 				} catch(Exception ex) {
-					System.out.println("ex :" + ex);
+					//System.out.println("ex :" + ex);
 				}
 			}
 		} else {
@@ -192,7 +192,7 @@ public class OneM2MController {
 					response.put("content", strResult);
 					
 				} catch(Exception ex) {
-					System.out.println("ex :" + ex);
+					//System.out.println("ex :" + ex);
 				}
 			}
 		} else {
@@ -252,7 +252,7 @@ public class OneM2MController {
 					response.put("content", strResult);
 					
 				} catch(Exception ex) {
-					System.out.println("ex :" + ex);
+					//System.out.println("ex :" + ex);
 				}
 			}
 		} else {

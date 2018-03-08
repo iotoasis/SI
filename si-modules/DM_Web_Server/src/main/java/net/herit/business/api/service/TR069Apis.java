@@ -53,10 +53,41 @@ public class TR069Apis {
 		HttpURLConnection conn = null;
 		
 		try{
+			
+			//System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			//System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			
 			String deviceId = Formatter.getInstance().getTR069DeviceIdFromDm(parameters.getString("d"));
 			String url = "http://"+ip+":"+port+"/devices/"+deviceId+"/tasks?timeout=3000&connection_request";
 			conn = HttpConnector.getInstance().getConnection(url);
 			JSONObject msg = new JSONObject();
+			msg.put("name", "getParameterValues");
+			
+			Object[][] parameterValues = new Object[1][2];
+			parameterValues[0][0] = parameters.getJSONArray("e").getJSONObject(0).get("n");
+			parameterValues[0][1] = parameters.getJSONArray("e").getJSONObject(0).get("sv");
+			msg.put("parameterNames", parameterValues[0][0]);
+			
+			//System.out.println(msg);
+			
+			String convertedMsg = Formatter.getInstance().getTR069ResourceUriFromDm(msg.toString());
+			JSONObject result = new JSONObject(HttpConnector.getInstance().sendMsg(conn, convertedMsg));
+			
+			msg = new JSONObject();
+			msg.put("name", "setParameterValues");
+			msg.put("parameterValues", parameterValues);
+			//System.out.println(msg);
+			
+			convertedMsg = Formatter.getInstance().getTR069ResourceUriFromDm(msg.toString());
+			result = new JSONObject(HttpConnector.getInstance().sendMsg(conn, convertedMsg));
+			
+			//System.out.println(result);
+			res = Formatter.getInstance().writeToDmFormat(result, conn);
+			
+			//System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			//System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			
+			/* 2018.02.09. bak
 			msg.put("name", "setParameterValues");
 			
 			Object[][] parameterValues = new Object[1][2];
@@ -67,8 +98,9 @@ public class TR069Apis {
 			String convertedMsg = Formatter.getInstance().getTR069ResourceUriFromDm(msg.toString());
 			JSONObject result = new JSONObject(HttpConnector.getInstance().sendMsg(conn, convertedMsg));
 			
-			System.out.println(result);
+			//System.out.println(result);
 			res = Formatter.getInstance().writeToDmFormat(result, conn);
+			//*/
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -100,7 +132,7 @@ public class TR069Apis {
 			params[1] = msg;
 			
 			String response = co.send(operation, params);
-			System.out.println(response);
+			//System.out.println(response);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -125,7 +157,7 @@ public class TR069Apis {
 			params[1] = msg;
 			
 			String response = co.send(operation, params);
-			System.out.println(response);
+			//System.out.println(response);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -24,9 +24,9 @@ $(document).ready(function() {
 
 </script>
 
-<script src="${pageContext.request.contextPath}/js/herit/user.js"></script>
-<script src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
-<script src="${pageContext.request.contextPath}/js/jquery/jquery.validate.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/user.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/jquery/jquery.validate.js"></script>
 
 </head>
 <body>

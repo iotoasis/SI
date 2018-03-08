@@ -197,7 +197,7 @@ public class FirmwareDAO extends HeritHdpAbstractDAO {
 		METHOD_NAME = "getFirmwareCount";
 		
 		int result = 0;
-		System.out.println(dmId);
+		//System.out.println(dmId);
 		try {
 			HashMap<String, Object> po = new HashMap<String,Object>();
 			po.put("deviceModelId", dmId);
@@ -215,7 +215,7 @@ public class FirmwareDAO extends HeritHdpAbstractDAO {
 		METHOD_NAME = "getFirmwareCount";
 		
 		int result = 0;
-		System.out.println(fwId+"/"+version);
+		//System.out.println(fwId+"/"+version);
 		try {
 			HashMap<String, Object> po = new HashMap<String,Object>();
 			po.put("firmwareId", fwId);
@@ -234,7 +234,7 @@ public class FirmwareDAO extends HeritHdpAbstractDAO {
 		METHOD_NAME = "getFirmwareCount";
 		
 		int result = 0;
-		System.out.println(deviceModelId);
+		//System.out.println(deviceModelId);
 		try {
 			HashMap<String, Object> po = new HashMap<String,Object>();
 			po.put("deviceModelId", deviceModelId);
@@ -253,7 +253,7 @@ public class FirmwareDAO extends HeritHdpAbstractDAO {
 		METHOD_NAME = "addFirmwareInfo";
 		
 		int result = 0;
-		System.out.println(dmId+"/"+fileName+"/"+fileType+"/"+description);
+		//System.out.println(dmId+"/"+fileName+"/"+fileType+"/"+description);
 		try {
 			HashMap<String, Object> po = new HashMap<String,Object>();
 			po.put("device_model_id", dmId);
@@ -274,7 +274,7 @@ public class FirmwareDAO extends HeritHdpAbstractDAO {
 		METHOD_NAME = "addFirmwareVersion";
 		
 		int result = 0;
-		System.out.println(firmwareId+"/"+version+"/"+fileSize);
+		//System.out.println(firmwareId+"/"+version+"/"+fileSize);
 		try {
 			HashMap<String, Object> po = new HashMap<String,Object>();
 			

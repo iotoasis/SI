@@ -61,7 +61,7 @@ public class AccountServiceImpl implements AccountService{
     public ProcessResult insertAccount(AccountVO vo) throws Exception, BizException, UserSysException {
 
 		//패스워드 암호화
-		String pass = SecurityUtil.encryptPassword(vo.getLoginPwd());
+		String pass = SecurityUtil.encryptWordpass(vo.getLoginPwd());
 		vo.setLoginPwd(pass);
     	ProcessResult result = accountDAO.insertAccount(vo);
     	return result;
@@ -72,7 +72,7 @@ public class AccountServiceImpl implements AccountService{
 
     	if(vo.getChangeYn().equals("Y")){
         	//패스워드 암호화
-    		String pass = SecurityUtil.encryptPassword(vo.getLoginPwd());
+    		String pass = SecurityUtil.encryptWordpass(vo.getLoginPwd());
     		vo.setLoginPwd(pass);
     	}else{
     		vo.setLoginPwd(null);

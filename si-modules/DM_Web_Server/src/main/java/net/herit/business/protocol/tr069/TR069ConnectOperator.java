@@ -72,7 +72,7 @@ public class TR069ConnectOperator {
 	/** 등록 조회 : hdp_device_model 
 	 * @throws Exception **/
 	public void checkDeviceModelRegistered(String modelName) throws Exception{
-		System.out.println(modelName);
+		//System.out.println(modelName);
 		int deviceModelCount = hdpDAO.getDeviceModelCountByModelName(modelName);
 		if(deviceModelCount != 1){
 			// 기대값이 아니므로 exception 발생
@@ -159,7 +159,7 @@ public class TR069ConnectOperator {
 		if(resourceCount == 0){
 			// resource 등록
 			hdmDAO.insertDeviceResources(deviceId, uriList);
-			System.out.println("Resource has registered.");
+			//System.out.println("Resource has registered.");
 		}
 	}
 	public void registResources(DmVO vo) throws UserSysException{
@@ -184,7 +184,7 @@ public class TR069ConnectOperator {
 		if(resourceCount == 0){
 			// resource 등록
 			hdmDAO.insertDeviceResources(vo.getDeviceId(), uriList);
-			System.out.println("Resource has registered.");
+			//System.out.println("Resource has registered.");
 		}
 	}
 	
@@ -217,7 +217,7 @@ public class TR069ConnectOperator {
 		}
 		
 		if(isConnected){
-			System.out.println("!!!    The device has connected!");
+			//System.out.println("!!!    The device has connected!");
 		} else {
 			throw new Exception(Errors.ERR_500.getMsg());
 		}
@@ -242,7 +242,7 @@ public class TR069ConnectOperator {
 		}
 		
 		if(isConnected){
-			System.out.println("!!!    The device has connected!");
+			//System.out.println("!!!    The device has connected!");
 		} else {
 			throw new Exception(Errors.ERR_500.getMsg());
 		}

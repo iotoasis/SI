@@ -9,7 +9,7 @@
     <title>OASIS SI Admin</title>
 	<%@ include file="/WEB-INF/views/v2/common/common_js.jsp"%>
 	
-	<script type="text/javascript" src="<c:url value="/v2/js/xml2json.min.js" />"></script>
+	<script language="javascript" type="text/javascript" src="<c:url value="/v2/js/xml2json.min.js" />"></script>
 	
 	<style type="text/css">
 		.tree_menu {overflow:hidden;}

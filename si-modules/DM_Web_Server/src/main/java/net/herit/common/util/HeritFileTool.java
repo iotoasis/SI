@@ -1957,7 +1957,7 @@ public class HeritFileTool {
 			try {
 				closable.close();
 			} catch (IOException ignore) {
-				 System.out.println("IGNORE: " + ignore);
+				 //System.out.println("IGNORE: " + ignore);
 			}
 		}
 	}

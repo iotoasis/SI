@@ -273,15 +273,15 @@ public class DeviceModelDAO extends HeritHdpAbstractDAO {
 
     		//현재 AUTO_INCREMENT값
     		String getId = (String)getSqlMapClientTemplate().queryForObject("deviceModel.info.getId");
-    		//System.out.println("getId = " + getId);
+    		////System.out.println("getId = " + getId);
 
 	    	for(int i=0; i<jsonList.size(); i++){
-	    		//System.out.println(" i = " + jsonList.get(i));
+	    		////System.out.println(" i = " + jsonList.get(i));
 	    		
 	    		ArrayList deviceModelAttributeList = (ArrayList)jsonList.get(i);	    		
 	    		MoProfileVO moProfileVO = new MoProfileVO();
 	    		for(int j=0; j<deviceModelAttributeList.size(); j++){
-	    			//System.out.println(deviceModelAttributeList.get(j));
+	    			////System.out.println(deviceModelAttributeList.get(j));
 	    			// ["DISPLAY_NAME", "RESOURCE_URI", "DATA_TYPE", "UNIT", "DEFAULT_VALUE", "OPERATION", "NOTI_TYPE", "IS_ERROR", "IS_DIAGNOSTIC", "IS_HISTORICAL", "IS_MANDATORY"]
 	    			moProfileVO.setDeviceModelId(getId);
 	    			moProfileVO.setProfileVer(profileVer);

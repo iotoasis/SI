@@ -124,10 +124,10 @@ public class MonitorController {
 		layout = monitorService.getDeviceMonitorLayoutByModelInfo(oui, modelName, reload != null ? reload.equalsIgnoreCase("true") : false);
 		
 		try{
-			System.err.println(deviceInfo.toString());
-			System.out.println(deviceModelInfo.toString());
-			System.out.println(moMap.toString());
-			System.out.println(profileList.toString());
+			//System.err.println(deviceInfo.toString());
+			//System.out.println(deviceModelInfo.toString());
+			//System.out.println(moMap.toString());
+			//System.out.println(profileList.toString());
 			
 		}catch(Exception e){
 			

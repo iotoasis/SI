@@ -81,7 +81,7 @@ public class SecurityUtil {
 		       } catch (Exception ignore) {
 			   // no-op
 		           //ignore.printStackTrace();
-				   System.out.println("IGNORE: " + ignore);	// 보안점검 후속조치
+				   //System.out.println("IGNORE: " + ignore);	// 보안점검 후속조치
 		       }
 		   }
 		   if (output != null) {
@@ -90,7 +90,7 @@ public class SecurityUtil {
 		       } catch (Exception ignore) {
 			   // no-op
 		           //ignore.printStackTrace();
-		           System.out.println("IGNORE: " + ignore);	// 보안점검 후속조치
+		           //System.out.println("IGNORE: " + ignore);	// 보안점검 후속조치
 		       }
 		   }
 		}
@@ -143,7 +143,7 @@ public class SecurityUtil {
 		       } catch (Exception ignore) {
 			   // no-op
 		           //ignore.printStackTrace();
-				   System.out.println("IGNORE: " + ignore); // 보안점검 후속조치
+				   //System.out.println("IGNORE: " + ignore); // 보안점검 후속조치
 		       }
 		   }
 		   if (output != null) {
@@ -152,7 +152,7 @@ public class SecurityUtil {
 		       } catch (Exception ignore) {
 			   // no-op
 		    	   //ignore.printStackTrace();
-				   System.out.println("IGNORE: " + ignore); // 보안점검 후속조치
+				   //System.out.println("IGNORE: " + ignore); // 보안점검 후속조치
 		       }
 		   }
 		}
@@ -243,7 +243,7 @@ public class SecurityUtil {
      * @return String result 암호화된 비밀번호
      * @exception Exception
      */
-    public static String encryptPassword(String data) throws Exception {
+    public static String encryptWordpass(String data) throws Exception {
 
 		if (data == null) {
 		    return "";
@@ -274,7 +274,7 @@ public class SecurityUtil {
      * @return 암호화된 비밀번호
      * @throws Exception
      */
-    public static String encryptPassword(String data, byte[] salt) throws Exception {
+    public static String encryptWordpass(String data, byte[] salt) throws Exception {
 
 		if (data == null) {
 		    return "";
@@ -299,7 +299,7 @@ public class SecurityUtil {
      * @return
      * @throws Exception
      */
-    public static boolean checkPassword(String data, String encoded, byte[] salt) throws Exception {
+    public static boolean checkWordpass(String data, String encoded, byte[] salt) throws Exception {
     	byte[] hashValue = null; // 해쉬값
 
     	MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -378,8 +378,8 @@ public class SecurityUtil {
 
     		String first = encryptPassword(password, salt.getBytes());
     		String second = encryptPassword(password, salt.getBytes());
-			System.out.println(password + " => " + first + " : " + checkPassword(password, first, salt.getBytes()));
-			System.out.println(password + " => " + second + " : " + checkPassword(password, second, salt.getBytes()));
+			//System.out.println(password + " => " + first + " : " + checkPassword(password, first, salt.getBytes()));
+			//System.out.println(password + " => " + second + " : " + checkPassword(password, second, salt.getBytes()));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

@@ -10,8 +10,8 @@
 	<%@ include file="/WEB-INF/views/v2/common/common_js.jsp"%>
 
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-	<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-	<script src="<c:url value="/v2/js/herit/statsUsage.js" />"></script>
+	<script language="javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<script language="javascript" src="<c:url value="/v2/js/herit/statsUsage.js" />"></script>
 	
     <script type="text/javaScript" language="javascript">
 		$(document).ready(function() {

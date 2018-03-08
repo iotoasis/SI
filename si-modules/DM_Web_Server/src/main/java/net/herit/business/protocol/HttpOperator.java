@@ -246,7 +246,7 @@ public class HttpOperator {
 			dos.close();
 			
 			// log
-			System.out.println(" ::::::::::::::::::: "+conn.getResponseCode());
+			//System.out.println(" ::::::::::::::::::: "+conn.getResponseCode());
 			
 			// get result
 			InputStream is = conn.getInputStream();
@@ -405,7 +405,7 @@ public class HttpOperator {
 			}
 		}
 		
-		System.out.println(result);
+		//System.out.println(result);
 		return result;
 	}
 }

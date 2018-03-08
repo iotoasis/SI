@@ -79,7 +79,7 @@ public class ApiHdhDAO extends HeritHdhAbstractDAO {
 	}
 	
 	/***********************************************
-	  		LWM2M
+	  		이력 남기기
 	 ***********************************************/
 	
 	// 제어 이력 남기기
@@ -98,10 +98,24 @@ public class ApiHdhDAO extends HeritHdhAbstractDAO {
 	
 	// 상태 이력 남기기
 	public int insertStatusHistory(HashMap<String, String> map) throws UserSysException {
-		METHOD_NAME = "insertControlHistory";
+		METHOD_NAME = "insertStatusHistory";
 		int result = 0;
 		try{
 			result = (Integer) insert("insert.status.history", map);
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
+	
+	// 펌웨어 업그레이드 이력 남기기
+	public int insertFirmwareUpgradeHistory(HashMap<String, String> map) throws UserSysException {
+		METHOD_NAME = "insertFirmwareUpgradeHistory";
+		int result = 0;
+		try{
+			result = (Integer) insert("insert.fwup.history", map);
 		} catch (SqlMapException ex) {
 			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
 					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);

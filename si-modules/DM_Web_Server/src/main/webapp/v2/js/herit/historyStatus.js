@@ -13,9 +13,10 @@ function initUI2() {
 		searchDevice();	
 	});
 	$("#btnSearchHistory").click(function() {
-		deviceId = $("#search_deviceId").attr("value");
-		resourceUri = $("#search_resourceUri").attr("value");
-		
+		//deviceId = $("#search_deviceId").attr("value");
+		//resourceUri = $("#search_resourceUri").attr("value");
+		deviceId = $("#search_deviceId").val();
+		resourceUri = $("#search_resourceUri").val();
 		movePage(1);
 	});
 

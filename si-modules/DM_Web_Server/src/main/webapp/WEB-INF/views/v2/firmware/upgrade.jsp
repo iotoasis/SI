@@ -9,8 +9,8 @@
 	<%@ include file="/WEB-INF/views/v2/common/common_head.jsp"%>
     <title>OASIS SI Admin</title>
 	<%@ include file="/WEB-INF/views/v2/common/common_js.jsp"%>
-	<script src="<c:url value="/v2/js/herit/firmwareUpgrade.js" />"></script>
-	<script src="<c:url value="/v2/js/herit/dm.js" />"></script>
+	<script language="javascript" src="<c:url value="/v2/js/herit/firmwareUpgrade.js" />"></script>
+	<script language="javascript" src="<c:url value="/v2/js/herit/dm.js" />"></script>
 	
     <script type="text/javaScript" language="javascript">
 		var gr_id="firmware";
@@ -61,7 +61,7 @@
 		function initUI() {
 			$("#side-menu_firmware").addClass("active");
 			$("#side-menu_firmware ul").addClass("in");
-			$("#side-menu_firmware ul li:eq(2)").addClass("active");
+			$("#side-menu_firmware ul li:eq(1)").addClass("active");
 		}
 		
 		function fnSearch() {

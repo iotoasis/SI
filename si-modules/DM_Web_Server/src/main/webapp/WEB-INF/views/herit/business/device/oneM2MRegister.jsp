@@ -17,10 +17,10 @@ $(document).ready(function() {
 })
 </script>
 
-<script src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
-<script src="${pageContext.request.contextPath}/js/herit/dm.js"></script>
-<script src="${pageContext.request.contextPath}/js/herit/oneM2MDeviceRegister.js"></script>
-<%-- <script src="${pageContext.request.contextPath}/js/herit/deviceRegister.js"></script> --%>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/dm.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/oneM2MDeviceRegister.js"></script>
+<%-- <script language="javascript" src="${pageContext.request.contextPath}/js/herit/deviceRegister.js"></script> --%>
 </head>
 <body>
 	<!-- #wrapper -->

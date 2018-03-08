@@ -140,7 +140,7 @@ public class HttpConnector {
 			dos.close();
 			
 			// log
-			System.out.println(" ::::::::::::::::::: "+conn.getResponseCode());
+			//System.out.println(" ::::::::::::::::::: "+conn.getResponseCode());
 			
 			// get result
 			InputStream is = conn.getInputStream();
@@ -167,20 +167,5 @@ public class HttpConnector {
 		}
 		
 		return result.toString();
-	}
-	
-	public void sendFileWithCurl(){
-		String cmd = "curl -i 'http://10.10.0.82:7557/files/firmware.tar.gz' -X PUT --data-binary @\"C:/uploads/firmware/firmware.tar.gz\" --header \"fileType: 1 Firmware Upgrade Image\" --header \"oui: 625009\" --header \"productClass: TTB2706\" --header \"version: asdf\"";
-		try{ 
-			Process p = Runtime.getRuntime().exec(cmd); 
-			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String line = null;
-			
-			while((line = br.readLine()) != null){
-				System.out.println(line); 
-				}
-		} catch(Exception e) {
-			System.out.println(e);
-		}
 	}
 }

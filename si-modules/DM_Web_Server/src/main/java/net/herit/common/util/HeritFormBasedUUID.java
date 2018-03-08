@@ -175,7 +175,6 @@ public class HeritFormBasedUUID implements Serializable {
         MessageDigest md;
         try {
         	// 2011.10.10 보안점검 후속조치 암호화 알고리즘 변경(MD5 -> SHA-256)
-        	//md = MessageDigest.getInstance("MD5");
             md = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException nsae) {
         	//throw new InternalError("MD5 not supported");

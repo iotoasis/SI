@@ -21,8 +21,8 @@ $(document).ready(function() {
 })
 </script>
 
-<script src="${pageContext.request.contextPath}/js/herit/statsUsage.js"></script>
-<script src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/statsUsage.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
 </head>
 <body>
 	<!-- #wrapper -->

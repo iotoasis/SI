@@ -231,7 +231,7 @@ public class LWM2MApiService {
 	}
 	
 	private String getUrl(String endPoint) {
-		System.err.println("http://"+ dmHost +":"+ dmPort +"/api/hdm/"+endPoint);
+		//System.err.println("http://"+ dmHost +":"+ dmPort +"/api/hdm/"+endPoint);
 		return "http://"+ dmHost +":"+ dmPort +"/api/hdm/"+endPoint;
 	}
 		

@@ -68,9 +68,9 @@ public class DatabaseService {
 			if (param.get("limit") != null) {
 				param.put("limit", Integer.parseInt((String)param.get("limit"), 10));
 			}
-			System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDD1");
+			//System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDD1");
 			content.put("list", (ArrayList)dao.list(domain+"."+data+"."+operation, param));
-			System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDD2");
+			//System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDD2");
 		} else if (operation.equalsIgnoreCase("listPage")) {
 			String page = (String)param.get("page");
 			if (page == null || page.equals("")) {
@@ -86,12 +86,12 @@ public class DatabaseService {
 			content.put("info", (Object)dao.select(domain+"."+data+"."+operation, param));
 		} else if (operation.equalsIgnoreCase("set")) {
 			if (param.get("loginPwd") != null && ((String)param.get("loginPwd")).length() != 0) {
-				param.put("loginPwd", SecurityUtil.encryptPassword((String)param.get("loginPwd")));
+				param.put("loginPwd", SecurityUtil.encryptWordpass((String)param.get("loginPwd")));
 			}
 			content.put("return", dao.update(domain+"."+data+"."+operation, param));
 		} else if (operation.equalsIgnoreCase("insert")) {
 			if (param.get("loginPwd") != null) {
-				param.put("loginPwd", SecurityUtil.encryptPassword((String)param.get("loginPwd")));
+				param.put("loginPwd", SecurityUtil.encryptWordpass((String)param.get("loginPwd")));
 			}
 			content.put("return", dao.insert(domain+"."+data+"."+operation, param));
 		} else if (operation.equalsIgnoreCase("delete")) {
@@ -278,7 +278,7 @@ public class DatabaseService {
 	
 		for (String key : param.keySet()) {
 			
-			System.out.println("key="+key+", value="+param.get(key));
+			//System.out.println("key="+key+", value="+param.get(key));
 		}
 		String jsonString = (String) param.get("deviceRegInfo");
 		
@@ -297,13 +297,13 @@ public class DatabaseService {
 			authPwd = innerValueMap.get("authPwd");
 			
 			HashMap<String, String> modelInfo = deviceModelDAO.getDeviceModelInfo(oui, modelName);
-			//System.out.println("modelInfo : " + modelInfo);
+			////System.out.println("modelInfo : " + modelInfo);
 			if (modelInfo == null) {
 				throw new UserSysException("DatabaseService", "execute", "101", "Invalid Parameter:oui, modelName", null);
 			}
 			
 			String deviceId = modelInfo.get("oui")+"_"+modelInfo.get("modelName")+"_"+sn;
-			//System.out.println("deviceId : " + deviceId);
+			////System.out.println("deviceId : " + deviceId);
 			if(deviceDAO.getDevice(deviceId) != null) {
 				throw new UserSysException("DatabaseService", "execute", ApiController.DUPLICATED_DEVICE_ID, "Invalid Parameter:sn (duplicated deviceId)", null);
 			}
@@ -337,7 +337,7 @@ public class DatabaseService {
 		String scheduleTime = (String) param.get("scheduleTime");
 		
 		HashMap<String, String> firmwareInfo = firmwareDAO.getFirmwareUpdate(firmwareId, groupType);
-		//System.out.println("DB firmwareId : " + String.valueOf(firmwareInfo.get("firmwareId")));
+		////System.out.println("DB firmwareId : " + String.valueOf(firmwareInfo.get("firmwareId")));
 		
 		
 		HashMap<String, String> regParam = new HashMap<String, String>();
@@ -375,7 +375,7 @@ public class DatabaseService {
 		String id = (String) param.get("id");
 		String packageName = (String) param.get("package");
 		String description = (String) param.get("description");
-		System.out.println("id : " + id + " packageName : " + packageName + " description : " + description );
+		//System.out.println("id : " + id + " packageName : " + packageName + " description : " + description );
 		
 		HashMap<String, String> regParam = new HashMap<String, String>();
 		
@@ -408,7 +408,7 @@ public class DatabaseService {
 			String resourceUri = (String) param.get("resourceUri");
 			String resourceName = (String) param.get("resourceName");
 			String data = (String)param.get("data");
-			System.out.println("deviceId : " + deviceId + " resourceUri : " + resourceUri + " resourceName : " + resourceName + " data : " + data);
+			//System.out.println("deviceId : " + deviceId + " resourceUri : " + resourceUri + " resourceName : " + resourceName + " data : " + data);
 			
 			HashMap<String, String> regParam = new HashMap<String, String>();
 			
@@ -436,11 +436,11 @@ public class DatabaseService {
 		String fileUrl = "{file_url}/"+packageName+"/"+fileName;
 		String fileSize = fileUploadList.get(0).getFileSize();
 		
-		System.out.println("fileName : " + fileName + " fileUrl : " + fileUrl + " fileSize : " + fileSize);
-		System.out.println("firmwareId : " + firmwareId + " packageName : " + packageName + " inversion : " + inversion + " inchecksum : " + inchecksum);
-		System.err.println("packageName : " + packageName + " upversion : " + upversion + " upchecksum : " + upchecksum);
+		//System.out.println("fileName : " + fileName + " fileUrl : " + fileUrl + " fileSize : " + fileSize);
+		//System.out.println("firmwareId : " + firmwareId + " packageName : " + packageName + " inversion : " + inversion + " inchecksum : " + inchecksum);
+		//System.err.println("packageName : " + packageName + " upversion : " + upversion + " upchecksum : " + upchecksum);
 		
-		//System.out.println("fileUploadList : " + fileUploadList.get(0).getFileRealName());
+		////System.out.println("fileUploadList : " + fileUploadList.get(0).getFileRealName());
 		HashMap<String, String> firmwareVersionInfo = firmwareDAO.getFirmwareVersion(firmwareId, version);
 		
 		HashMap<String, String> regParam = new HashMap<String, String>();
@@ -454,13 +454,13 @@ public class DatabaseService {
 			regParam.put("fileSize", fileSize);
 			
 			content.put("return", hdpDAO.insert("firmware.version.upload", regParam));
-			System.out.println("FIRMWAREVERSION INSERT");
+			//System.out.println("FIRMWAREVERSION INSERT");
 		} else {
 			
-			System.out.println("myFileName: "+fileName);
+			//System.out.println("myFileName: "+fileName);
 			//VERSION UPDATE
 			if (!fileName.isEmpty()) {
-				System.out.println("myFileName is NOT Empty");
+				//System.out.println("myFileName is NOT Empty");
 				regParam.put("firmwareId", firmwareId);
 				regParam.put("version", version);
 				regParam.put("upversion", upversion);
@@ -470,7 +470,7 @@ public class DatabaseService {
 				
 				content.put("return", hdpDAO.update("firmware.versionUpdate.upload", regParam));
 			} else {
-				System.out.println("myFileName is Empty");
+				//System.out.println("myFileName is Empty");
 				regParam.put("firmwareId", firmwareId);
 				regParam.put("version", version);
 				regParam.put("upversion", upversion);
@@ -479,7 +479,7 @@ public class DatabaseService {
 				content.put("return", hdpDAO.update("firmware.versionUpdate.upload", regParam));
 			}
 			
-			System.out.println("FIRMWAREVERSION UPDATE");
+			//System.out.println("FIRMWAREVERSION UPDATE");
 		}
 		
 		return content;
@@ -507,7 +507,7 @@ public class DatabaseService {
 		String id = (String)paramMap.get("id");
 		String oui = (String)paramMap.get("oui");
 		String modelName = (String)paramMap.get("modelName");
-		System.out.println("paramMap data : " + id + oui + modelName);
+		//System.out.println("paramMap data : " + id + oui + modelName);
 		
 		if (oui != null && modelName != null) {
 			content.put("deviceProfileList", deviceModelDAO.getDeviceProfileList(paramMap));
@@ -523,7 +523,7 @@ public class DatabaseService {
 			String resourceUri = (String)paramMap.get("resourceUri");
 			String resourceName = (String)paramMap.get("resourceName");
 
-			System.out.println("paramMap data : " + resourceUri + resourceName);
+			//System.out.println("paramMap data : " + resourceUri + resourceName);
 			
 			if (resourceUri != null) {
 				content.put("deviceProfileList", deviceDAO.getDeviceMoDataList(paramMap));

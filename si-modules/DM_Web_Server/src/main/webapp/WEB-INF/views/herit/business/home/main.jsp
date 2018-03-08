@@ -23,12 +23,12 @@
 	})
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script language="javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 
-<script src="${pageContext.request.contextPath}/js/herit/main.js"></script>
-<script src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/main.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
 
-<script src="${pageContext.request.contextPath}/js/herit/map_google.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/map_google.js"></script>
 
 </head>
 <body>

@@ -210,7 +210,7 @@ public class ApiHdpDAO extends HeritHdpAbstractDAO {
 	// device model 갯수 확인
 	public int getDeviceModelCountByModelName(String modelName) throws UserSysException {
 		METHOD_NAME = "getDeviceModelCountByModelName";
-		System.out.println(modelName);
+		//System.out.println(modelName);
 		int result = 0;
 		
 		try {
@@ -219,7 +219,7 @@ public class ApiHdpDAO extends HeritHdpAbstractDAO {
 			
 			result = (Integer)getSqlMapClientTemplate().queryForObject(
 					"deviceModel.get.count.by.modelName", po);
-			System.out.println(result);
+			//System.out.println(result);
 		} catch (SqlMapException ex) {
 			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
 					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
@@ -265,7 +265,7 @@ public class ApiHdpDAO extends HeritHdpAbstractDAO {
 			for(int i=0; i<list.size(); i++){
 				result += insertProfile(list.get(i));
 			}
-			System.out.println(result);
+			//System.out.println(result);
 		} catch (SqlMapException ex) {
 			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
 					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
@@ -301,6 +301,24 @@ public class ApiHdpDAO extends HeritHdpAbstractDAO {
 		
 			result = (Integer) insert("MoProfile.insert", vo);
 			
+		} catch (SqlMapException ex) {
+			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
+					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);
+		}
+		return result;
+	}
+	
+	public int getDeviceModel(String deviceId) throws UserSysException {
+		METHOD_NAME = "getDeviceInfo";
+		
+		int result = 0;
+		try {
+			HashMap<String, String> po = new HashMap<String, String>();
+			String[] deviceInfo = deviceId.split("_");
+			po.put("oui", deviceInfo[0]);
+			po.put("model_name", deviceInfo[1]);
+			
+			result = Integer.parseInt((String)getSqlMapClientTemplate().queryForObject("deviceModel.device.model", po));
 		} catch (SqlMapException ex) {
 			throw new UserSysException(CLASS_NAME, METHOD_NAME, 
 					"사용자관리 데이터 취득 처리에서 에러가 발생했습니다.", ex);

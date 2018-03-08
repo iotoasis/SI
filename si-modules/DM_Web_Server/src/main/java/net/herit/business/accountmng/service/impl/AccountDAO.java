@@ -122,9 +122,9 @@ public class AccountDAO extends HeritHdpAbstractDAO{
     	}
 //		catch (Exception e) {
 //			// TODO: handle exception
-//    		System.out.println("e.getMessage() = " + e.getMessage());
-//    		System.out.println("e.getCause() = " + e.getCause());
-//    		System.out.println("e = " + e);
+//    		//System.out.println("e.getMessage() = " + e.getMessage());
+//    		//System.out.println("e.getCause() = " + e.getCause());
+//    		//System.out.println("e = " + e);
 //
 //    		throw new BizException (CLASS_NAME, METHOD_NAME, retCode, "사용자관리 등록/수정시 에러가 발생했습니다.");
 //		}
@@ -333,9 +333,9 @@ public class AccountDAO extends HeritHdpAbstractDAO{
     	}
 //		catch (Exception e) {
 //			// TODO: handle exception
-//    		System.out.println("e.getMessage() = " + e.getMessage());
-//    		System.out.println("e.getCause() = " + e.getCause());
-//    		System.out.println("e = " + e);
+//    		//System.out.println("e.getMessage() = " + e.getMessage());
+//    		//System.out.println("e.getCause() = " + e.getCause());
+//    		//System.out.println("e = " + e);
 //
 //    		throw new BizException (CLASS_NAME, METHOD_NAME, retCode, "접속IP 등록/수정시 에러가 발생했습니다.");
 //		}

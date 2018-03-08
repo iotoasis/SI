@@ -23,9 +23,9 @@
 	})	
 </script>
 
-<script src="${pageContext.request.contextPath}/js/herit/firmwareDetail.js"></script>
-<script src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
-<script src="${pageContext.request.contextPath}/js/herit/dm.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/firmwareDetail.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/dm.js"></script>
 
 </head>
 <body>

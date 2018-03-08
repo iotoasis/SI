@@ -29,11 +29,11 @@
 <!-- Properties -->
 <%@ include file="/js/herit/conf/prop.jsp" %>
 <!-- JQuery Dialog Module -->
-<script src="${pageContext.request.contextPath}/js/herit/util/ui/dialog.js"></script>
-<script src="${pageContext.request.contextPath}/js/herit/common/common.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/util/ui/dialog.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/common/common.js"></script>
 
-<script src="${pageContext.request.contextPath}/js/herit/information/deviceModelDetail.js"></script>
-<script src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/information/deviceModelDetail.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
 
 </head>
 <body>

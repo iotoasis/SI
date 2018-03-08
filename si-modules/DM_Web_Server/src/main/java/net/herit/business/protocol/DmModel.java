@@ -64,7 +64,7 @@ public class DmModel {
 			
 			expression = "//*/EventCode";
 			String command = xpath.compile(expression).evaluate(document);
-			//System.out.println("Command................"+command);
+			////System.out.println("Command................"+command);
 			
 			result.put("command", command);
 			
@@ -72,11 +72,11 @@ public class DmModel {
 				
 				expression = "//*/ParameterValueStruct["+idx+"]/Name";
 				String name = xpath.compile(expression).evaluate(document);
-				//System.out.println("Name................"+name);
+				////System.out.println("Name................"+name);
 	
 				expression = "//*/ParameterValueStruct["+idx+"]/Value";
 				String value = xpath.compile(expression).evaluate(document);
-				//System.out.println("Value................"+value);
+				////System.out.println("Value................"+value);
 				
 				if(!name.equals("")){
 					result.put(name, value);
@@ -90,7 +90,7 @@ public class DmModel {
 	
 	
 	public void initDeviceInfo(JSONObject token, Type protocol){
-		System.out.println("!!!    Trying to Device Information update...");
+		//System.out.println("!!!    Trying to Device Information update...");
 		switch(protocol){
 		case LWM2M:
 			oui = token.getString("oui");
@@ -103,17 +103,17 @@ public class DmModel {
 		case TR_069:
 			deviceId = token.getString("deviceId").replace("-", "_");
 			inform = getXml(token.getString("httpRequest"));
-			oui = inform.getString("InternetGatewayDevice.DeviceInfo.ManufacturerOUI");
-			modelName = inform.getString("InternetGatewayDevice.DeviceInfo.ProductClass");
-			serialNumber = inform.getString("InternetGatewayDevice.DeviceInfo.SerialNumber");
-			authId = inform.getString("InternetGatewayDevice.ManagementServer.ConnectionRequestUsername");
-			authPw = inform.getString("InternetGatewayDevice.ManagementServer.ConnectionRequestPassword");
+			oui = inform.getString("Device.DeviceInfo.ManufacturerOUI");
+			modelName = inform.getString("Device.DeviceInfo.ProductClass");
+			serialNumber = inform.getString("Device.DeviceInfo.SerialNumber");
+			authId = inform.getString("Device.ManagementServer.ConnectionRequestUsername");
+			authPw = inform.getString("Device.ManagementServer.ConnectionRequestPassword");
 			inform.put("deviceId", deviceId);
 			//deviceId = new StringBuffer(oui).append("-").append(modelName).append("-").append(serialNumber).toString();
 			break;
 		}
-		System.out.println("!!!    Device Information has initialized!");
-		System.out.println(inform.toString());
+		//System.out.println("!!!    Device Information has initialized!");
+		//System.out.println(inform.toString());
 		
 	}
 	

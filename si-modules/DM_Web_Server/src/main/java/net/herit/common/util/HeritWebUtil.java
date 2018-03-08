@@ -109,33 +109,33 @@ public class HeritWebUtil {
 	String test = null;
 	
 	test = "<script language='javascript' encoding=\"utf-8\">q&a</script>";
-	System.out.println("clearXSSMinimum() Test");
-	System.out.println(test);
-	System.out.println("=>");
-	System.out.println(clearXSSMinimum(test));
-	System.out.println();
+	//System.out.println("clearXSSMinimum() Test");
+	//System.out.println(test);
+	//System.out.println("=>");
+	//System.out.println(clearXSSMinimum(test));
+	//System.out.println();
 	
 	test = "/a/b/c../..\\";
-	System.out.println("clearXSSMaximum() Test");
-	System.out.println(test);
-	System.out.println(" =>");
-	System.out.println(clearXSSMaximum(test));
-	System.out.println();
+	//System.out.println("clearXSSMaximum() Test");
+	//System.out.println(test);
+	//System.out.println(" =>");
+	//System.out.println(clearXSSMaximum(test));
+	//System.out.println();
 	
 	test = "/a/b/c/../../../..\\..\\";
-	System.out.println("filePathBlackList() Test");
-	System.out.println(test);
-	System.out.println("=>");
-	System.out.println(filePathBlackList(test));
-	System.out.println();
+	//System.out.println("filePathBlackList() Test");
+	//System.out.println(test);
+	//System.out.println("=>");
+	//System.out.println(filePathBlackList(test));
+	//System.out.println();
 	
 	test = "192.168.0.1";
-	System.out.println("isIPAddress() test");
-	System.out.println("IP : " + test + " => " + isIPAddress(test));
+	//System.out.println("isIPAddress() test");
+	//System.out.println("IP : " + test + " => " + isIPAddress(test));
 	
 	test = "abc def*%;-+,ghi";
-	System.out.println("removeSQLInjectionRisk() test");
-	System.out.println(test + " => " + removeSQLInjectionRisk(test));
+	//System.out.println("removeSQLInjectionRisk() test");
+	//System.out.println(test + " => " + removeSQLInjectionRisk(test));
     }
     //*/
 

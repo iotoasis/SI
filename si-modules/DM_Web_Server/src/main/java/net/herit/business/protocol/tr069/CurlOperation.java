@@ -105,7 +105,7 @@ public class CurlOperation {
 			throw new NullPointerException("ACS address정보가 필요합니다.");
 		}
 		
-		System.out.println("DDDDDDDDDDDDDD555555555555DDDDDDDDDDD");
+		//System.out.println("DDDDDDDDDDDDDD555555555555DDDDDDDDDDD");
 		// Method별 호출
 		/*CurlOperation co = new CurlOperation();
 		Method mtd = co.getClass().getMethod(httpMethod, new Class[]{Object.class});
@@ -136,7 +136,7 @@ public class CurlOperation {
 			while(keys.hasNext()){
 				String name = keys.next();
 				String value = headers.get(name);
-				System.out.println("……………  "+name+" : "+value);
+				//System.out.println("……………  "+name+" : "+value);
 				httpPut.setHeader(name, value);
 			}
 			
@@ -149,19 +149,19 @@ public class CurlOperation {
 			entity = httpResponse.getEntity();
 			
 			// 응답 결과
-			System.out.println("----------------------------------------");
-			System.out.println(httpResponse.getStatusLine());
+			//System.out.println("----------------------------------------");
+			//System.out.println(httpResponse.getStatusLine());
 			if (entity != null) {
-				System.out.println("Response content length: " + entity.getContentLength());
+				//System.out.println("Response content length: " + entity.getContentLength());
 				BufferedReader rd = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
 
 				String line = "";
 				while ((line = rd.readLine()) != null) {
-					System.out.println(line);
+					//System.out.println(line);
 				}
 			}
 			httpPut.abort();
-			System.out.println("----------------------------------------");
+			//System.out.println("----------------------------------------");
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -193,18 +193,18 @@ public class CurlOperation {
 			httpResponse = httpClient.execute(httpPost);
 			
 			// 응답 결과
-			System.out.println("----------------------------------------");
-			System.out.println(httpResponse.getStatusLine());
+			//System.out.println("----------------------------------------");
+			//System.out.println(httpResponse.getStatusLine());
 			if (httpResponse != null) {
 				BufferedReader rd = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
 
 				String line = "";
 				while ((line = rd.readLine()) != null) {
-					System.out.println(line);
+					//System.out.println(line);
 				}
 			}
 			httpPost.abort();
-			System.out.println("----------------------------------------");
+			//System.out.println("----------------------------------------");
 			
 		} catch(Exception e) {
 			e.printStackTrace();

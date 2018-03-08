@@ -19,7 +19,7 @@ public class OneM2MInit implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent init) {
 		
-		//System.out.println("initialized!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		////System.out.println("initialized!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		try {
 			/*
 			 * <Context docBase="HIT_DM_ADMIN_2014" path="/hdm"
@@ -46,11 +46,11 @@ public class OneM2MInit implements ServletContextListener {
 	public void aeInit() throws Exception {
 		
 		if (HeritProperties.getProperty("Globals.UseOneM2M").equalsIgnoreCase("true")) {
-			System.out.println("OneM2MInit.aeInit called!");
+			//System.out.println("OneM2MInit.aeInit called!");
 			OneM2MApiService oneM2MSvc = OneM2MApiService.getInstance();
 			oneM2MSvc.init();	
 		} else {  
-			System.out.println("OneM2MInit.aeInit ignored!");
+			//System.out.println("OneM2MInit.aeInit ignored!");
 		}
 		
 	}

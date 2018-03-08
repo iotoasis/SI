@@ -44,7 +44,7 @@ public class JSONConverter<T extends OneM2MResource> {
 					Method mtd = resource.getClass().getMethod("getShortName");
 					shortName = (String) mtd.invoke(resource);
 				}
-				System.out.println("########## "+field.getName() + "("+field.getType()+")");
+				//System.out.println("########## "+field.getName() + "("+field.getType()+")");
 			}
 
 			body_wrap.put(resource.nameSpace+shortName, body);

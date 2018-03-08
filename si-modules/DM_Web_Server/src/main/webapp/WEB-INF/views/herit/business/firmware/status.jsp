@@ -42,9 +42,9 @@ $(document).ready(function() {
 
 
 </script>
-<script src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
-<script src="${pageContext.request.contextPath}/js/herit/firmware.js"></script>
-<script src="${pageContext.request.contextPath}/js/herit/firmwareStatus.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/hdb.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/firmware.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/firmwareStatus.js"></script>
 
 </head>
 <body>

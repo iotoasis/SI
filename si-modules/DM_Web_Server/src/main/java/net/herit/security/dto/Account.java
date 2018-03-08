@@ -11,7 +11,7 @@ public class Account implements HttpSessionBindingListener, Serializable{
 	private int groupId;
 	private String name;
 	private String loginId;
-	private String loginPassword;
+	private String loginWordpass;
 	private String createTime;
 	private String updateTime;
 	private String lastAccessTime;
@@ -30,9 +30,9 @@ public class Account implements HttpSessionBindingListener, Serializable{
 
 	}
 
-	public Account(String loginId, String loginPassword, LoginBeanBindingListener listener) {
+	public Account(String loginId, String loginWordpass, LoginBeanBindingListener listener) {
 		this.loginId = loginId;
-		this.loginPassword = loginPassword;
+		this.loginWordpass = loginWordpass;
 		this.listener = listener;
 	}
 
@@ -104,12 +104,12 @@ public class Account implements HttpSessionBindingListener, Serializable{
 		this.loginId = loginId;
 	}
 
-	public String getLoginPassword() {
-		return loginPassword;
+	public String getLoginWordpass() {
+		return loginWordpass;
 	}
 
-	public void setLoginPassword(String loginPassword) {
-		this.loginPassword = loginPassword;
+	public void setLoginWordpass(String loginWordpass) {
+		this.loginWordpass = loginWordpass;
 	}
 
 	public String getName() {
@@ -184,9 +184,9 @@ public class Account implements HttpSessionBindingListener, Serializable{
 		this.disabled = disabled;
 	}
 
-	public boolean passwordMatches(String password) {
-		return this.loginPassword == null ? false : this.loginPassword == password ? true
-				: this.loginPassword.equals(password);
+	public boolean wordpassMatches(String wordpass) {
+		return this.loginWordpass == null ? false : this.loginWordpass == wordpass ? true
+				: this.loginWordpass.equals(wordpass);
 	}
 
 	public String getIp() {

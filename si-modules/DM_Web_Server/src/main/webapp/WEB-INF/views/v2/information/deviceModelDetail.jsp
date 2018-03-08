@@ -10,8 +10,8 @@
 	<%@ include file="/WEB-INF/views/v2/common/common_js.jsp"%>
 	
 	<%@ include file="/v2/js/herit/conf/prop.jsp" %>
-	<script src="<c:url value="/v2/js/herit/hdb.js" />"></script>
-	<script src="<c:url value="/v2/js/herit/information/deviceModelDetail.js" />"></script>
+	<script language="javascript" src="<c:url value="/v2/js/herit/hdb.js" />"></script>
+	<script language="javascript" src="<c:url value="/v2/js/herit/information/deviceModelDetail.js" />"></script>
 	
     <script type="text/javaScript" language="javascript">
 		$(document).ready(function() {

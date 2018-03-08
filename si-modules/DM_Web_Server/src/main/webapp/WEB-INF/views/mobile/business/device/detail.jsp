@@ -10,7 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>Device</title>
 	<%@ include file="/WEB-INF/views/mobile/common/common_head.jsp"%>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
 <script type="text/javascript">
 var contextPath = "${pageContext.request.contextPath}";
@@ -19,8 +19,8 @@ $(document).ready(function() {
 })
 </script>
 
-<script src="${pageContext.request.contextPath}/mobile/js/herit/hdb.js"></script>
-<script src="${pageContext.request.contextPath}/mobile/js/herit/mobileDeviceDetail.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/mobile/js/herit/hdb.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/mobile/js/herit/mobileDeviceDetail.js"></script>
 </head>
 
 <body>
@@ -80,12 +80,12 @@ $(document).ready(function() {
 	    </div>
     </div>
 </div>
-<script src="${pageContext.request.contextPath}/v2/js/jquery-2.1.1.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/v2/js/jquery-2.1.1.js"></script>
 <%@ include file="/WEB-INF/views/mobile/common/common_js.jsp"%>
 
 <!-- Custom and plugin javascript -->
-<script src="/hdm/v2/js/inspinia.js"></script>
-<script src="/hdm/v2/js/plugins/pace/pace.min.js"></script>
+<script language="javascript" src="/hdm/v2/js/inspinia.js"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/pace/pace.min.js"></script>
 
 </body>
 

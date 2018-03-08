@@ -111,7 +111,7 @@ public class OneM2MApiService {
 		oneM2MHost = HeritProperties.getProperty("Globals.ip");
 		oneM2MPort = Integer.parseInt(HeritProperties.getProperty("Globals.port"));
 		
-		System.out.println("test: test1234");
+		//System.out.println("test: test1234");
 		
 	}
 	
@@ -140,15 +140,15 @@ public class OneM2MApiService {
 
 			// AE ��Ʈ�ѷ� ��
 			aeController = new AEControllerEx(cseAddr, cseId, csebaseName, CONTENT_TYPE.RES_XML, null);
-			System.out.println("###### trace-0, " + aeController.toString());		
+			//System.out.println("###### trace-0, " + aeController.toString());		
 			// Notification Handler ��
 			notiHandler = new HubissEmulatorNotiHandler(aeController);
-			System.out.println("###### trace-1");
+			//System.out.println("###### trace-1");
 			//aeController.doHttpServerStart(ip, port, notiHandler);
-			System.out.println("###### trace-2");
+			//System.out.println("###### trace-2");
 			// AE ��
 			AE ae = aeController.doCreateAE(csebase, aeId, aeName, appId, appName, poa, true);
-			System.out.println("###### trace-3, " + ae.getResourceName());
+			//System.out.println("###### trace-3, " + ae.getResourceName());
 			/*OneM2MInitData.getInstance().data.put("notiHandler", notiHandler);
 			OneM2MInitData.getInstance().data.put("aeController", aeController);
 			OneM2MInitData.getInstance().data.put("ae", ae);*/
@@ -156,17 +156,17 @@ public class OneM2MApiService {
 		} catch (OneM2MException oe) {
 
 			RESPONSE_STATUS status = oe.getResponseStatusCode();
-			System.out.println("Status:" + status.toString());
+			//System.out.println("Status:" + status.toString());
 
-			System.out.println("OneM2MException occurred!!!");
-			System.out.println(oe.toString());
+			//System.out.println("OneM2MException occurred!!!");
+			//System.out.println(oe.toString());
 			oe.printStackTrace();
 			return;
 
 		} catch (Exception e) {
 
-			System.out.println("Exception occurred!!!");
-			System.out.println(e.toString());
+			//System.out.println("Exception occurred!!!");
+			//System.out.println(e.toString());
 			e.printStackTrace();
 			return;
 
@@ -177,9 +177,9 @@ public class OneM2MApiService {
 	public HashMap<String, Object> execute(String operation, ArrayList<String> resUris, String deviceUri, String exContent) 
 		throws JsonGenerationException, JsonMappingException, IOException, UserSysException
 	{
-		System.out.println("here here here here here here here here here here here here here");
-		System.out.println("operation : " + operation);
-		System.out.println("deviceUri : " + deviceUri);
+		//System.out.println("here here here here here here here here here here here here here");
+		//System.out.println("operation : " + operation);
+		//System.out.println("deviceUri : " + deviceUri);
 		
 		HashMap<String, Object> res = new HashMap<String, Object>();
 		
@@ -191,17 +191,17 @@ public class OneM2MApiService {
 				for (int i=0; i < resUris.size(); i++) {
 					String resourceUri = resUris.get(i);
 					String creationTime = resUris.get(i)+"_"+i;
-					System.out.println("resourceUri:" + resourceUri);
-					System.out.println("creationTime : " + creationTime);
+					//System.out.println("resourceUri:" + resourceUri);
+					//System.out.println("creationTime : " + creationTime);
 					
 					ci = aeController.doGetLatestContent(resourceUri+"/Data", aeId);
-					System.out.println(creationTime + ":" + ci.getCreationTime());
-					System.out.println(resourceUri + ":" + ci.getContent());
+					//System.out.println(creationTime + ":" + ci.getCreationTime());
+					//System.out.println(resourceUri + ":" + ci.getContent());
 					res.put(resourceUri, ci.getContent());
 					res.put(creationTime, ci.getCreationTime());
 					
 				}
-				//System.out.println("content:" + res.get("/herit-in/herit-cse/ae-gaslock1004/VALVE"));
+				////System.out.println("content:" + res.get("/herit-in/herit-cse/ae-gaslock1004/VALVE"));
 				
 				
 			} else if (operation.equals("execute") || operation.equals("write")) {
@@ -211,19 +211,19 @@ public class OneM2MApiService {
 				// ������ �Ѿ�� ���� ������
 				ciCommand.setContent(exContent);
 				//TODO:�̰͵� ������ ó�� �ؾ��ϳ�...?
-				System.out.println("resUris:" + resUris.get(0));
-				System.out.println("exContent:" + exContent);
+				//System.out.println("resUris:" + resUris.get(0));
+				//System.out.println("exContent:" + exContent);
 				
 				ci = aeController.doControlCommand(resUris.get(0), aeId, ciCommand, aeTimeout);
 				res.put(resUris.get(0), ci.getContent());
-				System.out.println("Control result:" + (ci != null ? ci.getContent() : "null"));
+				//System.out.println("Control result:" + (ci != null ? ci.getContent() : "null"));
 				 
 				
 			}
 			
 		} catch (OneM2MException oe) {
-			System.out.println("OneM2MException occurred!!!");
-			System.out.println(oe.toString());
+			//System.out.println("OneM2MException occurred!!!");
+			//System.out.println(oe.toString());
 			oe.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -233,9 +233,9 @@ public class OneM2MApiService {
 	
 	/** oneM2M ����̽� �˻� (discovery) */
 	public HashMap<String, Object> discovery(String operation, String sn) throws JsonGenerationException, JsonMappingException, IOException, UserSysException {
-		System.out.println("discovery discovery discovery discovery discovery discovery discovery");
-		System.out.println("operation :" + operation);
-		System.out.println("sn :" + sn);
+		//System.out.println("discovery discovery discovery discovery discovery discovery discovery");
+		//System.out.println("operation :" + operation);
+		//System.out.println("sn :" + sn);
 		
 		
 		HashMap<String, Object> res = new HashMap<String, Object>();
@@ -250,16 +250,16 @@ public class OneM2MApiService {
 				
 				//res.put("o", "dis");//XXX 
 				List<String> devIds = aeController.doDiscovery(csebase, aeId, fc);
-				System.out.println("devIds : " + devIds.toString());
+				//System.out.println("devIds : " + devIds.toString());
 				
 				if (devIds == null || devIds.isEmpty()) {
-					System.out.println("No device discovered.");
+					//System.out.println("No device discovered.");
 				} else {
 					res.put(sn, devIds);
 				}
 			}
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			//System.out.println(e.toString());
 			e.printStackTrace();
 		}
 		return res;
@@ -305,7 +305,7 @@ public class OneM2MApiService {
 		OneM2mResponse res = HttpClient.getInstance().sendRequest(path, req);
 
 		if (res == null) {
-			System.out.println("retrieve failed.");
+			//System.out.println("retrieve failed.");
 			throw new OneM2MException(RESPONSE_STATUS.NETWORK_FAILURE, "network failure");
 		}
 		
@@ -343,7 +343,7 @@ public class OneM2MApiService {
 		OneM2mResponse res = HttpClient.getInstance().sendRequest(path, req);
 
 		if (res == null) {
-			System.out.println("delete failed.");
+			//System.out.println("delete failed.");
 			throw new OneM2MException(RESPONSE_STATUS.NETWORK_FAILURE, "network failure");
 		}
 		

@@ -51,8 +51,8 @@ function movePage(cPage){
 }
 
 </script>
-<script src="${pageContext.request.contextPath}/js/herit/firmwareUpgrade.js"></script>
-<script src="${pageContext.request.contextPath}/js/herit/dm.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/firmwareUpgrade.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/js/herit/dm.js"></script>
 
 </head>
 <body>

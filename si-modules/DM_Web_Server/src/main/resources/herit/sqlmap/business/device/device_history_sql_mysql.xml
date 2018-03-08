@@ -195,4 +195,15 @@
 		</selectKey>	
 	</insert>
 	
+	
+	<insert id="insert.fwup.history">
+		INSERT INTO hdh_fw_up_hist
+		(device_id, model_name, sn, package, version, status, status_time, create_time, result)
+		VALUES
+		(#device_id#, #model_name#, #sn#, #package#, #version#, #status#, now(), now(), #result#)
+		<selectKey resultClass="Integer">
+			SELECT 1 FROM DUAL
+		</selectKey>	
+	</insert>
+	
 </sqlMap>

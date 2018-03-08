@@ -78,7 +78,7 @@ public class LWM2MController {
 	public String connect(HttpServletRequest request){
 		String response = null;
 		try{
-			System.out.println("----------------------------------- LWM2M Connect Start!!");
+			//System.out.println("----------------------------------- LWM2M Connect Start!!");
 			JSONObject token = httpOperator.getParamFromRequest(request);
 			
 			// 초기화
@@ -88,7 +88,7 @@ public class LWM2MController {
 			DeviceModelVO deviceModel = checkDeviceModelRegist(vo.getModelName());		// 등록 조회 : hdp_device_model
 			checkDeviceModelProfileRegist(deviceModel);									// 등록 조회 : hdp_mo_profile
 			checkDeviceRegist(vo);														// 등록 조회 : hdm_device 
-			System.out.println("----------------------------------- LWM2M Device has connected.");
+			//System.out.println("----------------------------------- LWM2M Device has connected.");
 			response = "200 OK";
 			
 		} catch(Exception e) {
@@ -104,9 +104,9 @@ public class LWM2MController {
 	public String report(HttpServletRequest request){
 		String response = null;
 		try{
-			System.out.println("----------------------------------- LWM2M Report Start!!");
+			//System.out.println("----------------------------------- LWM2M Report Start!!");
 			JSONObject token = httpOperator.getParamFromRequest(request);
-			System.out.println(token);
+			//System.out.println(token);
 			response = "200 OK";
 			
 			// DB에 데이터 업데이트
@@ -138,7 +138,7 @@ public class LWM2MController {
 	public DeviceModelVO checkDeviceModelRegist(String modelName) throws Exception{
 		DeviceModelVO deviceModel = null;
 		
-		System.out.println(hdpDAO==null);
+		//System.out.println(hdpDAO==null);
 		int deviceModelCount = hdpDAO.getDeviceModelCountByModelName(modelName);
 		if(deviceModelCount != 1){
 			throw new Exception(Response.ERR101.getMsg());
@@ -191,7 +191,7 @@ public class LWM2MController {
 				}
 			}
 			hdmDAO.insertDeviceResources(vo.getDeviceId(), uri_list);
-			System.out.println("Resources have registered.");
+			//System.out.println("Resources have registered.");
 		}
 	}
 	
@@ -217,7 +217,7 @@ public class LWM2MController {
 		}
 		
 		if(isConnected){
-			System.out.println("----------------------------------- Process done");
+			//System.out.println("----------------------------------- Process done");
 		} else {
 			throw new Exception(Errors.ERR_500.getMsg());
 		}
@@ -286,7 +286,7 @@ public class LWM2MController {
 			token = requestMessageFromLwmw2mServer(request);
 			deviceId = Util.makeDeviceId(token);
 			
-			System.out.println(token);
+			//System.out.println(token);
 			
 			String connectMethod = token.get("conn").toString();
 			if(connectMethod.equals("connect")){
@@ -466,13 +466,13 @@ public class LWM2MController {
 					/*
 					if(resourceCount != 0){
 						// 기존 resource가 0개가 아닐 때, 기존 resource 삭제 후 재등록
-						System.out.println("delete old resource");
+						//System.out.println("delete old resource");
 						hdmDAO.removeResourceByDeviceId(deviceId);
 					}
 					*/
 					// resource 등록
 					hdmDAO.insertDeviceResources(deviceId, uri_list);
-					System.out.println("Resources have registered.");
+					//System.out.println("Resources have registered.");
 				}
 				
 				// 연결 성공
@@ -507,7 +507,7 @@ public class LWM2MController {
 			e.printStackTrace();
 			result = setResponse(Response.ERR900,e.getMessage());
 		} finally {
-			System.out.println("connected : "+hasConnected);
+			//System.out.println("connected : "+hasConnected);
 			
 			//*
 			Timer timer = new Timer();
@@ -555,7 +555,7 @@ public class LWM2MController {
 			result = setResponse(Response.ERR900,e.getMessage());
 			// TODO: handle exception
 		} finally {	
-			System.out.println("disconnected : " + hasDisconnected);
+			//System.out.println("disconnected : " + hasDisconnected);
 		}
 		return result;
 	}
@@ -608,13 +608,13 @@ public class LWM2MController {
 		LWM2MApiService ls = new LWM2MApiService();
 		String order = "{\"d\":\""+deviceId+"\" , \"n\":\""+token.getString("resourceUri")+"\", \"o\":\"e\", \"sv\":\""+token.getInt("sv")+"\"}";
 		HashMap<String, Object> result = ls.startObserveRxTxData("write", order, token.getString("authId"));
-		System.out.println(result.toString());
+		//System.out.println(result.toString());
 	}
 	public void read(JSONObject token){
 		LWM2MApiService ls = new LWM2MApiService();
 		String order = "{\"d\":\""+deviceId+"\" , \"n\":\""+token.getString("resourceUri")+"\", \"o\":\"o\"}";
 		HashMap<String, Object> result = ls.startObserveRxTxData("read", order, token.getString("authId"));
-		System.out.println(result.toString());
+		//System.out.println(result.toString());
 	}
 	//*/
 }

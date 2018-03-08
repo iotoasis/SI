@@ -99,16 +99,16 @@ var statCompMapJson = ${statCompMapJson};
 
 <!-- include Plugin javascript files for each component -->
 <c:forEach var="js" items="${pluginJs}">
-<script src="${js}"></script>
+<script language="javascript" src="${js}"></script>
 </c:forEach>
 
 <!-- include Custom javascript files for each component -->
 <c:forEach var="js" items="${customeJs}">
-<script src="${js}"></script>
+<script language="javascript" src="${js}"></script>
 </c:forEach>
 
 <!-- include page javascript files for each component -->
-<script src="${pageContext.request.contextPath}/v2/js/herit/monitorDevice.js"></script>
+<script language="javascript" src="${pageContext.request.contextPath}/v2/js/herit/monitorDevice.js"></script>
 <script>
 
 $(document).ready(function() {

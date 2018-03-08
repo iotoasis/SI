@@ -114,8 +114,8 @@ public class DeviceManagerController {
 			resourceUri = HeritProperties.getProperty("Globals.csebase");
 			
 			OneM2mResponse response = onem2mService.retrieve(resourceUri, from);
-			System.out.println("####### trace-1");
-			System.out.println(String.format("###### response.getContent() = %s", new String( response.getContent(), "UTF-8") ));
+			//System.out.println("####### trace-1");
+			//System.out.println(String.format("###### response.getContent() = %s", new String( response.getContent(), "UTF-8") ));
 			JSONObject json = new JSONObject( new String( response.getContent(), "UTF-8") );
 			JSONArray jsonAes = json.getJSONArray("m2m:ae");
 			
@@ -142,7 +142,7 @@ public class DeviceManagerController {
 					int nResult = onem2mService.createResourceOther(resourceUri, from, body, 23);
 				}
 			}
-			System.out.println(String.format("###### AE JSON length = %d", jsonAes.length()));
+			//System.out.println(String.format("###### AE JSON length = %d", jsonAes.length()));
 			
 			model.addAttribute("main_uri", resourceUri);
 			model.addAttribute("device_list", retDeviceList);
@@ -403,7 +403,6 @@ public class DeviceManagerController {
 			} else {
 				
 				String uri = request.getParameter("uri");
-				//System.out.println("###################################### uri = " + uri);
 				if (uri == null || uri.equals("")) {
 					response.put("result", 1);
 					response.put("errorCode", -1);
@@ -445,7 +444,6 @@ public class DeviceManagerController {
 				
 				String uri = request.getParameter("uri");
 				
-				//System.out.println("###################################### uri = " + uri);
 				if (uri == null || uri.equals("")) {
 					response.put("result", 1);
 					response.put("errorCode", -1);
@@ -508,7 +506,7 @@ public class DeviceManagerController {
 				    while (cursor.hasNext()) {
 				
 				        dbObjList.add(cursor.next());
-				        //System.out.println("############# dbObjList.toString() = " + dbObjList.toString());
+				        ////System.out.println("############# dbObjList.toString() = " + dbObjList.toString());
 				    }
 				} finally {
 				    cursor.close();
@@ -555,7 +553,7 @@ public class DeviceManagerController {
 				
 				String body = "{\"m2m:" + cmdType + "\": {\"" + attrName + "\": true}}";
 				
-				//System.out.println("###################################### body = " + body);
+				////System.out.println("###################################### body = " + body);
 								
 				OneM2MApiService onem2mService = OneM2MApiService.getInstance();
 				String from = onem2mService.getAppName();
@@ -687,7 +685,7 @@ public class DeviceManagerController {
 			} else {
 				String body = this.getBody(request);
 				
-				System.out.println("####################### body = " + body);
+				//System.out.println("####################### body = " + body);
 				
 				if (body == null) {
 					response.put("result", 1);
@@ -749,7 +747,7 @@ public class DeviceManagerController {
 				
 				String address = this.contextBrokerAddress + "/v2/entities/" + entityId + "/attrs/" + attribute + "/value";
 				
-				System.out.println("############################# body = " + body);
+				//System.out.println("############################# body = " + body);
 				
 				FiwareHttpClient hc = new FiwareHttpClient(address);
 				hc.openConnection();

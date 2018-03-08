@@ -157,7 +157,7 @@
 	});
 	</script>
 	
-	<script src="${pageContext.request.contextPath}/jquery/js/jquery.validate.js"></script>
+	<script language="javascript" src="${pageContext.request.contextPath}/jquery/js/jquery.validate.js"></script>
 </head>
 <body>
 	<!-- #wrapper -->

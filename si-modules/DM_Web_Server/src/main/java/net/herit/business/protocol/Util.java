@@ -38,13 +38,13 @@ public class Util {
 	
 	// JSONObject 내용 전부 출력
 	public void printJSONObject(JSONObject obj){
-		System.out.println("::::  JSONObject contains..");
+		//System.out.println("::::  JSONObject contains..");
 		Iterator<String> it = obj.keys();
 		while(it.hasNext()){
 			try{
 				String key = it.next();
 				Object value = obj.get(key);
-				System.out.println("["+key+"]-["+value+"]");
+				//System.out.println("["+key+"]-["+value+"]");
 			} catch(JSONException e){
 				e.printStackTrace();
 			}
@@ -53,12 +53,12 @@ public class Util {
 	
 	// HashMap 내용 전부 출력
 	public void printMap(HashMap<String,String> map){
-		System.out.println("::::  HashMap contains..");
+		//System.out.println("::::  HashMap contains..");
 		Iterator<String> it = map.keySet().iterator();
 		while(it.hasNext()){
 			String key = it.next();
 			String value = map.get(key);
-			System.out.println("["+key+"]-["+value+"]");
+			//System.out.println("["+key+"]-["+value+"]");
 		}
 	}
 	
@@ -154,8 +154,8 @@ public class Util {
 		} else {
 			elseTxt = txt;
 		}
-		System.out.println(result);
-		System.out.println(elseTxt);
+		//System.out.println(result);
+		//System.out.println(elseTxt);
 		
 		return result;
 	}
@@ -176,6 +176,7 @@ public class Util {
             node = (Node) xpath.evaluate(pathResult, doc, XPathConstants.NODE);
         } catch( Exception e ) {
             e.printStackTrace();
+            return null;
         }
         return node.getTextContent();
     }

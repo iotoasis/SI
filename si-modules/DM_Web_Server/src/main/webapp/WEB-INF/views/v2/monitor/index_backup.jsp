@@ -1075,32 +1075,32 @@
 <%@ include file="/WEB-INF/views/v2/common/common_js.jsp"%>
 
 <!-- Morris -->
-<script src="/hdm/v2/js/plugins/morris/raphael-2.1.0.min.js"></script>
-<script src="/hdm/v2/js/plugins/morris/morris.js"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/morris/raphael-2.1.0.min.js"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/morris/morris.js"></script>
 
 <!-- Flot -->
-<script src="/hdm/v2/js/plugins/flot/jquery.flot.js"></script>
-<script src="/hdm/v2/js/plugins/flot/jquery.flot.pie.js"></script>
-<script src="/hdm/v2/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-<script src="/hdm/v2/js/plugins/flot/jquery.flot.resize.js"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/flot/jquery.flot.js"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/flot/jquery.flot.pie.js"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/flot/jquery.flot.resize.js"></script>
 
 <!-- ChartJS-->
-<script src="/hdm/v2/js/plugins/chartJs/Chart.min.js"></script>
-<script src="/hdm/v2/js/plugins/chartJs/chartjs-demo.js"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/chartJs/Chart.min.js"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/chartJs/chartjs-demo.js"></script>
 
 <!-- Custom and plugin javascript -->
-<script src="/hdm/v2/js/inspinia.js"></script>
-<script src="/hdm/v2/js/plugins/pace/pace.min.js"></script>
+<script language="javascript" src="/hdm/v2/js/inspinia.js"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/pace/pace.min.js"></script>
 
 <!-- Morris demo data-->
-<script src="/hdm/v2/js/plugins/morris/morris-demo-2.js"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/morris/morris-demo-2.js"></script>
 
 <!-- Flot demo data -->
-<script src="/hdm/v2/js/plugins/flot/flot-demo-2.js"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/flot/flot-demo-2.js"></script>
 
 <!-- Map -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>
-<script src="/hdm/v2/js/plugins/map/map.js"></script>
+<script language="javascript" type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>
+<script language="javascript" src="/hdm/v2/js/plugins/map/map.js"></script>
 
 </body>
 

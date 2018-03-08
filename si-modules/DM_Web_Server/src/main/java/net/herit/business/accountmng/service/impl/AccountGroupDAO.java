@@ -74,9 +74,9 @@ public class AccountGroupDAO extends HeritHdpAbstractDAO{
     	}
 //		catch (Exception e) {
 //			// TODO: handle exception
-//    		System.out.println("e.getMessage() = " + e.getMessage());
-//    		System.out.println("e.getCause() = " + e.getCause());
-//    		System.out.println("e = " + e);
+//    		//System.out.println("e.getMessage() = " + e.getMessage());
+//    		//System.out.println("e.getCause() = " + e.getCause());
+//    		//System.out.println("e = " + e);
 //
 //    		throw new BizException (CLASS_NAME, METHOD_NAME, retCode, "권한그룹 등록/수정시 에러가 발생했습니다.");
 //		}
